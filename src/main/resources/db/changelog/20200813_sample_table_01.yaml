@@ -1,0 +1,20 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-sample-table
+      author: Leijendekker
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  name: id
+                  type: int unsigned
+                  constraints:
+                    nullable: false
+                  autoIncrement: true
+              - column:
+                  name: column_1
+                  type: varchar(100)
+              - column:
+                  name: column_2
+                  type: int
+            tableName: sample_table

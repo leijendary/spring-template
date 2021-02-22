@@ -1,0 +1,50 @@
+app:
+  name: @[project.name]
+  description: @[project.description]
+  version: @[project.version]
+
+spring:
+  application:
+    name: ${app.name}
+  data:
+    web:
+      pageable:
+        one-indexed-parameters: true
+        max-page-size: 100
+  datasource:
+    url:
+    username:
+    password:
+  jpa:
+    open-in-view: false
+  messages:
+    basename: messages.access, messages.error, messages.validation
+  security:
+    user:
+      password: user
+  cache:
+    type: redis
+  kafka:
+    consumer:
+      group-id: ${spring.application.name}
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: 'com.leijendary.spring.microservicetemplate.data.*'
+    producer:
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+
+ribbon:
+  eureka:
+    enabled: false
+
+google:
+  ribbon:
+    listOfServers: https://google.com
+    MaxAutoRetries: 3
+    MaxAutoRetriesNextServer: 1
+    OkToRetryOnAllOperations: true
+    retryableStatusCodes: 502,503
+
+logging:
+  level:
+    com.netflix.config.sources.URLConfigurationSource: ERROR
