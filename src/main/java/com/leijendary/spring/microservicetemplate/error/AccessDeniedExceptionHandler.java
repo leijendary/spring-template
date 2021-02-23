@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import static java.util.Locale.getDefault;
+import static org.springframework.http.ResponseEntity.status;
 
 @RestControllerAdvice
 @Order(1)
@@ -24,6 +25,6 @@ public class AccessDeniedExceptionHandler {
         final var error = messageSource.getMessage("access.error", new Object[0], getDefault());
         final var response =  new AccessDeniedResponse(error, message + ": " + exception.getMessage());
 
-        return ResponseEntity.status(response.getStatus()).body(response);
+        return status(response.getStatus()).body(response);
     }
 }

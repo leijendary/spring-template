@@ -10,13 +10,12 @@ import org.springframework.core.annotation.Order;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import static java.util.Locale.getDefault;
 import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.joining;
-import static org.springframework.http.HttpStatus.BAD_REQUEST;
+import static org.springframework.http.ResponseEntity.status;
 
 @RestControllerAdvice
 @Order(2)
@@ -32,7 +31,7 @@ public class HttpMessageNotReadableExceptionHandler {
         final var message = getMessage(exception);
         final var response = new HttpMessageNotReadableResponse(error, message);
 
-        return ResponseEntity.status(response.getStatus()).body(response);
+        return status(response.getStatus()).body(response);
     }
 
     private String getMessage(final HttpMessageNotReadableException exception) {

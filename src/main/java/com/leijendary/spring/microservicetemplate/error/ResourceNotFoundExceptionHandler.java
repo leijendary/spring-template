@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import static java.util.Locale.getDefault;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
+import static org.springframework.http.ResponseEntity.status;
 
 @RestControllerAdvice
 @Order(3)
@@ -27,6 +28,6 @@ public class ResourceNotFoundExceptionHandler {
         final var error = messageSource.getMessage("error.not-found", new Object[0], getDefault());
         final var response = new ResourceNotFoundResponse(error, message);
 
-        return ResponseEntity.status(response.getStatus()).body(response);
+        return status(response.getStatus()).body(response);
     }
 }

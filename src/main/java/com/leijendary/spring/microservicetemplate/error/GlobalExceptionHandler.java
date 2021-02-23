@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import static java.util.Locale.getDefault;
+import static org.springframework.http.ResponseEntity.status;
 
 @RestControllerAdvice
 @RequiredArgsConstructor
@@ -20,6 +21,6 @@ public class GlobalExceptionHandler {
         final var error = messageSource.getMessage("error.generic", new Object[0], getDefault());
         final var response = new GlobalExceptionResponse(error, exception.getMessage());
 
-        return ResponseEntity.status(response.getStatus()).body(response);
+        return status(response.getStatus()).body(response);
     }
 }

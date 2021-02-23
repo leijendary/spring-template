@@ -13,6 +13,7 @@ import java.util.HashMap;
 
 import static java.util.Locale.getDefault;
 import static java.util.Optional.ofNullable;
+import static org.springframework.http.ResponseEntity.status;
 
 @RestControllerAdvice
 @Order(4)
@@ -41,6 +42,6 @@ public class ValidationExceptionHandler {
 
         final var response = new ValidationResponse(error, message, validations);
 
-        return ResponseEntity.status(response.getStatus()).body(response);
+        return status(response.getStatus()).body(response);
     }
 }
