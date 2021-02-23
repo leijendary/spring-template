@@ -5,6 +5,7 @@ import com.leijendary.spring.microservicetemplate.exception.ResourceNotFoundExce
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
 import org.springframework.core.annotation.Order;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -20,12 +21,12 @@ public class ResourceNotFoundExceptionHandler {
     private final MessageSource messageSource;
 
     @ExceptionHandler(ResourceNotFoundException.class)
-    @ResponseStatus(NOT_FOUND)
-    public ResourceNotFoundResponse catchResourceNotFound(ResourceNotFoundException exception) {
+    public ResponseEntity<ResourceNotFoundResponse> catchResourceNotFound(final ResourceNotFoundException exception) {
         final var message = messageSource.getMessage("error.resource.not-found",
                 new Object[] { exception.getResource(), exception.getIdentifier() }, getDefault());
         final var error = messageSource.getMessage("error.not-found", new Object[0], getDefault());
+        final var response = new ResourceNotFoundResponse(error, message);
 
-        return new ResourceNotFoundResponse(error, message);
+        return ResponseEntity.status(response.getStatus()).body(response);
     }
 }

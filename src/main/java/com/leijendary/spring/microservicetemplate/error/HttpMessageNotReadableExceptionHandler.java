@@ -7,6 +7,7 @@ import com.leijendary.spring.microservicetemplate.data.response.HttpMessageNotRe
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
 import org.springframework.core.annotation.Order;
+import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -25,15 +26,16 @@ public class HttpMessageNotReadableExceptionHandler {
     private final MessageSource messageSource;
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
-    @ResponseStatus(BAD_REQUEST)
-    public HttpMessageNotReadableResponse catchHttpMessageNotReadable(HttpMessageNotReadableException exception) {
+    public ResponseEntity<HttpMessageNotReadableResponse> catchHttpMessageNotReadable(
+            final HttpMessageNotReadableException exception) {
         final var error = messageSource.getMessage("error.bad-request", new Object[0], getDefault());
         final var message = getMessage(exception);
+        final var response = new HttpMessageNotReadableResponse(error, message);
 
-        return new HttpMessageNotReadableResponse(error, message);
+        return ResponseEntity.status(response.getStatus()).body(response);
     }
 
-    private String getMessage(HttpMessageNotReadableException exception) {
+    private String getMessage(final HttpMessageNotReadableException exception) {
         if (exception.getCause() instanceof InvalidFormatException) {
             return getMessage((InvalidFormatException) exception.getCause());
         }
@@ -47,7 +49,7 @@ public class HttpMessageNotReadableExceptionHandler {
                 .orElse(exception.getMessage());
     }
 
-    private String getMessage(InvalidFormatException exception) {
+    private String getMessage(final InvalidFormatException exception) {
         final var path = exception.getPath().stream()
                 .map(Reference::getFieldName)
                 .collect(joining("."));
@@ -56,7 +58,7 @@ public class HttpMessageNotReadableExceptionHandler {
                 new Object[] { path, exception.getValue(), exception.getTargetType().getSimpleName() }, getDefault());
     }
 
-    private String getMessage(JsonMappingException exception) {
+    private String getMessage(final JsonMappingException exception) {
         return exception.getOriginalMessage();
     }
 }
