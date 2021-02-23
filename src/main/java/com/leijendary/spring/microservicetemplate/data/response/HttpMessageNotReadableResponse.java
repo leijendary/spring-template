@@ -2,16 +2,17 @@ package com.leijendary.spring.microservicetemplate.data.response;
 
 import lombok.AllArgsConstructor;
 
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
+
 @AllArgsConstructor
-public class ServerWebInputResponse implements ErrorResponse {
+public class HttpMessageNotReadableResponse implements ErrorResponse {
 
     private final String error;
     private final String message;
-    private final int status;
 
     @Override
     public int getStatus() {
-        return this.status;
+        return BAD_REQUEST.value();
     }
 
     @Override
