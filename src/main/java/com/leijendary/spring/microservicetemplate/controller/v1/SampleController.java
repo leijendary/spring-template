@@ -100,9 +100,7 @@ public class SampleController extends AppController {
     // @PreAuthorize("hasAuthority('sample:delete')")
     @ResponseStatus(NO_CONTENT)
     @ApiOperation("Removes the sample record from the database")
-    public CompletableFuture<Void> delete(@PathVariable int id, @RequestBody SampleRequest request) {
-        validate(sampleRequestValidator, request, SampleRequest.class);
-
+    public CompletableFuture<Void> delete(@PathVariable int id) {
         sampleTableService.delete(id);
 
         return completedFuture(null);
