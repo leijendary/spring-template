@@ -19,11 +19,15 @@
 - Spring Cache
 - Spring Data Redis
 - Spring Retry
-- Spring Cloud Kafka Streams
+- Spring Kafka
+- Spring Cloud Stream
+- Spring Cloud Stream Binder Kafka Streams
 - Spring Configuration Processor
 - Spring Devtools
+- Kafka Streams
 - PostgreSQL
 - Liquibase
 - Lombok
 - Swagger
 - ModelMapper
+- Caffeine
