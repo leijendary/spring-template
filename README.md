@@ -14,8 +14,8 @@
 - Spring OAuth2 Client
 - Spring Cloud Bootstrap
 - Spring Cloud Openfeign
-- Spring cloud Loadbalancer
-- Spring cloud Netflix Ribbon
+- Spring Cloud Loadbalancer
+- Spring Cloud Netflix Ribbon
 - Spring Cache
 - Spring Data Redis
 - Spring Retry

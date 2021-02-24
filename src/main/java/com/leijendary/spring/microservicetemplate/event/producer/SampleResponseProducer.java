@@ -1,17 +1,18 @@
 package com.leijendary.spring.microservicetemplate.event.producer;
 
+import com.leijendary.spring.microservicetemplate.config.properties.ApplicationProperties;
 import com.leijendary.spring.microservicetemplate.data.response.SampleResponse;
-import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.cloud.stream.function.StreamBridge;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import static com.leijendary.spring.microservicetemplate.event.topic.SampleResponseTopic.*;
 
 @Component
-public class SampleResponseProducer extends AppProducer<String, SampleResponse> {
+public class SampleResponseProducer extends AppProducer<SampleResponse> {
 
-    public SampleResponseProducer(KafkaTemplate<String, SampleResponse> template) {
-        super(template);
+    public SampleResponseProducer(ApplicationProperties applicationProperties, StreamBridge streamBridge) {
+        super(applicationProperties, streamBridge);
     }
 
     @Async

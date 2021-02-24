@@ -4,43 +4,51 @@ import com.leijendary.spring.microservicetemplate.cache.SampleResponseCache;
 import com.leijendary.spring.microservicetemplate.cache.SampleResponsePageCache;
 import com.leijendary.spring.microservicetemplate.data.response.SampleResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.kafka.streams.kstream.KStream;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.kafka.annotation.KafkaListener;
-import org.springframework.messaging.handler.annotation.Header;
 
-import static com.leijendary.spring.microservicetemplate.event.topic.SampleResponseTopic.*;
+import java.util.function.Consumer;
+
 import static java.lang.Integer.parseInt;
-import static org.springframework.kafka.support.KafkaHeaders.RECEIVED_MESSAGE_KEY;
 
 @Configuration
 @RequiredArgsConstructor
+@Slf4j
 public class SampleResponseConsumer {
 
     private final SampleResponseCache sampleResponseCache;
     private final SampleResponsePageCache sampleResponsePageCache;
 
-    @KafkaListener(topics = CREATED_V1)
-    public void created1(@Header(name = RECEIVED_MESSAGE_KEY) String key, SampleResponse sampleResponse) {
-        invalidatePageCache();
-        setCache(parseInt(key), sampleResponse);
+    @Bean
+    public Consumer<KStream<String, SampleResponse>> sampleResponseCreated1() {
+        return stream -> stream.foreach((key, value) -> {
+            invalidatePageCache();
+            setCache(parseInt(key), value);
 
-        System.out.println("CREATED : " + sampleResponse);
+            log.info("Created: '{}', '{}'", key, value);
+        });
     }
 
-    @KafkaListener(topics = UPDATED_V1)
-    public void updated1(@Header(name = RECEIVED_MESSAGE_KEY) String key, SampleResponse sampleResponse) {
-        invalidatePageCache();
-        setCache(parseInt(key), sampleResponse);
+    @Bean
+    public Consumer<KStream<String, SampleResponse>> sampleResponseUpdated1() {
+        return stream -> stream.foreach((key, value) -> {
+            invalidatePageCache();
+            setCache(parseInt(key), value);
 
-        System.out.println("UPDATED : " + sampleResponse);
+            log.info("Updated: '{}', '{}'", key, value);
+        });
     }
 
-    @KafkaListener(topics = DELETED_V1)
-    public void deleted1(@Header(name = RECEIVED_MESSAGE_KEY) String key, SampleResponse sampleResponse) {
-        invalidatePageCache();
-        deleteCache(parseInt(key));
+    @Bean
+    public Consumer<KStream<String, SampleResponse>> sampleResponseDeleted1() {
+        return stream -> stream.foreach((key, value) -> {
+            invalidatePageCache();
+            deleteCache(parseInt(key));
 
-        System.out.println("DELETED : " + sampleResponse);
+            log.info("Deleted: '{}', '{}'", key, value);
+        });
     }
 
     private void invalidatePageCache() {

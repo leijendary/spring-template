@@ -1,4 +1,5 @@
 app:
+  group: leijendary
   name: @[project.name]
   description: @[project.description]
   version: @[project.version]
@@ -24,14 +25,27 @@ spring:
       password: user
   cache:
     type: redis
-  kafka:
-    consumer:
-      group-id: ${spring.application.name}
-      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
-      properties:
-        spring.json.trusted.packages: 'com.leijendary.spring.microservicetemplate.data.*'
-    producer:
-      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+  cloud:
+    stream:
+      bindings:
+        sampleResponseCreated1-in-0:
+          destination: ${app.name}.sample-response.created.v1
+        sampleResponseUpdated1-in-0:
+          destination: ${app.name}.sample-response.updated.v1
+        sampleResponseDeleted1-in-0:
+          destination: ${app.name}.sample-response.deleted.v1
+      function:
+        definition: sampleResponseCreated1;sampleResponseUpdated1;sampleResponseDeleted1
+      kafka:
+        streams:
+          binder:
+            functions:
+              sampleResponseCreated1:
+                application-id: ${app.group}.${app.name}.sample-response.created.v1
+              sampleResponseUpdated1:
+                application-id: ${app.group}.${app.name}.sample-response.updated.v1
+              sampleResponseDeleted1:
+                application-id: ${app.group}.${app.name}.sample-response.deleted.v1
 
 ribbon:
   eureka:

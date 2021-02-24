@@ -35,6 +35,13 @@ public class HttpMessageNotReadableExceptionHandler {
     }
 
     private String getMessage(final HttpMessageNotReadableException exception) {
+        final var message = ofNullable(exception.getMessage())
+                .orElse("");
+
+        if (message.startsWith("Required request body is missing")) {
+            return message.split(":")[0];
+        }
+
         if (exception.getCause() instanceof InvalidFormatException) {
             return getMessage((InvalidFormatException) exception.getCause());
         }

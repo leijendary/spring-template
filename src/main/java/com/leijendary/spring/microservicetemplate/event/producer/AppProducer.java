@@ -1,21 +1,30 @@
 package com.leijendary.spring.microservicetemplate.event.producer;
 
+import com.leijendary.spring.microservicetemplate.config.properties.ApplicationProperties;
 import lombok.RequiredArgsConstructor;
-import org.springframework.kafka.core.KafkaTemplate;
-import org.springframework.kafka.support.SendResult;
+import org.springframework.cloud.stream.function.StreamBridge;
 import org.springframework.stereotype.Component;
 
 import java.util.concurrent.CompletableFuture;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.util.concurrent.CompletableFuture.completedFuture;
+import static org.springframework.kafka.support.KafkaHeaders.MESSAGE_KEY;
+import static org.springframework.messaging.support.MessageBuilder.withPayload;
+
 @Component
 @RequiredArgsConstructor
-public abstract class AppProducer<K, V> {
+public abstract class AppProducer<V> {
 
-    private final KafkaTemplate<K, V> template;
+    private final ApplicationProperties applicationProperties;
+    private final StreamBridge streamBridge;
 
-    public CompletableFuture<SendResult<K, V>> keyPayload(String topic, K key, V value) {
-        return template
-                .send(topic, key, value)
-                .completable();
+    public CompletableFuture<Boolean> keyPayload(final String topic, final String key, final V value) {
+        final var destination = applicationProperties.getName() + "." + topic;
+        final var message = withPayload(value)
+                .setHeader(MESSAGE_KEY, key.getBytes(UTF_8))
+                .build();
+
+        return completedFuture(streamBridge.send(destination, message));
     }
 }
