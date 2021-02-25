@@ -20,11 +20,15 @@ public abstract class AppProducer<V> {
     private final StreamBridge streamBridge;
 
     public CompletableFuture<Boolean> keyPayload(final String topic, final String key, final V value) {
-        final var destination = applicationProperties.getName() + "." + topic;
+        final var destination = getPrefix() + "." + topic;
         final var message = withPayload(value)
                 .setHeader(MESSAGE_KEY, key.getBytes(UTF_8))
                 .build();
 
         return completedFuture(streamBridge.send(destination, message));
+    }
+
+    private String getPrefix() {
+        return applicationProperties.getArtifactId();
     }
 }

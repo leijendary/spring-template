@@ -1,5 +1,6 @@
 app:
-  group: leijendary
+  group-name: leijendary
+  artifact-id: @[project.artifactId]
   name: @[project.name]
   description: @[project.description]
   version: @[project.version]
@@ -29,11 +30,11 @@ spring:
     stream:
       bindings:
         sampleResponseCreated1-in-0:
-          destination: ${app.name}.sample-response.created.v1
+          destination: ${app.artifact-id}.sample-response.created.v1
         sampleResponseUpdated1-in-0:
-          destination: ${app.name}.sample-response.updated.v1
+          destination: ${app.artifact-id}.sample-response.updated.v1
         sampleResponseDeleted1-in-0:
-          destination: ${app.name}.sample-response.deleted.v1
+          destination: ${app.artifact-id}.sample-response.deleted.v1
       function:
         definition: sampleResponseCreated1;sampleResponseUpdated1;sampleResponseDeleted1
       kafka:
@@ -41,11 +42,11 @@ spring:
           binder:
             functions:
               sampleResponseCreated1:
-                application-id: ${app.group}.${app.name}.sample-response.created.v1
+                application-id: ${app.group-name}.${app.artifact-id}.sample-response.created.v1
               sampleResponseUpdated1:
-                application-id: ${app.group}.${app.name}.sample-response.updated.v1
+                application-id: ${app.group-name}.${app.artifact-id}.sample-response.updated.v1
               sampleResponseDeleted1:
-                application-id: ${app.group}.${app.name}.sample-response.deleted.v1
+                application-id: ${app.group-name}.${app.artifact-id}.sample-response.deleted.v1
 
 ribbon:
   eureka:

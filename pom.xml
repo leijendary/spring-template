@@ -11,7 +11,7 @@
     <groupId>com.leijendary.spring</groupId>
     <artifactId>microservice-template</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>microservice-template</name>
+    <name>Microservice Template</name>
     <description>Spring Boot Template for Microservice Architecture</description>
 
     <properties>
