@@ -12,6 +12,7 @@ spring:
     web:
       pageable:
         max-page-size: 100
+        one-indexed-parameters: true
   datasource:
     url:
     username:
