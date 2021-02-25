@@ -27,6 +27,20 @@ spring:
   cache:
     type: redis
   cloud:
+    discovery:
+      client:
+        simple:
+          instances:
+            google:
+              - uri: https://google.com
+    loadbalancer:
+      retry:
+        max-retries-on-same-service-instance: 3
+        retry-on-all-operations: true
+        retryable-status-codes: 502,503,521
+    service-registry:
+      auto-registration:
+        enabled: false
     stream:
       bindings:
         sampleResponseCreated1-in-0:
@@ -47,18 +61,6 @@ spring:
                 application-id: ${app.group}.${app.artifact-id}.sample-response.updated.v1
               sampleResponseDeleted1:
                 application-id: ${app.group}.${app.artifact-id}.sample-response.deleted.v1
-
-ribbon:
-  eureka:
-    enabled: false
-
-google:
-  ribbon:
-    listOfServers: https://google.com
-    MaxAutoRetries: 3
-    MaxAutoRetriesNextServer: 1
-    OkToRetryOnAllOperations: true
-    retryableStatusCodes: 502,503
 
 logging:
   level:
