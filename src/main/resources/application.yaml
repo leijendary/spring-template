@@ -8,15 +8,15 @@ app:
 spring:
   application:
     name: ${app.name}
+  datasource:
+    url:
+    username:
+    password:
   data:
     web:
       pageable:
         max-page-size: 100
         one-indexed-parameters: true
-  datasource:
-    url:
-    username:
-    password:
   jpa:
     open-in-view: false
   messages:
