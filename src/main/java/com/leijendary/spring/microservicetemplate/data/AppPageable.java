@@ -10,8 +10,7 @@ public class AppPageable {
     @Schema(description = "Number of records per page", type = "number", format = "int", example = "20")
     private int size = 20;
 
-    @Schema(description = "Results page you want to retrieve (0..N). This is 0 based", type = "number", format = "int",
-            example = "1")
+    @Schema(description = "Results page you want to retrieve (1..N)", type = "number", format = "int", example = "1")
     private int page = 1;
 
     @Schema(
