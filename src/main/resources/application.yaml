@@ -5,6 +5,22 @@ app:
   description: @[project.description]
   version: @[project.version]
 
+cors:
+  allow-credentials: true
+  allowed-origins:
+  allowed-origin-patterns: '*'
+  allowed-headers: '*'
+  allowed-methods:
+    - get
+    - post
+    - put
+    - patch
+    - delete
+    - options
+    - head
+    - trace
+  exposed-headers: '*'
+
 spring:
   application:
     name: ${app.name}
@@ -21,9 +37,6 @@ spring:
     open-in-view: false
   messages:
     basename: messages.access, messages.error, messages.validation
-  security:
-    user:
-      password: user
   cache:
     type: redis
   cloud:
@@ -61,6 +74,10 @@ spring:
                 application-id: ${app.group}.${app.artifact-id}.sample-response.updated.v1
               sampleResponseDeleted1:
                 application-id: ${app.group}.${app.artifact-id}.sample-response.deleted.v1
+server:
+  error:
+    whitelabel:
+      enabled: false
 
 logging:
   level:

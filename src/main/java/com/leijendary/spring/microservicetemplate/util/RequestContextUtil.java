@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 public class RequestContextUtil {
 
     public static String getPath() {
-        return getCurrentRequest().getPathInfo();
+        return getCurrentRequest().getRequestURI();
     }
 
     public static HttpServletRequest getCurrentRequest() {

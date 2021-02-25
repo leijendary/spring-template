@@ -54,7 +54,7 @@ public class SampleController extends AppController {
      *                 parameters contains {@link Pageable}
      */
     @GetMapping
-    // @PreAuthorize("hasAuthority('sample:list')")
+    // @PreAuthorize("hasAuthority('sample:list') or hasRole('SCOPE_sample.read')")
     @ApiOperation("Sample implementation of swagger in a api")
     public CompletableFuture<AppPage<SampleResponse>> list(QueryRequest queryRequest, Pageable pageable) {
         final var page = sampleTableService.list(queryRequest, pageable);
@@ -63,7 +63,7 @@ public class SampleController extends AppController {
     }
 
     @PostMapping
-    // @PreAuthorize("hasAuthority('sample:create')")
+    // @PreAuthorize("hasAuthority('sample:create') or hasRole('SCOPE_sample.write')")
     @ResponseStatus(CREATED)
     @ApiOperation("Saves a sample record into the database")
     public CompletableFuture<ResponseEntity<SampleResponse>> create(@RequestBody SampleRequest request) {
@@ -77,7 +77,7 @@ public class SampleController extends AppController {
     }
 
     @GetMapping("{id}")
-    // @PreAuthorize("hasAuthority('sample:get')")
+    // @PreAuthorize("hasAuthority('sample:get') or hasRole('SCOPE_sample.read')")
     @ApiOperation("Retrieves the sample record from the database")
     public CompletableFuture<SampleResponse> get(@PathVariable int id) {
         final var sampleResponse = sampleTableService.get(id);
@@ -86,7 +86,7 @@ public class SampleController extends AppController {
     }
 
     @PutMapping("{id}")
-    // @PreAuthorize("hasAuthority('sample:update')")
+    // @PreAuthorize("hasAuthority('sample:update') or hasRole('SCOPE_sample.write')")
     @ApiOperation("Updates the sample record into the database")
     public CompletableFuture<SampleResponse> update(@PathVariable int id, @RequestBody SampleRequest request) {
         validate(sampleRequestValidator, request, SampleRequest.class);
@@ -97,7 +97,7 @@ public class SampleController extends AppController {
     }
 
     @DeleteMapping ("{id}")
-    // @PreAuthorize("hasAuthority('sample:delete')")
+    // @PreAuthorize("hasAuthority('sample:delete') or hasRole('SCOPE_sample.write')")
     @ResponseStatus(NO_CONTENT)
     @ApiOperation("Removes the sample record from the database")
     public CompletableFuture<Void> delete(@PathVariable int id) {

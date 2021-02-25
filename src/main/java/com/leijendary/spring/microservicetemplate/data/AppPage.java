@@ -17,6 +17,7 @@ public class AppPage<T> implements Serializable {
     private boolean first = false;
     private boolean last = false;
     private boolean empty = false;
+    private long count;
     private long totalElements;
     private long totalPages;
     private long page;
@@ -32,6 +33,7 @@ public class AppPage<T> implements Serializable {
     public AppPage(List<T> content, Pageable pageable, long totalElements) {
         this.content = content;
         this.pageable = pageable;
+        this.count = content.size();
         this.totalElements = totalElements;
         this.page = pageable.getPageNumber();
         this.size = pageable.getPageSize();
