@@ -4,7 +4,6 @@ app:
   name: @[project.name]
   description: @[project.description]
   version: @[project.version]
-
 cors:
   allow-credentials: true
   allowed-origins:
@@ -24,6 +23,10 @@ cors:
 spring:
   application:
     name: ${app.name}
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration
+      - org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration
   datasource:
     url:
     username:
@@ -74,6 +77,7 @@ spring:
                 application-id: ${app.group}.${app.artifact-id}.sample-response.updated.v1
               sampleResponseDeleted1:
                 application-id: ${app.group}.${app.artifact-id}.sample-response.deleted.v1
+
 server:
   error:
     whitelabel:

@@ -12,6 +12,7 @@ import com.leijendary.spring.microservicetemplate.factory.AppPageFactory;
 import com.leijendary.spring.microservicetemplate.factory.SampleFactory;
 import com.leijendary.spring.microservicetemplate.repository.SampleTableRepository;
 import com.leijendary.spring.microservicetemplate.specification.SampleListSpecification;
+import com.leijendary.spring.microservicetemplate.validator.SampleRequestValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -27,6 +28,7 @@ public class SampleTableService extends AppService {
     private final SampleResponseCache sampleResponseCache;
     private final SampleResponsePageCache sampleResponsePageCache;
     private final SampleResponseProducer sampleResponseProducer;
+    private final SampleRequestValidator sampleRequestValidator;
     private final SampleTableRepository sampleTableRepository;
 
     public AppPage<SampleResponse> list(final QueryRequest queryRequest, final Pageable pageable) {
@@ -46,6 +48,8 @@ public class SampleTableService extends AppService {
     }
 
     public SampleResponse create(final SampleRequest sampleRequest) {
+        validate(sampleRequestValidator, sampleRequest, SampleRequest.class);
+
         final var sampleTable = SampleFactory.of(sampleRequest);
 
         sampleTableRepository.save(sampleTable);
@@ -62,6 +66,8 @@ public class SampleTableService extends AppService {
     public SampleResponse update(final int id, final SampleRequest sampleRequest) {
         final var sampleTable = sampleTableRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Sample Table", id));
+
+        validate(sampleRequestValidator, sampleRequest, SampleRequest.class);
 
         SampleFactory.map(sampleRequest, sampleTable);
 

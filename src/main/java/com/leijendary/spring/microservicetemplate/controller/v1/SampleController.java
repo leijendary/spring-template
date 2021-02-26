@@ -7,22 +7,20 @@ import com.leijendary.spring.microservicetemplate.data.request.QueryRequest;
 import com.leijendary.spring.microservicetemplate.data.request.SampleRequest;
 import com.leijendary.spring.microservicetemplate.data.response.SampleResponse;
 import com.leijendary.spring.microservicetemplate.service.SampleTableService;
-import com.leijendary.spring.microservicetemplate.validator.SampleRequestValidator;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.URI;
+import javax.servlet.http.HttpServletResponse;
 import java.util.concurrent.CompletableFuture;
 
 import static java.util.concurrent.CompletableFuture.completedFuture;
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.NO_CONTENT;
-import static org.springframework.http.ResponseEntity.created;
 
 /**
  * This is an example of a controller that will be created in microservices.
@@ -45,7 +43,6 @@ public class SampleController extends AppController {
 
     private final SampleClient sampleClient;
     private final SampleTableService sampleTableService;
-    private final SampleRequestValidator sampleRequestValidator;
 
     /**
      * This is a sample RequestMapping (Only GET method, that is why i used {@link GetMapping})
@@ -66,14 +63,12 @@ public class SampleController extends AppController {
     // @PreAuthorize("hasAuthority('sample:create') or hasRole('SCOPE_sample.write')")
     @ResponseStatus(CREATED)
     @ApiOperation("Saves a sample record into the database")
-    public CompletableFuture<ResponseEntity<SampleResponse>> create(@RequestBody SampleRequest request) {
-        validate(sampleRequestValidator, request, SampleRequest.class);
-
+    public CompletableFuture<SampleResponse> create(@RequestBody SampleRequest request, HttpServletResponse response) {
         final var sampleResponse = sampleTableService.create(request);
-        final var url = URI.create("/api/v1/sample/" + sampleResponse.getId());
-        final var response = created(url).body(sampleResponse);
 
-        return completedFuture(response);
+        response.setHeader(HttpHeaders.LOCATION, "/api/v1/sample/" + sampleResponse.getId());
+
+        return completedFuture(sampleResponse);
     }
 
     @GetMapping("{id}")
@@ -89,8 +84,6 @@ public class SampleController extends AppController {
     // @PreAuthorize("hasAuthority('sample:update') or hasRole('SCOPE_sample.write')")
     @ApiOperation("Updates the sample record into the database")
     public CompletableFuture<SampleResponse> update(@PathVariable int id, @RequestBody SampleRequest request) {
-        validate(sampleRequestValidator, request, SampleRequest.class);
-
         final var sampleResponse = sampleTableService.update(id, request);
 
         return completedFuture(sampleResponse);
