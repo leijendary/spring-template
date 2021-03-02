@@ -7,7 +7,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @Data
 public class ApplicationProperties {
 
-    private String group;
+    private String organization;
     private String artifactId;
     private String name;
     private String description;

@@ -1,5 +1,5 @@
 app:
-  group: leijendary
+  organization: leijendary
   artifact-id: @[project.artifactId]
   name: @[project.name]
   description: @[project.description]
@@ -72,11 +72,11 @@ spring:
           binder:
             functions:
               sampleResponseCreated1:
-                application-id: ${app.group}.${app.artifact-id}.sample-response.created.v1
+                application-id: ${app.organization}.${app.artifact-id}.sample-response.created.v1
               sampleResponseUpdated1:
-                application-id: ${app.group}.${app.artifact-id}.sample-response.updated.v1
+                application-id: ${app.organization}.${app.artifact-id}.sample-response.updated.v1
               sampleResponseDeleted1:
-                application-id: ${app.group}.${app.artifact-id}.sample-response.deleted.v1
+                application-id: ${app.organization}.${app.artifact-id}.sample-response.deleted.v1
 
 server:
   error:
