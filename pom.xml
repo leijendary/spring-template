@@ -20,7 +20,6 @@
         <springfox.version>3.0.0</springfox.version>
         <spring-cloud.version>2020.0.1</spring-cloud.version>
         <commons-lang3.version>3.11</commons-lang3.version>
-        <netflix-ribbon.version>2.2.7.RELEASE</netflix-ribbon.version>
     </properties>
 
     <dependencies>

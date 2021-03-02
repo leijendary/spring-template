@@ -83,7 +83,3 @@ server:
   error:
     whitelabel:
       enabled: false
-
-logging:
-  level:
-    com.netflix.config.sources.URLConfigurationSource: ERROR
