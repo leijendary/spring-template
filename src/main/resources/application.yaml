@@ -4,6 +4,7 @@ app:
   name: @[project.name]
   description: @[project.description]
   version: @[project.version]
+
 cors:
   allow-credentials: true
   allowed-origins:
