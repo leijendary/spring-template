@@ -34,8 +34,12 @@ import static org.springframework.http.HttpStatus.NO_CONTENT;
  * should be in camelCase.
  *
  * For headers, I would recommend that the Header keys should be in Pascal-Kebab-Case
+ *
+ * Note: the {@link @RestController} annotation has a value of "<ControllerName><version>" because on multiple
+ * versioned rest controllers, Mocky will throw an error when the same controller name is found even though
+ * they have different mappings. The rest controller value will fix that
  */
-@RestController
+@RestController("SampleControllerV1")
 @RequestMapping("/api/v1/sample")
 @RequiredArgsConstructor
 @Api("This is just a sample controller with a swagger documentation")
