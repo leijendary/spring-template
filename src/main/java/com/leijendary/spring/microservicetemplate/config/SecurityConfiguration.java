@@ -35,7 +35,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .and()
                 .httpBasic().disable()
                 .formLogin().disable()
-                .csrf().disable();
+                .csrf().disable()
+                .oauth2ResourceServer()
+                .jwt();
     }
 
     @Bean

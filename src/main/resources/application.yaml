@@ -78,6 +78,11 @@ spring:
                 application-id: ${app.organization}.${app.artifact-id}.sample-response.updated.v1
               sampleResponseDeleted1:
                 application-id: ${app.organization}.${app.artifact-id}.sample-response.deleted.v1
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri:
 
 server:
   error:

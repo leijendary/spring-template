@@ -11,7 +11,9 @@
 - Spring Actuator
 - Spring Data JPA
 - Spring Web
+- Spring Security
 - Spring OAuth2 Resource Server
+- Spring Security OAuth2 JOSE
 - Spring Cloud Bootstrap
 - Spring Cloud Openfeign
 - Spring Cloud Loadbalancer
