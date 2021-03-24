@@ -27,9 +27,11 @@ import static org.springframework.http.HttpStatus.NO_CONTENT;
  * This is an example of a controller that will be created in microservices.
  *
  * There are 3 parts of the {@link RequestMapping} url that we need to take note of:
- * 1. The prefix ("/api")
- * 2. The version ("/v1")
- * 3. The parent path of this API ("/sample") which can be anything that this specific controller should be doing.
+ * 1. The version ("v1")
+ * 2. The parent path of this API ("/") which can be anything that this specific controller should be doing.
+ *
+ * This example has a server.servlet.context-path=/sample set so the path here should result into the following:
+ * "/sample/v1/"
  *
  * The url paths should be in kebab-case except for the query parameters, body, and other URL parts in which they
  * should be in camelCase.
@@ -41,7 +43,7 @@ import static org.springframework.http.HttpStatus.NO_CONTENT;
  * they have different mappings. The rest controller value will fix that
  */
 @RestController("SampleControllerV1")
-@RequestMapping("/api/v1/sample")
+@RequestMapping("v1")
 @RequiredArgsConstructor
 @Api("This is just a sample controller with a swagger documentation")
 public class SampleController extends AppController {
@@ -71,7 +73,7 @@ public class SampleController extends AppController {
     public CompletableFuture<SampleResponse> create(@RequestBody SampleRequest request, HttpServletResponse response) {
         final var sampleResponse = sampleTableService.create(request);
 
-        response.setHeader(HttpHeaders.LOCATION, "/api/v1/sample/" + sampleResponse.getId());
+        response.setHeader(HttpHeaders.LOCATION, toLocation(sampleResponse.getId()));
 
         return completedFuture(sampleResponse);
     }
