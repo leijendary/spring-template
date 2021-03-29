@@ -5,6 +5,9 @@ app:
   description: @[project.description]
   version: @[project.version]
 
+auth:
+  audience: http://localhost:8080/sample/v1
+
 cors:
   allow-credentials: true
   allowed-origins:
