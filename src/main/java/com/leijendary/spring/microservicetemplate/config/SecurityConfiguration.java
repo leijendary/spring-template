@@ -2,7 +2,8 @@ package com.leijendary.spring.microservicetemplate.config;
 
 import com.leijendary.spring.microservicetemplate.config.properties.AuthProperties;
 import com.leijendary.spring.microservicetemplate.config.properties.CorsProperties;
-import com.leijendary.spring.microservicetemplate.validator.AudienceValidator;
+import com.leijendary.spring.microservicetemplate.security.AppAuthenticationEntryPoint;
+import com.leijendary.spring.microservicetemplate.security.AudienceValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.OAuth2ResourceServerProperties;
 import org.springframework.context.annotation.Configuration;
@@ -27,6 +28,7 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 @RequiredArgsConstructor
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
+    private final AppAuthenticationEntryPoint appAuthenticationEntryPoint;
     private final AuthProperties authProperties;
     private final CorsProperties corsProperties;
     private final OAuth2ResourceServerProperties oAuth2ResourceServerProperties;
@@ -34,8 +36,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
+                .anonymous().disable()
                 .authorizeRequests()
                 .anyRequest().permitAll()
+            .and()
+                .exceptionHandling()
+                .authenticationEntryPoint(appAuthenticationEntryPoint)
             .and()
                 .sessionManagement()
                 .sessionCreationPolicy(STATELESS)

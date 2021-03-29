@@ -8,4 +8,5 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 public class AuthProperties {
 
     private String audience;
+    private String realm;
 }

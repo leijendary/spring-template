@@ -7,6 +7,7 @@ app:
 
 auth:
   audience: http://localhost:8080/sample/v1
+  realm: Microservice Template API v1
 
 cors:
   allow-credentials: true
