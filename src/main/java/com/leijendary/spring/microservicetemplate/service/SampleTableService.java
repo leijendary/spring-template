@@ -1,7 +1,5 @@
 package com.leijendary.spring.microservicetemplate.service;
 
-import com.leijendary.spring.microservicetemplate.cache.SampleResponseCache;
-import com.leijendary.spring.microservicetemplate.cache.SampleResponsePageCache;
 import com.leijendary.spring.microservicetemplate.data.AppPage;
 import com.leijendary.spring.microservicetemplate.data.request.QueryRequest;
 import com.leijendary.spring.microservicetemplate.data.request.SampleRequest;
@@ -14,39 +12,33 @@ import com.leijendary.spring.microservicetemplate.repository.SampleTableReposito
 import com.leijendary.spring.microservicetemplate.specification.SampleListSpecification;
 import com.leijendary.spring.microservicetemplate.validator.SampleRequestValidator;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.function.Supplier;
-
-import static java.util.Optional.ofNullable;
 
 @Service
 @RequiredArgsConstructor
 public class SampleTableService extends AppService {
 
-    private final SampleResponseCache sampleResponseCache;
-    private final SampleResponsePageCache sampleResponsePageCache;
     private final SampleResponseProducer sampleResponseProducer;
     private final SampleRequestValidator sampleRequestValidator;
     private final SampleTableRepository sampleTableRepository;
 
+    @Cacheable(value = "SampleResponsePage", key = "#queryRequest.toString() + '|' + #pageable.toString()")
     public AppPage<SampleResponse> list(final QueryRequest queryRequest, final Pageable pageable) {
-        final var cacheKey = pageCacheKey(queryRequest, pageable);
-        Supplier<AppPage<SampleResponse>> supplier = () -> {
-            final var specification = SampleListSpecification.builder()
-                    .column1(queryRequest.getQuery())
-                    .build();
+        final var specification = SampleListSpecification.builder()
+                .column1(queryRequest.getQuery())
+                .build();
+        final var page = sampleTableRepository.findAll(specification, pageable)
+                .map(SampleFactory::toResponse);
 
-            return AppPageFactory.of(sampleTableRepository
-                    .findAll(specification, pageable)
-                    .map(SampleFactory::toResponse));
-        };
-
-        return ofNullable(sampleResponsePageCache.get(cacheKey))
-                .orElseGet(supplier);
+        return AppPageFactory.of(page);
     }
 
+    @CachePut(value = "SampleResponse", key = "#result.id")
     public SampleResponse create(final SampleRequest sampleRequest) {
         validate(sampleRequestValidator, sampleRequest, SampleRequest.class);
 
@@ -56,13 +48,12 @@ public class SampleTableService extends AppService {
 
         final var sampleResponse = SampleFactory.toResponse(sampleTable);
 
-        sampleResponseCache.put(sampleResponse.getId(), sampleResponse);
-
         sampleResponseProducer.created1(sampleResponse);
 
         return sampleResponse;
     }
 
+    @CachePut(value = "SampleResponse", key = "#id")
     public SampleResponse update(final int id, final SampleRequest sampleRequest) {
         final var sampleTable = sampleTableRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Sample Table", id));
@@ -75,29 +66,22 @@ public class SampleTableService extends AppService {
 
         final var sampleResponse = SampleFactory.toResponse(sampleTable);
 
-        sampleResponseCache.put(sampleResponse.getId(), sampleResponse);
-
         sampleResponseProducer.updated1(sampleResponse);
 
         return sampleResponse;
     }
 
+    @Cacheable(value = "SampleResponse", key = "#id")
     public SampleResponse get(final int id) {
-        Supplier<SampleResponse> supplier = () -> {
-            final var sampleResponse = sampleTableRepository
-                    .findById(id)
-                    .map(SampleFactory::toResponse)
-                    .orElseThrow(() -> new ResourceNotFoundException("Sample Table", id));
-
-            sampleResponseCache.put(id, sampleResponse);
-
-            return sampleResponse;
-        };
-
-        return ofNullable(sampleResponseCache.get(id))
-                .orElseGet(supplier);
+        return sampleTableRepository
+                .findById(id)
+                .map(SampleFactory::toResponse)
+                .orElseThrow(() -> new ResourceNotFoundException("Sample Table", id));
     }
 
+    @Caching(evict = {
+            @CacheEvict(value = "SampleResponsePage", allEntries = true),
+            @CacheEvict(value = "SampleResponse", key = "#id") })
     public void delete(final int id) {
         final var sampleTable = sampleTableRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Sample Table", id));
@@ -106,9 +90,5 @@ public class SampleTableService extends AppService {
         sampleTableRepository.delete(sampleTable);
 
         sampleResponseProducer.deleted1(sampleResponse);
-    }
-
-    private String pageCacheKey(final QueryRequest queryRequest, final Pageable pageable) {
-        return queryRequest.toString() + "|" + pageable.toString();
     }
 }
