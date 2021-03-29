@@ -64,10 +64,10 @@ public class SwaggerConfiguration {
         final var authorizationScope = new AuthorizationScope("global", "accessEverything");
         final var authorizationScopes = new AuthorizationScope[] { authorizationScope };
 
-        return List.of(new SecurityReference("JWT", authorizationScopes));
+        return List.of(new SecurityReference("Authorization", authorizationScopes));
     }
 
     private ApiKey apiKey() {
-        return new ApiKey("JWT", "Authorization", "header");
+        return new ApiKey("Authorization", "Authorization", "header");
     }
 }
