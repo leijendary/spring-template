@@ -67,7 +67,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 "/swagger-resources/**",
                 "/swagger-ui.html",
                 "/swagger-ui/**",
-                "/webjars/**");
+                "/webjars/**",
+                "/actuator/**");
     }
 
     private CorsConfigurationSource corsConfigurationSource() {
