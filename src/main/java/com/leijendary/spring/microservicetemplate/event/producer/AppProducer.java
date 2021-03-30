@@ -1,6 +1,6 @@
 package com.leijendary.spring.microservicetemplate.event.producer;
 
-import com.leijendary.spring.microservicetemplate.config.properties.ApplicationProperties;
+import com.leijendary.spring.microservicetemplate.config.properties.InfoProperties;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cloud.stream.function.StreamBridge;
 import org.springframework.stereotype.Component;
@@ -16,7 +16,7 @@ import static org.springframework.messaging.support.MessageBuilder.withPayload;
 @RequiredArgsConstructor
 public abstract class AppProducer<V> {
 
-    private final ApplicationProperties applicationProperties;
+    private final InfoProperties infoProperties;
     private final StreamBridge streamBridge;
 
     public CompletableFuture<Boolean> keyPayload(final String topic, final String key, final V value) {
@@ -29,6 +29,6 @@ public abstract class AppProducer<V> {
     }
 
     private String getPrefix() {
-        return applicationProperties.getArtifactId();
+        return infoProperties.getApp().getArtifactId();
     }
 }

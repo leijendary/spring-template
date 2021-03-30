@@ -1,9 +1,19 @@
-app:
-  organization: leijendary
-  artifact-id: @[project.artifactId]
-  name: @[project.name]
-  description: @[project.description]
-  version: @[project.version]
+info:
+  app:
+    organization: leijendary
+    artifact-id: "@[project.artifactId]"
+    name: "@[project.name]"
+    description: "@[project.description]"
+    version: "@[project.version]"
+  api:
+    terms-of-service-url:
+    contact:
+      name: Jonathan Leijendekker
+      url: https://leijendary.com
+      email:
+    license:
+    license-url:
+    vendor-extensions:
 
 auth:
   audience: http://localhost:8080/sample/v1
@@ -27,7 +37,7 @@ cors:
 
 spring:
   application:
-    name: ${app.name}
+    name: ${info.app.name}
   autoconfigure:
     exclude:
       - org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration
@@ -65,11 +75,11 @@ spring:
     stream:
       bindings:
         sampleResponseCreated1-in-0:
-          destination: ${app.artifact-id}.sample-response.created.v1
+          destination: ${info.app.artifact-id}.sample-response.created.v1
         sampleResponseUpdated1-in-0:
-          destination: ${app.artifact-id}.sample-response.updated.v1
+          destination: ${info.app.artifact-id}.sample-response.updated.v1
         sampleResponseDeleted1-in-0:
-          destination: ${app.artifact-id}.sample-response.deleted.v1
+          destination: ${info.app.artifact-id}.sample-response.deleted.v1
       function:
         definition: sampleResponseCreated1;sampleResponseUpdated1;sampleResponseDeleted1
       kafka:
@@ -77,11 +87,11 @@ spring:
           binder:
             functions:
               sampleResponseCreated1:
-                application-id: ${app.organization}.${app.artifact-id}.sample-response.created.v1
+                application-id: ${info.app.organization}.${info.app.artifact-id}.sample-response.created.v1
               sampleResponseUpdated1:
-                application-id: ${app.organization}.${app.artifact-id}.sample-response.updated.v1
+                application-id: ${info.app.organization}.${info.app.artifact-id}.sample-response.updated.v1
               sampleResponseDeleted1:
-                application-id: ${app.organization}.${app.artifact-id}.sample-response.deleted.v1
+                application-id: ${info.app.organization}.${info.app.artifact-id}.sample-response.deleted.v1
   security:
     oauth2:
       resourceserver:

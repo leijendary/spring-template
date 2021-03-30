@@ -1,6 +1,6 @@
 package com.leijendary.spring.microservicetemplate.config;
 
-import com.leijendary.spring.microservicetemplate.config.properties.ApplicationProperties;
+import com.leijendary.spring.microservicetemplate.config.properties.InfoProperties;
 import com.leijendary.spring.microservicetemplate.data.AppPageable;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -9,12 +9,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.service.*;
+import springfox.documentation.service.ApiInfo;
+import springfox.documentation.service.ApiKey;
+import springfox.documentation.service.AuthorizationScope;
+import springfox.documentation.service.SecurityReference;
 import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
@@ -25,7 +27,7 @@ import static springfox.documentation.spi.DocumentationType.OAS_30;
 @RequiredArgsConstructor
 public class SwaggerConfiguration {
 
-    private final ApplicationProperties applicationProperties;
+    private final InfoProperties infoProperties;
 
     @Bean
     public Docket api() {
@@ -42,16 +44,18 @@ public class SwaggerConfiguration {
     }
 
     private ApiInfo apiInfo() {
+        final var app = infoProperties.getApp();
+        final var api = infoProperties.getApi();
+
         return new ApiInfo(
-                applicationProperties.getName(),
-                applicationProperties.getDescription(),
-                applicationProperties.getVersion(),
-                "",
-                new Contact("Jonathan Leijendekker", "https://leijendary.com", ""),
-                "",
-                "",
-                Collections.emptyList()
-        );
+                app.getName(),
+                app.getDescription(),
+                app.getVersion(),
+                api.getTermsOfServiceUrl(),
+                api.getContact(),
+                api.getLicense(),
+                api.getLicenseUrl(),
+                api.getVendorExtensions());
     }
 
     public SecurityContext securityContext() {

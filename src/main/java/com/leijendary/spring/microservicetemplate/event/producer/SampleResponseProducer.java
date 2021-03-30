@@ -1,6 +1,6 @@
 package com.leijendary.spring.microservicetemplate.event.producer;
 
-import com.leijendary.spring.microservicetemplate.config.properties.ApplicationProperties;
+import com.leijendary.spring.microservicetemplate.config.properties.InfoProperties;
 import com.leijendary.spring.microservicetemplate.data.response.SampleResponse;
 import org.springframework.cloud.stream.function.StreamBridge;
 import org.springframework.scheduling.annotation.Async;
@@ -11,8 +11,8 @@ import static com.leijendary.spring.microservicetemplate.event.topic.SampleRespo
 @Component
 public class SampleResponseProducer extends AppProducer<SampleResponse> {
 
-    public SampleResponseProducer(ApplicationProperties applicationProperties, StreamBridge streamBridge) {
-        super(applicationProperties, streamBridge);
+    public SampleResponseProducer(InfoProperties infoProperties, StreamBridge streamBridge) {
+        super(infoProperties, streamBridge);
     }
 
     @Async
