@@ -6,7 +6,7 @@ import org.springframework.validation.Validator;
 
 public abstract class AppService {
 
-    public <T> void validate(Validator validator, Object target, Class<T> tClass) {
+    protected <T> void validate(Validator validator, Object target, Class<T> tClass) {
         final var errors = new BeanPropertyBindingResult(target, tClass.getName());
 
         validator.validate(target, errors);
