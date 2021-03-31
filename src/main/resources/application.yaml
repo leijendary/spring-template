@@ -107,3 +107,9 @@ server:
       enabled: false
   servlet:
     context-path: /sample
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
