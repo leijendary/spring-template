@@ -81,7 +81,10 @@ spring:
         sampleResponseDeleted1-in-0:
           destination: ${info.app.artifact-id}.sample-response.deleted.v1
       function:
-        definition: sampleResponseCreated1;sampleResponseUpdated1;sampleResponseDeleted1
+        definition: >-
+          sampleResponseCreated1;
+          sampleResponseUpdated1;
+          sampleResponseDeleted1
       kafka:
         streams:
           binder:
