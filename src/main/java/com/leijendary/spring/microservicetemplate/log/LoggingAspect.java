@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,20 +23,7 @@ public class LoggingAspect {
 
     private final AspectProperties aspectProperties;
 
-    @Around("execution(* com.leijendary.spring.microservicetemplate.client..*.*(..)) || " +
-            "execution(* com.leijendary.spring.microservicetemplate.controller..*.*(..)) || " +
-            "execution(* com.leijendary.spring.microservicetemplate.data..*.*(..)) || " +
-            "execution(* com.leijendary.spring.microservicetemplate.error..*.*(..)) || " +
-            "execution(* com.leijendary.spring.microservicetemplate.event..*.*(..)) || " +
-            "execution(* com.leijendary.spring.microservicetemplate.exception..*.*(..)) || " +
-            "execution(* com.leijendary.spring.microservicetemplate.factory..*.*(..)) || " +
-            "execution(* com.leijendary.spring.microservicetemplate.model..*.*(..)) || " +
-            "execution(* com.leijendary.spring.microservicetemplate.repository..*.*(..)) || " +
-            "execution(* com.leijendary.spring.microservicetemplate.security..*.*(..)) || " +
-            "execution(* com.leijendary.spring.microservicetemplate.service..*.*(..)) || " +
-            "execution(* com.leijendary.spring.microservicetemplate.specification..*.*(..)) || " +
-            "execution(* com.leijendary.spring.microservicetemplate.util..*.*(..)) || " +
-            "execution(* com.leijendary.spring.microservicetemplate.validator..*.*(..)) ")
+    @Around("execution(* com.leijendary.spring.microservicetemplate..*.*(..)) && !excludedPackages()")
     public Object methodTimeLogger(final ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
         final var methodSignature = (MethodSignature) proceedingJoinPoint.getSignature();
         // Get intercepted method details
@@ -61,4 +49,10 @@ public class LoggingAspect {
 
         return result;
     }
+
+    @Pointcut("execution(* com.leijendary.spring.microservicetemplate.config..*.*(..)) || " +
+              "execution(* com.leijendary.spring.microservicetemplate.filter..*.*(..)) || " +
+              "execution(* com.leijendary.spring.microservicetemplate.log..*.*(..)) || " +
+              "execution(* com.leijendary.spring.microservicetemplate.MicroserviceTemplateApplication..*(..))")
+    public void excludedPackages() {}
 }
