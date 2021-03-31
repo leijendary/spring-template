@@ -12,8 +12,6 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StopWatch;
 
-import java.util.function.Supplier;
-
 @Component
 @ConditionalOnExpression("${aspect.logging.enabled}")
 @Aspect
@@ -27,19 +25,11 @@ public class LoggingAspect {
         this.time = aspectProperties.getExecution().getTime();
     }
 
-    @Around("execution(* com.leijendary.spring.microservicetemplate..*.*(..)) && !excludedPackages()")
-    public Object methodTimeLogger(final ProceedingJoinPoint proceedingJoinPoint) {
-        final var proceed = (Supplier<Object>) () -> {
-            try {
-                return proceedingJoinPoint.proceed();
-            } catch (Throwable throwable) {
-                throw new RuntimeException(throwable);
-            }
-        };
-
+    @Around("includedPointcut() && !excludedPointcut()")
+    public Object methodTimeLogger(final ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
         // Set aspect.execution.time to -1 to disable execution timer
-        if (time < 0) {
-            return proceed.get();
+        if (!logger.isWarnEnabled() || time < 0) {
+            return proceedingJoinPoint.proceed();
         }
 
         final var methodSignature = (MethodSignature) proceedingJoinPoint.getSignature();
@@ -50,14 +40,14 @@ public class LoggingAspect {
         final var stopWatch = new StopWatch(className + "#" + methodName);
         stopWatch.start(methodName);
 
-        final var result = proceed.get();
+        final var result = proceedingJoinPoint.proceed();
 
         stopWatch.stop();
 
         final var resultTime = stopWatch.getTotalTimeMillis();
 
-        // Log method execution time
-        if (logger.isWarnEnabled() && resultTime >= time) {
+        // Log method execution time if the result time is greater than or equal to the threshold time
+        if (resultTime >= time) {
             final var executionTime = String.format("%s running time :: %sms", stopWatch.getId(), resultTime);
 
             logger.warn(executionTime);
@@ -66,9 +56,13 @@ public class LoggingAspect {
         return result;
     }
 
-    @Pointcut("execution(* com.leijendary.spring.microservicetemplate.config..*.*(..)) || " +
-              "execution(* com.leijendary.spring.microservicetemplate.filter..*.*(..)) || " +
-              "execution(* com.leijendary.spring.microservicetemplate.log..*.*(..)) || " +
-              "execution(* com.leijendary.spring.microservicetemplate.MicroserviceTemplateApplication..*(..))")
-    public void excludedPackages() {}
+    @Pointcut("execution(* com.leijendary.spring.microservicetemplate..*.*(..))")
+    public void includedPointcut() {}
+
+    @Pointcut(
+            "execution(* com.leijendary.spring.microservicetemplate.config..*.*(..)) || " +
+            "execution(* com.leijendary.spring.microservicetemplate.filter..*.*(..)) || " +
+            "execution(* com.leijendary.spring.microservicetemplate.log..*.*(..)) || " +
+            "execution(* com.leijendary.spring.microservicetemplate.MicroserviceTemplateApplication..*(..))")
+    public void excludedPointcut() {}
 }
