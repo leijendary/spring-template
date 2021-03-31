@@ -1,7 +1,5 @@
 package com.leijendary.spring.microservicetemplate.controller;
 
-import org.springframework.http.HttpHeaders;
-
 import javax.servlet.http.HttpServletResponse;
 
 import static com.leijendary.spring.microservicetemplate.util.RequestContextUtil.getPath;
