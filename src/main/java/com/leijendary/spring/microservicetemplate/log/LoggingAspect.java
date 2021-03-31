@@ -42,7 +42,7 @@ public class LoggingAspect {
 
         // Log method execution time
         if (logger.isWarnEnabled() && timeResult >= time) {
-            final var executionTime = String.format("'%s' running time :: %sms", stopWatch.getId(), timeResult);
+            final var executionTime = String.format("%s running time :: %sms", stopWatch.getId(), timeResult);
 
             logger.warn(executionTime);
         }
