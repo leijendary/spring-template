@@ -11,8 +11,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,6 +20,7 @@ import java.util.concurrent.CompletableFuture;
 import static java.util.concurrent.CompletableFuture.completedFuture;
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.NO_CONTENT;
+import static org.springframework.http.MediaType.TEXT_HTML_VALUE;
 
 /**
  * This is an example of a controller that will be created in microservices.
@@ -73,7 +72,7 @@ public class SampleController extends AppController {
     public CompletableFuture<SampleResponse> create(@RequestBody SampleRequest request, HttpServletResponse response) {
         final var sampleResponse = sampleTableService.create(request);
 
-        response.setHeader(HttpHeaders.LOCATION, toLocation(sampleResponse.getId()));
+        locationHeader(response, sampleResponse.getId());
 
         return completedFuture(sampleResponse);
     }
@@ -106,7 +105,7 @@ public class SampleController extends AppController {
         return completedFuture(null);
     }
 
-    @GetMapping(value = "client", produces = MediaType.TEXT_HTML_VALUE)
+    @GetMapping(value = "client", produces = TEXT_HTML_VALUE)
     public String client() {
         return sampleClient.homepage();
     }
