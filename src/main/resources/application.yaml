@@ -23,7 +23,7 @@ aspect:
   logging:
     enabled: true
   execution:
-    time: 500
+    time: 200
 
 cors:
   allow-credentials: true
