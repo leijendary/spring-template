@@ -57,7 +57,7 @@ public class SampleController extends AppController {
      *                 parameters contains {@link Pageable}
      */
     @GetMapping
-    @PreAuthorize("#oauth2.hasScope('urn:sample:list:v1')")
+    @PreAuthorize("hasScope('urn:sample:list:v1')")
     @ApiOperation("Sample implementation of swagger in a api")
     public CompletableFuture<AppPage<SampleResponse>> list(QueryRequest queryRequest, Pageable pageable) {
         final var page = sampleTableService.list(queryRequest, pageable);
@@ -66,7 +66,7 @@ public class SampleController extends AppController {
     }
 
     @PostMapping
-    @PreAuthorize("#oauth2.hasScope('urn:sample:create:v1')")
+    @PreAuthorize("hasScope('urn:sample:create:v1')")
     @ResponseStatus(CREATED)
     @ApiOperation("Saves a sample record into the database")
     public CompletableFuture<SampleResponse> create(@RequestBody SampleRequest request, HttpServletResponse response) {
@@ -78,7 +78,7 @@ public class SampleController extends AppController {
     }
 
     @GetMapping("{id}")
-    @PreAuthorize("#oauth2.hasScope('urn:sample:get:v1')")
+    @PreAuthorize("hasScope('urn:sample:get:v1')")
     @ApiOperation("Retrieves the sample record from the database")
     public CompletableFuture<SampleResponse> get(@PathVariable int id) {
         final var sampleResponse = sampleTableService.get(id);
@@ -87,7 +87,7 @@ public class SampleController extends AppController {
     }
 
     @PutMapping("{id}")
-    @PreAuthorize("#oauth2.hasScope('urn:sample:update:v1')")
+    @PreAuthorize("hasScope('urn:sample:update:v1')")
     @ApiOperation("Updates the sample record into the database")
     public CompletableFuture<SampleResponse> update(@PathVariable int id, @RequestBody SampleRequest request) {
         final var sampleResponse = sampleTableService.update(id, request);
@@ -96,7 +96,7 @@ public class SampleController extends AppController {
     }
 
     @DeleteMapping ("{id}")
-    @PreAuthorize("#oauth2.hasScope('urn:sample:delete:v1')")
+    @PreAuthorize("hasScope('urn:sample:delete:v1')")
     @ResponseStatus(NO_CONTENT)
     @ApiOperation("Removes the sample record from the database")
     public CompletableFuture<Void> delete(@PathVariable int id) {
