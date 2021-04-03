@@ -19,6 +19,6 @@ public class AspectProperties {
     @Data
     public static class Execution {
 
-        private long time;
+        private long time = -1;
     }
 }

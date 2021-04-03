@@ -1,0 +1,16 @@
+debug: true
+
+aspect:
+  logging:
+    enabled: true
+  execution:
+    time: 200
+
+spring:
+  jpa:
+    show-sql: true
+
+logging:
+  level:
+    root: DEBUG
+    org.apache.kafka: WARN

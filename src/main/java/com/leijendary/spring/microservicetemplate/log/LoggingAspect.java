@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StopWatch;
 
 @Component
-@ConditionalOnExpression("${aspect.logging.enabled}")
+@ConditionalOnExpression("${aspect.logging.enabled:false}")
 @Aspect
 public class LoggingAspect {
 
