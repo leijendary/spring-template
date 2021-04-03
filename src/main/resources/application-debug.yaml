@@ -13,4 +13,4 @@ spring:
 logging:
   level:
     root: DEBUG
-    org.apache.kafka: WARN
+    org.apache.kafka: INFO
