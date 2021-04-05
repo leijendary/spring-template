@@ -110,8 +110,14 @@ spring:
           issuer-uri:
 
 server:
+  compression:
+    enabled: true
+    mime-types: application/json
+    min-response-size: 1KB
   error:
     whitelabel:
       enabled: false
+  http2:
+    enabled: true
   servlet:
     context-path: /sample
