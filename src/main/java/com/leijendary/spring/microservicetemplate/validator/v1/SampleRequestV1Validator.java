@@ -1,6 +1,6 @@
-package com.leijendary.spring.microservicetemplate.validator;
+package com.leijendary.spring.microservicetemplate.validator.v1;
 
-import com.leijendary.spring.microservicetemplate.data.request.SampleRequest;
+import com.leijendary.spring.microservicetemplate.data.request.v1.SampleRequestV1;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
@@ -9,7 +9,7 @@ import static com.leijendary.spring.microservicetemplate.util.ValidationUtil.rej
 import static com.leijendary.spring.microservicetemplate.util.ValidationUtil.rejectIfMaxLength;
 
 @Component
-public class SampleRequestValidator implements Validator {
+public class SampleRequestV1Validator implements Validator {
 
     private static final String FIELD_FIELD_1 = "field1";
     private static final String FIELD_FIELD_2 = "field2";
@@ -17,7 +17,7 @@ public class SampleRequestValidator implements Validator {
 
     @Override
     public boolean supports(Class<?> tClass) {
-        return SampleRequest.class.equals(tClass);
+        return SampleRequestV1.class.equals(tClass);
     }
 
     @Override

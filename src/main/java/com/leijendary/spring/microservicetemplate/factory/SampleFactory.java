@@ -1,8 +1,8 @@
 package com.leijendary.spring.microservicetemplate.factory;
 
-import com.leijendary.spring.microservicetemplate.data.request.SampleRequest;
-import com.leijendary.spring.microservicetemplate.data.response.SampleResponse;
-import com.leijendary.spring.microservicetemplate.factory.mapper.SampleRequestToSampleTablePropertyMap;
+import com.leijendary.spring.microservicetemplate.data.request.v1.SampleRequestV1;
+import com.leijendary.spring.microservicetemplate.data.response.v1.SampleResponseV1;
+import com.leijendary.spring.microservicetemplate.factory.mapper.SampleRequestV1ToSampleTablePropertyMap;
 import com.leijendary.spring.microservicetemplate.model.SampleTable;
 import lombok.Getter;
 import org.modelmapper.ModelMapper;
@@ -16,7 +16,7 @@ public class SampleFactory {
 
     private SampleFactory() {
         final var mapper = new ModelMapper();
-        mapper.addMappings(new SampleRequestToSampleTablePropertyMap());
+        mapper.addMappings(new SampleRequestV1ToSampleTablePropertyMap());
 
         this.mapper = mapper;
     }
@@ -29,15 +29,15 @@ public class SampleFactory {
         return instance;
     }
 
-    public static SampleResponse toResponse(SampleTable sampleTable) {
-        return getInstance().getMapper().map(sampleTable, SampleResponse.class);
+    public static SampleResponseV1 toResponseV1(SampleTable sampleTable) {
+        return getInstance().getMapper().map(sampleTable, SampleResponseV1.class);
     }
 
-    public static SampleTable of(SampleRequest sampleRequest) {
+    public static SampleTable of(SampleRequestV1 sampleRequest) {
         return getInstance().getMapper().map(sampleRequest, SampleTable.class);
     }
 
-    public static void map(SampleRequest sampleRequest, SampleTable sampleTable) {
+    public static void map(SampleRequestV1 sampleRequest, SampleTable sampleTable) {
         getInstance().getMapper().map(sampleRequest, sampleTable);
     }
 }

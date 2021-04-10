@@ -1,10 +1,10 @@
 package com.leijendary.spring.microservicetemplate.factory.mapper;
 
-import com.leijendary.spring.microservicetemplate.data.request.SampleRequest;
+import com.leijendary.spring.microservicetemplate.data.request.v1.SampleRequestV1;
 import com.leijendary.spring.microservicetemplate.model.SampleTable;
 import org.modelmapper.PropertyMap;
 
-public class SampleRequestToSampleTablePropertyMap extends PropertyMap<SampleRequest, SampleTable> {
+public class SampleRequestV1ToSampleTablePropertyMap extends PropertyMap<SampleRequestV1, SampleTable> {
 
     @Override
     protected void configure() {

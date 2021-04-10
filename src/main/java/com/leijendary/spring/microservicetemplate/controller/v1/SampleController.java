@@ -4,8 +4,8 @@ import com.leijendary.spring.microservicetemplate.client.SampleClient;
 import com.leijendary.spring.microservicetemplate.controller.AppController;
 import com.leijendary.spring.microservicetemplate.data.AppPage;
 import com.leijendary.spring.microservicetemplate.data.request.QueryRequest;
-import com.leijendary.spring.microservicetemplate.data.request.SampleRequest;
-import com.leijendary.spring.microservicetemplate.data.response.SampleResponse;
+import com.leijendary.spring.microservicetemplate.data.request.v1.SampleRequestV1;
+import com.leijendary.spring.microservicetemplate.data.response.v1.SampleResponseV1;
 import com.leijendary.spring.microservicetemplate.service.SampleTableService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -56,7 +56,7 @@ public class SampleController extends AppController {
     @GetMapping
     @PreAuthorize("hasAuthority('SCOPE_urn:sample:list:v1')")
     @ApiOperation("Sample implementation of swagger in a api")
-    public CompletableFuture<AppPage<SampleResponse>> list(QueryRequest queryRequest, Pageable pageable) {
+    public CompletableFuture<AppPage<SampleResponseV1>> list(QueryRequest queryRequest, Pageable pageable) {
         final var page = sampleTableService.list(queryRequest, pageable);
 
         return completedFuture(page);
@@ -66,7 +66,8 @@ public class SampleController extends AppController {
     @PreAuthorize("hasAuthority('SCOPE_urn:sample:create:v1')")
     @ResponseStatus(CREATED)
     @ApiOperation("Saves a sample record into the database")
-    public CompletableFuture<SampleResponse> create(@RequestBody SampleRequest request, HttpServletResponse response) {
+    public CompletableFuture<SampleResponseV1> create(
+            @RequestBody SampleRequestV1 request, HttpServletResponse response) {
         final var sampleResponse = sampleTableService.create(request);
 
         locationHeader(response, sampleResponse.getId());
@@ -77,7 +78,7 @@ public class SampleController extends AppController {
     @GetMapping("{id}")
     @PreAuthorize("hasAuthority('SCOPE_urn:sample:get:v1')")
     @ApiOperation("Retrieves the sample record from the database")
-    public CompletableFuture<SampleResponse> get(@PathVariable int id) {
+    public CompletableFuture<SampleResponseV1> get(@PathVariable int id) {
         final var sampleResponse = sampleTableService.get(id);
 
         return completedFuture(sampleResponse);
@@ -86,7 +87,7 @@ public class SampleController extends AppController {
     @PutMapping("{id}")
     @PreAuthorize("hasAuthority('SCOPE_urn:sample:update:v1')")
     @ApiOperation("Updates the sample record into the database")
-    public CompletableFuture<SampleResponse> update(@PathVariable int id, @RequestBody SampleRequest request) {
+    public CompletableFuture<SampleResponseV1> update(@PathVariable int id, @RequestBody SampleRequestV1 request) {
         final var sampleResponse = sampleTableService.update(id, request);
 
         return completedFuture(sampleResponse);
