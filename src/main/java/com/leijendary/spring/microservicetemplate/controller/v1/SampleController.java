@@ -25,12 +25,9 @@ import static org.springframework.http.MediaType.TEXT_HTML_VALUE;
 /**
  * This is an example of a controller that will be created in microservices.
  *
- * There are 3 parts of the {@link RequestMapping} url that we need to take note of:
+ * There are 2 parts of the {@link RequestMapping} url that we need to take note of:
  * 1. The version ("v1")
- * 2. The parent path of this API ("/") which can be anything that this specific controller should be doing.
- *
- * This example has a server.servlet.context-path=/sample set so the path here should result into the following:
- * "/sample/v1/"
+ * 2. The parent path of this API ("sample") which can be anything that this specific controller should be doing.
  *
  * The url paths should be in kebab-case except for the query parameters, body, and other URL parts in which they
  * should be in camelCase.
@@ -42,7 +39,7 @@ import static org.springframework.http.MediaType.TEXT_HTML_VALUE;
  * they have different mappings. The rest controller value will fix that
  */
 @RestController("SampleControllerV1")
-@RequestMapping("v1")
+@RequestMapping("/v1/sample")
 @RequiredArgsConstructor
 @Api("This is just a sample controller with a swagger documentation")
 public class SampleController extends AppController {

@@ -16,7 +16,7 @@ info:
     vendor-extensions:
 
 auth:
-  audience: http://localhost:8080/sample/v1
+  audience: http://localhost:8080
   realm: Microservice Template API v1
 
 cors:
@@ -118,5 +118,3 @@ server:
       enabled: false
   http2:
     enabled: true
-  servlet:
-    context-path: /sample
