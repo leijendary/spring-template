@@ -60,7 +60,9 @@ spring:
   jpa:
     open-in-view: false
     properties:
-      hibernate.jdbc.batch_size: 1000
+      hibernate:
+        jdbc:
+          batch_size: 1000
   messages:
     basename: messages.access, messages.error, messages.validation
   cache:
@@ -82,27 +84,59 @@ spring:
         enabled: false
     stream:
       bindings:
-        sampleResponseCreated1-in-0:
-          destination: ${info.app.artifact-id}.sample-response.created.v1
-        sampleResponseUpdated1-in-0:
-          destination: ${info.app.artifact-id}.sample-response.updated.v1
-        sampleResponseDeleted1-in-0:
-          destination: ${info.app.artifact-id}.sample-response.deleted.v1
+        sampleCreated-in-0:
+          destination: ${info.app.artifact-id}.sample.created
+        sampleCreated-out-0:
+          destination: ${info.app.artifact-id}.sample.created
+          producer:
+            use-native-encoding: true
+        sampleUpdated-in-0:
+          destination: ${info.app.artifact-id}.sample.updated
+        sampleUpdated-out-0:
+          destination: ${info.app.artifact-id}.sample.updated
+          producer:
+            use-native-encoding: true
+        sampleDeleted-in-0:
+          destination: ${info.app.artifact-id}.sample.deleted
+        sampleDeleted-out-0:
+          destination: ${info.app.artifact-id}.sample.deleted
+          producer:
+            use-native-encoding: true
       function:
         definition: >-
-          sampleResponseCreated1;
-          sampleResponseUpdated1;
-          sampleResponseDeleted1
+          sampleCreated;
+          sampleUpdated;
+          sampleDeleted
       kafka:
+        binder:
+          auto-add-partitions: true
         streams:
           binder:
+            configuration:
+              default:
+                key:
+                  serde: org.apache.kafka.common.serialization.Serdes$StringSerde
+                value:
+                  serde: io.confluent.kafka.streams.serdes.avro.SpecificAvroSerde
             functions:
-              sampleResponseCreated1:
-                application-id: ${info.app.organization}.${info.app.artifact-id}.sample-response.created.v1
-              sampleResponseUpdated1:
-                application-id: ${info.app.organization}.${info.app.artifact-id}.sample-response.updated.v1
-              sampleResponseDeleted1:
-                application-id: ${info.app.organization}.${info.app.artifact-id}.sample-response.deleted.v1
+              sampleCreated:
+                application-id: ${info.app.organization}.${info.app.artifact-id}.sample.created
+              sampleUpdated:
+                application-id: ${info.app.organization}.${info.app.artifact-id}.sample.updated
+              sampleDeleted:
+                application-id: ${info.app.organization}.${info.app.artifact-id}.sample.deleted
+  kafka:
+    bootstrap-servers:
+    consumer:
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: io.confluent.kafka.streams.serdes.avro.SpecificAvroDeserializer
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: io.confluent.kafka.streams.serdes.avro.SpecificAvroSerializer
+    properties:
+      schema:
+        registry:
+          url:
   security:
     oauth2:
       resourceserver:

@@ -1,6 +1,6 @@
 package com.leijendary.spring.microservicetemplate.event.consumer;
 
-import com.leijendary.spring.microservicetemplate.data.response.v1.SampleResponseV1;
+import com.leijendary.spring.microservicetemplate.event.schema.SampleSchema;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.streams.kstream.KStream;
@@ -12,20 +12,20 @@ import java.util.function.Consumer;
 @Configuration
 @RequiredArgsConstructor
 @Slf4j
-public class SampleResponseConsumer {
+public class SampleConsumer {
 
     @Bean
-    public Consumer<KStream<String, SampleResponseV1>> sampleResponseCreated1() {
+    public Consumer<KStream<String, SampleSchema>> sampleCreated() {
         return stream -> stream.foreach((key, value) -> log.info("Created: '{}', '{}'", key, value));
     }
 
     @Bean
-    public Consumer<KStream<String, SampleResponseV1>> sampleResponseUpdated1() {
+    public Consumer<KStream<String, SampleSchema>> sampleUpdated() {
         return stream -> stream.foreach((key, value) -> log.info("Updated: '{}', '{}'", key, value));
     }
 
     @Bean
-    public Consumer<KStream<String, SampleResponseV1>> sampleResponseDeleted1() {
+    public Consumer<KStream<String, SampleSchema>> sampleDeleted() {
         return stream -> stream.foreach((key, value) -> log.info("Deleted: '{}', '{}'", key, value));
     }
 }

@@ -2,6 +2,7 @@ package com.leijendary.spring.microservicetemplate.factory;
 
 import com.leijendary.spring.microservicetemplate.data.request.v1.SampleRequestV1;
 import com.leijendary.spring.microservicetemplate.data.response.v1.SampleResponseV1;
+import com.leijendary.spring.microservicetemplate.event.schema.SampleSchema;
 import com.leijendary.spring.microservicetemplate.factory.mapper.SampleRequestV1ToSampleTablePropertyMap;
 import com.leijendary.spring.microservicetemplate.model.SampleTable;
 import lombok.Getter;
@@ -31,6 +32,10 @@ public class SampleFactory {
 
     public static SampleResponseV1 toResponseV1(SampleTable sampleTable) {
         return getInstance().getMapper().map(sampleTable, SampleResponseV1.class);
+    }
+
+    public static SampleSchema toSchema(SampleTable sampleTable) {
+        return getInstance().getMapper().map(sampleTable, SampleSchema.class);
     }
 
     public static SampleTable of(SampleRequestV1 sampleRequest) {

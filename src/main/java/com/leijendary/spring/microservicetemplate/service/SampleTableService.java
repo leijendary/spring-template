@@ -4,7 +4,7 @@ import com.leijendary.spring.microservicetemplate.data.AppPage;
 import com.leijendary.spring.microservicetemplate.data.request.QueryRequest;
 import com.leijendary.spring.microservicetemplate.data.request.v1.SampleRequestV1;
 import com.leijendary.spring.microservicetemplate.data.response.v1.SampleResponseV1;
-import com.leijendary.spring.microservicetemplate.event.producer.SampleResponseProducer;
+import com.leijendary.spring.microservicetemplate.event.producer.SampleProducer;
 import com.leijendary.spring.microservicetemplate.exception.ResourceNotFoundException;
 import com.leijendary.spring.microservicetemplate.factory.AppPageFactory;
 import com.leijendary.spring.microservicetemplate.factory.SampleFactory;
@@ -23,7 +23,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class SampleTableService extends AppService {
 
-    private final SampleResponseProducer sampleResponseProducer;
+    private final SampleProducer sampleProducer;
     private final SampleRequestV1Validator sampleRequestV1Validator;
     private final SampleTableRepository sampleTableRepository;
 
@@ -47,8 +47,9 @@ public class SampleTableService extends AppService {
         sampleTableRepository.save(sampleTable);
 
         final var sampleResponse = SampleFactory.toResponseV1(sampleTable);
+        final var sampleSchema = SampleFactory.toSchema(sampleTable);
 
-        sampleResponseProducer.created1(sampleResponse);
+        sampleProducer.created(sampleSchema);
 
         return sampleResponse;
     }
@@ -65,8 +66,9 @@ public class SampleTableService extends AppService {
         sampleTableRepository.save(sampleTable);
 
         final var sampleResponse = SampleFactory.toResponseV1(sampleTable);
+        final var sampleSchema = SampleFactory.toSchema(sampleTable);
 
-        sampleResponseProducer.updated1(sampleResponse);
+        sampleProducer.updated(sampleSchema);
 
         return sampleResponse;
     }
@@ -86,9 +88,10 @@ public class SampleTableService extends AppService {
         final var sampleTable = sampleTableRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Sample Table", id));
         final var sampleResponse = SampleFactory.toResponseV1(sampleTable);
+        final var sampleSchema = SampleFactory.toSchema(sampleTable);
 
         sampleTableRepository.delete(sampleTable);
 
-        sampleResponseProducer.deleted1(sampleResponse);
+        sampleProducer.deleted(sampleSchema);
     }
 }

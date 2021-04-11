@@ -1,0 +1,19 @@
+{
+  "type": "record",
+  "namespace": "com.leijendary.spring.microservicetemplate.event.schema",
+  "name": "SampleSchema",
+  "fields": [
+    {
+      "name": "id",
+      "type": "int"
+    },
+    {
+      "name": "column1",
+      "type": "string"
+    },
+    {
+      "name": "column2",
+      "type": "int"
+    }
+  ]
+}

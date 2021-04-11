@@ -8,6 +8,9 @@ import sun.misc.Unsafe;
 public class MicroserviceTemplateApplication {
 
     public static void main(String[] args) {
+        // Disable devtools restart for avro
+        System.setProperty("spring.devtools.restart.enabled", "false");
+
         disableIllegalAccessLoggerWarning();
 
         SpringApplication.run(MicroserviceTemplateApplication.class, args);
