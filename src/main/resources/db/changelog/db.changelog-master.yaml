@@ -1,3 +1,3 @@
 databaseChangeLog:
   - include:
-      file: db/changelog/20200813_sample_table_01.yaml
+      file: db/changelog/db.changelog-0.0.1.yaml
