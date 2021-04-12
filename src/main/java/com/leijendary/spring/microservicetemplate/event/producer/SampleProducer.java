@@ -5,6 +5,8 @@ import org.springframework.cloud.stream.function.StreamBridge;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
+import java.util.concurrent.CompletableFuture;
+
 import static com.leijendary.spring.microservicetemplate.event.binding.SampleBinding.*;
 
 @Component
@@ -15,17 +17,17 @@ public class SampleProducer extends AppProducer<SampleSchema> {
     }
 
     @Async
-    public void created(SampleSchema sampleSchema) {
-        keyPayload(CREATED, String.valueOf(sampleSchema.getId()), sampleSchema);
+    public CompletableFuture<Boolean> created(SampleSchema sampleSchema) {
+        return keyPayload(CREATED, String.valueOf(sampleSchema.getId()), sampleSchema);
     }
 
     @Async
-    public void updated(SampleSchema sampleSchema) {
-        keyPayload(UPDATED, String.valueOf(sampleSchema.getId()), sampleSchema);
+    public CompletableFuture<Boolean> updated(SampleSchema sampleSchema) {
+        return keyPayload(UPDATED, String.valueOf(sampleSchema.getId()), sampleSchema);
     }
 
     @Async
-    public void deleted(SampleSchema sampleSchema) {
-        keyPayload(DELETED, String.valueOf(sampleSchema.getId()), sampleSchema);
+    public CompletableFuture<Boolean> deleted(SampleSchema sampleSchema) {
+        return keyPayload(DELETED, String.valueOf(sampleSchema.getId()), sampleSchema);
     }
 }
