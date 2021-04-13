@@ -1,5 +1,6 @@
 package com.leijendary.spring.microservicetemplate.model;
 
+import com.leijendary.spring.microservicetemplate.model.listener.SampleTableListener;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -8,6 +9,7 @@ import javax.persistence.*;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Entity
+@EntityListeners(SampleTableListener.class)
 public class SampleTable extends AppModel {
 
     @Id
