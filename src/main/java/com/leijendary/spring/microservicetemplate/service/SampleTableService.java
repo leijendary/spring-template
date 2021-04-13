@@ -18,6 +18,8 @@ import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import static com.leijendary.spring.microservicetemplate.factory.SampleFactory.toResponseV1;
+
 @Service
 @RequiredArgsConstructor
 public class SampleTableService extends AppService {
@@ -44,7 +46,7 @@ public class SampleTableService extends AppService {
 
         sampleTableRepository.save(sampleTable);
 
-        return SampleFactory.toResponseV1(sampleTable);
+        return toResponseV1(sampleTable);
     }
 
     @CachePut(value = "SampleResponseV1", key = "#id")
@@ -58,7 +60,7 @@ public class SampleTableService extends AppService {
 
         sampleTableRepository.save(sampleTable);
 
-        return SampleFactory.toResponseV1(sampleTable);
+        return toResponseV1(sampleTable);
     }
 
     @Cacheable(value = "SampleResponseV1", key = "#id")
