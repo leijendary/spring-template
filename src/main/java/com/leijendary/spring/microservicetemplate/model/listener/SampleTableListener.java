@@ -9,16 +9,11 @@ import javax.persistence.PostRemove;
 import javax.persistence.PostUpdate;
 
 import static com.leijendary.spring.microservicetemplate.factory.SampleFactory.toSchema;
-import static org.springframework.web.context.support.SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext;
 
-public class SampleTableListener {
+public class SampleTableListener extends AppEntityListener {
 
     @Inject
     private SampleProducer sampleProducer;
-
-    public SampleTableListener() {
-        processInjectionBasedOnCurrentContext(this);
-    }
 
     @PostPersist
     public void onSave(final SampleTable sampleTable) {
