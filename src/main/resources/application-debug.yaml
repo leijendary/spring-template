@@ -8,6 +8,9 @@ aspect:
 
 spring:
   jpa:
+    properties:
+      hibernate:
+        generate_statistics: true
     show-sql: true
 
 logging:
