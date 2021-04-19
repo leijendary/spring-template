@@ -10,7 +10,7 @@ import javax.persistence.PostUpdate;
 
 import static com.leijendary.spring.microservicetemplate.factory.SampleFactory.toSchema;
 
-public class SampleTableListener extends AppEntityListener {
+public class SampleTableListener {
 
     @Inject
     private SampleProducer sampleProducer;
