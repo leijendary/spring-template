@@ -27,7 +27,9 @@ import static org.springframework.http.MediaType.TEXT_HTML_VALUE;
  *
  * There are 2 parts of the {@link RequestMapping} url that we need to take note of:
  * 1. The version ("v1")
- * 2. The parent path of this API ("sample") which can be anything that this specific controller should be doing.
+ * 2. The parent path of this API ("/") which can be anything that this specific controller should be doing.
+ *
+ * Since this microservice uses a context path, the result of the url should be "/sample/v1"
  *
  * The url paths should be in kebab-case except for the query parameters, body, and other URL parts in which they
  * should be in camelCase.
@@ -39,7 +41,7 @@ import static org.springframework.http.MediaType.TEXT_HTML_VALUE;
  * they have different mappings. The rest controller value will fix that
  */
 @RestController("SampleControllerV1")
-@RequestMapping("/v1/sample")
+@RequestMapping("/v1")
 @RequiredArgsConstructor
 @Api("This is just a sample controller with a swagger documentation")
 public class SampleController extends AppController {

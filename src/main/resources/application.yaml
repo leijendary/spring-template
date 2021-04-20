@@ -152,3 +152,8 @@ server:
       enabled: false
   http2:
     enabled: true
+  tomcat:
+    threads:
+      max: 500
+  servlet:
+    context-path: /sample
