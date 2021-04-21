@@ -63,6 +63,6 @@ public class LoggingAspect {
             "execution(* com.leijendary.spring.microservicetemplate.config..*.*(..)) || " +
             "execution(* com.leijendary.spring.microservicetemplate.filter..*.*(..)) || " +
             "execution(* com.leijendary.spring.microservicetemplate.log..*.*(..)) || " +
-            "execution(* com.leijendary.spring.microservicetemplate.MicroserviceTemplateApplication..*(..))")
+            "execution(* com.leijendary.spring.microservicetemplate.Application..*(..))")
     public void excludedPointcut() {}
 }

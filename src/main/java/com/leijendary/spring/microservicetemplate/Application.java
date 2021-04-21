@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import sun.misc.Unsafe;
 
 @SpringBootApplication
-public class MicroserviceTemplateApplication {
+public class Application {
 
     public static void main(String[] args) {
         // Disable devtools restart for avro
@@ -13,7 +13,7 @@ public class MicroserviceTemplateApplication {
 
         disableIllegalAccessLoggerWarning();
 
-        SpringApplication.run(MicroserviceTemplateApplication.class, args);
+        SpringApplication.run(Application.class, args);
     }
 
     public static void disableIllegalAccessLoggerWarning() {
