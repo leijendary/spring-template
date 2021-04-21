@@ -1,13 +1,12 @@
 package com.leijendary.spring.microservicetemplate.log;
 
 import com.leijendary.spring.microservicetemplate.config.properties.AspectProperties;
+import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StopWatch;
@@ -15,9 +14,8 @@ import org.springframework.util.StopWatch;
 @Component
 @ConditionalOnExpression("${aspect.logging.enabled:false}")
 @Aspect
+@Slf4j
 public class LoggingAspect {
-
-    public static final Logger logger = LoggerFactory.getLogger(LoggingAspect.class);
 
     private final long time;
 
@@ -28,7 +26,7 @@ public class LoggingAspect {
     @Around("includedPointcut() && !excludedPointcut()")
     public Object methodTimeLogger(final ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
         // Set aspect.execution.time to -1 to disable execution timer
-        if (!logger.isWarnEnabled() || time < 0) {
+        if (!log.isWarnEnabled() || time < 0) {
             return proceedingJoinPoint.proceed();
         }
 
@@ -50,7 +48,7 @@ public class LoggingAspect {
         if (resultTime >= time) {
             final var executionTime = String.format("%s running time :: %sms", stopWatch.getId(), resultTime);
 
-            logger.warn(executionTime);
+            log.warn(executionTime);
         }
 
         return result;
