@@ -29,11 +29,12 @@ import static org.springframework.http.MediaType.TEXT_PLAIN_VALUE;
 /**
  * This is an example of a controller that will be created in microservices.
  *
- * There are 2 parts of the {@link RequestMapping} url that we need to take note of:
- * 1. The version ("v1")
- * 2. The parent path of this API ("/") which can be anything that this specific controller should be doing.
+ * There are 3 parts of the {@link RequestMapping} url that we need to take note of:
+ * 1. The api prefix ("api")
+ * 2. The version ("v1")
+ * 3. The parent path of this API ("/") which can be anything that this specific controller should be doing.
  *
- * Since this microservice uses a context path, the result of the url should be "/sample/v1"
+ * Since this microservice uses a context path, the result of the url should be "/sample/api/v1"
  *
  * The url paths should be in kebab-case except for the query parameters, body, and other URL parts in which they
  * should be in camelCase.
@@ -41,7 +42,7 @@ import static org.springframework.http.MediaType.TEXT_PLAIN_VALUE;
  * For headers, I would recommend that the Header keys should be in Pascal-Kebab-Case
  */
 @RestController
-@RequestMapping("v1")
+@RequestMapping("api/v1")
 @RequiredArgsConstructor
 @Api("This is just a sample controller with a swagger documentation")
 public class SampleControllerV1 extends AppController {
