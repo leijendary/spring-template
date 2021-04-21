@@ -2,15 +2,15 @@ package com.leijendary.spring.microservicetemplate.util;
 
 import org.springframework.util.Assert;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.servlet.support.RequestContextUtils;
 
 import javax.servlet.http.HttpServletRequest;
-import java.time.ZoneId;
+import java.util.Locale;
+import java.util.Optional;
 import java.util.TimeZone;
 
 import static java.util.Optional.ofNullable;
-import static java.util.TimeZone.getDefault;
 import static org.springframework.web.context.request.RequestContextHolder.getRequestAttributes;
-import static org.springframework.web.servlet.support.RequestContextUtils.getTimeZone;
 
 public class RequestContextUtil {
 
@@ -26,9 +26,13 @@ public class RequestContextUtil {
         return getCurrentRequest().getRequestURI();
     }
 
-    public static ZoneId getZoneId() {
-        return ofNullable(getTimeZone(getCurrentRequest()))
-                .map(TimeZone::toZoneId)
-                .orElse(getDefault().toZoneId());
+    public static TimeZone getTimeZone() {
+        return ofNullable(RequestContextUtils.getTimeZone(getCurrentRequest()))
+                .orElse(TimeZone.getDefault());
+    }
+
+    public static Locale getLocale() {
+        return Optional.of(RequestContextUtils.getLocale(getCurrentRequest()))
+                .orElse(Locale.getDefault());
     }
 }

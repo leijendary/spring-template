@@ -7,6 +7,7 @@ import com.leijendary.spring.microservicetemplate.data.request.QueryRequest;
 import com.leijendary.spring.microservicetemplate.data.request.v1.SampleRequestV1;
 import com.leijendary.spring.microservicetemplate.data.response.v1.SampleResponseV1;
 import com.leijendary.spring.microservicetemplate.service.SampleTableService;
+import com.leijendary.spring.microservicetemplate.util.RequestContextUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -15,12 +16,15 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
+import java.time.format.TextStyle;
+import java.util.Locale;
 import java.util.concurrent.CompletableFuture;
 
 import static java.util.concurrent.CompletableFuture.completedFuture;
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.NO_CONTENT;
 import static org.springframework.http.MediaType.TEXT_HTML_VALUE;
+import static org.springframework.http.MediaType.TEXT_PLAIN_VALUE;
 
 /**
  * This is an example of a controller that will be created in microservices.
@@ -104,5 +108,20 @@ public class SampleControllerV1 extends AppController {
     @GetMapping(value = "client", produces = TEXT_HTML_VALUE)
     public String client() {
         return sampleClient.homepage();
+    }
+
+    @GetMapping(value = "timezone", produces = TEXT_PLAIN_VALUE)
+    public String timezone() {
+        final var timeZone = RequestContextUtil.getTimeZone();
+        final var zoneId = timeZone.toZoneId();
+        final var displayName = zoneId.getDisplayName(TextStyle.FULL, Locale.getDefault());
+        final var id = zoneId.getId();
+
+        return String.format("%s %s", displayName, id);
+    }
+
+    @GetMapping(value = "locale", produces = TEXT_PLAIN_VALUE)
+    public String locale() {
+        return RequestContextUtil.getLocale().toString();
     }
 }
