@@ -35,16 +35,12 @@ import static org.springframework.http.MediaType.TEXT_HTML_VALUE;
  * should be in camelCase.
  *
  * For headers, I would recommend that the Header keys should be in Pascal-Kebab-Case
- *
- * Note: the {@link @RestController} annotation has a value of "<ControllerName><version>" because on multiple
- * versioned rest controllers, Mocky will throw an error when the same controller name is found even though
- * they have different mappings. The rest controller value will fix that
  */
-@RestController("SampleControllerV1")
-@RequestMapping("/v1")
+@RestController
+@RequestMapping("v1")
 @RequiredArgsConstructor
 @Api("This is just a sample controller with a swagger documentation")
-public class SampleController extends AppController {
+public class SampleControllerV1 extends AppController {
 
     private final SampleClient sampleClient;
     private final SampleTableService sampleTableService;
