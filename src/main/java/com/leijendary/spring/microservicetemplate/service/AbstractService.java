@@ -4,7 +4,7 @@ import com.leijendary.spring.microservicetemplate.exception.ValidationException;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.Validator;
 
-public abstract class AppService {
+public abstract class AbstractService {
 
     protected <T> void validate(Validator validator, Object target, Class<T> tClass) {
         final var errors = new BeanPropertyBindingResult(target, tClass.getName());

@@ -22,7 +22,7 @@ import static com.leijendary.spring.microservicetemplate.factory.SampleFactory.t
 
 @Service
 @RequiredArgsConstructor
-public class SampleTableService extends AppService {
+public class SampleTableService extends AbstractService {
 
     private final SampleRequestV1Validator sampleRequestV1Validator;
     private final SampleTableRepository sampleTableRepository;

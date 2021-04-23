@@ -1,7 +1,7 @@
 package com.leijendary.spring.microservicetemplate.controller.v1;
 
 import com.leijendary.spring.microservicetemplate.client.SampleClient;
-import com.leijendary.spring.microservicetemplate.controller.AppController;
+import com.leijendary.spring.microservicetemplate.controller.AbstractController;
 import com.leijendary.spring.microservicetemplate.data.AppPage;
 import com.leijendary.spring.microservicetemplate.data.request.QueryRequest;
 import com.leijendary.spring.microservicetemplate.data.request.v1.SampleRequestV1;
@@ -45,7 +45,7 @@ import static org.springframework.http.MediaType.TEXT_PLAIN_VALUE;
 @RequestMapping("api/v1")
 @RequiredArgsConstructor
 @Api("This is just a sample controller with a swagger documentation")
-public class SampleControllerV1 extends AppController {
+public class SampleControllerV1 extends AbstractController {
 
     private final SampleClient sampleClient;
     private final SampleTableService sampleTableService;
