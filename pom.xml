@@ -233,7 +233,7 @@
                 <version>${avro-maven-plugin.version}</version>
                 <executions>
                     <execution>
-                        <id>schema</id>
+                        <id>schemas</id>
                         <phase>generate-sources</phase>
                         <goals>
                             <goal>schema</goal>
