@@ -2,7 +2,7 @@ package com.leijendary.spring.microservicetemplate.data.response;
 
 import lombok.AllArgsConstructor;
 
-import java.util.Map;
+import java.util.List;
 
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 
@@ -11,7 +11,7 @@ public class ValidationResponse implements ErrorResponse {
 
     private final String error;
     private final String message;
-    private final Map<String, String> validations;
+    private final List<FieldValidationError> validations;
 
     @Override
     public int getStatus() {
@@ -28,7 +28,7 @@ public class ValidationResponse implements ErrorResponse {
         return this.message;
     }
 
-    public Map<String, String> getValidations() {
+    public List<FieldValidationError> getValidations() {
         return this.validations;
     }
 }
