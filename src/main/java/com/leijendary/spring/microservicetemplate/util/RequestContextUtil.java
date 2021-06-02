@@ -5,6 +5,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.support.RequestContextUtils;
 
 import javax.servlet.http.HttpServletRequest;
+import java.net.URI;
 import java.util.Locale;
 import java.util.Optional;
 import java.util.TimeZone;
@@ -24,6 +25,17 @@ public class RequestContextUtil {
 
     public static String getPath() {
         return getCurrentRequest().getRequestURI();
+    }
+
+    public static URI uri() {
+        var uri = getCurrentRequest().getRequestURI();
+        final var params = getCurrentRequest().getQueryString();
+
+        if (Optional.ofNullable(params).isPresent()) {
+            uri += "?" + params;
+        }
+
+        return URI.create(uri);
     }
 
     public static TimeZone getTimeZone() {

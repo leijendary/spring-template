@@ -155,5 +155,6 @@ server:
   servlet:
     context-path: /sample
   tomcat:
+    relaxed-query-chars: '[,]'
     threads:
       max: 500

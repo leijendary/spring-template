@@ -22,6 +22,7 @@
         <modelmapper.version>2.3.8</modelmapper.version>
         <springfox.version>3.0.0</springfox.version>
         <spring-cloud.version>2020.0.2</spring-cloud.version>
+        <spring-hateoas-jsonapi.version>0.17.0</spring-hateoas-jsonapi.version>
     </properties>
 
     <dependencies>
@@ -73,6 +74,10 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-hateoas</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.retry</groupId>

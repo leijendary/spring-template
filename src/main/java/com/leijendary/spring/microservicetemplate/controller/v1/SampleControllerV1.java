@@ -2,9 +2,9 @@ package com.leijendary.spring.microservicetemplate.controller.v1;
 
 import com.leijendary.spring.microservicetemplate.client.SampleClient;
 import com.leijendary.spring.microservicetemplate.controller.AbstractController;
-import com.leijendary.spring.microservicetemplate.data.AppPage;
 import com.leijendary.spring.microservicetemplate.data.request.QueryRequest;
 import com.leijendary.spring.microservicetemplate.data.request.v1.SampleRequestV1;
+import com.leijendary.spring.microservicetemplate.data.response.DataResponse;
 import com.leijendary.spring.microservicetemplate.data.response.v1.SampleResponseV1;
 import com.leijendary.spring.microservicetemplate.service.SampleTableService;
 import com.leijendary.spring.microservicetemplate.util.RequestContextUtil;
@@ -17,12 +17,13 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.time.format.TextStyle;
+import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.CompletableFuture;
 
+import static com.leijendary.spring.microservicetemplate.controller.AbstractController.BASE_API_PATH;
 import static java.util.concurrent.CompletableFuture.completedFuture;
-import static org.springframework.http.HttpStatus.CREATED;
-import static org.springframework.http.HttpStatus.NO_CONTENT;
+import static org.springframework.http.HttpStatus.*;
 import static org.springframework.http.MediaType.TEXT_HTML_VALUE;
 import static org.springframework.http.MediaType.TEXT_PLAIN_VALUE;
 
@@ -42,7 +43,7 @@ import static org.springframework.http.MediaType.TEXT_PLAIN_VALUE;
  * For headers, I would recommend that the Header keys should be in Pascal-Kebab-Case
  */
 @RestController
-@RequestMapping("api/v1")
+@RequestMapping(BASE_API_PATH + "/v1")
 @RequiredArgsConstructor
 @Api("This is just a sample controller with a swagger documentation")
 public class SampleControllerV1 extends AbstractController {
@@ -59,41 +60,61 @@ public class SampleControllerV1 extends AbstractController {
     @GetMapping
     @PreAuthorize("hasAuthority('SCOPE_urn:sample:list:v1')")
     @ApiOperation("Sample implementation of swagger in a api")
-    public CompletableFuture<AppPage<SampleResponseV1>> list(QueryRequest queryRequest, Pageable pageable) {
+    public CompletableFuture<DataResponse<List<SampleResponseV1>>> list(QueryRequest queryRequest, Pageable pageable) {
         final var page = sampleTableService.list(queryRequest, pageable);
+        final var response = DataResponse.<List<SampleResponseV1>>builder()
+                .data(page.getContent())
+                .meta(page)
+                .links(page)
+                .object("SampleResponse")
+                .build();
 
-        return completedFuture(page);
+        return completedFuture(response);
     }
 
     @PostMapping
     @PreAuthorize("hasAuthority('SCOPE_urn:sample:create:v1')")
     @ResponseStatus(CREATED)
     @ApiOperation("Saves a sample record into the database")
-    public CompletableFuture<SampleResponseV1> create(
-            @RequestBody SampleRequestV1 request, HttpServletResponse response) {
+    public CompletableFuture<DataResponse<SampleResponseV1>> create(
+            @RequestBody SampleRequestV1 request, HttpServletResponse httpServletResponse) {
         final var sampleResponse = sampleTableService.create(request);
+        final var response = DataResponse.<SampleResponseV1>builder()
+                .data(sampleResponse)
+                .status(CREATED)
+                .object("SampleResponse")
+                .build();
 
-        locationHeader(response, sampleResponse.getId());
+        locationHeader(httpServletResponse, sampleResponse.getId());
 
-        return completedFuture(sampleResponse);
+        return completedFuture(response);
     }
 
     @GetMapping("{id}")
     @PreAuthorize("hasAuthority('SCOPE_urn:sample:get:v1')")
     @ApiOperation("Retrieves the sample record from the database")
-    public CompletableFuture<SampleResponseV1> get(@PathVariable int id) {
+    public CompletableFuture<DataResponse<SampleResponseV1>> get(@PathVariable int id) {
         final var sampleResponse = sampleTableService.get(id);
+        final var response = DataResponse.<SampleResponseV1>builder()
+                .data(sampleResponse)
+                .object("SampleResponse")
+                .build();
 
-        return completedFuture(sampleResponse);
+        return completedFuture(response);
     }
 
     @PutMapping("{id}")
     @PreAuthorize("hasAuthority('SCOPE_urn:sample:update:v1')")
     @ApiOperation("Updates the sample record into the database")
-    public CompletableFuture<SampleResponseV1> update(@PathVariable int id, @RequestBody SampleRequestV1 request) {
+    public CompletableFuture<DataResponse<SampleResponseV1>> update(
+            @PathVariable int id, @RequestBody SampleRequestV1 request) {
         final var sampleResponse = sampleTableService.update(id, request);
+        final var response = DataResponse.<SampleResponseV1>builder()
+                .data(sampleResponse)
+                .object("SampleResponse")
+                .build();
 
-        return completedFuture(sampleResponse);
+        return completedFuture(response);
     }
 
     @DeleteMapping ("{id}")

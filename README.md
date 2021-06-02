@@ -25,6 +25,7 @@
 - Spring Cloud Stream
 - Spring Cloud Stream Binder Kafka Streams
 - Spring Configuration Processor
+- Spring HATEOAS
 - Spring Devtools
 - Kafka Streams
 - PostgreSQL

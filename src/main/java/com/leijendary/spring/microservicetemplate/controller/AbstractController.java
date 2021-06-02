@@ -7,6 +7,8 @@ import static org.springframework.http.HttpHeaders.LOCATION;
 
 public abstract class AbstractController {
 
+    public static final String BASE_API_PATH = "/api";
+
     protected void locationHeader(final HttpServletResponse response, final int id) {
         response.setHeader(LOCATION, toLocation(id));
     }

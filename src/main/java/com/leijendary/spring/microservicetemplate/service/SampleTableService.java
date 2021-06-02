@@ -1,11 +1,9 @@
 package com.leijendary.spring.microservicetemplate.service;
 
-import com.leijendary.spring.microservicetemplate.data.AppPage;
 import com.leijendary.spring.microservicetemplate.data.request.QueryRequest;
 import com.leijendary.spring.microservicetemplate.data.request.v1.SampleRequestV1;
 import com.leijendary.spring.microservicetemplate.data.response.v1.SampleResponseV1;
 import com.leijendary.spring.microservicetemplate.exception.ResourceNotFoundException;
-import com.leijendary.spring.microservicetemplate.factory.AppPageFactory;
 import com.leijendary.spring.microservicetemplate.factory.SampleFactory;
 import com.leijendary.spring.microservicetemplate.repository.SampleTableRepository;
 import com.leijendary.spring.microservicetemplate.specification.SampleListSpecification;
@@ -15,6 +13,7 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -27,15 +26,14 @@ public class SampleTableService extends AbstractService {
     private final SampleRequestV1Validator sampleRequestV1Validator;
     private final SampleTableRepository sampleTableRepository;
 
-    @Cacheable(value = "SampleResponsePageV1", key = "#queryRequest.toString() + '|' + #pageable.toString()")
-    public AppPage<SampleResponseV1> list(final QueryRequest queryRequest, final Pageable pageable) {
+    // @Cacheable(value = "SampleResponsePageV1", key = "#queryRequest.toString() + '|' + #pageable.toString()")
+    public Page<SampleResponseV1> list(final QueryRequest queryRequest, final Pageable pageable) {
         final var specification = SampleListSpecification.builder()
                 .column1(queryRequest.getQuery())
                 .build();
-        final var page = sampleTableRepository.findAll(specification, pageable)
-                .map(SampleFactory::toResponseV1);
 
-        return AppPageFactory.of(page);
+        return sampleTableRepository.findAll(specification, pageable)
+                .map(SampleFactory::toResponseV1);
     }
 
     @CachePut(value = "SampleResponseV1", key = "#result.id")
