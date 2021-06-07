@@ -2,6 +2,7 @@ package com.leijendary.spring.microservicetemplate.error;
 
 import com.leijendary.spring.microservicetemplate.data.response.ErrorResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.MessageSource;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -12,6 +13,7 @@ import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 
 @RestControllerAdvice
 @RequiredArgsConstructor
+@Slf4j
 public class GlobalExceptionHandler {
 
     private final MessageSource messageSource;
@@ -21,6 +23,8 @@ public class GlobalExceptionHandler {
     public ErrorResponse catchException(final Exception exception) {
         final var code = "error.generic";
         final var error = messageSource.getMessage(code, new Object[0], getDefault());
+
+        log.error("Global Exception", exception);
 
         return ErrorResponse.builder()
                 .addError(error, code, exception.getMessage())

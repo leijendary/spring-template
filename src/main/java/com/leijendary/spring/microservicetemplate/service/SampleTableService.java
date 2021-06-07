@@ -17,6 +17,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 import static com.leijendary.spring.microservicetemplate.factory.SampleFactory.toResponseV1;
 
 @Service
@@ -26,7 +28,7 @@ public class SampleTableService extends AbstractService {
     private final SampleRequestV1Validator sampleRequestV1Validator;
     private final SampleTableRepository sampleTableRepository;
 
-    // @Cacheable(value = "SampleResponsePageV1", key = "#queryRequest.toString() + '|' + #pageable.toString()")
+    @Cacheable(value = "SampleResponsePageV1", key = "#queryRequest.toString() + '|' + #pageable.toString()")
     public Page<SampleResponseV1> list(final QueryRequest queryRequest, final Pageable pageable) {
         final var specification = SampleListSpecification.builder()
                 .column1(queryRequest.getQuery())
@@ -48,7 +50,7 @@ public class SampleTableService extends AbstractService {
     }
 
     @CachePut(value = "SampleResponseV1", key = "#id")
-    public SampleResponseV1 update(final int id, final SampleRequestV1 sampleRequest) {
+    public SampleResponseV1 update(final UUID id, final SampleRequestV1 sampleRequest) {
         final var sampleTable = sampleTableRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Sample Table", id));
 
@@ -62,7 +64,7 @@ public class SampleTableService extends AbstractService {
     }
 
     @Cacheable(value = "SampleResponseV1", key = "#id")
-    public SampleResponseV1 get(final int id) {
+    public SampleResponseV1 get(final UUID id) {
         return sampleTableRepository
                 .findById(id)
                 .map(SampleFactory::toResponseV1)
@@ -72,7 +74,7 @@ public class SampleTableService extends AbstractService {
     @Caching(evict = {
             @CacheEvict(value = "SampleResponsePageV1", allEntries = true),
             @CacheEvict(value = "SampleResponseV1", key = "#id") })
-    public void delete(final int id) {
+    public void delete(final UUID id) {
         final var sampleTable = sampleTableRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Sample Table", id));
 

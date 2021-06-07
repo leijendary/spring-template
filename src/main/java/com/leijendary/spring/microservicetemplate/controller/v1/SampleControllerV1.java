@@ -19,11 +19,13 @@ import javax.servlet.http.HttpServletResponse;
 import java.time.format.TextStyle;
 import java.util.List;
 import java.util.Locale;
+import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
 import static com.leijendary.spring.microservicetemplate.controller.AbstractController.BASE_API_PATH;
 import static java.util.concurrent.CompletableFuture.completedFuture;
-import static org.springframework.http.HttpStatus.*;
+import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.HttpStatus.NO_CONTENT;
 import static org.springframework.http.MediaType.TEXT_HTML_VALUE;
 import static org.springframework.http.MediaType.TEXT_PLAIN_VALUE;
 
@@ -93,7 +95,7 @@ public class SampleControllerV1 extends AbstractController {
     @GetMapping("{id}")
     @PreAuthorize("hasAuthority('SCOPE_urn:sample:get:v1')")
     @ApiOperation("Retrieves the sample record from the database")
-    public CompletableFuture<DataResponse<SampleResponseV1>> get(@PathVariable int id) {
+    public CompletableFuture<DataResponse<SampleResponseV1>> get(@PathVariable UUID id) {
         final var sampleResponse = sampleTableService.get(id);
         final var response = DataResponse.<SampleResponseV1>builder()
                 .data(sampleResponse)
@@ -107,7 +109,7 @@ public class SampleControllerV1 extends AbstractController {
     @PreAuthorize("hasAuthority('SCOPE_urn:sample:update:v1')")
     @ApiOperation("Updates the sample record into the database")
     public CompletableFuture<DataResponse<SampleResponseV1>> update(
-            @PathVariable int id, @RequestBody SampleRequestV1 request) {
+            @PathVariable UUID id, @RequestBody SampleRequestV1 request) {
         final var sampleResponse = sampleTableService.update(id, request);
         final var response = DataResponse.<SampleResponseV1>builder()
                 .data(sampleResponse)
@@ -121,7 +123,7 @@ public class SampleControllerV1 extends AbstractController {
     @PreAuthorize("hasAuthority('SCOPE_urn:sample:delete:v1')")
     @ResponseStatus(NO_CONTENT)
     @ApiOperation("Removes the sample record from the database")
-    public CompletableFuture<Void> delete(@PathVariable int id) {
+    public CompletableFuture<Void> delete(@PathVariable UUID id) {
         sampleTableService.delete(id);
 
         return completedFuture(null);

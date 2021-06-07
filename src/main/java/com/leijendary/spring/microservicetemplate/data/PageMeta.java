@@ -17,6 +17,6 @@ public class PageMeta {
         this.totalPages = page.getTotalPages();
         this.totalElements = page.getTotalElements();
         this.size = page.getSize();
-        this.page = page.getNumber();
+        this.page = page.getNumber() + 1;
     }
 }

@@ -9,11 +9,11 @@ public abstract class AbstractController {
 
     public static final String BASE_API_PATH = "/api";
 
-    protected void locationHeader(final HttpServletResponse response, final int id) {
+    protected void locationHeader(final HttpServletResponse response, final Object id) {
         response.setHeader(LOCATION, toLocation(id));
     }
 
-    protected String toLocation(final int id) {
+    protected String toLocation(final Object id) {
         var path = getPath();
 
         if (!path.endsWith("/")) {

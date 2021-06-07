@@ -1,5 +1,10 @@
 databaseChangeLog:
   - changeSet:
+      id: enable-uuid-ossp
+      author: Leijendekker
+      changes:
+        sql: CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+  - changeSet:
       id: create-sample-table
       author: Leijendekker
       changes:
@@ -7,10 +12,10 @@ databaseChangeLog:
             columns:
               - column:
                   name: id
-                  type: int unsigned
+                  type: uuid
                   constraints:
                     nullable: false
-                  autoIncrement: true
+                  defaultValueComputed: uuid_generate_v4()
               - column:
                   name: column_1
                   type: varchar(100)
@@ -18,3 +23,21 @@ databaseChangeLog:
                   name: column_2
                   type: int
             tableName: sample_table
+  - changeSet:
+      id: sample-table-primary-key
+      author: Leijendekker
+      changes:
+        - addPrimaryKey:
+            columnNames: id
+            constraintName: pk_sample_table
+            tableName: sample_table
+            validate: true
+  - changeSet:
+      id: sample-table-id-unique-constraint
+      author: Leijendekker
+      changes:
+        - addUniqueConstraint:
+            columnNames: id
+            constraintName: uidx_sample_table_id
+            tableName: sample_table
+            validate: true

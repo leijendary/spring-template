@@ -14,15 +14,15 @@ public class SampleListSpecification implements Specification<SampleTable> {
     private final String column1;
 
     @Override
-    public Predicate toPredicate(Root<SampleTable> root, CriteriaQuery<?> criteriaQuery,
-                                 CriteriaBuilder criteriaBuilder) {
+    public Predicate toPredicate(final Root<SampleTable> root, final CriteriaQuery<?> criteriaQuery,
+                                 final CriteriaBuilder criteriaBuilder) {
         if (isBlank(this.column1)) {
             return criteriaQuery.where().getRestriction();
         }
 
-        Path<String> column1 = root.get("column1");
-        Expression<String> upperColumn1 = criteriaBuilder.upper(column1);
-        Predicate like = criteriaBuilder.like(upperColumn1, "%" + this.column1.toUpperCase() + "%");
+        final var column1 = root.<String>get("column1");
+        final var upperColumn1 = criteriaBuilder.upper(column1);
+        final var like = criteriaBuilder.like(upperColumn1, "%" + this.column1.toUpperCase() + "%");
 
         return criteriaQuery.where(like).getRestriction();
     }

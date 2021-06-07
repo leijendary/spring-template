@@ -13,8 +13,8 @@ import org.apache.avro.util.Utf8;
 
 @org.apache.avro.specific.AvroGenerated
 public class SampleSchema extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
-  private static final long serialVersionUID = 7614158753580775808L;
-  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"SampleSchema\",\"namespace\":\"com.leijendary.spring.microservicetemplate.event.schema\",\"fields\":[{\"name\":\"id\",\"type\":\"int\"},{\"name\":\"column1\",\"type\":\"string\"},{\"name\":\"column2\",\"type\":\"int\"}]}");
+  private static final long serialVersionUID = 2201574032239015496L;
+  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"SampleSchema\",\"namespace\":\"com.leijendary.spring.microservicetemplate.event.schema\",\"fields\":[{\"name\":\"id\",\"type\":\"string\"},{\"name\":\"column1\",\"type\":\"string\"},{\"name\":\"column2\",\"type\":\"int\"}]}");
   public static org.apache.avro.Schema getClassSchema() { return SCHEMA$; }
 
   private static SpecificData MODEL$ = new SpecificData();
@@ -70,7 +70,7 @@ public class SampleSchema extends org.apache.avro.specific.SpecificRecordBase im
     return DECODER.decode(b);
   }
 
-   private int id;
+   private java.lang.CharSequence id;
    private java.lang.CharSequence column1;
    private int column2;
 
@@ -87,7 +87,7 @@ public class SampleSchema extends org.apache.avro.specific.SpecificRecordBase im
    * @param column1 The new value for column1
    * @param column2 The new value for column2
    */
-  public SampleSchema(java.lang.Integer id, java.lang.CharSequence column1, java.lang.Integer column2) {
+  public SampleSchema(java.lang.CharSequence id, java.lang.CharSequence column1, java.lang.Integer column2) {
     this.id = id;
     this.column1 = column1;
     this.column2 = column2;
@@ -109,7 +109,7 @@ public class SampleSchema extends org.apache.avro.specific.SpecificRecordBase im
   @SuppressWarnings(value="unchecked")
   public void put(int field$, java.lang.Object value$) {
     switch (field$) {
-    case 0: id = (java.lang.Integer)value$; break;
+    case 0: id = (java.lang.CharSequence)value$; break;
     case 1: column1 = (java.lang.CharSequence)value$; break;
     case 2: column2 = (java.lang.Integer)value$; break;
     default: throw new IndexOutOfBoundsException("Invalid index: " + field$);
@@ -120,7 +120,7 @@ public class SampleSchema extends org.apache.avro.specific.SpecificRecordBase im
    * Gets the value of the 'id' field.
    * @return The value of the 'id' field.
    */
-  public int getId() {
+  public java.lang.CharSequence getId() {
     return id;
   }
 
@@ -129,7 +129,7 @@ public class SampleSchema extends org.apache.avro.specific.SpecificRecordBase im
    * Sets the value of the 'id' field.
    * @param value the value to set.
    */
-  public void setId(int value) {
+  public void setId(java.lang.CharSequence value) {
     this.id = value;
   }
 
@@ -208,7 +208,7 @@ public class SampleSchema extends org.apache.avro.specific.SpecificRecordBase im
   public static class Builder extends org.apache.avro.specific.SpecificRecordBuilderBase<SampleSchema>
     implements org.apache.avro.data.RecordBuilder<SampleSchema> {
 
-    private int id;
+    private java.lang.CharSequence id;
     private java.lang.CharSequence column1;
     private int column2;
 
@@ -261,7 +261,7 @@ public class SampleSchema extends org.apache.avro.specific.SpecificRecordBase im
       * Gets the value of the 'id' field.
       * @return The value.
       */
-    public int getId() {
+    public java.lang.CharSequence getId() {
       return id;
     }
 
@@ -271,7 +271,7 @@ public class SampleSchema extends org.apache.avro.specific.SpecificRecordBase im
       * @param value The value of 'id'.
       * @return This builder.
       */
-    public com.leijendary.spring.microservicetemplate.event.schema.SampleSchema.Builder setId(int value) {
+    public com.leijendary.spring.microservicetemplate.event.schema.SampleSchema.Builder setId(java.lang.CharSequence value) {
       validate(fields()[0], value);
       this.id = value;
       fieldSetFlags()[0] = true;
@@ -292,6 +292,7 @@ public class SampleSchema extends org.apache.avro.specific.SpecificRecordBase im
       * @return This builder.
       */
     public com.leijendary.spring.microservicetemplate.event.schema.SampleSchema.Builder clearId() {
+      id = null;
       fieldSetFlags()[0] = false;
       return this;
     }
@@ -380,7 +381,7 @@ public class SampleSchema extends org.apache.avro.specific.SpecificRecordBase im
     public SampleSchema build() {
       try {
         SampleSchema record = new SampleSchema();
-        record.id = fieldSetFlags()[0] ? this.id : (java.lang.Integer) defaultValue(fields()[0]);
+        record.id = fieldSetFlags()[0] ? this.id : (java.lang.CharSequence) defaultValue(fields()[0]);
         record.column1 = fieldSetFlags()[1] ? this.column1 : (java.lang.CharSequence) defaultValue(fields()[1]);
         record.column2 = fieldSetFlags()[2] ? this.column2 : (java.lang.Integer) defaultValue(fields()[2]);
         return record;
@@ -415,7 +416,7 @@ public class SampleSchema extends org.apache.avro.specific.SpecificRecordBase im
   @Override public void customEncode(org.apache.avro.io.Encoder out)
     throws java.io.IOException
   {
-    out.writeInt(this.id);
+    out.writeString(this.id);
 
     out.writeString(this.column1);
 
@@ -428,7 +429,7 @@ public class SampleSchema extends org.apache.avro.specific.SpecificRecordBase im
   {
     org.apache.avro.Schema.Field[] fieldOrder = in.readFieldOrderIfDiff();
     if (fieldOrder == null) {
-      this.id = in.readInt();
+      this.id = in.readString(this.id instanceof Utf8 ? (Utf8)this.id : null);
 
       this.column1 = in.readString(this.column1 instanceof Utf8 ? (Utf8)this.column1 : null);
 
@@ -438,7 +439,7 @@ public class SampleSchema extends org.apache.avro.specific.SpecificRecordBase im
       for (int i = 0; i < 3; i++) {
         switch (fieldOrder[i].pos()) {
         case 0:
-          this.id = in.readInt();
+          this.id = in.readString(this.id instanceof Utf8 ? (Utf8)this.id : null);
           break;
 
         case 1:
