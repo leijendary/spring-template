@@ -38,7 +38,9 @@ public class SampleTableService extends AbstractService {
                 .map(SampleFactory::toResponseV1);
     }
 
-    @CachePut(value = "SampleResponseV1", key = "#result.id")
+    @Caching(
+            evict = @CacheEvict(value = "SampleResponsePageV1", allEntries = true),
+            put = @CachePut(value = "SampleResponseV1", key = "#result.id"))
     public SampleResponseV1 create(final SampleRequestV1 sampleRequest) {
         validate(sampleRequestV1Validator, sampleRequest, SampleRequestV1.class);
 
@@ -49,7 +51,9 @@ public class SampleTableService extends AbstractService {
         return toResponseV1(sampleTable);
     }
 
-    @CachePut(value = "SampleResponseV1", key = "#id")
+    @Caching(
+            evict = @CacheEvict(value = "SampleResponsePageV1", allEntries = true),
+            put = @CachePut(value = "SampleResponseV1", key = "#result.id"))
     public SampleResponseV1 update(final UUID id, final SampleRequestV1 sampleRequest) {
         final var sampleTable = sampleTableRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Sample Table", id));
