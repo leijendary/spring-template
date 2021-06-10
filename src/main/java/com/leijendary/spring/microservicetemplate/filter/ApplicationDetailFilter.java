@@ -16,16 +16,18 @@ import java.io.IOException;
 public class ApplicationDetailFilter extends OncePerRequestFilter {
 
     public static final String HEADER_APP_NAME = "X-App-Name";
+    public static final String HEADER_APP_DESCRIPTION = "X-App-Description";
     public static final String HEADER_APP_VERSION = "X-App-Version";
 
     private final InfoProperties infoProperties;
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
-            throws ServletException, IOException {
+    protected void doFilterInternal(final HttpServletRequest request, final HttpServletResponse response,
+                                    final FilterChain chain) throws ServletException, IOException {
         final var app = infoProperties.getApp();
 
         response.addHeader(HEADER_APP_NAME, app.getName());
+        response.addHeader(HEADER_APP_DESCRIPTION, app.getDescription());
         response.addHeader(HEADER_APP_VERSION, app.getVersion());
 
         chain.doFilter(request, response);

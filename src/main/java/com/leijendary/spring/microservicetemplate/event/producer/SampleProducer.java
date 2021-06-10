@@ -17,17 +17,17 @@ public class SampleProducer extends AppProducer<SampleSchema> {
     }
 
     @Async
-    public CompletableFuture<Boolean> created(SampleSchema sampleSchema) {
+    public CompletableFuture<Boolean> created(final SampleSchema sampleSchema) {
         return keyPayload(CREATED, String.valueOf(sampleSchema.getId()), sampleSchema);
     }
 
     @Async
-    public CompletableFuture<Boolean> updated(SampleSchema sampleSchema) {
+    public CompletableFuture<Boolean> updated(final SampleSchema sampleSchema) {
         return keyPayload(UPDATED, String.valueOf(sampleSchema.getId()), sampleSchema);
     }
 
     @Async
-    public CompletableFuture<Boolean> deleted(SampleSchema sampleSchema) {
+    public CompletableFuture<Boolean> deleted(final SampleSchema sampleSchema) {
         return keyPayload(DELETED, String.valueOf(sampleSchema.getId()), sampleSchema);
     }
 }

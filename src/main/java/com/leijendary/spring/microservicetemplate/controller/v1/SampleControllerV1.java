@@ -62,13 +62,14 @@ public class SampleControllerV1 extends AbstractController {
     @GetMapping
     @PreAuthorize("hasAuthority('SCOPE_urn:sample:list:v1')")
     @ApiOperation("Sample implementation of swagger in a api")
-    public CompletableFuture<DataResponse<List<SampleResponseV1>>> list(QueryRequest queryRequest, Pageable pageable) {
+    public CompletableFuture<DataResponse<List<SampleResponseV1>>> list(
+            final QueryRequest queryRequest, final Pageable pageable) {
         final var page = sampleTableService.list(queryRequest, pageable);
         final var response = DataResponse.<List<SampleResponseV1>>builder()
                 .data(page.getContent())
                 .meta(page)
                 .links(page)
-                .object("SampleResponse")
+                .object(SampleResponseV1.class.getSimpleName())
                 .build();
 
         return completedFuture(response);
@@ -79,12 +80,12 @@ public class SampleControllerV1 extends AbstractController {
     @ResponseStatus(CREATED)
     @ApiOperation("Saves a sample record into the database")
     public CompletableFuture<DataResponse<SampleResponseV1>> create(
-            @RequestBody SampleRequestV1 request, HttpServletResponse httpServletResponse) {
+            @RequestBody final SampleRequestV1 request, final HttpServletResponse httpServletResponse) {
         final var sampleResponse = sampleTableService.create(request);
         final var response = DataResponse.<SampleResponseV1>builder()
                 .data(sampleResponse)
                 .status(CREATED)
-                .object("SampleResponse")
+                .object(SampleResponseV1.class.getSimpleName())
                 .build();
 
         locationHeader(httpServletResponse, sampleResponse.getId());
@@ -95,11 +96,11 @@ public class SampleControllerV1 extends AbstractController {
     @GetMapping("{id}")
     @PreAuthorize("hasAuthority('SCOPE_urn:sample:get:v1')")
     @ApiOperation("Retrieves the sample record from the database")
-    public CompletableFuture<DataResponse<SampleResponseV1>> get(@PathVariable UUID id) {
+    public CompletableFuture<DataResponse<SampleResponseV1>> get(@PathVariable final UUID id) {
         final var sampleResponse = sampleTableService.get(id);
         final var response = DataResponse.<SampleResponseV1>builder()
                 .data(sampleResponse)
-                .object("SampleResponse")
+                .object(SampleResponseV1.class.getSimpleName())
                 .build();
 
         return completedFuture(response);
@@ -109,11 +110,11 @@ public class SampleControllerV1 extends AbstractController {
     @PreAuthorize("hasAuthority('SCOPE_urn:sample:update:v1')")
     @ApiOperation("Updates the sample record into the database")
     public CompletableFuture<DataResponse<SampleResponseV1>> update(
-            @PathVariable UUID id, @RequestBody SampleRequestV1 request) {
+            @PathVariable final UUID id, @RequestBody final SampleRequestV1 request) {
         final var sampleResponse = sampleTableService.update(id, request);
         final var response = DataResponse.<SampleResponseV1>builder()
                 .data(sampleResponse)
-                .object("SampleResponse")
+                .object(SampleResponseV1.class.getSimpleName())
                 .build();
 
         return completedFuture(response);
@@ -123,7 +124,7 @@ public class SampleControllerV1 extends AbstractController {
     @PreAuthorize("hasAuthority('SCOPE_urn:sample:delete:v1')")
     @ResponseStatus(NO_CONTENT)
     @ApiOperation("Removes the sample record from the database")
-    public CompletableFuture<Void> delete(@PathVariable UUID id) {
+    public CompletableFuture<Void> delete(@PathVariable final UUID id) {
         sampleTableService.delete(id);
 
         return completedFuture(null);

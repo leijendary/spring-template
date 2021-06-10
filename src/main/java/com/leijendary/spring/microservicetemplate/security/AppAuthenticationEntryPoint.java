@@ -31,8 +31,8 @@ public class AppAuthenticationEntryPoint implements AuthenticationEntryPoint {
     private final MessageSource messageSource;
     private final ObjectMapper objectMapper;
 
-    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception)
-            throws IOException {
+    public void commence(final HttpServletRequest request, final HttpServletResponse response,
+                         final AuthenticationException exception) throws IOException {
         final var description = messageSource.getMessage("access.unauthorized", new Object[0], getDefault());
         final var error = messageSource.getMessage("access.error", new Object[0], getDefault());
         var status = UNAUTHORIZED;
@@ -56,7 +56,7 @@ public class AppAuthenticationEntryPoint implements AuthenticationEntryPoint {
             }
 
             if (oAuth2Error instanceof BearerTokenError) {
-                BearerTokenError bearerTokenError = (BearerTokenError) oAuth2Error;
+                final var bearerTokenError = (BearerTokenError) oAuth2Error;
 
                 if (StringUtils.hasText(bearerTokenError.getScope())) {
                     parameters.put("scope", bearerTokenError.getScope());
@@ -89,7 +89,7 @@ public class AppAuthenticationEntryPoint implements AuthenticationEntryPoint {
         response.flushBuffer();
     }
 
-    private static String computeWwwAuthenticateHeaderValue(Map<String, Object> parameters) {
+    private static String computeWwwAuthenticateHeaderValue(final Map<String, Object> parameters) {
         final var wwwAuthenticate = new StringBuilder();
         wwwAuthenticate.append("Bearer");
 

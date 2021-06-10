@@ -25,10 +25,14 @@ import static com.leijendary.spring.microservicetemplate.factory.SampleFactory.t
 @RequiredArgsConstructor
 public class SampleTableService extends AbstractService {
 
+    private static final String RESOURCE_NAME = "Sample Table";
+    private static final String PAGE_CACHE_V1 = "SampleResponsePageV1";
+    private static final String CACHE_V1 = "SampleResponseV1";
+
     private final SampleRequestV1Validator sampleRequestV1Validator;
     private final SampleTableRepository sampleTableRepository;
 
-    @Cacheable(value = "SampleResponsePageV1", key = "#queryRequest.toString() + '|' + #pageable.toString()")
+    @Cacheable(value = PAGE_CACHE_V1, key = "#queryRequest.toString() + '|' + #pageable.toString()")
     public Page<SampleResponseV1> list(final QueryRequest queryRequest, final Pageable pageable) {
         final var specification = SampleListSpecification.builder()
                 .column1(queryRequest.getQuery())
@@ -39,8 +43,8 @@ public class SampleTableService extends AbstractService {
     }
 
     @Caching(
-            evict = @CacheEvict(value = "SampleResponsePageV1", allEntries = true),
-            put = @CachePut(value = "SampleResponseV1", key = "#result.id"))
+            evict = @CacheEvict(value = PAGE_CACHE_V1, allEntries = true),
+            put = @CachePut(value = CACHE_V1, key = "#result.id"))
     public SampleResponseV1 create(final SampleRequestV1 sampleRequest) {
         validate(sampleRequestV1Validator, sampleRequest, SampleRequestV1.class);
 
@@ -52,11 +56,11 @@ public class SampleTableService extends AbstractService {
     }
 
     @Caching(
-            evict = @CacheEvict(value = "SampleResponsePageV1", allEntries = true),
-            put = @CachePut(value = "SampleResponseV1", key = "#result.id"))
+            evict = @CacheEvict(value = PAGE_CACHE_V1, allEntries = true),
+            put = @CachePut(value = CACHE_V1, key = "#result.id"))
     public SampleResponseV1 update(final UUID id, final SampleRequestV1 sampleRequest) {
         final var sampleTable = sampleTableRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Sample Table", id));
+                .orElseThrow(() -> new ResourceNotFoundException(RESOURCE_NAME, id));
 
         validate(sampleRequestV1Validator, sampleRequest, SampleRequestV1.class);
 
@@ -67,20 +71,20 @@ public class SampleTableService extends AbstractService {
         return toResponseV1(sampleTable);
     }
 
-    @Cacheable(value = "SampleResponseV1", key = "#id")
+    @Cacheable(value = CACHE_V1, key = "#id")
     public SampleResponseV1 get(final UUID id) {
         return sampleTableRepository
                 .findById(id)
                 .map(SampleFactory::toResponseV1)
-                .orElseThrow(() -> new ResourceNotFoundException("Sample Table", id));
+                .orElseThrow(() -> new ResourceNotFoundException(RESOURCE_NAME, id));
     }
 
     @Caching(evict = {
-            @CacheEvict(value = "SampleResponsePageV1", allEntries = true),
-            @CacheEvict(value = "SampleResponseV1", key = "#id") })
+            @CacheEvict(value = PAGE_CACHE_V1, allEntries = true),
+            @CacheEvict(value = CACHE_V1, key = "#id") })
     public void delete(final UUID id) {
         final var sampleTable = sampleTableRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Sample Table", id));
+                .orElseThrow(() -> new ResourceNotFoundException(RESOURCE_NAME, id));
 
         sampleTableRepository.delete(sampleTable);
     }

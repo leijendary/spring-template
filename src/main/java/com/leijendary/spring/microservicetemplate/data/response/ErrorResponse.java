@@ -4,6 +4,7 @@ import com.leijendary.spring.microservicetemplate.data.ErrorData;
 import com.leijendary.spring.microservicetemplate.util.RequestContextUtil;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.http.HttpStatus;
 
 import java.net.URI;
@@ -16,6 +17,7 @@ import java.util.Map;
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 
 @Data
+@NoArgsConstructor
 @AllArgsConstructor
 public class ErrorResponse {
 

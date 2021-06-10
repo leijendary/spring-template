@@ -4,6 +4,7 @@ import com.leijendary.spring.microservicetemplate.data.PageMeta;
 import com.leijendary.spring.microservicetemplate.util.RequestContextUtil;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
@@ -17,6 +18,7 @@ import java.util.Map;
 import static org.springframework.http.HttpStatus.OK;
 
 @Data
+@NoArgsConstructor
 @AllArgsConstructor
 public class DataResponse<T> {
 
@@ -74,7 +76,7 @@ public class DataResponse<T> {
             return this;
         }
 
-        public DataResponseBuilder<T> status(HttpStatus httpStatus) {
+        public DataResponseBuilder<T> status(final HttpStatus httpStatus) {
             this.meta.put("status", httpStatus.value());
 
             return this;

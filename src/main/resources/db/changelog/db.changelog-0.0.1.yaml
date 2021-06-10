@@ -2,11 +2,13 @@ databaseChangeLog:
   - changeSet:
       id: enable-uuid-ossp
       author: Leijendekker
+      dbms: postgresql
       changes:
         sql: CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
   - changeSet:
       id: create-sample-table
       author: Leijendekker
+      dbms: postgresql
       changes:
         - createTable:
             columns:
@@ -16,6 +18,26 @@ databaseChangeLog:
                   constraints:
                     nullable: false
                   defaultValueComputed: uuid_generate_v4()
+              - column:
+                  name: column_1
+                  type: varchar(100)
+              - column:
+                  name: column_2
+                  type: int
+            tableName: sample_table
+  - changeSet:
+      id: create-sample-table
+      author: Leijendekker
+      dbms: h2
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+                  constraints:
+                    nullable: false
+                  defaultValueComputed: UUID()
               - column:
                   name: column_1
                   type: varchar(100)

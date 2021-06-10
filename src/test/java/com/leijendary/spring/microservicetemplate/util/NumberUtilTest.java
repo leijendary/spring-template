@@ -1,6 +1,6 @@
-package com.leijendary.spring.microservicetemplate;
+package com.leijendary.spring.microservicetemplate.util;
 
-import com.leijendary.spring.microservicetemplate.util.SampleUtil;
+import com.leijendary.spring.microservicetemplate.ApplicationTests;
 import org.junit.jupiter.api.Test;
 import org.springframework.util.Assert;
 
