@@ -36,3 +36,4 @@
 - Docker
 - AOP
 - Avro
+- JUnit
