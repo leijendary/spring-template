@@ -26,6 +26,6 @@ public class Application {
             final var logger = cls.getDeclaredField("logger");
 
             unsafe.putObjectVolatile(cls, unsafe.staticFieldOffset(logger), null);
-        } catch (Exception ignored) { }
+        } catch (final Exception ignored) { }
     }
 }

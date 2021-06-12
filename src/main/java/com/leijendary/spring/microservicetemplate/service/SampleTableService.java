@@ -17,8 +17,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.UUID;
-
 import static com.leijendary.spring.microservicetemplate.factory.SampleFactory.toResponseV1;
 
 @Service
@@ -58,7 +56,7 @@ public class SampleTableService extends AbstractService {
     @Caching(
             evict = @CacheEvict(value = PAGE_CACHE_V1, allEntries = true),
             put = @CachePut(value = CACHE_V1, key = "#result.id"))
-    public SampleResponseV1 update(final UUID id, final SampleRequestV1 sampleRequest) {
+    public SampleResponseV1 update(final long id, final SampleRequestV1 sampleRequest) {
         final var sampleTable = sampleTableRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(RESOURCE_NAME, id));
 
@@ -72,7 +70,7 @@ public class SampleTableService extends AbstractService {
     }
 
     @Cacheable(value = CACHE_V1, key = "#id")
-    public SampleResponseV1 get(final UUID id) {
+    public SampleResponseV1 get(final long id) {
         return sampleTableRepository
                 .findById(id)
                 .map(SampleFactory::toResponseV1)
@@ -82,7 +80,7 @@ public class SampleTableService extends AbstractService {
     @Caching(evict = {
             @CacheEvict(value = PAGE_CACHE_V1, allEntries = true),
             @CacheEvict(value = CACHE_V1, key = "#id") })
-    public void delete(final UUID id) {
+    public void delete(final long id) {
         final var sampleTable = sampleTableRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(RESOURCE_NAME, id));
 

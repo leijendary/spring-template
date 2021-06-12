@@ -5,7 +5,7 @@
   "fields": [
     {
       "name": "id",
-      "type": "string"
+      "type": "long"
     },
     {
       "name": "column1",

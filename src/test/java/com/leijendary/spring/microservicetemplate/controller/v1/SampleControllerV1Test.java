@@ -19,10 +19,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.security.SecureRandom;
 import java.util.HashMap;
 import java.util.List;
 
-import static java.util.UUID.randomUUID;
 import static org.junit.jupiter.api.Assertions.*;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -153,7 +153,8 @@ public class SampleControllerV1Test extends ApplicationTests {
         assertThrows(HttpClientErrorException.NotFound.class,
                 () -> restTemplateWithToken("urn:sample:update:v1")
                         .build()
-                        .exchange("/api/v1/" + randomUUID(), HttpMethod.PUT, entity, DataResponse.class));
+                        .exchange("/api/v1/" + new SecureRandom().nextLong(), HttpMethod.PUT, entity,
+                                DataResponse.class));
     }
 
     @Test
@@ -334,7 +335,7 @@ public class SampleControllerV1Test extends ApplicationTests {
         assertThrows(HttpClientErrorException.NotFound.class,
                 () -> restTemplateWithToken("urn:sample:delete:v1")
                         .build()
-                        .delete("/api/v1/" + randomUUID()));
+                        .delete("/api/v1/" + new SecureRandom().nextLong()));
     }
 
     @Test
@@ -348,7 +349,7 @@ public class SampleControllerV1Test extends ApplicationTests {
         assertThrows(HttpClientErrorException.NotFound.class,
                 () -> restTemplateWithToken("urn:sample:get:v1")
                         .build()
-                        .getForEntity("/api/v1/" + randomUUID(), DataResponse.class));
+                        .getForEntity("/api/v1/" + new SecureRandom().nextLong(), DataResponse.class));
     }
 
     @Test

@@ -5,17 +5,12 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
-import java.util.UUID;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @EntityListeners(SampleTableListener.class)
-public class SampleTable extends AbstractModel {
-
-    @Id
-    @GeneratedValue
-    private UUID id;
+public class SampleTable extends SnowflakeIdModel {
 
     @Column(name = "column_1")
     private String column1;
