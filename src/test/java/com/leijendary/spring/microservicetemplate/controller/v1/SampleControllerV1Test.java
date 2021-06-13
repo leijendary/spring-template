@@ -58,6 +58,7 @@ public class SampleControllerV1Test extends ApplicationTests {
             final var meta = errorResponse.getMeta();
             final var links = errorResponse.getLinks();
 
+            assertEquals(0, sampleTableRepository.count());
             assertEquals(1, errorCount);
             assertEquals(HttpStatus.BAD_REQUEST.value(), meta.get("status"));
             assertNotNull(links.get("self"));
@@ -96,6 +97,7 @@ public class SampleControllerV1Test extends ApplicationTests {
             final var meta = errorResponse.getMeta();
             final var links = errorResponse.getLinks();
 
+            assertEquals(0, sampleTableRepository.count());
             assertEquals(1, errorCount);
             assertEquals(HttpStatus.BAD_REQUEST.value(), meta.get("status"));
             assertNotNull(links.get("self"));
@@ -128,6 +130,10 @@ public class SampleControllerV1Test extends ApplicationTests {
         assertNotNull(data.getId());
         assertEquals(field1Value, data.getColumn1());
         assertEquals(field2Value, data.getColumn2());
+        assertNotNull(data.getCreatedBy());
+        assertNotNull(data.getCreatedDate());
+        assertNotNull(data.getLastModifiedBy());
+        assertNotNull(data.getLastModifiedDate());
 
         final var meta = dataResponse.getMeta();
         final var status = (int) meta.get("status");
@@ -155,6 +161,12 @@ public class SampleControllerV1Test extends ApplicationTests {
                         .build()
                         .exchange("/api/v1/" + new SecureRandom().nextLong(), HttpMethod.PUT, entity,
                                 DataResponse.class));
+
+        final var sampleTable = sampleTableRepository.findAll().stream().findFirst().get();
+
+        assertNotEquals(request.get("field1"), sampleTable.getColumn1());
+        assertNotEquals(request.get("field2"), String.valueOf(sampleTable.getColumn2()));
+        assertEquals(sampleTable.getCreatedDate(), sampleTable.getLastModifiedDate());
     }
 
     @Test
@@ -164,7 +176,7 @@ public class SampleControllerV1Test extends ApplicationTests {
         request.put("field1", "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
         request.put("field2", "1");
 
-        final var sampleTable = sampleTableRepository.findAll()
+        var sampleTable = sampleTableRepository.findAll()
                 .stream()
                 .findFirst()
                 .get();
@@ -194,19 +206,25 @@ public class SampleControllerV1Test extends ApplicationTests {
             assertNotNull(links.get("self"));
         }
 
+        sampleTable = sampleTableRepository.findAll().stream().findFirst().get();
+
+        assertNotEquals(request.get("field1"), sampleTable.getColumn1());
+        assertNotEquals(request.get("field2"), String.valueOf(sampleTable.getColumn2()));
+        assertEquals(sampleTable.getCreatedDate(), sampleTable.getLastModifiedDate());
+
         assertNull(response);
     }
 
     @Test
     @Order(6)
     public void update_ValidationField2_Fail() throws JsonProcessingException {
-        final var field1Value = "Valid Field 1 Value";
+        final var field1Value = "Valid Field 1 Updated Value";
         final var field2Value = "THIS IS NOT VALID";
         final var request = new HashMap<String, String>();
         request.put("field1", field1Value);
         request.put("field2", field2Value);
 
-        final var sampleTable = sampleTableRepository.findAll()
+        var sampleTable = sampleTableRepository.findAll()
                 .stream()
                 .findFirst()
                 .get();
@@ -237,13 +255,19 @@ public class SampleControllerV1Test extends ApplicationTests {
             assertNotNull(links.get("self"));
         }
 
+        sampleTable = sampleTableRepository.findAll().stream().findFirst().get();
+
+        assertNotEquals(request.get("field1"), sampleTable.getColumn1());
+        assertNotEquals(request.get("field2"), String.valueOf(sampleTable.getColumn2()));
+        assertEquals(sampleTable.getCreatedDate(), sampleTable.getLastModifiedDate());
+
         assertNull(response);
     }
 
     @Test
     @Order(7)
     public void update_Validation_Success() {
-        final var field1Value = "Updated Field 1 Value";
+        final var field1Value = "Valid Field 1 Updated Value";
         final var field2Value = "22222";
         final var request = new HashMap<String, String>();
         request.put("field1", field1Value);
@@ -269,6 +293,7 @@ public class SampleControllerV1Test extends ApplicationTests {
         assertEquals(1, sampleTableRepository.count());
         assertEquals(field1Value, data.getColumn1());
         assertEquals(field2Value, data.getColumn2());
+        assertNotEquals(data.getCreatedDate(), data.getLastModifiedDate());
 
         final var meta = dataResponse.getMeta();
         final var status = (int) meta.get("status");
@@ -285,7 +310,7 @@ public class SampleControllerV1Test extends ApplicationTests {
     @Test
     @Order(8)
     public void list_HasContent_Success() {
-        final var query = "Value";
+        final var query = "Updated";
         final var page = 0;
         final var size = 10;
         final var sorts = new Object[] { "column2,asc", "column1,desc" };
@@ -315,6 +340,10 @@ public class SampleControllerV1Test extends ApplicationTests {
             assertNotNull(sampleResponse.getId());
             assertNotNull(sampleResponse.getColumn1());
             assertNotNull(sampleResponse.getColumn2());
+            assertNotNull(sampleResponse.getCreatedDate());
+            assertNotNull(sampleResponse.getCreatedBy());
+            assertNotNull(sampleResponse.getLastModifiedDate());
+            assertNotNull(sampleResponse.getLastModifiedBy());
         });
 
         final var meta = dataResponse.getMeta();
@@ -361,7 +390,7 @@ public class SampleControllerV1Test extends ApplicationTests {
                 .stream()
                 .findFirst()
                 .get();
-        final var field1Value = "Updated Field 1 Value";
+        final var field1Value = "Valid Field 1 Updated Value";
         final var field2Value = "22222";
 
         final var response = restTemplateWithToken("urn:sample:get:v1")
@@ -376,6 +405,10 @@ public class SampleControllerV1Test extends ApplicationTests {
         assertEquals(sampleTable.getId(), sampleResponse.getId());
         assertEquals(field1Value, sampleResponse.getColumn1());
         assertEquals(field2Value, sampleResponse.getColumn2());
+        assertNotNull(sampleResponse.getCreatedDate());
+        assertNotNull(sampleResponse.getCreatedBy());
+        assertNotNull(sampleResponse.getLastModifiedDate());
+        assertNotNull(sampleResponse.getLastModifiedBy());
 
         final var meta = dataResponse.getMeta();
         final var status = (int) meta.get("status");

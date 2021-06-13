@@ -16,6 +16,28 @@ databaseChangeLog:
               - column:
                   name: column_2
                   type: int
+              - column:
+                  name: created_date
+                  type: timestamp
+                  constraints:
+                    nullable: false
+                  defaultValueDate: current_timestamp
+              - column:
+                  name: created_by
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: last_modified_date
+                  type: timestamp
+                  constraints:
+                    nullable: false
+                  defaultValueDate: current_timestamp
+              - column:
+                  name: last_modified_by
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
             tableName: sample_table
   - changeSet:
       id: sample-table-primary-key

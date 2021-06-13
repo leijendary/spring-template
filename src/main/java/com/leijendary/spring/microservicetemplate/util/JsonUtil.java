@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class JsonUtil {
 
-    private static final ObjectMapper MAPPER = new ObjectMapper();
+    private static final ObjectMapper MAPPER = SpringContext.getBean(ObjectMapper.class);
 
     public static <T> T toClass(final String json, final Class<T> type) throws JsonProcessingException {
         return MAPPER.readValue(json, type);

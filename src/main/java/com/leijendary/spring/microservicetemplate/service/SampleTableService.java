@@ -57,14 +57,14 @@ public class SampleTableService extends AbstractService {
             evict = @CacheEvict(value = PAGE_CACHE_V1, allEntries = true),
             put = @CachePut(value = CACHE_V1, key = "#result.id"))
     public SampleResponseV1 update(final long id, final SampleRequestV1 sampleRequest) {
-        final var sampleTable = sampleTableRepository.findById(id)
+        var sampleTable = sampleTableRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(RESOURCE_NAME, id));
 
         validate(sampleRequestV1Validator, sampleRequest, SampleRequestV1.class);
 
         SampleFactory.map(sampleRequest, sampleTable);
 
-        sampleTableRepository.save(sampleTable);
+        sampleTable = sampleTableRepository.save(sampleTable);
 
         return toResponseV1(sampleTable);
     }
