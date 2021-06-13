@@ -4,7 +4,9 @@ import com.leijendary.spring.microservicetemplate.model.listener.SampleTableList
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 
 @Data
 @EqualsAndHashCode(callSuper = true)

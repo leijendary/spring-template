@@ -8,6 +8,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
+import static com.leijendary.spring.microservicetemplate.generator.SnowflakeIdGenerator.STRATEGY;
+
 @Data
 @EqualsAndHashCode(callSuper = true)
 @MappedSuperclass
@@ -16,9 +18,7 @@ public abstract class SnowflakeIdModel extends AbstractModel {
     protected static final String GENERATOR_SNOWFLAKE = "snowflake";
 
     @Id
-    @GenericGenerator(
-            name = "snowflake",
-            strategy = "com.leijendary.spring.microservicetemplate.model.generator.SnowflakeSequenceGenerator")
     @GeneratedValue(generator = GENERATOR_SNOWFLAKE)
+    @GenericGenerator(name = GENERATOR_SNOWFLAKE, strategy = STRATEGY)
     private long id;
 }

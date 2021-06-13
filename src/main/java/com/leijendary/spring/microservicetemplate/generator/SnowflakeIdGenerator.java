@@ -1,4 +1,4 @@
-package com.leijendary.spring.microservicetemplate.model.generator;
+package com.leijendary.spring.microservicetemplate.generator;
 
 import com.leijendary.spring.microservicetemplate.worker.SnowflakeIdWorker;
 import org.hibernate.HibernateException;
@@ -7,7 +7,9 @@ import org.hibernate.id.IdentifierGenerator;
 
 import java.io.Serializable;
 
-public class SnowflakeSequenceGenerator implements IdentifierGenerator {
+public class SnowflakeIdGenerator implements IdentifierGenerator {
+
+    public static final String STRATEGY = "com.leijendary.spring.microservicetemplate.generator.SnowflakeIdGenerator";
 
     private static final SnowflakeIdWorker WORKER = new SnowflakeIdWorker();
 
