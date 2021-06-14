@@ -42,7 +42,7 @@ public class SnowflakeIdWorker {
         var currentTimestamp = timestamp();
 
         if (currentTimestamp < lastTimestamp) {
-            throw new IllegalStateException(format("System clock is in the past, waiting until %s", currentTimestamp));
+            throw new IllegalStateException(format("System clock is in the past, waiting until %s", lastTimestamp));
         }
 
         if (currentTimestamp == lastTimestamp) {
