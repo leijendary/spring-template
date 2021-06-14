@@ -12,7 +12,7 @@ import javax.persistence.EntityListeners;
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @EntityListeners(SampleTableListener.class)
-public class SampleTable extends AuditingModel {
+public class SampleTable extends AuditableModel {
 
     @Column(name = "column_1")
     private String column1;
