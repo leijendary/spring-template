@@ -2,6 +2,7 @@ package com.leijendary.spring.microservicetemplate.filter;
 
 import com.leijendary.spring.microservicetemplate.config.properties.InfoProperties;
 import lombok.RequiredArgsConstructor;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -22,7 +23,7 @@ public class ApplicationDetailFilter extends OncePerRequestFilter {
     private final InfoProperties infoProperties;
 
     @Override
-    protected void doFilterInternal(final HttpServletRequest request, final HttpServletResponse response,
+    protected void doFilterInternal(@NonNull final HttpServletRequest request, final HttpServletResponse response,
                                     final FilterChain chain) throws ServletException, IOException {
         final var app = infoProperties.getApp();
 
