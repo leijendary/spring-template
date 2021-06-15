@@ -1,21 +1,21 @@
 package com.leijendary.spring.microservicetemplate.data.response;
 
 import com.leijendary.spring.microservicetemplate.data.PageMeta;
-import com.leijendary.spring.microservicetemplate.util.RequestContextUtil;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
-import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.leijendary.spring.microservicetemplate.util.RequestContextUtil.uri;
+import static java.time.Instant.now;
 import static org.springframework.http.HttpStatus.OK;
+import static org.springframework.web.util.UriComponentsBuilder.fromUri;
 
 @Data
 @NoArgsConstructor
@@ -39,7 +39,7 @@ public class DataResponse<T> {
         private final Map<String, URI> links = new HashMap<>();
 
         public DataResponse<T> build() {
-            this.meta.put("timestamp", Instant.now());
+            this.meta.put("timestamp", now());
 
             if (!this.meta.containsKey("type")) {
                 throw new IllegalArgumentException("Type is not indicated");
@@ -89,7 +89,7 @@ public class DataResponse<T> {
         }
 
         public DataResponseBuilder<T> selfLink() {
-            this.links.put("self", RequestContextUtil.uri());
+            this.links.put("self", uri());
 
             return this;
         }
@@ -114,7 +114,7 @@ public class DataResponse<T> {
         }
 
         private URI createLink(final int page, final int size, final Sort sort) {
-            final var uri = UriComponentsBuilder.fromUri(RequestContextUtil.uri());
+            final var uri = fromUri(uri());
             uri.replaceQueryParam("page", page + 1);
             uri.replaceQueryParam("size", size);
 

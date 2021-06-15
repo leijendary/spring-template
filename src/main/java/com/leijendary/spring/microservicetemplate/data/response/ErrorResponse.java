@@ -1,19 +1,19 @@
 package com.leijendary.spring.microservicetemplate.data.response;
 
 import com.leijendary.spring.microservicetemplate.data.ErrorData;
-import com.leijendary.spring.microservicetemplate.util.RequestContextUtil;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.http.HttpStatus;
 
 import java.net.URI;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.leijendary.spring.microservicetemplate.util.RequestContextUtil.uri;
+import static java.time.Instant.now;
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 
 @Data
@@ -38,7 +38,7 @@ public class ErrorResponse {
         private final Map<String, URI> links = new HashMap<>();
 
         public ErrorResponse build() {
-            this.meta.put("timestamp", Instant.now());
+            this.meta.put("timestamp", now());
 
             return new ErrorResponse(errors, meta, links);
         }
@@ -55,14 +55,14 @@ public class ErrorResponse {
             return this;
         }
 
-        public ErrorResponseBuilder status(HttpStatus httpStatus) {
+        public ErrorResponseBuilder status(final HttpStatus httpStatus) {
             this.meta.put("status", httpStatus.value());
 
             return this;
         }
 
         public ErrorResponseBuilder selfLink() {
-            this.links.put("self", RequestContextUtil.uri());
+            this.links.put("self", uri());
 
             return this;
         }
