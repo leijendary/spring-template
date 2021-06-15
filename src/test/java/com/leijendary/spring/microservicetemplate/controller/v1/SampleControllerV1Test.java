@@ -127,7 +127,7 @@ public class SampleControllerV1Test extends ApplicationTests {
 
         final var data = JsonUtil.toClass(dataResponse.getData(), SampleResponseV1.class);
 
-        assertNotNull(data.getId());
+        assertNotEquals(0, data.getId());
         assertEquals(field1Value, data.getColumn1());
         assertEquals(field2Value, data.getColumn2());
         assertNotNull(data.getCreatedBy());
@@ -337,7 +337,7 @@ public class SampleControllerV1Test extends ApplicationTests {
         data.forEach(d -> {
             final var sampleResponse = JsonUtil.toClass(d, SampleResponseV1.class);
 
-            assertNotNull(sampleResponse.getId());
+            assertNotEquals(0, sampleResponse.getId());
             assertNotNull(sampleResponse.getColumn1());
             assertNotNull(sampleResponse.getColumn2());
             assertNotNull(sampleResponse.getCreatedDate());
