@@ -12,8 +12,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.oauth2.core.DelegatingOAuth2TokenValidator;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
-import org.springframework.security.oauth2.jwt.JwtDecoders;
-import org.springframework.security.oauth2.jwt.JwtValidators;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -22,6 +20,8 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import java.util.stream.Collectors;
 
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
+import static org.springframework.security.oauth2.jwt.JwtDecoders.fromOidcIssuerLocation;
+import static org.springframework.security.oauth2.jwt.JwtValidators.createDefaultWithIssuer;
 
 @Configuration
 @EnableWebSecurity
@@ -34,7 +34,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private final OAuth2ResourceServerProperties oAuth2ResourceServerProperties;
 
     @Override
-    protected void configure(HttpSecurity http) throws Exception {
+    protected void configure(final HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
                 .anyRequest().permitAll()
@@ -79,9 +79,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         final var audience = authProperties.getAudience();
         final var issuer = oAuth2ResourceServerProperties.getJwt().getIssuerUri();
         final var withAudience = new AudienceValidator(audience);
-        final var withIssuer = JwtValidators.createDefaultWithIssuer(issuer);
+        final var withIssuer = createDefaultWithIssuer(issuer);
         final var validator = new DelegatingOAuth2TokenValidator<>(withAudience, withIssuer);
-        final var jwtDecoder = (NimbusJwtDecoder) JwtDecoders.fromOidcIssuerLocation(issuer);
+        final var jwtDecoder = (NimbusJwtDecoder) fromOidcIssuerLocation(issuer);
         jwtDecoder.setJwtValidator(validator);
 
         return jwtDecoder;
