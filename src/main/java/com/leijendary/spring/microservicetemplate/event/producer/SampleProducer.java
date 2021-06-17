@@ -10,7 +10,7 @@ import java.util.concurrent.CompletableFuture;
 import static com.leijendary.spring.microservicetemplate.event.binding.SampleBinding.*;
 
 @Component
-public class SampleProducer extends AppProducer<SampleSchema> {
+public class SampleProducer extends AbstractProducer<SampleSchema> {
 
     public SampleProducer(final StreamBridge streamBridge) {
         super(streamBridge);

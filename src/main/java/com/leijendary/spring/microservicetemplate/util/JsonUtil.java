@@ -3,9 +3,11 @@ package com.leijendary.spring.microservicetemplate.util;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import static com.leijendary.spring.microservicetemplate.util.SpringContext.getBean;
+
 public class JsonUtil {
 
-    private static final ObjectMapper MAPPER = SpringContext.getBean(ObjectMapper.class);
+    private static final ObjectMapper MAPPER = getBean(ObjectMapper.class);
 
     public static <T> T toClass(final String json, final Class<T> type) throws JsonProcessingException {
         return MAPPER.readValue(json, type);

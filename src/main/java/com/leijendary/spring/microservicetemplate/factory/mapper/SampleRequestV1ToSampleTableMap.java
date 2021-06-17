@@ -4,7 +4,7 @@ import com.leijendary.spring.microservicetemplate.data.request.v1.SampleRequestV
 import com.leijendary.spring.microservicetemplate.model.SampleTable;
 import org.modelmapper.PropertyMap;
 
-public class SampleRequestV1ToSampleTablePropertyMap extends PropertyMap<SampleRequestV1, SampleTable> {
+public class SampleRequestV1ToSampleTableMap extends PropertyMap<SampleRequestV1, SampleTable> {
 
     @Override
     protected void configure() {

@@ -20,6 +20,7 @@
         <commons-lang3.version>3.11</commons-lang3.version>
         <kafka-streams-avro-serde.version>6.1.1</kafka-streams-avro-serde.version>
         <modelmapper.version>2.3.8</modelmapper.version>
+        <modelmapper-module-jsr310.version>1.2.2</modelmapper-module-jsr310.version>
         <springfox.version>3.0.0</springfox.version>
         <spring-cloud.version>2020.0.2</spring-cloud.version>
     </properties>
@@ -152,6 +153,11 @@
             <version>${modelmapper.version}</version>
         </dependency>
         <dependency>
+            <groupId>org.modelmapper</groupId>
+            <artifactId>modelmapper-module-jsr310</artifactId>
+            <version>${modelmapper-module-jsr310.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
             <version>${commons-lang3.version}</version>
@@ -246,6 +252,7 @@
                         <configuration>
                             <sourceDirectory>${project.basedir}/src/main/resources/avro</sourceDirectory>
                             <outputDirectory>${project.basedir}/src/main/java</outputDirectory>
+                            <stringType>String</stringType>
                         </configuration>
                     </execution>
                 </executions>

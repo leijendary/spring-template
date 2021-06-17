@@ -12,7 +12,7 @@ import static org.springframework.messaging.support.MessageBuilder.withPayload;
 
 @Component
 @RequiredArgsConstructor
-public abstract class AppProducer<V> {
+public abstract class AbstractProducer<V> {
 
     private final StreamBridge streamBridge;
 
