@@ -4,6 +4,7 @@ aspect:
   logging:
     enabled: true
   execution:
+    # Method execution for more than 200 milliseconds will be logged
     time: 200
 
 spring:
