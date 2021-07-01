@@ -1,14 +1,24 @@
+# syntax=docker/dockerfile:experimental
+FROM adoptopenjdk/openjdk11-openj9:alpine as build
+WORKDIR /workspace/app
+COPY mvnw .
+COPY .mvn .mvn
+COPY pom.xml .
+COPY src src
+RUN --mount=type=cache,target=/root/.m2 ./mvnw package -D skipTests
+RUN mkdir -p target/dependency && (cd target/dependency; jar -xf ../*.jar)
+
 FROM adoptopenjdk/openjdk11-openj9:alpine
-
 VOLUME /tmp
-
-ARG MAIN_CLASS=com.leijendary.spring.microservicetemplate.Application
-ARG DEPENDENCY=target/dependency
-
-ENV MAIN_CLASS=${MAIN_CLASS}
-
-COPY ${DEPENDENCY}/BOOT-INF/classes /app
-COPY ${DEPENDENCY}/BOOT-INF/lib /app/lib
-COPY ${DEPENDENCY}/META-INF /app/META-INF
-
-ENTRYPOINT java -Xshareclasses -Xquickstart -cp app:app/lib/* ${MAIN_CLASS}
+ARG DEPENDENCY=/workspace/app/target/dependency
+COPY --from=build ${DEPENDENCY}/BOOT-INF/lib /app/lib
+COPY --from=build ${DEPENDENCY}/META-INF /app/META-INF
+COPY --from=build ${DEPENDENCY}/BOOT-INF/classes /app
+ENTRYPOINT [ \
+    "java", \
+    "-Xshareclasses", \
+    "-Xquickstart", \
+    "-cp", \
+    "app:app/lib/*", \
+    "com.leijendary.spring.microservicetemplate.Application" \
+]
