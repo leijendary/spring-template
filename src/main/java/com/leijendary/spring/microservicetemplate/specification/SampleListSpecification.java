@@ -21,8 +21,8 @@ public class SampleListSpecification implements Specification<SampleTable> {
         }
 
         final var column1 = root.<String>get("column1");
-        final var upperColumn1 = criteriaBuilder.upper(column1);
-        final var like = criteriaBuilder.like(upperColumn1, "%" + this.column1.toUpperCase() + "%");
+        final var lowerColumn1 = criteriaBuilder.lower(column1);
+        final var like = criteriaBuilder.like(lowerColumn1, "%" + this.column1.toLowerCase() + "%");
 
         return criteriaQuery.where(like).getRestriction();
     }
