@@ -1,8 +1,8 @@
 spring:
   main:
-    banner-mode: off
+    bannerMode: off
 
 springfox:
   documentation:
-    swagger-ui:
+    swaggerUi:
       enabled: false

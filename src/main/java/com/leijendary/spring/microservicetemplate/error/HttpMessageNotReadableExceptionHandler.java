@@ -40,7 +40,7 @@ public class HttpMessageNotReadableExceptionHandler {
     private void errors(final HttpMessageNotReadableException exception,
                         final ErrorResponse.ErrorResponseBuilder errorResponse) {
         final var source = "Request Body";
-        final var code = "error.bad-request";
+        final var code = "error.badRequest";
         var message = ofNullable(exception.getMessage())
                 .orElse("");
 
@@ -72,7 +72,7 @@ public class HttpMessageNotReadableExceptionHandler {
     private void errors(final InvalidFormatException exception,
                         final ErrorResponse.ErrorResponseBuilder errorResponse) {
         final var path = getPath(exception.getPath());
-        final var code = "error.invalid-format";
+        final var code = "error.invalidFormat";
         final var message =  messageSource.getMessage(code,
                 new Object[] { path, exception.getValue(), exception.getTargetType().getSimpleName() }, getDefault());
 
@@ -81,7 +81,7 @@ public class HttpMessageNotReadableExceptionHandler {
 
     private void errors(final JsonMappingException exception,
                             final ErrorResponse.ErrorResponseBuilder errorResponse) {
-        errorResponse.addError(getPath(exception.getPath()), "error.invalid-format",
+        errorResponse.addError(getPath(exception.getPath()), "error.invalidFormat",
                 exception.getOriginalMessage());
     }
 

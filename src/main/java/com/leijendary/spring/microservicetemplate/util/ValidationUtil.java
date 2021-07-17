@@ -21,7 +21,7 @@ public abstract class ValidationUtil extends ValidationUtils {
         Object value = errors.getFieldValue(field);
 
         if (value != null && value.toString().length() > length) {
-            errors.rejectValue(field, "validation.max-length", new Object[] { length }, null);
+            errors.rejectValue(field, "validation.maxLength", new Object[] { length }, null);
         }
     }
 }

@@ -12,7 +12,7 @@ spring:
     properties:
       hibernate:
         generate_statistics: true
-    show-sql: true
+    showSql: true
 
 logging:
   level:

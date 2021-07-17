@@ -22,7 +22,7 @@ public class ResourceNotFoundExceptionHandler {
     @ExceptionHandler(ResourceNotFoundException.class)
     @ResponseStatus(NOT_FOUND)
     public ErrorResponse catchResourceNotFound(final ResourceNotFoundException exception) {
-        final var code = "error.resource.not-found";
+        final var code = "error.resource.notFound";
         final var message = messageSource.getMessage(code,
                 new Object[] { exception.getResource(), exception.getIdentifier() }, getDefault());
 

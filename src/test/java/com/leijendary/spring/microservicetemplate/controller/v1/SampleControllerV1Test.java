@@ -51,7 +51,7 @@ public class SampleControllerV1Test extends ApplicationTests {
             final var errorResponse = JsonUtil.toClass(body, ErrorResponse.class);
             final var errorCount = errorResponse.getErrors()
                     .stream()
-                    .filter(e -> (e.getCode().equals("validation.max-length")
+                    .filter(e -> (e.getCode().equals("validation.maxLength")
                             && e.getSource().equals("field1")
                             && e.getMessage().equals("Exceeds limit of 50 characters")))
                     .count();
@@ -89,7 +89,7 @@ public class SampleControllerV1Test extends ApplicationTests {
             final var errorResponse = JsonUtil.toClass(body, ErrorResponse.class);
             final var errorCount = errorResponse.getErrors()
                     .stream()
-                    .filter(e -> e.getCode().equals("error.invalid-format")
+                    .filter(e -> e.getCode().equals("error.invalidFormat")
                             && e.getSource().equals("field2")
                             && e.getMessage().equals("Field field2 with the value of '" + field2Value +
                             "' is not a valid format of int"))
@@ -194,7 +194,7 @@ public class SampleControllerV1Test extends ApplicationTests {
             final var errorResponse = JsonUtil.toClass(body, ErrorResponse.class);
             final var errorCount = errorResponse.getErrors()
                     .stream()
-                    .filter(e -> (e.getCode().equals("validation.max-length")
+                    .filter(e -> (e.getCode().equals("validation.maxLength")
                             && e.getSource().equals("field1")
                             && e.getMessage().equals("Exceeds limit of 50 characters")))
                     .count();
@@ -242,7 +242,7 @@ public class SampleControllerV1Test extends ApplicationTests {
             final var errorResponse = JsonUtil.toClass(body, ErrorResponse.class);
             final var errorCount = errorResponse.getErrors()
                     .stream()
-                    .filter(e -> e.getCode().equals("error.invalid-format")
+                    .filter(e -> e.getCode().equals("error.invalidFormat")
                             && e.getSource().equals("field2")
                             && e.getMessage().equals("Field field2 with the value of '" + field2Value +
                             "' is not a valid format of int"))

@@ -1,30 +1,30 @@
 info:
   app:
     organization: leijendary
-    artifact-id: "@[project.artifactId]"
+    artifactId: "@[project.artifactId]"
     name: "@[project.name]"
     description: "@[project.description]"
     version: "@[project.version]"
   api:
-    terms-of-service-url:
+    termsOfServiceUrl:
     contact:
       name: Jonathan Leijendekker
       url: https://leijendary.com
       email:
     license:
-    license-url:
-    vendor-extensions:
+    licenseUrl:
+    vendorExtensions:
 
 auth:
   audience: http://localhost:8080
   realm: Microservice Template API v1
 
 cors:
-  allow-credentials: true
-  allowed-origins:
-  allowed-origin-patterns: '*'
-  allowed-headers: '*'
-  allowed-methods:
+  allowCredentials: true
+  allowedOrigins:
+  allowedOriginPatterns: '*'
+  allowedHeaders: '*'
+  allowedMethods:
     - get
     - post
     - put
@@ -33,7 +33,7 @@ cors:
     - options
     - head
     - trace
-  exposed-headers: '*'
+  exposedHeaders: '*'
 
 spring:
   application:
@@ -47,18 +47,18 @@ spring:
     username:
     password:
     hikari:
-      data-source-properties:
+      dataSourceProperties:
         cachePrepStmts: true
         rewriteBatchedStatements: true
         useServerPrepStmts: true
-      maximum-pool-size: 50
+      maximumPoolSize: 50
   data:
     web:
       pageable:
-        max-page-size: 100
-        one-indexed-parameters: true
+        maxPageSize: 100
+        oneIndexedParameters: true
   jpa:
-    open-in-view: false
+    openInView: false
     properties:
       hibernate:
         jdbc:
@@ -76,32 +76,32 @@ spring:
               - uri: https://google.com
     loadbalancer:
       retry:
-        max-retries-on-same-service-instance: 3
-        retry-on-all-operations: true
-        retryable-status-codes: 502,503,521
-    service-registry:
-      auto-registration:
+        maxRetriesOnSameServiceInstance: 3
+        retryOnAllOperations: true
+        retryableStatusCodes: 502,503,521
+    serviceRegistry:
+      autoRegistration:
         enabled: false
     stream:
       bindings:
         sampleCreated-in-0:
-          destination: ${info.app.artifact-id}.sample.created
+          destination: ${info.app.artifactId}.sample.created
         sampleCreated-out-0:
-          destination: ${info.app.artifact-id}.sample.created
+          destination: ${info.app.artifactId}.sample.created
           producer:
-            use-native-encoding: true
+            useNativeEncoding: true
         sampleUpdated-in-0:
-          destination: ${info.app.artifact-id}.sample.updated
+          destination: ${info.app.artifactId}.sample.updated
         sampleUpdated-out-0:
-          destination: ${info.app.artifact-id}.sample.updated
+          destination: ${info.app.artifactId}.sample.updated
           producer:
-            use-native-encoding: true
+            useNativeEncoding: true
         sampleDeleted-in-0:
-          destination: ${info.app.artifact-id}.sample.deleted
+          destination: ${info.app.artifactId}.sample.deleted
         sampleDeleted-out-0:
-          destination: ${info.app.artifact-id}.sample.deleted
+          destination: ${info.app.artifactId}.sample.deleted
           producer:
-            use-native-encoding: true
+            useNativeEncoding: true
       function:
         definition: >-
           sampleCreated;
@@ -109,7 +109,7 @@ spring:
           sampleDeleted
       kafka:
         binder:
-          auto-add-partitions: true
+          autoAddPartitions: true
         streams:
           binder:
             configuration:
@@ -120,19 +120,19 @@ spring:
                   serde: io.confluent.kafka.streams.serdes.avro.SpecificAvroSerde
             functions:
               sampleCreated:
-                application-id: ${info.app.organization}.${info.app.artifact-id}.sample.created
+                applicationId: ${info.app.organization}.${info.app.artifactId}.sample.created
               sampleUpdated:
-                application-id: ${info.app.organization}.${info.app.artifact-id}.sample.updated
+                applicationId: ${info.app.organization}.${info.app.artifactId}.sample.updated
               sampleDeleted:
-                application-id: ${info.app.organization}.${info.app.artifact-id}.sample.deleted
+                applicationId: ${info.app.organization}.${info.app.artifactId}.sample.deleted
   kafka:
-    bootstrap-servers:
+    bootstrapServers:
     consumer:
-      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      value-deserializer: io.confluent.kafka.streams.serdes.avro.SpecificAvroDeserializer
+      keyDeserializer: org.apache.kafka.common.serialization.StringDeserializer
+      valueDeserializer: io.confluent.kafka.streams.serdes.avro.SpecificAvroDeserializer
     producer:
-      key-serializer: org.apache.kafka.common.serialization.StringSerializer
-      value-serializer: io.confluent.kafka.streams.serdes.avro.SpecificAvroSerializer
+      keySerializer: org.apache.kafka.common.serialization.StringSerializer
+      valueSerializer: io.confluent.kafka.streams.serdes.avro.SpecificAvroSerializer
     properties:
       schema:
         registry:
@@ -141,20 +141,20 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri:
+          issuerUri:
 
 server:
   compression:
     enabled: true
-    mime-types: application/json
+    mimeTypes: application/json
   error:
     whitelabel:
       enabled: false
   http2:
     enabled: true
   servlet:
-    context-path: /sample
+    contextPath: /sample
   tomcat:
-    relaxed-query-chars: '[,]'
+    relaxedQueryChars: '[,]'
     threads:
       max: 500
