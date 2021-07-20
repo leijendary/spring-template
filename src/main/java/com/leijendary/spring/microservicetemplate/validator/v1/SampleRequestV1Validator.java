@@ -1,6 +1,7 @@
 package com.leijendary.spring.microservicetemplate.validator.v1;
 
 import com.leijendary.spring.microservicetemplate.data.request.v1.SampleRequestV1;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
@@ -16,12 +17,12 @@ public class SampleRequestV1Validator implements Validator {
     private static final int FIELD_1_LENGTH = 50;
 
     @Override
-    public boolean supports(Class<?> tClass) {
+    public boolean supports(@NonNull Class<?> tClass) {
         return SampleRequestV1.class.equals(tClass);
     }
 
     @Override
-    public void validate(Object o, Errors errors) {
+    public void validate(@NonNull Object o, @NonNull Errors errors) {
         field1(errors);
         field2(errors);
     }
