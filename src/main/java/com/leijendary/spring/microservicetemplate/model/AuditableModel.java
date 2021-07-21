@@ -16,7 +16,7 @@ import java.time.Instant;
 @EqualsAndHashCode(callSuper = true)
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
-public abstract class AuditableModel extends IdModel {
+public abstract class AuditableModel extends SnowflakeIdModel {
 
     @CreatedDate
     private Instant createdDate;

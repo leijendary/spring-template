@@ -13,7 +13,7 @@ import static com.leijendary.spring.microservicetemplate.generator.SnowflakeIdGe
 @Data
 @EqualsAndHashCode(callSuper = true)
 @MappedSuperclass
-public abstract class IdModel extends AbstractModel {
+public abstract class SnowflakeIdModel extends AbstractModel {
 
     protected static final String GENERATOR_SNOWFLAKE = "snowflake";
 
