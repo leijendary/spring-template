@@ -6,11 +6,11 @@ import org.springframework.validation.ValidationUtils;
 
 public abstract class ValidationUtil extends ValidationUtils {
 
-    public static void rejectIfEmptyOrWhitespace(Errors errors, String field) {
+    public static void rejectIfEmptyOrWhitespace(final Errors errors, final String field) {
         rejectIfEmptyOrWhitespace(errors, field, "validation.required");
     }
 
-    public static void rejectIfMaxLength(Errors errors, String field, int length) {
+    public static void rejectIfMaxLength(final Errors errors, final String field, final int length) {
         Assert.notNull(errors, "Errors object must not be null");
 
         // Skip validation if there is already an error in the field
@@ -18,7 +18,7 @@ public abstract class ValidationUtil extends ValidationUtils {
             return;
         }
 
-        Object value = errors.getFieldValue(field);
+        final var value = errors.getFieldValue(field);
 
         if (value != null && value.toString().length() > length) {
             errors.rejectValue(field, "validation.maxLength", new Object[] { length }, null);
