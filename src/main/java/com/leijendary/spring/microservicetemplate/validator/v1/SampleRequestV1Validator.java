@@ -17,22 +17,22 @@ public class SampleRequestV1Validator implements Validator {
     private static final int FIELD_1_LENGTH = 50;
 
     @Override
-    public boolean supports(@NonNull Class<?> tClass) {
+    public boolean supports(@NonNull final Class<?> tClass) {
         return SampleRequestV1.class.equals(tClass);
     }
 
     @Override
-    public void validate(@NonNull Object o, @NonNull Errors errors) {
+    public void validate(@NonNull final Object o, @NonNull final Errors errors) {
         field1(errors);
         field2(errors);
     }
 
-    private void field1(Errors errors) {
+    private void field1(final Errors errors) {
         rejectIfEmptyOrWhitespace(errors, FIELD_FIELD_1);
         rejectIfMaxLength(errors, FIELD_FIELD_1, FIELD_1_LENGTH);
     }
 
-    private void field2(Errors errors) {
+    private void field2(final Errors errors) {
         rejectIfEmptyOrWhitespace(errors, FIELD_FIELD_2);
     }
 }
