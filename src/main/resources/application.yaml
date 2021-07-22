@@ -141,7 +141,7 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuerUri:
+          jwkSetUri:
 
 server:
   compression:

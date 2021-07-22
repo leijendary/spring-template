@@ -3,16 +3,12 @@ package com.leijendary.spring.microservicetemplate.config;
 import com.leijendary.spring.microservicetemplate.config.properties.AuthProperties;
 import com.leijendary.spring.microservicetemplate.config.properties.CorsProperties;
 import com.leijendary.spring.microservicetemplate.security.AppAuthenticationEntryPoint;
-import com.leijendary.spring.microservicetemplate.security.AudienceValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.OAuth2ResourceServerProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.oauth2.core.DelegatingOAuth2TokenValidator;
-import org.springframework.security.oauth2.jwt.JwtDecoder;
-import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -20,8 +16,6 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import java.util.stream.Collectors;
 
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
-import static org.springframework.security.oauth2.jwt.JwtDecoders.fromOidcIssuerLocation;
-import static org.springframework.security.oauth2.jwt.JwtValidators.createDefaultWithIssuer;
 
 @Configuration
 @EnableWebSecurity
@@ -52,8 +46,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .formLogin().disable()
                 .csrf().disable()
                 .oauth2ResourceServer()
-                .jwt()
-                .decoder(jwtDecoder());
+                .jwt();
     }
 
     private CorsConfigurationSource corsConfigurationSource() {
@@ -73,17 +66,5 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         source.registerCorsConfiguration("/**", config);
 
         return source;
-    }
-
-    private JwtDecoder jwtDecoder() {
-        final var audience = authProperties.getAudience();
-        final var issuer = oAuth2ResourceServerProperties.getJwt().getIssuerUri();
-        final var withAudience = new AudienceValidator(audience);
-        final var withIssuer = createDefaultWithIssuer(issuer);
-        final var validator = new DelegatingOAuth2TokenValidator<>(withAudience, withIssuer);
-        final var jwtDecoder = (NimbusJwtDecoder) fromOidcIssuerLocation(issuer);
-        jwtDecoder.setJwtValidator(validator);
-
-        return jwtDecoder;
     }
 }
