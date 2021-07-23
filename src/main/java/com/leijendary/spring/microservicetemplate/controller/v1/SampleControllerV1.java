@@ -16,6 +16,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import java.time.format.TextStyle;
 import java.util.List;
 import java.util.Locale;
@@ -79,7 +80,7 @@ public class SampleControllerV1 extends AbstractController {
     @ResponseStatus(CREATED)
     @ApiOperation("Saves a sample record into the database")
     public CompletableFuture<DataResponse<SampleResponseV1>> create(
-            @RequestBody final SampleRequestV1 request, final HttpServletResponse httpServletResponse) {
+            @Valid @RequestBody final SampleRequestV1 request, final HttpServletResponse httpServletResponse) {
         final var sampleResponse = sampleTableService.create(request);
         final var response = DataResponse.<SampleResponseV1>builder()
                 .data(sampleResponse)
@@ -109,7 +110,7 @@ public class SampleControllerV1 extends AbstractController {
     @PreAuthorize("hasAuthority('SCOPE_urn:sample:update:v1')")
     @ApiOperation("Updates the sample record into the database")
     public CompletableFuture<DataResponse<SampleResponseV1>> update(
-            @PathVariable final long id, @RequestBody final SampleRequestV1 request) {
+            @PathVariable final long id, @Valid @RequestBody final SampleRequestV1 request) {
         final var sampleResponse = sampleTableService.update(id, request);
         final var response = DataResponse.<SampleResponseV1>builder()
                 .data(sampleResponse)

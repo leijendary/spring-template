@@ -51,7 +51,7 @@ spring:
         cachePrepStmts: true
         rewriteBatchedStatements: true
         useServerPrepStmts: true
-      maximumPoolSize: 50
+      maximumPoolSize: 20
   data:
     web:
       pageable:
