@@ -69,7 +69,7 @@ public class SampleControllerV1 extends AbstractController {
                 .data(page.getContent())
                 .meta(page)
                 .links(page)
-                .object(SampleResponseV1.class.getSimpleName())
+                .object(SampleResponseV1.class)
                 .build();
 
         return completedFuture(response);
@@ -85,7 +85,7 @@ public class SampleControllerV1 extends AbstractController {
         final var response = DataResponse.<SampleResponseV1>builder()
                 .data(sampleResponse)
                 .status(CREATED)
-                .object(SampleResponseV1.class.getSimpleName())
+                .object(SampleResponseV1.class)
                 .build();
 
         locationHeader(httpServletResponse, sampleResponse.getId());
@@ -100,7 +100,7 @@ public class SampleControllerV1 extends AbstractController {
         final var sampleResponse = sampleTableService.get(id);
         final var response = DataResponse.<SampleResponseV1>builder()
                 .data(sampleResponse)
-                .object(SampleResponseV1.class.getSimpleName())
+                .object(SampleResponseV1.class)
                 .build();
 
         return completedFuture(response);
@@ -114,7 +114,7 @@ public class SampleControllerV1 extends AbstractController {
         final var sampleResponse = sampleTableService.update(id, request);
         final var response = DataResponse.<SampleResponseV1>builder()
                 .data(sampleResponse)
-                .object(SampleResponseV1.class.getSimpleName())
+                .object(SampleResponseV1.class)
                 .build();
 
         return completedFuture(response);
