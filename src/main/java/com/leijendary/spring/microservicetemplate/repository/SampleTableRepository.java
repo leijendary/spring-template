@@ -8,5 +8,5 @@ import java.util.Optional;
 
 public interface SampleTableRepository extends JpaRepository<SampleTable, Long>, JpaSpecificationExecutor<SampleTable> {
 
-    Optional<SampleTable> findFirstByColumn1AndIdNot(final String column1, final long id);
+    Optional<SampleTable> findFirstByColumn1IgnoreCaseAndIdNot(final String column1, final long id);
 }

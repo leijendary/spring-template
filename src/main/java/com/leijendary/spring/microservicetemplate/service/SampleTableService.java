@@ -49,7 +49,7 @@ public class SampleTableService extends AbstractService {
         final var sampleTable = SampleFactory.of(sampleRequest);
 
         sampleTableRepository
-                .findFirstByColumn1AndIdNot(sampleRequest.getField1(), 0)
+                .findFirstByColumn1IgnoreCaseAndIdNot(sampleRequest.getField1(), 0)
                 .ifPresent(sampleTable1 -> {
                     throw new ResourceNotUniqueException("field1", sampleRequest.getField1());
                 });
@@ -67,7 +67,7 @@ public class SampleTableService extends AbstractService {
                 .orElseThrow(() -> new ResourceNotFoundException(RESOURCE_NAME, id));
 
         sampleTableRepository
-                .findFirstByColumn1AndIdNot(sampleRequest.getField1(), id)
+                .findFirstByColumn1IgnoreCaseAndIdNot(sampleRequest.getField1(), id)
                 .ifPresent(sampleTable1 -> {
                     throw new ResourceNotUniqueException("field1", sampleRequest.getField1());
                 });
