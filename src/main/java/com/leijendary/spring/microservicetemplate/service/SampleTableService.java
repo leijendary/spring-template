@@ -59,6 +59,14 @@ public class SampleTableService extends AbstractService {
         return toResponseV1(sampleTable);
     }
 
+    @Cacheable(value = CACHE_V1, key = "#id")
+    public SampleResponseV1 get(final long id) {
+        return sampleTableRepository
+                .findById(id)
+                .map(SampleFactory::toResponseV1)
+                .orElseThrow(() -> new ResourceNotFoundException(RESOURCE_NAME, id));
+    }
+
     @Caching(
             evict = @CacheEvict(value = PAGE_CACHE_V1, allEntries = true),
             put = @CachePut(value = CACHE_V1, key = "#result.id"))
@@ -77,14 +85,6 @@ public class SampleTableService extends AbstractService {
         sampleTable = sampleTableRepository.save(sampleTable);
 
         return toResponseV1(sampleTable);
-    }
-
-    @Cacheable(value = CACHE_V1, key = "#id")
-    public SampleResponseV1 get(final long id) {
-        return sampleTableRepository
-                .findById(id)
-                .map(SampleFactory::toResponseV1)
-                .orElseThrow(() -> new ResourceNotFoundException(RESOURCE_NAME, id));
     }
 
     @Caching(evict = {
