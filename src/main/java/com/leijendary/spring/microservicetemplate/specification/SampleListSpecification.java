@@ -3,6 +3,7 @@ package com.leijendary.spring.microservicetemplate.specification;
 import com.leijendary.spring.microservicetemplate.model.SampleTable;
 import lombok.Builder;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.lang.NonNull;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -17,8 +18,8 @@ public class SampleListSpecification implements Specification<SampleTable> {
     private final String column1;
 
     @Override
-    public Predicate toPredicate(final Root<SampleTable> root, final CriteriaQuery<?> criteriaQuery,
-                                 final CriteriaBuilder criteriaBuilder) {
+    public Predicate toPredicate(@NonNull final Root<SampleTable> root, @NonNull final CriteriaQuery<?> criteriaQuery,
+                                 @NonNull final CriteriaBuilder criteriaBuilder) {
         if (isBlank(this.column1)) {
             return criteriaQuery.where().getRestriction();
         }
