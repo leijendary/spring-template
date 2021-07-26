@@ -12,7 +12,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
-import java.time.Instant;
+import java.time.OffsetDateTime;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -27,13 +27,13 @@ public class SampleTable extends SnowflakeIdModel {
     private int column2;
 
     @CreatedDate
-    private Instant createdDate;
+    private OffsetDateTime createdDate;
 
     @CreatedBy
     private String createdBy;
 
     @LastModifiedDate
-    private Instant lastModifiedDate;
+    private OffsetDateTime lastModifiedDate;
 
     @LastModifiedBy
     private String lastModifiedBy;

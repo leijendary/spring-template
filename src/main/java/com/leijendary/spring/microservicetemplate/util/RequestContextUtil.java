@@ -6,6 +6,7 @@ import org.springframework.web.servlet.support.RequestContextUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.net.URI;
+import java.time.OffsetDateTime;
 import java.util.Locale;
 import java.util.Optional;
 import java.util.TimeZone;
@@ -46,5 +47,9 @@ public class RequestContextUtil {
     public static Locale getLocale() {
         return Optional.of(RequestContextUtils.getLocale(getCurrentRequest()))
                 .orElse(Locale.getDefault());
+    }
+
+    public static OffsetDateTime now() {
+        return OffsetDateTime.now(getTimeZone().toZoneId());
     }
 }

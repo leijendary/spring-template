@@ -6,7 +6,7 @@ import org.modelmapper.module.jsr310.Jsr310Module;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import static java.time.format.DateTimeFormatter.ISO_INSTANT;
+import static java.time.format.DateTimeFormatter.ISO_OFFSET_DATE_TIME;
 import static org.modelmapper.module.jsr310.Jsr310ModuleConfig.builder;
 
 @Configuration
@@ -15,7 +15,7 @@ public class ModelMapperConfiguration {
     @Bean
     public ModelMapper modelMapper() {
         final var config = builder()
-                .dateTimeFormatter(ISO_INSTANT)
+                .dateTimeFormatter(ISO_OFFSET_DATE_TIME)
                 .build();
         final var modelMapper = new ModelMapper();
         modelMapper.registerModule(new Jsr310Module(config));

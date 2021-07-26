@@ -15,10 +15,10 @@ import org.springframework.util.StringUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.time.Instant;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import static com.leijendary.spring.microservicetemplate.util.RequestContextUtil.now;
 import static java.util.Locale.getDefault;
 import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
@@ -68,7 +68,7 @@ public class AppAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
         final var wwwAuthenticate = computeWwwAuthenticateHeaderValue(parameters);
 
-        parameters.put("timestamp", Instant.now());
+        parameters.put("timestamp", now());
         parameters.put("path", RequestContextUtil.getPath());
         parameters.put("status", status.value());
 
