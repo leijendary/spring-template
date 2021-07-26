@@ -2,7 +2,6 @@ package com.leijendary.spring.microservicetemplate.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.leijendary.spring.microservicetemplate.config.properties.AuthProperties;
-import com.leijendary.spring.microservicetemplate.util.RequestContextUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
 import org.springframework.security.core.AuthenticationException;
@@ -18,6 +17,7 @@ import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import static com.leijendary.spring.microservicetemplate.util.RequestContextUtil.getPath;
 import static com.leijendary.spring.microservicetemplate.util.RequestContextUtil.now;
 import static java.util.Locale.getDefault;
 import static org.springframework.http.HttpStatus.UNAUTHORIZED;
@@ -69,7 +69,7 @@ public class AppAuthenticationEntryPoint implements AuthenticationEntryPoint {
         final var wwwAuthenticate = computeWwwAuthenticateHeaderValue(parameters);
 
         parameters.put("timestamp", now());
-        parameters.put("path", RequestContextUtil.getPath());
+        parameters.put("path", getPath());
         parameters.put("status", status.value());
 
         if (!parameters.containsKey("error")) {
