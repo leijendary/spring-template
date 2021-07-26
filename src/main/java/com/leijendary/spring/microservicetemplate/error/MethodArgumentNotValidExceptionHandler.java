@@ -24,19 +24,17 @@ public class MethodArgumentNotValidExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(BAD_REQUEST)
     public ErrorResponse catchMethodArgumentNotValid(final MethodArgumentNotValidException exception) {
-        final var response = ErrorResponse.builder()
-                .status(BAD_REQUEST);
+        final var response = ErrorResponse.builder().status(BAD_REQUEST);
 
         exception.getAllErrors()
                 .stream()
                 .map(objectError -> (FieldError) objectError)
                 .forEach(e -> {
                     final var objectName = e.getField();
-                    final var code = e.getCode();
+                    final var code = e.getDefaultMessage();
                     final var args = e.getArguments();
-                    final var defaultMessage = e.getDefaultMessage();
-                    final var message = ofNullable(defaultMessage)
-                            .map(s -> messageSource.getMessage(s, args, defaultMessage, getDefault()))
+                    final var message = ofNullable(code)
+                            .map(s -> messageSource.getMessage(s, args, code, getDefault()))
                             .orElse(null);
 
                     response.addError(objectName, code, message);
