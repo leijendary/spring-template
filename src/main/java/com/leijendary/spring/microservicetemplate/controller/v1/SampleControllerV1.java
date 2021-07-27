@@ -19,10 +19,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.time.format.TextStyle;
 import java.util.List;
-import java.util.Locale;
 import java.util.concurrent.CompletableFuture;
 
 import static com.leijendary.spring.microservicetemplate.controller.AbstractController.BASE_API_PATH;
+import static com.leijendary.spring.microservicetemplate.util.RequestContextUtil.getLocale;
 import static java.util.concurrent.CompletableFuture.completedFuture;
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.NO_CONTENT;
@@ -139,7 +139,7 @@ public class SampleControllerV1 extends AbstractController {
     public String timezone() {
         final var timeZone = RequestContextUtil.getTimeZone();
         final var zoneId = timeZone.toZoneId();
-        final var displayName = zoneId.getDisplayName(TextStyle.FULL, Locale.getDefault());
+        final var displayName = zoneId.getDisplayName(TextStyle.FULL, getLocale());
         final var id = zoneId.getId();
 
         return String.format("%s %s", displayName, id);
@@ -147,6 +147,6 @@ public class SampleControllerV1 extends AbstractController {
 
     @GetMapping(value = "locale", produces = TEXT_PLAIN_VALUE)
     public String locale() {
-        return RequestContextUtil.getLocale().toString();
+        return getLocale().toString();
     }
 }

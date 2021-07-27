@@ -17,9 +17,7 @@ import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import static com.leijendary.spring.microservicetemplate.util.RequestContextUtil.getPath;
-import static com.leijendary.spring.microservicetemplate.util.RequestContextUtil.now;
-import static java.util.Locale.getDefault;
+import static com.leijendary.spring.microservicetemplate.util.RequestContextUtil.*;
 import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
@@ -33,8 +31,8 @@ public class AppAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
     public void commence(final HttpServletRequest request, final HttpServletResponse response,
                          final AuthenticationException exception) throws IOException {
-        final var description = messageSource.getMessage("access.unauthorized", new Object[0], getDefault());
-        final var error = messageSource.getMessage("access.error", new Object[0], getDefault());
+        final var description = messageSource.getMessage("access.unauthorized", new Object[0], getLocale());
+        final var error = messageSource.getMessage("access.error", new Object[0], getLocale());
         var status = UNAUTHORIZED;
         final var parameters = new LinkedHashMap<String, Object>();
 

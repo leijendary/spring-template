@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import static java.util.Locale.getDefault;
+import static com.leijendary.spring.microservicetemplate.util.RequestContextUtil.getLocale;
 import static org.springframework.http.HttpStatus.FORBIDDEN;
 
 @RestControllerAdvice
@@ -23,7 +23,7 @@ public class AccessDeniedExceptionHandler {
     @ResponseStatus(FORBIDDEN)
     public ErrorResponse catchAccessDenied(final AccessDeniedException exception) {
         final var code = "access.denied";
-        final var message = messageSource.getMessage(code, new Object[0], getDefault());
+        final var message = messageSource.getMessage(code, new Object[0], getLocale());
 
         return ErrorResponse.builder()
                 .addError("Authorization", code, message + ": " + exception.getMessage())

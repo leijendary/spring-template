@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import static java.util.Locale.getDefault;
+import static com.leijendary.spring.microservicetemplate.util.RequestContextUtil.getLocale;
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 
 @RestControllerAdvice
@@ -22,7 +22,7 @@ public class GlobalExceptionHandler {
     @ResponseStatus(INTERNAL_SERVER_ERROR)
     public ErrorResponse catchException(final Exception exception) {
         final var code = "error.generic";
-        final var error = messageSource.getMessage(code, new Object[0], getDefault());
+        final var error = messageSource.getMessage(code, new Object[0], getLocale());
 
         log.error("Global Exception", exception);
 

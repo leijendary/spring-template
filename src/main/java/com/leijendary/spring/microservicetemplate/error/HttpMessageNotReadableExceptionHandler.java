@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.List;
 
-import static java.util.Locale.getDefault;
+import static com.leijendary.spring.microservicetemplate.util.RequestContextUtil.getLocale;
 import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.joining;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
@@ -74,7 +74,7 @@ public class HttpMessageNotReadableExceptionHandler {
         final var path = getPath(exception.getPath());
         final var code = "error.invalidFormat";
         final var message =  messageSource.getMessage(code,
-                new Object[] { path, exception.getValue(), exception.getTargetType().getSimpleName() }, getDefault());
+                new Object[] { path, exception.getValue(), exception.getTargetType().getSimpleName() }, getLocale());
 
         errorResponse.addError(path, code, message);
     }
