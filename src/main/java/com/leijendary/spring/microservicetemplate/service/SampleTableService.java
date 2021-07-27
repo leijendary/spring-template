@@ -34,7 +34,7 @@ public class SampleTableService extends AbstractService {
     @Cacheable(value = PAGE_CACHE_V1, key = "#queryRequest.toString() + '|' + #pageable.toString()")
     public Page<SampleResponseV1> list(final QueryRequest queryRequest, final Pageable pageable) {
         final var specification = SampleListSpecification.builder()
-                .column1(queryRequest.getQuery())
+                .query(queryRequest.getQuery())
                 .build();
 
         return sampleTableRepository.findAll(specification, pageable)

@@ -10,24 +10,24 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
+import static com.leijendary.spring.microservicetemplate.util.PredicateUtil.lowerLike;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 
 @Builder
 public class SampleListSpecification implements Specification<SampleTable> {
 
-    private final String column1;
+    private final String query;
 
     @Override
     public Predicate toPredicate(@NonNull final Root<SampleTable> root, @NonNull final CriteriaQuery<?> criteriaQuery,
                                  @NonNull final CriteriaBuilder criteriaBuilder) {
-        if (isBlank(this.column1)) {
+        if (isBlank(query)) {
             return criteriaQuery.where().getRestriction();
         }
 
         final var column1 = root.<String>get("column1");
-        final var lowerColumn1 = criteriaBuilder.lower(column1);
-        final var like = criteriaBuilder.like(lowerColumn1, "%" + this.column1.toLowerCase() + "%");
+        final var column1Like = lowerLike(query, column1, criteriaBuilder);
 
-        return criteriaQuery.where(like).getRestriction();
+        return criteriaQuery.where(column1Like).getRestriction();
     }
 }
