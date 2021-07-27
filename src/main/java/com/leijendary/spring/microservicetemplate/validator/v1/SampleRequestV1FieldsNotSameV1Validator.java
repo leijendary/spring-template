@@ -1,17 +1,17 @@
 package com.leijendary.spring.microservicetemplate.validator.v1;
 
 import com.leijendary.spring.microservicetemplate.data.request.v1.SampleRequestV1;
-import com.leijendary.spring.microservicetemplate.validator.annotation.FieldNotEqual;
+import com.leijendary.spring.microservicetemplate.validator.annotation.v1.FieldsNotEqualV1;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
 import static java.util.Optional.ofNullable;
 
-public class SampleRequestV1FieldsNotSameV1Validator implements ConstraintValidator<FieldNotEqual, SampleRequestV1> {
+public class SampleRequestV1FieldsNotSameV1Validator implements ConstraintValidator<FieldsNotEqualV1, SampleRequestV1> {
 
     @Override
-    public void initialize(FieldNotEqual constraintAnnotation) {
+    public void initialize(FieldsNotEqualV1 constraintAnnotation) {
         ConstraintValidator.super.initialize(constraintAnnotation);
     }
 

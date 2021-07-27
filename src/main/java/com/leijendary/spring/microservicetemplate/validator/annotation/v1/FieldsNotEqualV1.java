@@ -1,4 +1,4 @@
-package com.leijendary.spring.microservicetemplate.validator.annotation;
+package com.leijendary.spring.microservicetemplate.validator.annotation.v1;
 
 import com.leijendary.spring.microservicetemplate.validator.v1.SampleRequestV1FieldsNotSameV1Validator;
 
@@ -12,7 +12,7 @@ import java.lang.annotation.Target;
 @Constraint(validatedBy = SampleRequestV1FieldsNotSameV1Validator.class)
 @Target({ ElementType.TYPE })
 @Retention(RetentionPolicy.RUNTIME)
-public @interface FieldNotEqual {
+public @interface FieldsNotEqualV1 {
 
     String message() default "validation.fields.isSame";
 

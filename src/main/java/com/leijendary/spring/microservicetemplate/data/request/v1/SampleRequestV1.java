@@ -1,13 +1,13 @@
 package com.leijendary.spring.microservicetemplate.data.request.v1;
 
-import com.leijendary.spring.microservicetemplate.validator.annotation.FieldNotEqual;
+import com.leijendary.spring.microservicetemplate.validator.annotation.v1.FieldsNotEqualV1;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 @Data
-@FieldNotEqual
+@FieldsNotEqualV1
 public class SampleRequestV1 {
 
     @NotBlank(message = "validation.required")
