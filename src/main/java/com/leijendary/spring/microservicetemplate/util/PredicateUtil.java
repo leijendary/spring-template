@@ -13,4 +13,12 @@ public class PredicateUtil {
 
         return criteriaBuilder.like(lowerPath, "%" + lowerQuery + "%");
     }
+
+    public static Predicate lowerEqual(final String value, final Path<String> path,
+                                       final CriteriaBuilder criteriaBuilder) {
+        final var lowerValue = value.toLowerCase();
+        final var lowerPath = criteriaBuilder.lower(path);
+
+        return criteriaBuilder.equal(lowerPath, lowerValue);
+    }
 }
