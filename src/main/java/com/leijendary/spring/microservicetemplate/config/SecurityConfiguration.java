@@ -47,6 +47,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .cors()
                 .configurationSource(corsConfigurationSource())
             .and()
+                .anonymous(configurer -> configurer.principal(authProperties.getAnonymousUser().getPrincipal()))
                 .httpBasic().disable()
                 .formLogin().disable()
                 .csrf().disable()

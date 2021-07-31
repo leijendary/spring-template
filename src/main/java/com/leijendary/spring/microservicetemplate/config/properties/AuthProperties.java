@@ -9,4 +9,11 @@ public class AuthProperties {
 
     private String audience;
     private String realm;
+    private AnonymousUser anonymousUser;
+
+    @Data
+    public static class AnonymousUser {
+
+        private String principal;
+    }
 }

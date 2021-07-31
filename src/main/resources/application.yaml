@@ -18,6 +18,8 @@ info:
 auth:
   audience: http://localhost:8080
   realm: Microservice Template API v1
+  anonymousUser:
+    principal: Anonymous User
 
 cors:
   allowCredentials: true
