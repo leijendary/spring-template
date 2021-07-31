@@ -17,7 +17,7 @@ public class SampleTableListener {
         final var sampleProducer = getBean(SampleProducer.class);
         final var sampleSchema = toSchema(sampleTable);
 
-        sampleProducer.created(sampleSchema);
+        sampleProducer.create(sampleSchema);
     }
 
     @PostUpdate
@@ -25,7 +25,7 @@ public class SampleTableListener {
         final var sampleProducer = getBean(SampleProducer.class);
         final var sampleSchema = toSchema(sampleTable);
 
-        sampleProducer.updated(sampleSchema);
+        sampleProducer.update(sampleSchema);
     }
 
     @PostRemove
@@ -33,6 +33,6 @@ public class SampleTableListener {
         final var sampleProducer = getBean(SampleProducer.class);
         final var sampleSchema = toSchema(sampleTable);
 
-        sampleProducer.deleted(sampleSchema);
+        sampleProducer.delete(sampleSchema);
     }
 }

@@ -1,27 +1,53 @@
 package com.leijendary.spring.microservicetemplate.event.producer;
 
 import com.leijendary.spring.microservicetemplate.event.schema.SampleSchema;
-import org.springframework.cloud.stream.function.StreamBridge;
+import org.springframework.context.annotation.Bean;
+import org.springframework.messaging.Message;
 import org.springframework.stereotype.Component;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Sinks;
 
-import static com.leijendary.spring.microservicetemplate.event.binding.SampleBinding.*;
+import java.util.function.Supplier;
+
+import static reactor.core.publisher.Sinks.many;
 
 @Component
 public class SampleProducer extends AbstractProducer<SampleSchema> {
 
-    public SampleProducer(final StreamBridge streamBridge) {
-        super(streamBridge);
+    private final Sinks.Many<Message<SampleSchema>> createBuffer = many().multicast().onBackpressureBuffer();
+    private final Sinks.Many<Message<SampleSchema>> updateBuffer = many().multicast().onBackpressureBuffer();
+    private final Sinks.Many<Message<SampleSchema>> deleteBuffer = many().multicast().onBackpressureBuffer();
+
+    @Bean
+    public Supplier<Flux<Message<SampleSchema>>> sampleCreate() {
+        return createBuffer::asFlux;
     }
 
-    public void created(final SampleSchema sampleSchema) {
-        send(CREATED, String.valueOf(sampleSchema.getId()), sampleSchema);
+    @Bean
+    public Supplier<Flux<Message<SampleSchema>>> sampleUpdate() {
+        return updateBuffer::asFlux;
     }
 
-    public void updated(final SampleSchema sampleSchema) {
-        send(UPDATED, String.valueOf(sampleSchema.getId()), sampleSchema);
+    @Bean
+    public Supplier<Flux<Message<SampleSchema>>> sampleDelete() {
+        return deleteBuffer::asFlux;
     }
 
-    public void deleted(final SampleSchema sampleSchema) {
-        send(DELETED, String.valueOf(sampleSchema.getId()), sampleSchema);
+    public void create(final SampleSchema sampleSchema) {
+        final var message = messageWithKey(String.valueOf(sampleSchema.getId()), sampleSchema);
+
+        createBuffer.tryEmitNext(message);
+    }
+
+    public void update(final SampleSchema sampleSchema) {
+        final var message = messageWithKey(String.valueOf(sampleSchema.getId()), sampleSchema);
+
+        updateBuffer.tryEmitNext(message);
+    }
+
+    public void delete(final SampleSchema sampleSchema) {
+        final var message = messageWithKey(String.valueOf(sampleSchema.getId()), sampleSchema);
+
+        deleteBuffer.tryEmitNext(message);
     }
 }

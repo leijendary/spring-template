@@ -85,28 +85,25 @@ spring:
     stream:
       bindings:
         sampleCreated-in-0:
-          destination: ${info.app.artifactId}.sample.created
-        sampleCreated-out-0:
-          destination: ${info.app.artifactId}.sample.created
+          destination: ${info.app.artifactId}.sample.create
+        sampleCreate-out-0:
+          destination: ${info.app.artifactId}.sample.create
           producer:
             useNativeEncoding: true
         sampleUpdated-in-0:
-          destination: ${info.app.artifactId}.sample.updated
-        sampleUpdated-out-0:
-          destination: ${info.app.artifactId}.sample.updated
+          destination: ${info.app.artifactId}.sample.update
+        sampleUpdate-out-0:
+          destination: ${info.app.artifactId}.sample.update
           producer:
             useNativeEncoding: true
         sampleDeleted-in-0:
-          destination: ${info.app.artifactId}.sample.deleted
-        sampleDeleted-out-0:
-          destination: ${info.app.artifactId}.sample.deleted
+          destination: ${info.app.artifactId}.sample.delete
+        sampleDelete-out-0:
+          destination: ${info.app.artifactId}.sample.delete
           producer:
             useNativeEncoding: true
       function:
-        definition: >-
-          sampleCreated;
-          sampleUpdated;
-          sampleDeleted
+        definition: sampleCreated;sampleUpdated;sampleDeleted;sampleCreate;sampleUpdate;sampleDelete
       kafka:
         binder:
           autoAddPartitions: true
@@ -119,12 +116,18 @@ spring:
                 value:
                   serde: io.confluent.kafka.streams.serdes.avro.SpecificAvroSerde
             functions:
+              sampleCreate:
+                applicationId: ${info.app.organization}.${info.app.artifactId}.sample.create
               sampleCreated:
-                applicationId: ${info.app.organization}.${info.app.artifactId}.sample.created
+                applicationId: ${info.app.organization}.${info.app.artifactId}.sample.create
+              sampleUpdate:
+                applicationId: ${info.app.organization}.${info.app.artifactId}.sample.update
               sampleUpdated:
-                applicationId: ${info.app.organization}.${info.app.artifactId}.sample.updated
+                applicationId: ${info.app.organization}.${info.app.artifactId}.sample.update
+              sampleDelete:
+                applicationId: ${info.app.organization}.${info.app.artifactId}.sample.delete
               sampleDeleted:
-                applicationId: ${info.app.organization}.${info.app.artifactId}.sample.deleted
+                applicationId: ${info.app.organization}.${info.app.artifactId}.sample.delete
   kafka:
     bootstrapServers:
     consumer:
