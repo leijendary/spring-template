@@ -47,7 +47,7 @@ public class SampleFlow {
     public SampleResponseV1 getV1(final long id) {
         final var sampleTable = sampleTableService.get(id);
 
-        return SampleFactory.toResponseV1(sampleTable);
+        return toResponseV1(sampleTable);
     }
 
     @Caching(
