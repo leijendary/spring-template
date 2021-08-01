@@ -1,5 +1,6 @@
 package com.leijendary.spring.microservicetemplate.factory;
 
+import com.leijendary.spring.microservicetemplate.data.SampleData;
 import com.leijendary.spring.microservicetemplate.data.request.v1.SampleRequestV1;
 import com.leijendary.spring.microservicetemplate.data.response.v1.SampleResponseV1;
 import com.leijendary.spring.microservicetemplate.event.schema.SampleSchema;
@@ -19,7 +20,11 @@ public class SampleFactory extends AbstractFactory {
         return MAPPER.map(sampleRequest, SampleTable.class);
     }
 
-    public static void map(final SampleRequestV1 source, final SampleTable destination) {
-        MAPPER.map(source, destination);
+    public static SampleTable of(final SampleData sampleData) {
+        return MAPPER.map(sampleData, SampleTable.class);
+    }
+
+    public static void map(final SampleData sampleData, final SampleTable destination) {
+        MAPPER.map(sampleData, destination);
     }
 }

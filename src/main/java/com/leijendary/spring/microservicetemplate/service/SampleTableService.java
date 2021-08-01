@@ -1,7 +1,7 @@
 package com.leijendary.spring.microservicetemplate.service;
 
+import com.leijendary.spring.microservicetemplate.data.SampleData;
 import com.leijendary.spring.microservicetemplate.data.request.QueryRequest;
-import com.leijendary.spring.microservicetemplate.data.request.v1.SampleRequestV1;
 import com.leijendary.spring.microservicetemplate.exception.ResourceNotFoundException;
 import com.leijendary.spring.microservicetemplate.exception.ResourceNotUniqueException;
 import com.leijendary.spring.microservicetemplate.factory.SampleFactory;
@@ -29,13 +29,13 @@ public class SampleTableService extends AbstractService {
         return sampleTableRepository.findAll(specification, pageable);
     }
 
-    public SampleTable create(final SampleRequestV1 sampleRequest) {
-        final var sampleTable = SampleFactory.of(sampleRequest);
+    public SampleTable create(final SampleData sampleData) {
+        final var sampleTable = SampleFactory.of(sampleData);
 
         sampleTableRepository
-                .findFirstByColumn1IgnoreCaseAndIdNot(sampleRequest.getField1(), 0)
+                .findFirstByColumn1IgnoreCaseAndIdNot(sampleData.getColumn1(), 0)
                 .ifPresent(sampleTable1 -> {
-                    throw new ResourceNotUniqueException("field1", sampleRequest.getField1());
+                    throw new ResourceNotUniqueException("column1", sampleData.getColumn1());
                 });
 
         sampleTableRepository.save(sampleTable);
@@ -49,17 +49,17 @@ public class SampleTableService extends AbstractService {
                 .orElseThrow(() -> new ResourceNotFoundException(RESOURCE_NAME, id));
     }
 
-    public SampleTable update(final long id, final SampleRequestV1 sampleRequest) {
+    public SampleTable update(final long id, final SampleData sampleData) {
         var sampleTable = sampleTableRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(RESOURCE_NAME, id));
 
         sampleTableRepository
-                .findFirstByColumn1IgnoreCaseAndIdNot(sampleRequest.getField1(), id)
+                .findFirstByColumn1IgnoreCaseAndIdNot(sampleData.getColumn1(), id)
                 .ifPresent(sampleTable1 -> {
-                    throw new ResourceNotUniqueException("field1", sampleRequest.getField1());
+                    throw new ResourceNotUniqueException("column1", sampleData.getColumn1());
                 });
 
-        SampleFactory.map(sampleRequest, sampleTable);
+        SampleFactory.map(sampleData, sampleTable);
 
         return sampleTableRepository.save(sampleTable);
     }

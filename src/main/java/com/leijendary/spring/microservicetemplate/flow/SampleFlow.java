@@ -3,6 +3,7 @@ package com.leijendary.spring.microservicetemplate.flow;
 import com.leijendary.spring.microservicetemplate.data.request.QueryRequest;
 import com.leijendary.spring.microservicetemplate.data.request.v1.SampleRequestV1;
 import com.leijendary.spring.microservicetemplate.data.response.v1.SampleResponseV1;
+import com.leijendary.spring.microservicetemplate.factory.SampleDataFactory;
 import com.leijendary.spring.microservicetemplate.factory.SampleFactory;
 import com.leijendary.spring.microservicetemplate.service.SampleTableService;
 import lombok.RequiredArgsConstructor;
@@ -38,7 +39,8 @@ public class SampleFlow {
             put = @CachePut(value = CACHE_V1, key = "#result.id"))
     @Transactional
     public SampleResponseV1 createV1(final SampleRequestV1 request) {
-        final var sampleTable = sampleTableService.create(request);
+        final var sampleData = SampleDataFactory.of(request);
+        final var sampleTable = sampleTableService.create(sampleData);
 
         return toResponseV1(sampleTable);
     }
@@ -55,7 +57,8 @@ public class SampleFlow {
             put = @CachePut(value = CACHE_V1, key = "#result.id"))
     @Transactional
     public SampleResponseV1 updateV1(final long id, final SampleRequestV1 request) {
-        final var sampleTable = sampleTableService.update(id, request);
+        final var sampleData = SampleDataFactory.of(request);
+        final var sampleTable = sampleTableService.update(id, sampleData);
 
         return toResponseV1(sampleTable);
     }
