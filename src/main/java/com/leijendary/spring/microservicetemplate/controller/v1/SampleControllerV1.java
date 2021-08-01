@@ -6,7 +6,7 @@ import com.leijendary.spring.microservicetemplate.data.request.QueryRequest;
 import com.leijendary.spring.microservicetemplate.data.request.v1.SampleRequestV1;
 import com.leijendary.spring.microservicetemplate.data.response.DataResponse;
 import com.leijendary.spring.microservicetemplate.data.response.v1.SampleResponseV1;
-import com.leijendary.spring.microservicetemplate.service.SampleTableService;
+import com.leijendary.spring.microservicetemplate.flow.SampleFlow;
 import com.leijendary.spring.microservicetemplate.util.RequestContextUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -51,7 +51,7 @@ import static org.springframework.http.MediaType.TEXT_PLAIN_VALUE;
 public class SampleControllerV1 extends AbstractController {
 
     private final SampleClient sampleClient;
-    private final SampleTableService sampleTableService;
+    private final SampleFlow sampleFlow;
 
     /**
      * This is a sample RequestMapping (Only GET method, that is why i used {@link GetMapping})
@@ -64,7 +64,7 @@ public class SampleControllerV1 extends AbstractController {
     @ApiOperation("Sample implementation of swagger in a api")
     public CompletableFuture<DataResponse<List<SampleResponseV1>>> list(
             final QueryRequest queryRequest, final Pageable pageable) {
-        final var page = sampleTableService.list(queryRequest, pageable);
+        final var page = sampleFlow.listV1(queryRequest, pageable);
         final var response = DataResponse.<List<SampleResponseV1>>builder()
                 .data(page.getContent())
                 .meta(page)
@@ -81,7 +81,7 @@ public class SampleControllerV1 extends AbstractController {
     @ApiOperation("Saves a sample record into the database")
     public CompletableFuture<DataResponse<SampleResponseV1>> create(
             @Valid @RequestBody final SampleRequestV1 request, final HttpServletResponse httpServletResponse) {
-        final var sampleResponse = sampleTableService.create(request);
+        final var sampleResponse = sampleFlow.createV1(request);
         final var response = DataResponse.<SampleResponseV1>builder()
                 .data(sampleResponse)
                 .status(CREATED)
@@ -97,7 +97,7 @@ public class SampleControllerV1 extends AbstractController {
     @PreAuthorize("hasAuthority('SCOPE_urn:sample:get:v1')")
     @ApiOperation("Retrieves the sample record from the database")
     public CompletableFuture<DataResponse<SampleResponseV1>> get(@PathVariable final long id) {
-        final var sampleResponse = sampleTableService.get(id);
+        final var sampleResponse = sampleFlow.getV1(id);
         final var response = DataResponse.<SampleResponseV1>builder()
                 .data(sampleResponse)
                 .object(SampleResponseV1.class)
@@ -111,7 +111,7 @@ public class SampleControllerV1 extends AbstractController {
     @ApiOperation("Updates the sample record into the database")
     public CompletableFuture<DataResponse<SampleResponseV1>> update(
             @PathVariable final long id, @Valid @RequestBody final SampleRequestV1 request) {
-        final var sampleResponse = sampleTableService.update(id, request);
+        final var sampleResponse = sampleFlow.updateV1(id, request);
         final var response = DataResponse.<SampleResponseV1>builder()
                 .data(sampleResponse)
                 .object(SampleResponseV1.class)
@@ -125,7 +125,7 @@ public class SampleControllerV1 extends AbstractController {
     @ResponseStatus(NO_CONTENT)
     @ApiOperation("Removes the sample record from the database")
     public CompletableFuture<Void> delete(@PathVariable final long id) {
-        sampleTableService.delete(id);
+        sampleFlow.deleteV1(id);
 
         return completedFuture(null);
     }
