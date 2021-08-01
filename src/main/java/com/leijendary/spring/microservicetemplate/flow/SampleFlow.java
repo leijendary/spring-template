@@ -53,6 +53,7 @@ public class SampleFlow {
     @Caching(
             evict = @CacheEvict(value = PAGE_CACHE_V1, allEntries = true),
             put = @CachePut(value = CACHE_V1, key = "#result.id"))
+    @Transactional
     public SampleResponseV1 updateV1(final long id, final SampleRequestV1 request) {
         final var sampleTable = sampleTableService.update(id, request);
 
