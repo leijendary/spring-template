@@ -1,0 +1,215 @@
+image: docker:19
+
+variables:
+  MAVEN_OPTS: >-
+    -D https.protocols=TLSv1.2
+    -D maven.repo.local=$CI_PROJECT_DIR/.m2/repository
+    -D org.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=WARN
+    -D org.slf4j.simpleLogger.showDateTime=true
+    -D java.awt.headless=true
+  REPOSITORY_URL: $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$REPOSITORY_NAME
+  PIP_CACHE_DIR: $CI_PROJECT_DIR/.cache/pip
+
+services:
+  - docker:dind
+
+# Cache downloaded dependencies and plugins between builds.
+# To keep cache across branches add 'key: "$CI_JOB_NAME"'
+cache: &global_cache
+  key: ${CI_COMMIT_REF_SLUG}
+  paths:
+    - .cache/pip
+    - .m2/repository
+
+# Installation of OS and CLI requirements.
+.aws_configuration:
+  before_script:
+    - apk add py-pip
+    - pip install awscli --cache-dir $PIP_CACHE_DIR
+    # We need to login to AWS CLI first before continuing.
+    # Set the AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY and AWS_DEFAULT_REGION first
+    - $(aws ecr get-login --no-include-email --region "${AWS_DEFAULT_REGION}")
+
+# Update of AWS ECS Service
+.aws_ecs_update_service:
+  extends: .aws_configuration
+  script:
+    - echo "Updating ECS service..."
+    - aws ecs update-service --force-new-deployment --region "${AWS_DEFAULT_REGION}" --cluster "${AWS_CLUSTER_NAME}" --service "${AWS_SERVICE_NAME}"
+    - echo "Updated ECS service."
+  tags:
+    - MicroRunner
+
+# Docker Image
+.docker_image:
+  extends: .aws_configuration
+  script:
+    - echo "Building docker image..."
+    - docker pull $REPOSITORY_URL:latest || true
+    - docker build --cache-from $REPOSITORY_URL:latest -t $REPOSITORY_URL:latest .
+    - echo "Done building docker image."
+    - echo "Pushing images..."
+    - docker tag $REPOSITORY_URL:latest $REPOSITORY_URL:$CI_ENVIRONMENT_NAME
+    # The commit SHA is for archiving purposes
+    - docker tag $REPOSITORY_URL:latest $REPOSITORY_URL:$CI_COMMIT_SHA
+    - docker push $REPOSITORY_URL:latest
+    - docker push $REPOSITORY_URL:$CI_ENVIRONMENT_NAME
+    # The commit SHA is for archiving purposes
+    - docker push $REPOSITORY_URL:$CI_COMMIT_SHA
+    - echo "Pushed images."
+  tags:
+    - SmallRunner
+
+# 1. Test
+# 2. Build
+# 3. Docker Image
+# 4. Tag
+# 5. Deploy
+stages:
+  - test
+  - build
+  - docker
+  - tag
+  - deploy
+
+# Test the Merge Request
+Test Merge Request:
+  stage: test
+  image: openjdk:11-jdk
+  cache:
+    <<: *global_cache
+    key: merge_requests
+  script:
+    - echo "Running tests..."
+    - sh ./mvnw $MAVEN_CLI_OPTS test
+    - echo "Tests completed."
+  tags:
+    - SmallRunner
+  only:
+    - merge_requests
+
+# Per-Branch test
+Test:
+  stage: test
+  image: openjdk:11-jdk
+  script:
+    - echo "Running tests..."
+    - sh ./mvnw $MAVEN_CLI_OPTS test
+    - echo "Tests completed."
+  tags:
+    - SmallRunner
+  only:
+    - develop
+    - /^release/.*$/i
+    - staging
+    - master
+
+# Build the jar file
+Build:
+  stage: build
+  image: openjdk:11-jdk
+  script:
+    - echo "Building jar file..."
+    - sh ./mvnw $MAVEN_CLI_OPTS clean package -D skipTests
+    - echo "Finished building JAR file"
+  artifacts:
+    paths:
+      - target/*.jar
+  tags:
+    - SmallRunner
+  only:
+    - develop
+    - /^release/.*$/i
+    - staging
+    - master
+
+# Build the Docker Image for DEV using the JAR file created from the build stage
+Docker for DEV:
+  stage: docker
+  extends: .docker_image
+  environment:
+    name: dev
+  only:
+    - develop
+
+# Build the Docker Image for UAT using the JAR file created from the build stage
+Docker for UAT:
+  stage: docker
+  extends: .docker_image
+  environment:
+    name: uat
+  only:
+    - /^release/.*$/i
+
+# Build the Docker Image for STAGING using the JAR file created from the build stage
+Docker for STAGING:
+  stage: docker
+  extends: .docker_image
+  environment:
+    name: staging
+  only:
+    - staging
+
+# Build the Docker Image for PROD using the JAR file created from the build stage
+Docker for PROD:
+  stage: docker
+  extends: .docker_image
+  environment:
+    name: prod
+  only:
+    - master
+
+# Tag the docker image based on the pushed repository tag
+Tag:
+  stage: tag
+  extends: .aws_configuration
+  script:
+    - echo "Tagging docker image..."
+    - docker pull $REPOSITORY_URL:$CI_COMMIT_SHA
+    - docker tag $REPOSITORY_URL:$CI_COMMIT_SHA $REPOSITORY_URL:$CI_COMMIT_TAG
+    - docker push $REPOSITORY_URL:$CI_COMMIT_TAG
+    - echo "Tagged docker image."
+  tags:
+    - SmallRunner
+  only:
+    - tags
+
+# Deploy the image into the DEV cluster
+Deploy to DEV:
+  stage: deploy
+  extends: .aws_ecs_update_service
+  environment:
+    # We want to isolate AWS_CLUSTER_NAME and AWS_SERVICE_NAME per environment
+    name: dev
+  only:
+    - develop
+
+# Deploy the image into the UAT cluster
+Deploy to UAT:
+  stage: deploy
+  extends: .aws_ecs_update_service
+  environment:
+    # We want to isolate AWS_CLUSTER_NAME and AWS_SERVICE_NAME per environment
+    name: uat
+  only:
+    - /^release/.*$/i
+
+# Deploy the image into the STAGING cluster
+Deploy to STAGING:
+  stage: deploy
+  extends: .aws_ecs_update_service
+  environment:
+    # We want to isolate AWS_CLUSTER_NAME and AWS_SERVICE_NAME per environment
+    name: staging
+  only:
+    - staging
+
+# Deploy the image into the PROD cluster
+Deploy to PROD:
+  stage: deploy
+  extends: .aws_ecs_update_service
+  environment:
+    # We want to isolate AWS_CLUSTER_NAME and AWS_SERVICE_NAME per environment
+    name: prod
+  only:
+    - master
