@@ -84,7 +84,7 @@ Test Merge Request:
     - sh ./mvnw $MAVEN_CLI_OPTS test
     - echo "Tests completed."
   tags:
-    - SmallRunner
+    - MediumRunner
   only:
     - merge_requests
 
@@ -97,7 +97,7 @@ Test:
     - sh ./mvnw $MAVEN_CLI_OPTS test
     - echo "Tests completed."
   tags:
-    - SmallRunner
+    - MediumRunner
   only:
     - develop
     - /^release/.*$/i
@@ -116,7 +116,7 @@ Build:
     paths:
       - target/*.jar
   tags:
-    - SmallRunner
+    - MediumRunner
   only:
     - develop
     - /^release/.*$/i
@@ -170,7 +170,7 @@ Tag:
     - docker push $REPOSITORY_URL:$CI_COMMIT_TAG
     - echo "Tagged docker image."
   tags:
-    - SmallRunner
+    - MicroRunner
   only:
     - tags
 
