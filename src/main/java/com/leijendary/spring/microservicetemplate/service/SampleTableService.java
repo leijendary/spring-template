@@ -44,14 +44,12 @@ public class SampleTableService extends AbstractService {
     }
 
     public SampleTable get(final long id) {
-        return sampleTableRepository
-                .findById(id)
+        return sampleTableRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(RESOURCE_NAME, id));
     }
 
     public SampleTable update(final long id, final SampleData sampleData) {
-        var sampleTable = sampleTableRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException(RESOURCE_NAME, id));
+        var sampleTable = get(id);
 
         sampleTableRepository
                 .findFirstByColumn1IgnoreCaseAndIdNot(sampleData.getColumn1(), id)
@@ -65,8 +63,7 @@ public class SampleTableService extends AbstractService {
     }
 
     public void delete(final long id) {
-        final var sampleTable = sampleTableRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException(RESOURCE_NAME, id));
+        final var sampleTable = get(id);
 
         sampleTableRepository.delete(sampleTable);
     }
