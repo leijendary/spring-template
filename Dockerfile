@@ -1,11 +1,9 @@
 # syntax=docker/dockerfile:experimental
-FROM adoptopenjdk/openjdk11-openj9:alpine as build
+FROM maven:3-adoptopenjdk-11-openj9 as build
 WORKDIR /workspace/app
-COPY mvnw .
-COPY .mvn .mvn
 COPY pom.xml .
 COPY src src
-RUN --mount=type=cache,target=/root/.m2 ./mvnw package -D skipTests
+RUN --mount=type=cache,target=/root/.m2 mvn package -D skipTests
 RUN mkdir -p target/dependency && (cd target/dependency; jar -xf ../*.jar)
 
 FROM adoptopenjdk/openjdk11-openj9:alpine
