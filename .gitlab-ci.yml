@@ -1,5 +1,3 @@
-image: docker:19
-
 variables:
   MAVEN_OPTS: >-
     -D https.protocols=TLSv1.2
@@ -40,8 +38,8 @@ cache: &global_cache
   tags:
     - MicroRunner
 
-# Docker Image
-.docker_image:
+# Docker Build
+.docker_build:
   extends: .aws_configuration
   script:
     - echo "Building docker image..."
@@ -62,13 +60,11 @@ cache: &global_cache
 
 # 1. Test
 # 2. Build
-# 3. Docker Image
-# 4. Tag
-# 5. Deploy
+# 3. Tag
+# 4. Deploy
 stages:
   - test
   - build
-  - docker
   - tag
   - deploy
 
@@ -104,56 +100,37 @@ Test:
     - staging
     - master
 
-# Build the jar file
-Build:
+# Build the Docker Build for DEV using the JAR file created from the build stage
+Build for Development:
   stage: build
-  image: openjdk:11-jdk
-  script:
-    - echo "Building jar file..."
-    - sh ./mvnw $MAVEN_CLI_OPTS clean package -D skipTests
-    - echo "Finished building JAR file"
-  artifacts:
-    paths:
-      - target/*.jar
-  tags:
-    - MediumRunner
-  only:
-    - develop
-    - /^release/.*$/i
-    - staging
-    - master
-
-# Build the Docker Image for DEV using the JAR file created from the build stage
-Docker for Development:
-  stage: docker
-  extends: .docker_image
+  extends: .docker_build
   environment:
     name: development
   only:
     - develop
 
-# Build the Docker Image for Testing using the JAR file created from the build stage
-Docker for Testing:
-  stage: docker
-  extends: .docker_image
+# Build the Docker Build for Testing using the JAR file created from the build stage
+Build for Testing:
+  stage: build
+  extends: .docker_build
   environment:
     name: testing
   only:
     - /^release/.*$/i
 
-# Build the Docker Image for Staging using the JAR file created from the build stage
-Docker for Staging:
-  stage: docker
-  extends: .docker_image
+# Build the Docker Build for Staging using the JAR file created from the build stage
+Build for Staging:
+  stage: build
+  extends: .docker_build
   environment:
     name: staging
   only:
     - staging
 
-# Build the Docker Image for Production using the JAR file created from the build stage
-Docker for Production:
-  stage: docker
-  extends: .docker_image
+# Build the Docker Build for Production using the JAR file created from the build stage
+Build for Production:
+  stage: build
+  extends: .docker_build
   environment:
     name: production
   only:
