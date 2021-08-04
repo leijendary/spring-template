@@ -124,25 +124,25 @@ Build:
     - master
 
 # Build the Docker Image for DEV using the JAR file created from the build stage
-Docker for DEV:
+Docker for Development:
   stage: docker
   extends: .docker_image
   environment:
-    name: dev
+    name: development
   only:
     - develop
 
-# Build the Docker Image for UAT using the JAR file created from the build stage
-Docker for UAT:
+# Build the Docker Image for Testing using the JAR file created from the build stage
+Docker for Testing:
   stage: docker
   extends: .docker_image
   environment:
-    name: uat
+    name: testing
   only:
     - /^release/.*$/i
 
-# Build the Docker Image for STAGING using the JAR file created from the build stage
-Docker for STAGING:
+# Build the Docker Image for Staging using the JAR file created from the build stage
+Docker for Staging:
   stage: docker
   extends: .docker_image
   environment:
@@ -150,12 +150,12 @@ Docker for STAGING:
   only:
     - staging
 
-# Build the Docker Image for PROD using the JAR file created from the build stage
-Docker for PROD:
+# Build the Docker Image for Production using the JAR file created from the build stage
+Docker for Production:
   stage: docker
   extends: .docker_image
   environment:
-    name: prod
+    name: production
   only:
     - master
 
@@ -174,28 +174,28 @@ Tag:
   only:
     - tags
 
-# Deploy the image into the DEV cluster
-Deploy to DEV:
+# Deploy the image into the Development cluster
+Deploy to Development:
   stage: deploy
   extends: .aws_ecs_update_service
   environment:
     # We want to isolate AWS_CLUSTER_NAME and AWS_SERVICE_NAME per environment
-    name: dev
+    name: development
   only:
     - develop
 
-# Deploy the image into the UAT cluster
-Deploy to UAT:
+# Deploy the image into the Testing cluster
+Deploy to Testing:
   stage: deploy
   extends: .aws_ecs_update_service
   environment:
     # We want to isolate AWS_CLUSTER_NAME and AWS_SERVICE_NAME per environment
-    name: uat
+    name: testing
   only:
     - /^release/.*$/i
 
-# Deploy the image into the STAGING cluster
-Deploy to STAGING:
+# Deploy the image into the Staging cluster
+Deploy to Staging:
   stage: deploy
   extends: .aws_ecs_update_service
   environment:
@@ -204,12 +204,12 @@ Deploy to STAGING:
   only:
     - staging
 
-# Deploy the image into the PROD cluster
-Deploy to PROD:
+# Deploy the image into the Production cluster
+Deploy to Production:
   stage: deploy
   extends: .aws_ecs_update_service
   environment:
     # We want to isolate AWS_CLUSTER_NAME and AWS_SERVICE_NAME per environment
-    name: prod
+    name: production
   only:
     - master
