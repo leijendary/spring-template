@@ -1,15 +1,12 @@
+image: docker:20
+
 variables:
-  MAVEN_OPTS: >-
-    -D https.protocols=TLSv1.2
-    -D maven.repo.local=$CI_PROJECT_DIR/.m2/repository
-    -D org.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=WARN
-    -D org.slf4j.simpleLogger.showDateTime=true
-    -D java.awt.headless=true
+  MAVEN_OPTS: -Dmaven.repo.local=$CI_PROJECT_DIR/.m2/repository -Djava.awt.headless=true
   REPOSITORY_URL: $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$REPOSITORY_NAME
   PIP_CACHE_DIR: $CI_PROJECT_DIR/.cache/pip
 
 services:
-  - docker:dind
+  - docker:20-dind
 
 # Cache downloaded dependencies and plugins between builds.
 # To keep cache across branches add 'key: "$CI_JOB_NAME"'
@@ -44,7 +41,7 @@ cache: &global_cache
   script:
     - echo "Building docker image..."
     - docker pull $REPOSITORY_URL:latest || true
-    - docker build --cache-from $REPOSITORY_URL:latest -t $REPOSITORY_URL:latest .
+    - DOCKER_BUILDKIT=1 docker build --cache-from $REPOSITORY_URL:latest -t $REPOSITORY_URL:latest .
     - echo "Done building docker image."
     - echo "Pushing images..."
     - docker tag $REPOSITORY_URL:latest $REPOSITORY_URL:$CI_ENVIRONMENT_NAME
@@ -56,7 +53,7 @@ cache: &global_cache
     - docker push $REPOSITORY_URL:$CI_COMMIT_SHA
     - echo "Pushed images."
   tags:
-    - SmallRunner
+    - MediumRunner
 
 # 1. Test
 # 2. Build
@@ -71,13 +68,13 @@ stages:
 # Test the Merge Request
 Test Merge Request:
   stage: test
-  image: openjdk:11-jdk
+  image: maven:3-adoptopenjdk-11-openj9
   cache:
     <<: *global_cache
     key: merge_requests
   script:
     - echo "Running tests..."
-    - sh ./mvnw $MAVEN_CLI_OPTS test
+    - mvn -Dspring.profiles.active=test test
     - echo "Tests completed."
   tags:
     - MediumRunner
@@ -87,10 +84,10 @@ Test Merge Request:
 # Per-Branch test
 Test:
   stage: test
-  image: openjdk:11-jdk
+  image: maven:3-adoptopenjdk-11-openj9
   script:
     - echo "Running tests..."
-    - sh ./mvnw $MAVEN_CLI_OPTS test
+    - mvn -Dspring.profiles.active=test test
     - echo "Tests completed."
   tags:
     - MediumRunner
