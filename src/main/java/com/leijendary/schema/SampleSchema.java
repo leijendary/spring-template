@@ -3,7 +3,7 @@
  *
  * DO NOT EDIT DIRECTLY
  */
-package com.leijendary.spring.microservicetemplate.event.schema;
+package com.leijendary.schema;
 
 import org.apache.avro.message.BinaryMessageDecoder;
 import org.apache.avro.message.BinaryMessageEncoder;
@@ -12,8 +12,8 @@ import org.apache.avro.specific.SpecificData;
 
 @org.apache.avro.specific.AvroGenerated
 public class SampleSchema extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
-  private static final long serialVersionUID = -3977931787944776577L;
-  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"SampleSchema\",\"namespace\":\"com.leijendary.spring.microservicetemplate.event.schema\",\"fields\":[{\"name\":\"id\",\"type\":\"long\"},{\"name\":\"column1\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"column2\",\"type\":\"int\"},{\"name\":\"createdDate\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"createdBy\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"lastModifiedDate\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"lastModifiedBy\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}}]}");
+  private static final long serialVersionUID = 4362093942462848338L;
+  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"SampleSchema\",\"namespace\":\"com.leijendary.schema\",\"fields\":[{\"name\":\"id\",\"type\":\"long\"},{\"name\":\"column1\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"column2\",\"type\":\"int\"},{\"name\":\"createdDate\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"createdBy\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"lastModifiedDate\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"lastModifiedBy\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}}]}");
   public static org.apache.avro.Schema getClassSchema() { return SCHEMA$; }
 
   private static SpecificData MODEL$ = new SpecificData();
@@ -258,8 +258,8 @@ public class SampleSchema extends org.apache.avro.specific.SpecificRecordBase im
    * Creates a new SampleSchema RecordBuilder.
    * @return A new SampleSchema RecordBuilder
    */
-  public static com.leijendary.spring.microservicetemplate.event.schema.SampleSchema.Builder newBuilder() {
-    return new com.leijendary.spring.microservicetemplate.event.schema.SampleSchema.Builder();
+  public static com.leijendary.schema.SampleSchema.Builder newBuilder() {
+    return new com.leijendary.schema.SampleSchema.Builder();
   }
 
   /**
@@ -267,11 +267,11 @@ public class SampleSchema extends org.apache.avro.specific.SpecificRecordBase im
    * @param other The existing builder to copy.
    * @return A new SampleSchema RecordBuilder
    */
-  public static com.leijendary.spring.microservicetemplate.event.schema.SampleSchema.Builder newBuilder(com.leijendary.spring.microservicetemplate.event.schema.SampleSchema.Builder other) {
+  public static com.leijendary.schema.SampleSchema.Builder newBuilder(com.leijendary.schema.SampleSchema.Builder other) {
     if (other == null) {
-      return new com.leijendary.spring.microservicetemplate.event.schema.SampleSchema.Builder();
+      return new com.leijendary.schema.SampleSchema.Builder();
     } else {
-      return new com.leijendary.spring.microservicetemplate.event.schema.SampleSchema.Builder(other);
+      return new com.leijendary.schema.SampleSchema.Builder(other);
     }
   }
 
@@ -280,11 +280,11 @@ public class SampleSchema extends org.apache.avro.specific.SpecificRecordBase im
    * @param other The existing instance to copy.
    * @return A new SampleSchema RecordBuilder
    */
-  public static com.leijendary.spring.microservicetemplate.event.schema.SampleSchema.Builder newBuilder(com.leijendary.spring.microservicetemplate.event.schema.SampleSchema other) {
+  public static com.leijendary.schema.SampleSchema.Builder newBuilder(com.leijendary.schema.SampleSchema other) {
     if (other == null) {
-      return new com.leijendary.spring.microservicetemplate.event.schema.SampleSchema.Builder();
+      return new com.leijendary.schema.SampleSchema.Builder();
     } else {
-      return new com.leijendary.spring.microservicetemplate.event.schema.SampleSchema.Builder(other);
+      return new com.leijendary.schema.SampleSchema.Builder(other);
     }
   }
 
@@ -312,7 +312,7 @@ public class SampleSchema extends org.apache.avro.specific.SpecificRecordBase im
      * Creates a Builder by copying an existing Builder.
      * @param other The existing Builder to copy.
      */
-    private Builder(com.leijendary.spring.microservicetemplate.event.schema.SampleSchema.Builder other) {
+    private Builder(com.leijendary.schema.SampleSchema.Builder other) {
       super(other);
       if (isValidValue(fields()[0], other.id)) {
         this.id = data().deepCopy(fields()[0].schema(), other.id);
@@ -348,7 +348,7 @@ public class SampleSchema extends org.apache.avro.specific.SpecificRecordBase im
      * Creates a Builder by copying an existing SampleSchema instance
      * @param other The existing instance to copy.
      */
-    private Builder(com.leijendary.spring.microservicetemplate.event.schema.SampleSchema other) {
+    private Builder(com.leijendary.schema.SampleSchema other) {
       super(SCHEMA$);
       if (isValidValue(fields()[0], other.id)) {
         this.id = data().deepCopy(fields()[0].schema(), other.id);
@@ -394,7 +394,7 @@ public class SampleSchema extends org.apache.avro.specific.SpecificRecordBase im
       * @param value The value of 'id'.
       * @return This builder.
       */
-    public com.leijendary.spring.microservicetemplate.event.schema.SampleSchema.Builder setId(long value) {
+    public com.leijendary.schema.SampleSchema.Builder setId(long value) {
       validate(fields()[0], value);
       this.id = value;
       fieldSetFlags()[0] = true;
@@ -414,7 +414,7 @@ public class SampleSchema extends org.apache.avro.specific.SpecificRecordBase im
       * Clears the value of the 'id' field.
       * @return This builder.
       */
-    public com.leijendary.spring.microservicetemplate.event.schema.SampleSchema.Builder clearId() {
+    public com.leijendary.schema.SampleSchema.Builder clearId() {
       fieldSetFlags()[0] = false;
       return this;
     }
@@ -433,7 +433,7 @@ public class SampleSchema extends org.apache.avro.specific.SpecificRecordBase im
       * @param value The value of 'column1'.
       * @return This builder.
       */
-    public com.leijendary.spring.microservicetemplate.event.schema.SampleSchema.Builder setColumn1(java.lang.String value) {
+    public com.leijendary.schema.SampleSchema.Builder setColumn1(java.lang.String value) {
       validate(fields()[1], value);
       this.column1 = value;
       fieldSetFlags()[1] = true;
@@ -453,7 +453,7 @@ public class SampleSchema extends org.apache.avro.specific.SpecificRecordBase im
       * Clears the value of the 'column1' field.
       * @return This builder.
       */
-    public com.leijendary.spring.microservicetemplate.event.schema.SampleSchema.Builder clearColumn1() {
+    public com.leijendary.schema.SampleSchema.Builder clearColumn1() {
       column1 = null;
       fieldSetFlags()[1] = false;
       return this;
@@ -473,7 +473,7 @@ public class SampleSchema extends org.apache.avro.specific.SpecificRecordBase im
       * @param value The value of 'column2'.
       * @return This builder.
       */
-    public com.leijendary.spring.microservicetemplate.event.schema.SampleSchema.Builder setColumn2(int value) {
+    public com.leijendary.schema.SampleSchema.Builder setColumn2(int value) {
       validate(fields()[2], value);
       this.column2 = value;
       fieldSetFlags()[2] = true;
@@ -493,7 +493,7 @@ public class SampleSchema extends org.apache.avro.specific.SpecificRecordBase im
       * Clears the value of the 'column2' field.
       * @return This builder.
       */
-    public com.leijendary.spring.microservicetemplate.event.schema.SampleSchema.Builder clearColumn2() {
+    public com.leijendary.schema.SampleSchema.Builder clearColumn2() {
       fieldSetFlags()[2] = false;
       return this;
     }
@@ -512,7 +512,7 @@ public class SampleSchema extends org.apache.avro.specific.SpecificRecordBase im
       * @param value The value of 'createdDate'.
       * @return This builder.
       */
-    public com.leijendary.spring.microservicetemplate.event.schema.SampleSchema.Builder setCreatedDate(java.lang.String value) {
+    public com.leijendary.schema.SampleSchema.Builder setCreatedDate(java.lang.String value) {
       validate(fields()[3], value);
       this.createdDate = value;
       fieldSetFlags()[3] = true;
@@ -532,7 +532,7 @@ public class SampleSchema extends org.apache.avro.specific.SpecificRecordBase im
       * Clears the value of the 'createdDate' field.
       * @return This builder.
       */
-    public com.leijendary.spring.microservicetemplate.event.schema.SampleSchema.Builder clearCreatedDate() {
+    public com.leijendary.schema.SampleSchema.Builder clearCreatedDate() {
       createdDate = null;
       fieldSetFlags()[3] = false;
       return this;
@@ -552,7 +552,7 @@ public class SampleSchema extends org.apache.avro.specific.SpecificRecordBase im
       * @param value The value of 'createdBy'.
       * @return This builder.
       */
-    public com.leijendary.spring.microservicetemplate.event.schema.SampleSchema.Builder setCreatedBy(java.lang.String value) {
+    public com.leijendary.schema.SampleSchema.Builder setCreatedBy(java.lang.String value) {
       validate(fields()[4], value);
       this.createdBy = value;
       fieldSetFlags()[4] = true;
@@ -572,7 +572,7 @@ public class SampleSchema extends org.apache.avro.specific.SpecificRecordBase im
       * Clears the value of the 'createdBy' field.
       * @return This builder.
       */
-    public com.leijendary.spring.microservicetemplate.event.schema.SampleSchema.Builder clearCreatedBy() {
+    public com.leijendary.schema.SampleSchema.Builder clearCreatedBy() {
       createdBy = null;
       fieldSetFlags()[4] = false;
       return this;
@@ -592,7 +592,7 @@ public class SampleSchema extends org.apache.avro.specific.SpecificRecordBase im
       * @param value The value of 'lastModifiedDate'.
       * @return This builder.
       */
-    public com.leijendary.spring.microservicetemplate.event.schema.SampleSchema.Builder setLastModifiedDate(java.lang.String value) {
+    public com.leijendary.schema.SampleSchema.Builder setLastModifiedDate(java.lang.String value) {
       validate(fields()[5], value);
       this.lastModifiedDate = value;
       fieldSetFlags()[5] = true;
@@ -612,7 +612,7 @@ public class SampleSchema extends org.apache.avro.specific.SpecificRecordBase im
       * Clears the value of the 'lastModifiedDate' field.
       * @return This builder.
       */
-    public com.leijendary.spring.microservicetemplate.event.schema.SampleSchema.Builder clearLastModifiedDate() {
+    public com.leijendary.schema.SampleSchema.Builder clearLastModifiedDate() {
       lastModifiedDate = null;
       fieldSetFlags()[5] = false;
       return this;
@@ -632,7 +632,7 @@ public class SampleSchema extends org.apache.avro.specific.SpecificRecordBase im
       * @param value The value of 'lastModifiedBy'.
       * @return This builder.
       */
-    public com.leijendary.spring.microservicetemplate.event.schema.SampleSchema.Builder setLastModifiedBy(java.lang.String value) {
+    public com.leijendary.schema.SampleSchema.Builder setLastModifiedBy(java.lang.String value) {
       validate(fields()[6], value);
       this.lastModifiedBy = value;
       fieldSetFlags()[6] = true;
@@ -652,7 +652,7 @@ public class SampleSchema extends org.apache.avro.specific.SpecificRecordBase im
       * Clears the value of the 'lastModifiedBy' field.
       * @return This builder.
       */
-    public com.leijendary.spring.microservicetemplate.event.schema.SampleSchema.Builder clearLastModifiedBy() {
+    public com.leijendary.schema.SampleSchema.Builder clearLastModifiedBy() {
       lastModifiedBy = null;
       fieldSetFlags()[6] = false;
       return this;

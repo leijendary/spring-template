@@ -1,6 +1,6 @@
 package com.leijendary.spring.microservicetemplate.event.consumer;
 
-import com.leijendary.spring.microservicetemplate.event.schema.SampleSchema;
+import com.leijendary.schema.SampleSchema;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.streams.kstream.KStream;

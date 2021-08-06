@@ -1,6 +1,6 @@
 package com.leijendary.spring.microservicetemplate.event.producer;
 
-import com.leijendary.spring.microservicetemplate.event.schema.SampleSchema;
+import com.leijendary.schema.SampleSchema;
 import org.springframework.context.annotation.Bean;
 import org.springframework.messaging.Message;
 import org.springframework.stereotype.Component;

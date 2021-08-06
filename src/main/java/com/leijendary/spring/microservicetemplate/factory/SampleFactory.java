@@ -1,9 +1,9 @@
 package com.leijendary.spring.microservicetemplate.factory;
 
+import com.leijendary.schema.SampleSchema;
 import com.leijendary.spring.microservicetemplate.data.SampleData;
 import com.leijendary.spring.microservicetemplate.data.request.v1.SampleRequestV1;
 import com.leijendary.spring.microservicetemplate.data.response.v1.SampleResponseV1;
-import com.leijendary.spring.microservicetemplate.event.schema.SampleSchema;
 import com.leijendary.spring.microservicetemplate.model.SampleTable;
 
 public class SampleFactory extends AbstractFactory {

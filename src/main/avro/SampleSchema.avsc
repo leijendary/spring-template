@@ -1,6 +1,6 @@
 {
   "type": "record",
-  "namespace": "com.leijendary.spring.microservicetemplate.event.schema",
+  "namespace": "com.leijendary.schema",
   "name": "SampleSchema",
   "fields": [
     {
