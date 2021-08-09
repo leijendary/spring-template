@@ -19,6 +19,7 @@ public class InfoProperties {
     public static class App {
 
         private String organization;
+        private String groupId;
         private String artifactId;
         private String name;
         private String description;

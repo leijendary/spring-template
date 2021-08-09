@@ -1,6 +1,7 @@
 info:
   app:
     organization: leijendary
+    groupId: "@[project.groupId]"
     artifactId: "@[project.artifactId]"
     name: "@[project.name]"
     description: "@[project.description]"
