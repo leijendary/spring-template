@@ -38,9 +38,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .anyRequest().permitAll()
             .and()
-                .exceptionHandling()
-                .authenticationEntryPoint(appAuthenticationEntryPoint)
-            .and()
                 .sessionManagement()
                 .sessionCreationPolicy(STATELESS)
             .and()
@@ -52,6 +49,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .formLogin().disable()
                 .csrf().disable()
                 .oauth2ResourceServer()
+                .authenticationEntryPoint(appAuthenticationEntryPoint)
                 .jwt()
                 .decoder(jwtDecoder());
     }
