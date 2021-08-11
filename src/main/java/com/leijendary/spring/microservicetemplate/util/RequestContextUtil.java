@@ -54,6 +54,10 @@ public class RequestContextUtil {
                 .orElse(Locale.getDefault());
     }
 
+    public static String getLanguage() {
+        return getLocale().getLanguage();
+    }
+
     public static OffsetDateTime now() {
         return OffsetDateTime.now(getTimeZone().toZoneId());
     }
