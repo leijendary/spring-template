@@ -2,10 +2,10 @@ package com.leijendary.spring.microservicetemplate.model;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToMany;
-import javax.persistence.OrderBy;
 import java.util.Set;
 
 @Data
@@ -13,7 +13,8 @@ import java.util.Set;
 @MappedSuperclass
 public abstract class LocalizedModel<R, T extends LocaleModel<R>> extends IdentityIdModel {
 
-    @OneToMany
-    @OrderBy("ordinal DESC")
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @OneToMany(mappedBy = "reference")
     private Set<T> translations;
 }

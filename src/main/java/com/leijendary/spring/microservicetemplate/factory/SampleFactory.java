@@ -9,7 +9,18 @@ import com.leijendary.spring.microservicetemplate.model.SampleTable;
 public class SampleFactory extends AbstractFactory {
 
     public static SampleResponseV1 toResponseV1(final SampleTable sampleTable) {
-        return MAPPER.map(sampleTable, SampleResponseV1.class);
+        final var response = MAPPER.map(sampleTable, SampleResponseV1.class);
+
+        // Get the first translation then change the fields
+        sampleTable.getTranslations()
+                .stream()
+                .findFirst()
+                .ifPresent(translation -> {
+                    response.setColumn1(translation.getName());
+                    response.setColumn2(translation.getDescription());
+                });
+
+        return response;
     }
 
     public static SampleSchema toSchema(final SampleTable sampleTable) {
