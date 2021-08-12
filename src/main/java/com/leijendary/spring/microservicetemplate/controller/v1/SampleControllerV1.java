@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 import static com.leijendary.spring.microservicetemplate.controller.AbstractController.BASE_API_PATH;
+import static com.leijendary.spring.microservicetemplate.util.RequestContextUtil.getLanguage;
 import static com.leijendary.spring.microservicetemplate.util.RequestContextUtil.getLocale;
 import static java.util.concurrent.CompletableFuture.completedFuture;
 import static org.springframework.http.HttpStatus.CREATED;
@@ -148,5 +149,10 @@ public class SampleControllerV1 extends AbstractController {
     @GetMapping(value = "locale", produces = TEXT_PLAIN_VALUE)
     public String locale() {
         return getLocale().toString();
+    }
+
+    @GetMapping(value = "language", produces = TEXT_PLAIN_VALUE)
+    public String language() {
+        return getLanguage();
     }
 }
