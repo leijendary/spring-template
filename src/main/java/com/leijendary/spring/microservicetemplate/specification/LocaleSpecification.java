@@ -29,15 +29,16 @@ public class LocaleSpecification<R extends LocalizedModel<R, T>, T extends Local
         }
 
         final var translationsSubQuery = criteriaQuery.subquery(LocaleModel.class);
-        final var subQueryRoot = translationsSubQuery.from(LocaleModel.class);
+        final var translationsSubQueryRoot = translationsSubQuery.from(LocaleModel.class);
 
         final var translationsJoin = root.joinSet("translations", LEFT);
         final var languagePath = translationsJoin.get("language");
         final var languagePredicate = criteriaBuilder.equal(languagePath, language);
 
-        // Filter only the same language
-        translationsJoin.on(languagePredicate);
+        translationsSubQuery
+                .select(translationsSubQueryRoot)
+                .where(languagePredicate);
 
-        return criteriaBuilder.
+        return criteriaQuery.where().getRestriction();
     }
 }

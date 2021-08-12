@@ -40,6 +40,43 @@ databaseChangeLog:
                     nullable: false
             tableName: sample_table
   - changeSet:
+      id: create-sample-translations-table
+      author: Leijendekker
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: reference_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(100)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: description
+                  type: varchar(200)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: language
+                  type: varchar(4)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: ordinal
+                  type: int
+                  constraints:
+                    nullable: false
+            tableName: sample_table_translation
+  - changeSet:
       id: sample-table-primary-key
       author: Leijendekker
       changes:
