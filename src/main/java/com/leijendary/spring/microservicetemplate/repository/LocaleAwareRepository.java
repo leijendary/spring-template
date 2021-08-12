@@ -5,24 +5,27 @@ import com.leijendary.spring.microservicetemplate.model.LocalizedModel;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.data.repository.NoRepositoryBean;
 import org.springframework.lang.Nullable;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Optional;
 
-@NoRepositoryBean
-public interface LocaleAwareRepository<R extends LocalizedModel<R, T>, T extends LocaleModel<R>, ID> {
+public interface LocaleAwareRepository<R extends LocalizedModel<R, T>, T extends LocaleModel<R>,
+        ID extends Serializable> {
 
-    Optional<R> findById(final ID id);
+    Optional<R> findTranslatedById(final ID id, final String language);
 
-    Page<R> findAll(@Nullable Specification<R> specification, Pageable pageable);
+    Optional<R> findTranslatedById(final ID id);
 
-    List<R> findAll();
+    Page<R> findTranslatedAll(final @Nullable Specification<R> specification, final Pageable pageable,
+                              final String language);
 
-    R save(final R entity);
+    Page<R> findTranslatedAll(final Pageable pageable, final String language);
 
-    void delete(final R entity);
+    Page<R> findTranslatedAll(final Pageable pageable);
 
-    long count();
+    List<R> findTranslatedAll(final String language);
+
+    List<R> findTranslatedAll();
 }
