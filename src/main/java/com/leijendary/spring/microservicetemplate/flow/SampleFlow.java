@@ -48,6 +48,9 @@ public class SampleFlow {
     @Cacheable(value = CACHE_V1, key = "#id")
     public SampleResponseV1 getV1(final long id) {
         final var sampleTable = sampleTableService.get(id);
+        final var translations = sampleTableService.getTranslations(id);
+
+        sampleTable.setTranslations(translations);
 
         return toResponseV1(sampleTable);
     }

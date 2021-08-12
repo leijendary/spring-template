@@ -20,7 +20,7 @@ public class OffsetDateTimeToEpochMillisSerializer extends StdSerializer<OffsetD
     @Override
     public void serialize(final OffsetDateTime offsetDateTime, final JsonGenerator jsonGenerator,
                           final SerializerProvider serializerProvider) throws IOException {
-        final long epochMillis = offsetDateTime.toInstant().toEpochMilli();
+        final var epochMillis = offsetDateTime.toInstant().toEpochMilli();
 
         jsonGenerator.writeNumber(epochMillis);
     }
