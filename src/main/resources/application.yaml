@@ -69,7 +69,7 @@ spring:
   messages:
     basename: messages.access, messages.error, messages.validation
   cache:
-    type: redis
+    type: none
   cloud:
     discovery:
       client:
@@ -143,6 +143,9 @@ spring:
       schema:
         registry:
           url:
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
   redis:
     host:
   security:
