@@ -17,8 +17,11 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.time.OffsetDateTime;
 import java.time.format.TextStyle;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
 import static com.leijendary.spring.microservicetemplate.controller.AbstractController.BASE_API_PATH;
@@ -154,5 +157,13 @@ public class SampleControllerV1 extends AbstractController {
     @GetMapping(value = "language", produces = TEXT_PLAIN_VALUE)
     public String language() {
         return getLanguage();
+    }
+
+    @GetMapping("timestamp")
+    public Map<String, OffsetDateTime> timestamp() {
+        final var map = new HashMap<String, OffsetDateTime>();
+        map.put("current", RequestContextUtil.now());
+
+        return map;
     }
 }
