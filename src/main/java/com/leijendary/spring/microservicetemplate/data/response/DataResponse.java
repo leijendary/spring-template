@@ -12,8 +12,8 @@ import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.leijendary.spring.microservicetemplate.util.RequestContextUtil.now;
-import static com.leijendary.spring.microservicetemplate.util.RequestContextUtil.uri;
+import static com.leijendary.spring.microservicetemplate.util.RequestContext.now;
+import static com.leijendary.spring.microservicetemplate.util.RequestContext.uri;
 import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.web.util.UriComponentsBuilder.fromUri;
 

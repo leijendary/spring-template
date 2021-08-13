@@ -15,7 +15,7 @@ import static java.util.Optional.ofNullable;
 import static org.springframework.security.core.context.SecurityContextHolder.getContext;
 import static org.springframework.web.context.request.RequestContextHolder.getRequestAttributes;
 
-public class RequestContextUtil {
+public class RequestContext {
 
     public static HttpServletRequest getCurrentRequest() {
         final var attributes = getRequestAttributes();

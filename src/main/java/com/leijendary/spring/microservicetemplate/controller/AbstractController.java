@@ -2,7 +2,7 @@ package com.leijendary.spring.microservicetemplate.controller;
 
 import javax.servlet.http.HttpServletResponse;
 
-import static com.leijendary.spring.microservicetemplate.util.RequestContextUtil.getPath;
+import static com.leijendary.spring.microservicetemplate.util.RequestContext.getPath;
 import static org.springframework.http.HttpHeaders.LOCATION;
 
 public abstract class AbstractController {

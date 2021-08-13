@@ -12,7 +12,7 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.util.ArrayList;
 
-import static com.leijendary.spring.microservicetemplate.util.RequestContextUtil.getLanguage;
+import static com.leijendary.spring.microservicetemplate.util.RequestContext.getLanguage;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 
 @Builder

@@ -7,7 +7,7 @@ import com.leijendary.spring.microservicetemplate.data.request.v1.SampleRequestV
 import com.leijendary.spring.microservicetemplate.data.response.DataResponse;
 import com.leijendary.spring.microservicetemplate.data.response.v1.SampleResponseV1;
 import com.leijendary.spring.microservicetemplate.flow.SampleFlow;
-import com.leijendary.spring.microservicetemplate.util.RequestContextUtil;
+import com.leijendary.spring.microservicetemplate.util.RequestContext;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -25,8 +25,8 @@ import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
 import static com.leijendary.spring.microservicetemplate.controller.AbstractController.BASE_API_PATH;
-import static com.leijendary.spring.microservicetemplate.util.RequestContextUtil.getLanguage;
-import static com.leijendary.spring.microservicetemplate.util.RequestContextUtil.getLocale;
+import static com.leijendary.spring.microservicetemplate.util.RequestContext.getLanguage;
+import static com.leijendary.spring.microservicetemplate.util.RequestContext.getLocale;
 import static java.util.concurrent.CompletableFuture.completedFuture;
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.NO_CONTENT;
@@ -141,7 +141,7 @@ public class SampleControllerV1 extends AbstractController {
 
     @GetMapping(value = "timezone", produces = TEXT_PLAIN_VALUE)
     public String timezone() {
-        final var timeZone = RequestContextUtil.getTimeZone();
+        final var timeZone = RequestContext.getTimeZone();
         final var zoneId = timeZone.toZoneId();
         final var displayName = zoneId.getDisplayName(TextStyle.FULL, getLocale());
         final var id = zoneId.getId();
@@ -162,7 +162,7 @@ public class SampleControllerV1 extends AbstractController {
     @GetMapping("timestamp")
     public Map<String, OffsetDateTime> timestamp() {
         final var map = new HashMap<String, OffsetDateTime>();
-        map.put("current", RequestContextUtil.now());
+        map.put("current", RequestContext.now());
 
         return map;
     }

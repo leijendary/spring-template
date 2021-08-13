@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import static com.leijendary.spring.microservicetemplate.util.RequestContextUtil.getLocale;
+import static com.leijendary.spring.microservicetemplate.util.RequestContext.getLocale;
 import static java.util.Optional.ofNullable;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 
