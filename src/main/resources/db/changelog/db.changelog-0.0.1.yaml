@@ -24,7 +24,7 @@ databaseChangeLog:
                   defaultValueDate: current_timestamp
               - column:
                   name: created_by
-                  type: varchar(255)
+                  type: text
                   constraints:
                     nullable: false
               - column:
@@ -35,7 +35,7 @@ databaseChangeLog:
                   defaultValueDate: current_timestamp
               - column:
                   name: last_modified_by
-                  type: varchar(255)
+                  type: text
                   constraints:
                     nullable: false
             tableName: sample_table
@@ -74,6 +74,28 @@ databaseChangeLog:
               - column:
                   name: ordinal
                   type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_date
+                  type: timestamp
+                  constraints:
+                    nullable: false
+                  defaultValueDate: current_timestamp
+              - column:
+                  name: created_by
+                  type: text
+                  constraints:
+                    nullable: false
+              - column:
+                  name: last_modified_date
+                  type: timestamp
+                  constraints:
+                    nullable: false
+                  defaultValueDate: current_timestamp
+              - column:
+                  name: last_modified_by
+                  type: text
                   constraints:
                     nullable: false
             tableName: sample_table_translation
