@@ -68,7 +68,8 @@ public class SampleControllerV1 extends AbstractController {
     @ApiOperation("Sample implementation of swagger in a api")
     public CompletableFuture<DataResponse<List<SampleResponseV1>>> list(
             final QueryRequest queryRequest, final Pageable pageable) {
-        final var page = sampleFlow.listV1(queryRequest, pageable);
+        final var language = getLanguage();
+        final var page = sampleFlow.listV1(queryRequest, pageable, language);
         final var response = DataResponse.<List<SampleResponseV1>>builder()
                 .data(page.getContent())
                 .meta(page)
@@ -85,7 +86,8 @@ public class SampleControllerV1 extends AbstractController {
     @ApiOperation("Saves a sample record into the database")
     public CompletableFuture<DataResponse<SampleResponseV1>> create(
             @Valid @RequestBody final SampleRequestV1 request, final HttpServletResponse httpServletResponse) {
-        final var sampleResponse = sampleFlow.createV1(request);
+        final var language = getLanguage();
+        final var sampleResponse = sampleFlow.createV1(request, language);
         final var response = DataResponse.<SampleResponseV1>builder()
                 .data(sampleResponse)
                 .status(CREATED)
@@ -101,7 +103,8 @@ public class SampleControllerV1 extends AbstractController {
     @PreAuthorize("hasAuthority('SCOPE_urn:sample:get:v1')")
     @ApiOperation("Retrieves the sample record from the database")
     public CompletableFuture<DataResponse<SampleResponseV1>> get(@PathVariable final long id) {
-        final var sampleResponse = sampleFlow.getV1(id);
+        final var language = getLanguage();
+        final var sampleResponse = sampleFlow.getV1(id, language);
         final var response = DataResponse.<SampleResponseV1>builder()
                 .data(sampleResponse)
                 .object(SampleResponseV1.class)
@@ -115,7 +118,8 @@ public class SampleControllerV1 extends AbstractController {
     @ApiOperation("Updates the sample record into the database")
     public CompletableFuture<DataResponse<SampleResponseV1>> update(
             @PathVariable final long id, @Valid @RequestBody final SampleRequestV1 request) {
-        final var sampleResponse = sampleFlow.updateV1(id, request);
+        final var language = getLanguage();
+        final var sampleResponse = sampleFlow.updateV1(id, request, language);
         final var response = DataResponse.<SampleResponseV1>builder()
                 .data(sampleResponse)
                 .object(SampleResponseV1.class)

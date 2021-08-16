@@ -12,8 +12,8 @@ import org.apache.avro.specific.SpecificData;
 
 @org.apache.avro.specific.AvroGenerated
 public class SampleSchema extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
-  private static final long serialVersionUID = 4362093942462848338L;
-  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"SampleSchema\",\"namespace\":\"com.leijendary.schema\",\"fields\":[{\"name\":\"id\",\"type\":\"long\"},{\"name\":\"column1\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"column2\",\"type\":\"int\"},{\"name\":\"createdDate\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"createdBy\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"lastModifiedDate\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"lastModifiedBy\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}}]}");
+  private static final long serialVersionUID = -8691574347657108969L;
+  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"SampleSchema\",\"namespace\":\"com.leijendary.schema\",\"fields\":[{\"name\":\"id\",\"type\":\"long\"},{\"name\":\"column1\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"column2\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"translations\",\"type\":{\"type\":\"array\",\"items\":{\"type\":\"record\",\"name\":\"SampleTranslationSchema\",\"fields\":[{\"name\":\"id\",\"type\":\"long\"},{\"name\":\"name\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"description\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"language\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"ordinal\",\"type\":\"int\"},{\"name\":\"createdDate\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"createdBy\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"lastModifiedDate\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"lastModifiedBy\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}}]}}},{\"name\":\"createdDate\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"createdBy\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"lastModifiedDate\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"lastModifiedBy\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}}]}");
   public static org.apache.avro.Schema getClassSchema() { return SCHEMA$; }
 
   private static SpecificData MODEL$ = new SpecificData();
@@ -71,7 +71,8 @@ public class SampleSchema extends org.apache.avro.specific.SpecificRecordBase im
 
    private long id;
    private java.lang.String column1;
-   private int column2;
+   private java.lang.String column2;
+   private java.util.List<com.leijendary.schema.SampleTranslationSchema> translations;
    private java.lang.String createdDate;
    private java.lang.String createdBy;
    private java.lang.String lastModifiedDate;
@@ -89,15 +90,17 @@ public class SampleSchema extends org.apache.avro.specific.SpecificRecordBase im
    * @param id The new value for id
    * @param column1 The new value for column1
    * @param column2 The new value for column2
+   * @param translations The new value for translations
    * @param createdDate The new value for createdDate
    * @param createdBy The new value for createdBy
    * @param lastModifiedDate The new value for lastModifiedDate
    * @param lastModifiedBy The new value for lastModifiedBy
    */
-  public SampleSchema(java.lang.Long id, java.lang.String column1, java.lang.Integer column2, java.lang.String createdDate, java.lang.String createdBy, java.lang.String lastModifiedDate, java.lang.String lastModifiedBy) {
+  public SampleSchema(java.lang.Long id, java.lang.String column1, java.lang.String column2, java.util.List<com.leijendary.schema.SampleTranslationSchema> translations, java.lang.String createdDate, java.lang.String createdBy, java.lang.String lastModifiedDate, java.lang.String lastModifiedBy) {
     this.id = id;
     this.column1 = column1;
     this.column2 = column2;
+    this.translations = translations;
     this.createdDate = createdDate;
     this.createdBy = createdBy;
     this.lastModifiedDate = lastModifiedDate;
@@ -112,10 +115,11 @@ public class SampleSchema extends org.apache.avro.specific.SpecificRecordBase im
     case 0: return id;
     case 1: return column1;
     case 2: return column2;
-    case 3: return createdDate;
-    case 4: return createdBy;
-    case 5: return lastModifiedDate;
-    case 6: return lastModifiedBy;
+    case 3: return translations;
+    case 4: return createdDate;
+    case 5: return createdBy;
+    case 6: return lastModifiedDate;
+    case 7: return lastModifiedBy;
     default: throw new IndexOutOfBoundsException("Invalid index: " + field$);
     }
   }
@@ -126,11 +130,12 @@ public class SampleSchema extends org.apache.avro.specific.SpecificRecordBase im
     switch (field$) {
     case 0: id = (java.lang.Long)value$; break;
     case 1: column1 = value$ != null ? value$.toString() : null; break;
-    case 2: column2 = (java.lang.Integer)value$; break;
-    case 3: createdDate = value$ != null ? value$.toString() : null; break;
-    case 4: createdBy = value$ != null ? value$.toString() : null; break;
-    case 5: lastModifiedDate = value$ != null ? value$.toString() : null; break;
-    case 6: lastModifiedBy = value$ != null ? value$.toString() : null; break;
+    case 2: column2 = value$ != null ? value$.toString() : null; break;
+    case 3: translations = (java.util.List<com.leijendary.schema.SampleTranslationSchema>)value$; break;
+    case 4: createdDate = value$ != null ? value$.toString() : null; break;
+    case 5: createdBy = value$ != null ? value$.toString() : null; break;
+    case 6: lastModifiedDate = value$ != null ? value$.toString() : null; break;
+    case 7: lastModifiedBy = value$ != null ? value$.toString() : null; break;
     default: throw new IndexOutOfBoundsException("Invalid index: " + field$);
     }
   }
@@ -173,7 +178,7 @@ public class SampleSchema extends org.apache.avro.specific.SpecificRecordBase im
    * Gets the value of the 'column2' field.
    * @return The value of the 'column2' field.
    */
-  public int getColumn2() {
+  public java.lang.String getColumn2() {
     return column2;
   }
 
@@ -182,8 +187,25 @@ public class SampleSchema extends org.apache.avro.specific.SpecificRecordBase im
    * Sets the value of the 'column2' field.
    * @param value the value to set.
    */
-  public void setColumn2(int value) {
+  public void setColumn2(java.lang.String value) {
     this.column2 = value;
+  }
+
+  /**
+   * Gets the value of the 'translations' field.
+   * @return The value of the 'translations' field.
+   */
+  public java.util.List<com.leijendary.schema.SampleTranslationSchema> getTranslations() {
+    return translations;
+  }
+
+
+  /**
+   * Sets the value of the 'translations' field.
+   * @param value the value to set.
+   */
+  public void setTranslations(java.util.List<com.leijendary.schema.SampleTranslationSchema> value) {
+    this.translations = value;
   }
 
   /**
@@ -297,7 +319,8 @@ public class SampleSchema extends org.apache.avro.specific.SpecificRecordBase im
 
     private long id;
     private java.lang.String column1;
-    private int column2;
+    private java.lang.String column2;
+    private java.util.List<com.leijendary.schema.SampleTranslationSchema> translations;
     private java.lang.String createdDate;
     private java.lang.String createdBy;
     private java.lang.String lastModifiedDate;
@@ -326,21 +349,25 @@ public class SampleSchema extends org.apache.avro.specific.SpecificRecordBase im
         this.column2 = data().deepCopy(fields()[2].schema(), other.column2);
         fieldSetFlags()[2] = other.fieldSetFlags()[2];
       }
-      if (isValidValue(fields()[3], other.createdDate)) {
-        this.createdDate = data().deepCopy(fields()[3].schema(), other.createdDate);
+      if (isValidValue(fields()[3], other.translations)) {
+        this.translations = data().deepCopy(fields()[3].schema(), other.translations);
         fieldSetFlags()[3] = other.fieldSetFlags()[3];
       }
-      if (isValidValue(fields()[4], other.createdBy)) {
-        this.createdBy = data().deepCopy(fields()[4].schema(), other.createdBy);
+      if (isValidValue(fields()[4], other.createdDate)) {
+        this.createdDate = data().deepCopy(fields()[4].schema(), other.createdDate);
         fieldSetFlags()[4] = other.fieldSetFlags()[4];
       }
-      if (isValidValue(fields()[5], other.lastModifiedDate)) {
-        this.lastModifiedDate = data().deepCopy(fields()[5].schema(), other.lastModifiedDate);
+      if (isValidValue(fields()[5], other.createdBy)) {
+        this.createdBy = data().deepCopy(fields()[5].schema(), other.createdBy);
         fieldSetFlags()[5] = other.fieldSetFlags()[5];
       }
-      if (isValidValue(fields()[6], other.lastModifiedBy)) {
-        this.lastModifiedBy = data().deepCopy(fields()[6].schema(), other.lastModifiedBy);
+      if (isValidValue(fields()[6], other.lastModifiedDate)) {
+        this.lastModifiedDate = data().deepCopy(fields()[6].schema(), other.lastModifiedDate);
         fieldSetFlags()[6] = other.fieldSetFlags()[6];
+      }
+      if (isValidValue(fields()[7], other.lastModifiedBy)) {
+        this.lastModifiedBy = data().deepCopy(fields()[7].schema(), other.lastModifiedBy);
+        fieldSetFlags()[7] = other.fieldSetFlags()[7];
       }
     }
 
@@ -362,21 +389,25 @@ public class SampleSchema extends org.apache.avro.specific.SpecificRecordBase im
         this.column2 = data().deepCopy(fields()[2].schema(), other.column2);
         fieldSetFlags()[2] = true;
       }
-      if (isValidValue(fields()[3], other.createdDate)) {
-        this.createdDate = data().deepCopy(fields()[3].schema(), other.createdDate);
+      if (isValidValue(fields()[3], other.translations)) {
+        this.translations = data().deepCopy(fields()[3].schema(), other.translations);
         fieldSetFlags()[3] = true;
       }
-      if (isValidValue(fields()[4], other.createdBy)) {
-        this.createdBy = data().deepCopy(fields()[4].schema(), other.createdBy);
+      if (isValidValue(fields()[4], other.createdDate)) {
+        this.createdDate = data().deepCopy(fields()[4].schema(), other.createdDate);
         fieldSetFlags()[4] = true;
       }
-      if (isValidValue(fields()[5], other.lastModifiedDate)) {
-        this.lastModifiedDate = data().deepCopy(fields()[5].schema(), other.lastModifiedDate);
+      if (isValidValue(fields()[5], other.createdBy)) {
+        this.createdBy = data().deepCopy(fields()[5].schema(), other.createdBy);
         fieldSetFlags()[5] = true;
       }
-      if (isValidValue(fields()[6], other.lastModifiedBy)) {
-        this.lastModifiedBy = data().deepCopy(fields()[6].schema(), other.lastModifiedBy);
+      if (isValidValue(fields()[6], other.lastModifiedDate)) {
+        this.lastModifiedDate = data().deepCopy(fields()[6].schema(), other.lastModifiedDate);
         fieldSetFlags()[6] = true;
+      }
+      if (isValidValue(fields()[7], other.lastModifiedBy)) {
+        this.lastModifiedBy = data().deepCopy(fields()[7].schema(), other.lastModifiedBy);
+        fieldSetFlags()[7] = true;
       }
     }
 
@@ -463,7 +494,7 @@ public class SampleSchema extends org.apache.avro.specific.SpecificRecordBase im
       * Gets the value of the 'column2' field.
       * @return The value.
       */
-    public int getColumn2() {
+    public java.lang.String getColumn2() {
       return column2;
     }
 
@@ -473,7 +504,7 @@ public class SampleSchema extends org.apache.avro.specific.SpecificRecordBase im
       * @param value The value of 'column2'.
       * @return This builder.
       */
-    public com.leijendary.schema.SampleSchema.Builder setColumn2(int value) {
+    public com.leijendary.schema.SampleSchema.Builder setColumn2(java.lang.String value) {
       validate(fields()[2], value);
       this.column2 = value;
       fieldSetFlags()[2] = true;
@@ -494,7 +525,48 @@ public class SampleSchema extends org.apache.avro.specific.SpecificRecordBase im
       * @return This builder.
       */
     public com.leijendary.schema.SampleSchema.Builder clearColumn2() {
+      column2 = null;
       fieldSetFlags()[2] = false;
+      return this;
+    }
+
+    /**
+      * Gets the value of the 'translations' field.
+      * @return The value.
+      */
+    public java.util.List<com.leijendary.schema.SampleTranslationSchema> getTranslations() {
+      return translations;
+    }
+
+
+    /**
+      * Sets the value of the 'translations' field.
+      * @param value The value of 'translations'.
+      * @return This builder.
+      */
+    public com.leijendary.schema.SampleSchema.Builder setTranslations(java.util.List<com.leijendary.schema.SampleTranslationSchema> value) {
+      validate(fields()[3], value);
+      this.translations = value;
+      fieldSetFlags()[3] = true;
+      return this;
+    }
+
+    /**
+      * Checks whether the 'translations' field has been set.
+      * @return True if the 'translations' field has been set, false otherwise.
+      */
+    public boolean hasTranslations() {
+      return fieldSetFlags()[3];
+    }
+
+
+    /**
+      * Clears the value of the 'translations' field.
+      * @return This builder.
+      */
+    public com.leijendary.schema.SampleSchema.Builder clearTranslations() {
+      translations = null;
+      fieldSetFlags()[3] = false;
       return this;
     }
 
@@ -513,9 +585,9 @@ public class SampleSchema extends org.apache.avro.specific.SpecificRecordBase im
       * @return This builder.
       */
     public com.leijendary.schema.SampleSchema.Builder setCreatedDate(java.lang.String value) {
-      validate(fields()[3], value);
+      validate(fields()[4], value);
       this.createdDate = value;
-      fieldSetFlags()[3] = true;
+      fieldSetFlags()[4] = true;
       return this;
     }
 
@@ -524,7 +596,7 @@ public class SampleSchema extends org.apache.avro.specific.SpecificRecordBase im
       * @return True if the 'createdDate' field has been set, false otherwise.
       */
     public boolean hasCreatedDate() {
-      return fieldSetFlags()[3];
+      return fieldSetFlags()[4];
     }
 
 
@@ -534,7 +606,7 @@ public class SampleSchema extends org.apache.avro.specific.SpecificRecordBase im
       */
     public com.leijendary.schema.SampleSchema.Builder clearCreatedDate() {
       createdDate = null;
-      fieldSetFlags()[3] = false;
+      fieldSetFlags()[4] = false;
       return this;
     }
 
@@ -553,9 +625,9 @@ public class SampleSchema extends org.apache.avro.specific.SpecificRecordBase im
       * @return This builder.
       */
     public com.leijendary.schema.SampleSchema.Builder setCreatedBy(java.lang.String value) {
-      validate(fields()[4], value);
+      validate(fields()[5], value);
       this.createdBy = value;
-      fieldSetFlags()[4] = true;
+      fieldSetFlags()[5] = true;
       return this;
     }
 
@@ -564,7 +636,7 @@ public class SampleSchema extends org.apache.avro.specific.SpecificRecordBase im
       * @return True if the 'createdBy' field has been set, false otherwise.
       */
     public boolean hasCreatedBy() {
-      return fieldSetFlags()[4];
+      return fieldSetFlags()[5];
     }
 
 
@@ -574,7 +646,7 @@ public class SampleSchema extends org.apache.avro.specific.SpecificRecordBase im
       */
     public com.leijendary.schema.SampleSchema.Builder clearCreatedBy() {
       createdBy = null;
-      fieldSetFlags()[4] = false;
+      fieldSetFlags()[5] = false;
       return this;
     }
 
@@ -593,9 +665,9 @@ public class SampleSchema extends org.apache.avro.specific.SpecificRecordBase im
       * @return This builder.
       */
     public com.leijendary.schema.SampleSchema.Builder setLastModifiedDate(java.lang.String value) {
-      validate(fields()[5], value);
+      validate(fields()[6], value);
       this.lastModifiedDate = value;
-      fieldSetFlags()[5] = true;
+      fieldSetFlags()[6] = true;
       return this;
     }
 
@@ -604,7 +676,7 @@ public class SampleSchema extends org.apache.avro.specific.SpecificRecordBase im
       * @return True if the 'lastModifiedDate' field has been set, false otherwise.
       */
     public boolean hasLastModifiedDate() {
-      return fieldSetFlags()[5];
+      return fieldSetFlags()[6];
     }
 
 
@@ -614,7 +686,7 @@ public class SampleSchema extends org.apache.avro.specific.SpecificRecordBase im
       */
     public com.leijendary.schema.SampleSchema.Builder clearLastModifiedDate() {
       lastModifiedDate = null;
-      fieldSetFlags()[5] = false;
+      fieldSetFlags()[6] = false;
       return this;
     }
 
@@ -633,9 +705,9 @@ public class SampleSchema extends org.apache.avro.specific.SpecificRecordBase im
       * @return This builder.
       */
     public com.leijendary.schema.SampleSchema.Builder setLastModifiedBy(java.lang.String value) {
-      validate(fields()[6], value);
+      validate(fields()[7], value);
       this.lastModifiedBy = value;
-      fieldSetFlags()[6] = true;
+      fieldSetFlags()[7] = true;
       return this;
     }
 
@@ -644,7 +716,7 @@ public class SampleSchema extends org.apache.avro.specific.SpecificRecordBase im
       * @return True if the 'lastModifiedBy' field has been set, false otherwise.
       */
     public boolean hasLastModifiedBy() {
-      return fieldSetFlags()[6];
+      return fieldSetFlags()[7];
     }
 
 
@@ -654,7 +726,7 @@ public class SampleSchema extends org.apache.avro.specific.SpecificRecordBase im
       */
     public com.leijendary.schema.SampleSchema.Builder clearLastModifiedBy() {
       lastModifiedBy = null;
-      fieldSetFlags()[6] = false;
+      fieldSetFlags()[7] = false;
       return this;
     }
 
@@ -665,11 +737,12 @@ public class SampleSchema extends org.apache.avro.specific.SpecificRecordBase im
         SampleSchema record = new SampleSchema();
         record.id = fieldSetFlags()[0] ? this.id : (java.lang.Long) defaultValue(fields()[0]);
         record.column1 = fieldSetFlags()[1] ? this.column1 : (java.lang.String) defaultValue(fields()[1]);
-        record.column2 = fieldSetFlags()[2] ? this.column2 : (java.lang.Integer) defaultValue(fields()[2]);
-        record.createdDate = fieldSetFlags()[3] ? this.createdDate : (java.lang.String) defaultValue(fields()[3]);
-        record.createdBy = fieldSetFlags()[4] ? this.createdBy : (java.lang.String) defaultValue(fields()[4]);
-        record.lastModifiedDate = fieldSetFlags()[5] ? this.lastModifiedDate : (java.lang.String) defaultValue(fields()[5]);
-        record.lastModifiedBy = fieldSetFlags()[6] ? this.lastModifiedBy : (java.lang.String) defaultValue(fields()[6]);
+        record.column2 = fieldSetFlags()[2] ? this.column2 : (java.lang.String) defaultValue(fields()[2]);
+        record.translations = fieldSetFlags()[3] ? this.translations : (java.util.List<com.leijendary.schema.SampleTranslationSchema>) defaultValue(fields()[3]);
+        record.createdDate = fieldSetFlags()[4] ? this.createdDate : (java.lang.String) defaultValue(fields()[4]);
+        record.createdBy = fieldSetFlags()[5] ? this.createdBy : (java.lang.String) defaultValue(fields()[5]);
+        record.lastModifiedDate = fieldSetFlags()[6] ? this.lastModifiedDate : (java.lang.String) defaultValue(fields()[6]);
+        record.lastModifiedBy = fieldSetFlags()[7] ? this.lastModifiedBy : (java.lang.String) defaultValue(fields()[7]);
         return record;
       } catch (org.apache.avro.AvroMissingFieldException e) {
         throw e;
@@ -706,7 +779,20 @@ public class SampleSchema extends org.apache.avro.specific.SpecificRecordBase im
 
     out.writeString(this.column1);
 
-    out.writeInt(this.column2);
+    out.writeString(this.column2);
+
+    long size0 = this.translations.size();
+    out.writeArrayStart();
+    out.setItemCount(size0);
+    long actualSize0 = 0;
+    for (com.leijendary.schema.SampleTranslationSchema e0: this.translations) {
+      actualSize0++;
+      out.startItem();
+      e0.customEncode(out);
+    }
+    out.writeArrayEnd();
+    if (actualSize0 != size0)
+      throw new java.util.ConcurrentModificationException("Array-size written was " + size0 + ", but element count was " + actualSize0 + ".");
 
     out.writeString(this.createdDate);
 
@@ -727,7 +813,25 @@ public class SampleSchema extends org.apache.avro.specific.SpecificRecordBase im
 
       this.column1 = in.readString();
 
-      this.column2 = in.readInt();
+      this.column2 = in.readString();
+
+      long size0 = in.readArrayStart();
+      java.util.List<com.leijendary.schema.SampleTranslationSchema> a0 = this.translations;
+      if (a0 == null) {
+        a0 = new SpecificData.Array<com.leijendary.schema.SampleTranslationSchema>((int)size0, SCHEMA$.getField("translations").schema());
+        this.translations = a0;
+      } else a0.clear();
+      SpecificData.Array<com.leijendary.schema.SampleTranslationSchema> ga0 = (a0 instanceof SpecificData.Array ? (SpecificData.Array<com.leijendary.schema.SampleTranslationSchema>)a0 : null);
+      for ( ; 0 < size0; size0 = in.arrayNext()) {
+        for ( ; size0 != 0; size0--) {
+          com.leijendary.schema.SampleTranslationSchema e0 = (ga0 != null ? ga0.peek() : null);
+          if (e0 == null) {
+            e0 = new com.leijendary.schema.SampleTranslationSchema();
+          }
+          e0.customDecode(in);
+          a0.add(e0);
+        }
+      }
 
       this.createdDate = in.readString();
 
@@ -738,7 +842,7 @@ public class SampleSchema extends org.apache.avro.specific.SpecificRecordBase im
       this.lastModifiedBy = in.readString();
 
     } else {
-      for (int i = 0; i < 7; i++) {
+      for (int i = 0; i < 8; i++) {
         switch (fieldOrder[i].pos()) {
         case 0:
           this.id = in.readLong();
@@ -749,22 +853,42 @@ public class SampleSchema extends org.apache.avro.specific.SpecificRecordBase im
           break;
 
         case 2:
-          this.column2 = in.readInt();
+          this.column2 = in.readString();
           break;
 
         case 3:
-          this.createdDate = in.readString();
+          long size0 = in.readArrayStart();
+          java.util.List<com.leijendary.schema.SampleTranslationSchema> a0 = this.translations;
+          if (a0 == null) {
+            a0 = new SpecificData.Array<com.leijendary.schema.SampleTranslationSchema>((int)size0, SCHEMA$.getField("translations").schema());
+            this.translations = a0;
+          } else a0.clear();
+          SpecificData.Array<com.leijendary.schema.SampleTranslationSchema> ga0 = (a0 instanceof SpecificData.Array ? (SpecificData.Array<com.leijendary.schema.SampleTranslationSchema>)a0 : null);
+          for ( ; 0 < size0; size0 = in.arrayNext()) {
+            for ( ; size0 != 0; size0--) {
+              com.leijendary.schema.SampleTranslationSchema e0 = (ga0 != null ? ga0.peek() : null);
+              if (e0 == null) {
+                e0 = new com.leijendary.schema.SampleTranslationSchema();
+              }
+              e0.customDecode(in);
+              a0.add(e0);
+            }
+          }
           break;
 
         case 4:
-          this.createdBy = in.readString();
+          this.createdDate = in.readString();
           break;
 
         case 5:
-          this.lastModifiedDate = in.readString();
+          this.createdBy = in.readString();
           break;
 
         case 6:
+          this.lastModifiedDate = in.readString();
+          break;
+
+        case 7:
           this.lastModifiedBy = in.readString();
           break;
 

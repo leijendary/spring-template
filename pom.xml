@@ -265,6 +265,10 @@
                         <configuration>
                             <outputDirectory>${project.basedir}/src/main/java</outputDirectory>
                             <stringType>String</stringType>
+                            <!-- In Avro, you have to define the nested schemas first -->
+                            <imports>
+                                <import>${project.basedir}/src/main/avro/SampleTranslationSchema.avsc</import>
+                            </imports>
                         </configuration>
                     </execution>
                 </executions>

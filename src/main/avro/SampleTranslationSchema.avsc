@@ -1,26 +1,27 @@
 {
   "type": "record",
   "namespace": "com.leijendary.schema",
-  "name": "SampleSchema",
+  "name": "SampleTranslationSchema",
   "fields": [
     {
       "name": "id",
       "type": "long"
     },
     {
-      "name": "column1",
+      "name": "name",
       "type": "string"
     },
     {
-      "name": "column2",
+      "name": "description",
       "type": "string"
     },
     {
-      "name": "translations",
-      "type": {
-        "type": "array",
-        "items": "SampleTranslationSchema"
-      }
+      "name": "language",
+      "type": "string"
+    },
+    {
+      "name": "ordinal",
+      "type": "int"
     },
     {
       "name": "createdDate",

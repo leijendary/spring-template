@@ -12,14 +12,13 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.util.ArrayList;
 
-import static com.leijendary.spring.microservicetemplate.util.RequestContext.getLanguage;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 
 @Builder
 public class LocaleSpecification<T extends LocaleModel<?>> implements Specification<T> {
 
     private final long referenceId;
-    private final String language = getLanguage();
+    private final String language;
 
     @Override
     public Predicate toPredicate(@NonNull final Root<T> root, @NonNull final CriteriaQuery<?> criteriaQuery,

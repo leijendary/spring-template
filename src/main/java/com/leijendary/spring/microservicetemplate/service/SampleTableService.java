@@ -17,6 +17,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Service
@@ -41,9 +42,12 @@ public class SampleTableService extends AbstractService {
 
         sampleTableRepository
                 .findFirstByColumn1IgnoreCaseAndIdNot(sampleData.getColumn1(), 0)
-                .ifPresent(sampleTable1 -> {
+                .ifPresent(sample -> {
                     throw new ResourceNotUniqueException("column1", sampleData.getColumn1());
                 });
+
+        // Set the reference of each translation first
+        sampleTable.getTranslations().forEach(translation -> translation.setReference(sampleTable));
 
         sampleTableRepository.save(sampleTable);
 
@@ -60,11 +64,24 @@ public class SampleTableService extends AbstractService {
                 .<SampleTableTranslation>builder()
                 .referenceId(id)
                 .build();
+        final var list = sampleTableTranslationRepository.findAll(localeSpecification);
+
+        return new HashSet<>(list);
+    }
+
+    public SampleTableTranslation getTranslation(final long id, final String language) {
+        final var localeSpecification = LocaleSpecification
+                .<SampleTableTranslation>builder()
+                .referenceId(id)
+                .language(language)
+                .build();
         final var oneItem = PageRequest.of(0, 1);
 
         return sampleTableTranslationRepository
                 .findAll(localeSpecification, oneItem)
-                .toSet();
+                .stream()
+                .findFirst()
+                .orElse(null);
     }
 
     public SampleTable update(final long id, final SampleData sampleData) {
@@ -77,6 +94,9 @@ public class SampleTableService extends AbstractService {
                 });
 
         SampleFactory.map(sampleData, sampleTable);
+
+        // Set the reference of each translation first
+        sampleTable.getTranslations().forEach(translation -> translation.setReference(sampleTable));
 
         return sampleTableRepository.save(sampleTable);
     }

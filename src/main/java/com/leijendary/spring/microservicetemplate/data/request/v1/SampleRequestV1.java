@@ -3,8 +3,11 @@ package com.leijendary.spring.microservicetemplate.data.request.v1;
 import com.leijendary.spring.microservicetemplate.validator.annotation.v1.FieldsNotEqualV1;
 import lombok.Data;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
+import java.util.Set;
 
 @Data
 @FieldsNotEqualV1
@@ -15,4 +18,8 @@ public class SampleRequestV1 {
     private String field1;
 
     private int field2;
+
+    @Valid
+    @NotEmpty(message = "validation.required")
+    private Set<SampleTranslationRequestV1> translations;
 }
