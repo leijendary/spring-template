@@ -18,7 +18,6 @@ import org.springframework.stereotype.Component;
 import javax.transaction.Transactional;
 
 import static com.leijendary.spring.microservicetemplate.factory.SampleFactory.toResponseV1;
-import static java.util.Collections.singleton;
 
 @Component
 @RequiredArgsConstructor
@@ -29,39 +28,37 @@ public class SampleFlow {
 
     private final SampleTableService sampleTableService;
 
-    @Cacheable(value = PAGE_CACHE_V1, key = "#queryRequest.toString() + '|' + #pageable.toString() + '|' + #language")
-    public Page<SampleResponseV1> listV1(final QueryRequest queryRequest, final Pageable pageable,
-                                         final String language) {
+    @Cacheable(value = PAGE_CACHE_V1, key = "#queryRequest.toString() + '|' + #pageable.toString()")
+    @Transactional
+    public Page<SampleResponseV1> listV1(final QueryRequest queryRequest, final Pageable pageable) {
         return sampleTableService.list(queryRequest, pageable)
                 .map(SampleFactory::toResponseV1);
     }
 
     @Caching(
             evict = @CacheEvict(value = PAGE_CACHE_V1, allEntries = true),
-            put = @CachePut(value = CACHE_V1, key = "#result.id + '/' + #language"))
+            put = @CachePut(value = CACHE_V1, key = "#result.id"))
     @Transactional
-    public SampleResponseV1 createV1(final SampleRequestV1 request, final String language) {
+    public SampleResponseV1 createV1(final SampleRequestV1 request) {
         final var sampleData = SampleDataFactory.of(request);
         final var sampleTable = sampleTableService.create(sampleData);
 
         return toResponseV1(sampleTable);
     }
 
-    @Cacheable(value = CACHE_V1, key = "#id + '/' + #language")
-    public SampleResponseV1 getV1(final long id, final String language) {
+    @Cacheable(value = CACHE_V1, key = "#id")
+    @Transactional
+    public SampleResponseV1 getV1(final long id) {
         final var sampleTable = sampleTableService.get(id);
-        final var translation = sampleTableService.getTranslation(id, language);
-
-        sampleTable.setTranslations(singleton(translation));
 
         return toResponseV1(sampleTable);
     }
 
-    @Caching(
-            evict = @CacheEvict(value = PAGE_CACHE_V1, allEntries = true),
-            put = @CachePut(value = CACHE_V1, key = "#result.id + '/' + #language"))
+    @Caching(evict = {
+            @CacheEvict(value = PAGE_CACHE_V1, allEntries = true),
+            @CacheEvict(value = CACHE_V1, key = "#id") })
     @Transactional
-    public SampleResponseV1 updateV1(final long id, final SampleRequestV1 request, final String language) {
+    public SampleResponseV1 updateV1(final long id, final SampleRequestV1 request) {
         final var sampleData = SampleDataFactory.of(request);
         final var sampleTable = sampleTableService.update(id, sampleData);
 
@@ -70,7 +67,7 @@ public class SampleFlow {
 
     @Caching(evict = {
             @CacheEvict(value = PAGE_CACHE_V1, allEntries = true),
-            @CacheEvict(value = CACHE_V1, key = "#id + '/*'") })
+            @CacheEvict(value = CACHE_V1, key = "#id") })
     public void deleteV1(final long id) {
         sampleTableService.delete(id);
     }

@@ -25,9 +25,21 @@ public class SampleListSpecification implements Specification<SampleTable> {
             return criteriaQuery.where().getRestriction();
         }
 
-        final var column1 = root.<String>get("column1");
-        final var column1Like = lowerLike(query, column1, criteriaBuilder);
+        // Column 1 filtering
+        final var column1Path = root.<String>get("column1");
+        final var column1Like = lowerLike(query, column1Path, criteriaBuilder);
 
-        return criteriaQuery.where(column1Like).getRestriction();
+        // Translations join and paths
+        final var translationJoin = root.join("translations");
+        final var namePath = translationJoin.<String>get("name");
+        final var descriptionPath = translationJoin.<String>get("description");
+
+        // Name or description translation like query
+        final var nameLike = criteriaBuilder.like(namePath, "%" + query + "%");
+        final var descriptionLike = criteriaBuilder.like(descriptionPath, "%" + query + "%");
+
+        final var predicate = criteriaBuilder.or(column1Like, nameLike, descriptionLike);
+
+        return criteriaQuery.where(predicate).getRestriction();
     }
 }
