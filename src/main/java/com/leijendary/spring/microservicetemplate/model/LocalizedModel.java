@@ -6,6 +6,7 @@ import lombok.ToString;
 
 import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import java.util.Set;
 
 import static javax.persistence.CascadeType.ALL;
@@ -18,5 +19,6 @@ public abstract class LocalizedModel<R, T extends LocaleModel<R>> extends Snowfl
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "reference", cascade = ALL)
+    @OrderBy("ordinal asc")
     private Set<T> translations;
 }

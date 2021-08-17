@@ -4,8 +4,7 @@ import lombok.Data;
 
 import java.io.Serializable;
 import java.time.OffsetDateTime;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.LinkedHashSet;
 
 @Data
 public class SampleResponseV1 implements Serializable {
@@ -17,5 +16,6 @@ public class SampleResponseV1 implements Serializable {
     private String createdBy;
     private OffsetDateTime lastModifiedDate;
     private String lastModifiedBy;
-    private Set<SampleTableTranslationResponseV1> translations = new HashSet<>();
+    // LinkedHashSet to maintain insertion order
+    private LinkedHashSet<SampleTableTranslationResponseV1> translations = new LinkedHashSet<>();
 }
