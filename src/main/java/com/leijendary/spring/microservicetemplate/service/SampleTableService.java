@@ -41,9 +41,7 @@ public class SampleTableService extends AbstractService {
         // Set the reference of each translation first
         sampleTable.getTranslations().forEach(translation -> translation.setReference(sampleTable));
 
-        sampleTableRepository.save(sampleTable);
-
-        return sampleTable;
+        return sampleTableRepository.save(sampleTable);
     }
 
     public SampleTable get(final long id) {
