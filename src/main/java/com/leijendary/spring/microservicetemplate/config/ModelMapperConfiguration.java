@@ -22,6 +22,7 @@ public class ModelMapperConfiguration {
         modelMapper.registerModule(new Jsr310Module(config));
         // Matching strategy set to "STRICT" to avoid mismatching of fields
         modelMapper.getConfiguration().setMatchingStrategy(STRICT);
+        // SampleRequestV1 to SampleData mapping
         modelMapper.addMappings(new SampleRequestV1ToSampleDataMap());
 
         return modelMapper;
