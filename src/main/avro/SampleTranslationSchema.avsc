@@ -22,22 +22,6 @@
     {
       "name": "ordinal",
       "type": "int"
-    },
-    {
-      "name": "createdDate",
-      "type": "string"
-    },
-    {
-      "name": "createdBy",
-      "type": "string"
-    },
-    {
-      "name": "lastModifiedDate",
-      "type": "string"
-    },
-    {
-      "name": "lastModifiedBy",
-      "type": "string"
     }
   ]
 }

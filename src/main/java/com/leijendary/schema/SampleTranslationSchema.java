@@ -12,8 +12,8 @@ import org.apache.avro.specific.SpecificData;
 
 @org.apache.avro.specific.AvroGenerated
 public class SampleTranslationSchema extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
-  private static final long serialVersionUID = -1289945070382713208L;
-  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"SampleTranslationSchema\",\"namespace\":\"com.leijendary.schema\",\"fields\":[{\"name\":\"id\",\"type\":\"long\"},{\"name\":\"name\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"description\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"language\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"ordinal\",\"type\":\"int\"},{\"name\":\"createdDate\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"createdBy\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"lastModifiedDate\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"lastModifiedBy\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}}]}");
+  private static final long serialVersionUID = -4707739943971861658L;
+  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"SampleTranslationSchema\",\"namespace\":\"com.leijendary.schema\",\"fields\":[{\"name\":\"id\",\"type\":\"long\"},{\"name\":\"name\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"description\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"language\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"ordinal\",\"type\":\"int\"}]}");
   public static org.apache.avro.Schema getClassSchema() { return SCHEMA$; }
 
   private static SpecificData MODEL$ = new SpecificData();
@@ -74,10 +74,6 @@ public class SampleTranslationSchema extends org.apache.avro.specific.SpecificRe
    private java.lang.String description;
    private java.lang.String language;
    private int ordinal;
-   private java.lang.String createdDate;
-   private java.lang.String createdBy;
-   private java.lang.String lastModifiedDate;
-   private java.lang.String lastModifiedBy;
 
   /**
    * Default constructor.  Note that this does not initialize fields
@@ -93,21 +89,13 @@ public class SampleTranslationSchema extends org.apache.avro.specific.SpecificRe
    * @param description The new value for description
    * @param language The new value for language
    * @param ordinal The new value for ordinal
-   * @param createdDate The new value for createdDate
-   * @param createdBy The new value for createdBy
-   * @param lastModifiedDate The new value for lastModifiedDate
-   * @param lastModifiedBy The new value for lastModifiedBy
    */
-  public SampleTranslationSchema(java.lang.Long id, java.lang.String name, java.lang.String description, java.lang.String language, java.lang.Integer ordinal, java.lang.String createdDate, java.lang.String createdBy, java.lang.String lastModifiedDate, java.lang.String lastModifiedBy) {
+  public SampleTranslationSchema(java.lang.Long id, java.lang.String name, java.lang.String description, java.lang.String language, java.lang.Integer ordinal) {
     this.id = id;
     this.name = name;
     this.description = description;
     this.language = language;
     this.ordinal = ordinal;
-    this.createdDate = createdDate;
-    this.createdBy = createdBy;
-    this.lastModifiedDate = lastModifiedDate;
-    this.lastModifiedBy = lastModifiedBy;
   }
 
   public org.apache.avro.specific.SpecificData getSpecificData() { return MODEL$; }
@@ -120,10 +108,6 @@ public class SampleTranslationSchema extends org.apache.avro.specific.SpecificRe
     case 2: return description;
     case 3: return language;
     case 4: return ordinal;
-    case 5: return createdDate;
-    case 6: return createdBy;
-    case 7: return lastModifiedDate;
-    case 8: return lastModifiedBy;
     default: throw new IndexOutOfBoundsException("Invalid index: " + field$);
     }
   }
@@ -137,10 +121,6 @@ public class SampleTranslationSchema extends org.apache.avro.specific.SpecificRe
     case 2: description = value$ != null ? value$.toString() : null; break;
     case 3: language = value$ != null ? value$.toString() : null; break;
     case 4: ordinal = (java.lang.Integer)value$; break;
-    case 5: createdDate = value$ != null ? value$.toString() : null; break;
-    case 6: createdBy = value$ != null ? value$.toString() : null; break;
-    case 7: lastModifiedDate = value$ != null ? value$.toString() : null; break;
-    case 8: lastModifiedBy = value$ != null ? value$.toString() : null; break;
     default: throw new IndexOutOfBoundsException("Invalid index: " + field$);
     }
   }
@@ -231,74 +211,6 @@ public class SampleTranslationSchema extends org.apache.avro.specific.SpecificRe
   }
 
   /**
-   * Gets the value of the 'createdDate' field.
-   * @return The value of the 'createdDate' field.
-   */
-  public java.lang.String getCreatedDate() {
-    return createdDate;
-  }
-
-
-  /**
-   * Sets the value of the 'createdDate' field.
-   * @param value the value to set.
-   */
-  public void setCreatedDate(java.lang.String value) {
-    this.createdDate = value;
-  }
-
-  /**
-   * Gets the value of the 'createdBy' field.
-   * @return The value of the 'createdBy' field.
-   */
-  public java.lang.String getCreatedBy() {
-    return createdBy;
-  }
-
-
-  /**
-   * Sets the value of the 'createdBy' field.
-   * @param value the value to set.
-   */
-  public void setCreatedBy(java.lang.String value) {
-    this.createdBy = value;
-  }
-
-  /**
-   * Gets the value of the 'lastModifiedDate' field.
-   * @return The value of the 'lastModifiedDate' field.
-   */
-  public java.lang.String getLastModifiedDate() {
-    return lastModifiedDate;
-  }
-
-
-  /**
-   * Sets the value of the 'lastModifiedDate' field.
-   * @param value the value to set.
-   */
-  public void setLastModifiedDate(java.lang.String value) {
-    this.lastModifiedDate = value;
-  }
-
-  /**
-   * Gets the value of the 'lastModifiedBy' field.
-   * @return The value of the 'lastModifiedBy' field.
-   */
-  public java.lang.String getLastModifiedBy() {
-    return lastModifiedBy;
-  }
-
-
-  /**
-   * Sets the value of the 'lastModifiedBy' field.
-   * @param value the value to set.
-   */
-  public void setLastModifiedBy(java.lang.String value) {
-    this.lastModifiedBy = value;
-  }
-
-  /**
    * Creates a new SampleTranslationSchema RecordBuilder.
    * @return A new SampleTranslationSchema RecordBuilder
    */
@@ -344,10 +256,6 @@ public class SampleTranslationSchema extends org.apache.avro.specific.SpecificRe
     private java.lang.String description;
     private java.lang.String language;
     private int ordinal;
-    private java.lang.String createdDate;
-    private java.lang.String createdBy;
-    private java.lang.String lastModifiedDate;
-    private java.lang.String lastModifiedBy;
 
     /** Creates a new Builder */
     private Builder() {
@@ -380,22 +288,6 @@ public class SampleTranslationSchema extends org.apache.avro.specific.SpecificRe
         this.ordinal = data().deepCopy(fields()[4].schema(), other.ordinal);
         fieldSetFlags()[4] = other.fieldSetFlags()[4];
       }
-      if (isValidValue(fields()[5], other.createdDate)) {
-        this.createdDate = data().deepCopy(fields()[5].schema(), other.createdDate);
-        fieldSetFlags()[5] = other.fieldSetFlags()[5];
-      }
-      if (isValidValue(fields()[6], other.createdBy)) {
-        this.createdBy = data().deepCopy(fields()[6].schema(), other.createdBy);
-        fieldSetFlags()[6] = other.fieldSetFlags()[6];
-      }
-      if (isValidValue(fields()[7], other.lastModifiedDate)) {
-        this.lastModifiedDate = data().deepCopy(fields()[7].schema(), other.lastModifiedDate);
-        fieldSetFlags()[7] = other.fieldSetFlags()[7];
-      }
-      if (isValidValue(fields()[8], other.lastModifiedBy)) {
-        this.lastModifiedBy = data().deepCopy(fields()[8].schema(), other.lastModifiedBy);
-        fieldSetFlags()[8] = other.fieldSetFlags()[8];
-      }
     }
 
     /**
@@ -423,22 +315,6 @@ public class SampleTranslationSchema extends org.apache.avro.specific.SpecificRe
       if (isValidValue(fields()[4], other.ordinal)) {
         this.ordinal = data().deepCopy(fields()[4].schema(), other.ordinal);
         fieldSetFlags()[4] = true;
-      }
-      if (isValidValue(fields()[5], other.createdDate)) {
-        this.createdDate = data().deepCopy(fields()[5].schema(), other.createdDate);
-        fieldSetFlags()[5] = true;
-      }
-      if (isValidValue(fields()[6], other.createdBy)) {
-        this.createdBy = data().deepCopy(fields()[6].schema(), other.createdBy);
-        fieldSetFlags()[6] = true;
-      }
-      if (isValidValue(fields()[7], other.lastModifiedDate)) {
-        this.lastModifiedDate = data().deepCopy(fields()[7].schema(), other.lastModifiedDate);
-        fieldSetFlags()[7] = true;
-      }
-      if (isValidValue(fields()[8], other.lastModifiedBy)) {
-        this.lastModifiedBy = data().deepCopy(fields()[8].schema(), other.lastModifiedBy);
-        fieldSetFlags()[8] = true;
       }
     }
 
@@ -640,166 +516,6 @@ public class SampleTranslationSchema extends org.apache.avro.specific.SpecificRe
       return this;
     }
 
-    /**
-      * Gets the value of the 'createdDate' field.
-      * @return The value.
-      */
-    public java.lang.String getCreatedDate() {
-      return createdDate;
-    }
-
-
-    /**
-      * Sets the value of the 'createdDate' field.
-      * @param value The value of 'createdDate'.
-      * @return This builder.
-      */
-    public com.leijendary.schema.SampleTranslationSchema.Builder setCreatedDate(java.lang.String value) {
-      validate(fields()[5], value);
-      this.createdDate = value;
-      fieldSetFlags()[5] = true;
-      return this;
-    }
-
-    /**
-      * Checks whether the 'createdDate' field has been set.
-      * @return True if the 'createdDate' field has been set, false otherwise.
-      */
-    public boolean hasCreatedDate() {
-      return fieldSetFlags()[5];
-    }
-
-
-    /**
-      * Clears the value of the 'createdDate' field.
-      * @return This builder.
-      */
-    public com.leijendary.schema.SampleTranslationSchema.Builder clearCreatedDate() {
-      createdDate = null;
-      fieldSetFlags()[5] = false;
-      return this;
-    }
-
-    /**
-      * Gets the value of the 'createdBy' field.
-      * @return The value.
-      */
-    public java.lang.String getCreatedBy() {
-      return createdBy;
-    }
-
-
-    /**
-      * Sets the value of the 'createdBy' field.
-      * @param value The value of 'createdBy'.
-      * @return This builder.
-      */
-    public com.leijendary.schema.SampleTranslationSchema.Builder setCreatedBy(java.lang.String value) {
-      validate(fields()[6], value);
-      this.createdBy = value;
-      fieldSetFlags()[6] = true;
-      return this;
-    }
-
-    /**
-      * Checks whether the 'createdBy' field has been set.
-      * @return True if the 'createdBy' field has been set, false otherwise.
-      */
-    public boolean hasCreatedBy() {
-      return fieldSetFlags()[6];
-    }
-
-
-    /**
-      * Clears the value of the 'createdBy' field.
-      * @return This builder.
-      */
-    public com.leijendary.schema.SampleTranslationSchema.Builder clearCreatedBy() {
-      createdBy = null;
-      fieldSetFlags()[6] = false;
-      return this;
-    }
-
-    /**
-      * Gets the value of the 'lastModifiedDate' field.
-      * @return The value.
-      */
-    public java.lang.String getLastModifiedDate() {
-      return lastModifiedDate;
-    }
-
-
-    /**
-      * Sets the value of the 'lastModifiedDate' field.
-      * @param value The value of 'lastModifiedDate'.
-      * @return This builder.
-      */
-    public com.leijendary.schema.SampleTranslationSchema.Builder setLastModifiedDate(java.lang.String value) {
-      validate(fields()[7], value);
-      this.lastModifiedDate = value;
-      fieldSetFlags()[7] = true;
-      return this;
-    }
-
-    /**
-      * Checks whether the 'lastModifiedDate' field has been set.
-      * @return True if the 'lastModifiedDate' field has been set, false otherwise.
-      */
-    public boolean hasLastModifiedDate() {
-      return fieldSetFlags()[7];
-    }
-
-
-    /**
-      * Clears the value of the 'lastModifiedDate' field.
-      * @return This builder.
-      */
-    public com.leijendary.schema.SampleTranslationSchema.Builder clearLastModifiedDate() {
-      lastModifiedDate = null;
-      fieldSetFlags()[7] = false;
-      return this;
-    }
-
-    /**
-      * Gets the value of the 'lastModifiedBy' field.
-      * @return The value.
-      */
-    public java.lang.String getLastModifiedBy() {
-      return lastModifiedBy;
-    }
-
-
-    /**
-      * Sets the value of the 'lastModifiedBy' field.
-      * @param value The value of 'lastModifiedBy'.
-      * @return This builder.
-      */
-    public com.leijendary.schema.SampleTranslationSchema.Builder setLastModifiedBy(java.lang.String value) {
-      validate(fields()[8], value);
-      this.lastModifiedBy = value;
-      fieldSetFlags()[8] = true;
-      return this;
-    }
-
-    /**
-      * Checks whether the 'lastModifiedBy' field has been set.
-      * @return True if the 'lastModifiedBy' field has been set, false otherwise.
-      */
-    public boolean hasLastModifiedBy() {
-      return fieldSetFlags()[8];
-    }
-
-
-    /**
-      * Clears the value of the 'lastModifiedBy' field.
-      * @return This builder.
-      */
-    public com.leijendary.schema.SampleTranslationSchema.Builder clearLastModifiedBy() {
-      lastModifiedBy = null;
-      fieldSetFlags()[8] = false;
-      return this;
-    }
-
     @Override
     @SuppressWarnings("unchecked")
     public SampleTranslationSchema build() {
@@ -810,10 +526,6 @@ public class SampleTranslationSchema extends org.apache.avro.specific.SpecificRe
         record.description = fieldSetFlags()[2] ? this.description : (java.lang.String) defaultValue(fields()[2]);
         record.language = fieldSetFlags()[3] ? this.language : (java.lang.String) defaultValue(fields()[3]);
         record.ordinal = fieldSetFlags()[4] ? this.ordinal : (java.lang.Integer) defaultValue(fields()[4]);
-        record.createdDate = fieldSetFlags()[5] ? this.createdDate : (java.lang.String) defaultValue(fields()[5]);
-        record.createdBy = fieldSetFlags()[6] ? this.createdBy : (java.lang.String) defaultValue(fields()[6]);
-        record.lastModifiedDate = fieldSetFlags()[7] ? this.lastModifiedDate : (java.lang.String) defaultValue(fields()[7]);
-        record.lastModifiedBy = fieldSetFlags()[8] ? this.lastModifiedBy : (java.lang.String) defaultValue(fields()[8]);
         return record;
       } catch (org.apache.avro.AvroMissingFieldException e) {
         throw e;
@@ -856,14 +568,6 @@ public class SampleTranslationSchema extends org.apache.avro.specific.SpecificRe
 
     out.writeInt(this.ordinal);
 
-    out.writeString(this.createdDate);
-
-    out.writeString(this.createdBy);
-
-    out.writeString(this.lastModifiedDate);
-
-    out.writeString(this.lastModifiedBy);
-
   }
 
   @Override public void customDecode(org.apache.avro.io.ResolvingDecoder in)
@@ -881,16 +585,8 @@ public class SampleTranslationSchema extends org.apache.avro.specific.SpecificRe
 
       this.ordinal = in.readInt();
 
-      this.createdDate = in.readString();
-
-      this.createdBy = in.readString();
-
-      this.lastModifiedDate = in.readString();
-
-      this.lastModifiedBy = in.readString();
-
     } else {
-      for (int i = 0; i < 9; i++) {
+      for (int i = 0; i < 5; i++) {
         switch (fieldOrder[i].pos()) {
         case 0:
           this.id = in.readLong();
@@ -910,22 +606,6 @@ public class SampleTranslationSchema extends org.apache.avro.specific.SpecificRe
 
         case 4:
           this.ordinal = in.readInt();
-          break;
-
-        case 5:
-          this.createdDate = in.readString();
-          break;
-
-        case 6:
-          this.createdBy = in.readString();
-          break;
-
-        case 7:
-          this.lastModifiedDate = in.readString();
-          break;
-
-        case 8:
-          this.lastModifiedBy = in.readString();
           break;
 
         default:
