@@ -1,8 +1,16 @@
+spring:
+  autoconfigure:
+    exclude:
+      - org.springframework.cloud.aws.autoconfigure.context.ContextInstanceDataAutoConfiguration
+      - org.springframework.cloud.aws.autoconfigure.context.ContextRegionProviderAutoConfiguration
+      - org.springframework.cloud.aws.autoconfigure.context.ContextStackAutoConfiguration
+
 cloud:
   aws:
     credentials:
       accessKey:
       secretKey:
+      instance-profile: false
     region:
       static:
       auto: false
