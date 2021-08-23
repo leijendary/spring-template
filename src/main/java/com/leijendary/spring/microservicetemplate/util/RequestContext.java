@@ -37,7 +37,7 @@ public class RequestContext {
         var uri = getCurrentRequest().getRequestURI();
         final var params = getCurrentRequest().getQueryString();
 
-        if (Optional.ofNullable(params).isPresent()) {
+        if (ofNullable(params).isPresent()) {
             uri += "?" + params;
         }
 
