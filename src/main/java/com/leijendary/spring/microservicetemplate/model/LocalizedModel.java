@@ -10,6 +10,7 @@ import javax.persistence.OrderBy;
 import java.util.Set;
 
 import static javax.persistence.CascadeType.ALL;
+import static javax.persistence.FetchType.EAGER;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -18,7 +19,7 @@ public abstract class LocalizedModel<R, T extends LocaleModel<R>> extends Snowfl
 
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    @OneToMany(mappedBy = "reference", cascade = ALL)
+    @OneToMany(mappedBy = "reference", fetch = EAGER, cascade = ALL)
     @OrderBy("ordinal asc")
     private Set<T> translations;
 }
