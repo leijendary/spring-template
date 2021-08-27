@@ -29,7 +29,6 @@ public class SampleFlow {
     private final SampleTableService sampleTableService;
 
     @Cacheable(value = PAGE_CACHE_V1, key = "#queryRequest.toString() + '|' + #pageable.toString()")
-    @Transactional
     public Page<SampleResponseV1> listV1(final QueryRequest queryRequest, final Pageable pageable) {
         return sampleTableService.list(queryRequest, pageable)
                 .map(SampleFactory::toResponseV1);
@@ -68,6 +67,7 @@ public class SampleFlow {
     @Caching(evict = {
             @CacheEvict(value = PAGE_CACHE_V1, allEntries = true),
             @CacheEvict(value = CACHE_V1, key = "#id") })
+    @Transactional
     public void deleteV1(final long id) {
         sampleTableService.delete(id);
     }

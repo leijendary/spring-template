@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -29,6 +30,7 @@ public class SampleTableService extends AbstractService {
         return sampleTableRepository.findAll(specification, pageable);
     }
 
+    @Transactional
     public SampleTable create(final SampleData sampleData) {
         final var sampleTable = SampleFactory.of(sampleData);
 
@@ -49,6 +51,7 @@ public class SampleTableService extends AbstractService {
                 .orElseThrow(() -> new ResourceNotFoundException(RESOURCE_NAME, id));
     }
 
+    @Transactional
     public SampleTable update(final long id, final SampleData sampleData) {
         var sampleTable = get(id);
 
@@ -66,6 +69,7 @@ public class SampleTableService extends AbstractService {
         return sampleTableRepository.save(sampleTable);
     }
 
+    @Transactional
     public void delete(final long id) {
         final var sampleTable = get(id);
 
