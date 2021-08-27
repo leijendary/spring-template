@@ -36,14 +36,14 @@ public class RequestContext {
     }
 
     public static URI uri() {
-        var uri = getPath();
+        var path = getPath();
         final var params = getCurrentRequest().getQueryString();
 
         if (ofNullable(params).isPresent()) {
-            uri += "?" + params;
+            path += "?" + params;
         }
 
-        return URI.create(uri);
+        return URI.create(path);
     }
 
     public static TimeZone getTimeZone() {
