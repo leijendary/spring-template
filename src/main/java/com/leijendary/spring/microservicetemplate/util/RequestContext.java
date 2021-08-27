@@ -30,11 +30,13 @@ public class RequestContext {
     }
 
     public static String getPath() {
-        return getCurrentRequest().getRequestURI();
+        final var contextPath = getCurrentRequest().getContextPath();
+
+        return getCurrentRequest().getRequestURI().replaceFirst(contextPath, "");
     }
 
     public static URI uri() {
-        var uri = getCurrentRequest().getRequestURI();
+        var uri = getPath();
         final var params = getCurrentRequest().getQueryString();
 
         if (ofNullable(params).isPresent()) {
