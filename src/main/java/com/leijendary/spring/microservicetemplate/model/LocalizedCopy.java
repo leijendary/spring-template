@@ -11,6 +11,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import static javax.persistence.CascadeType.ALL;
+import static javax.persistence.FetchType.EAGER;
 
 @Data
 @MappedSuperclass
@@ -21,6 +22,6 @@ public abstract class LocalizedCopy<R, T extends LocaleCopy<R>> {
 
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    @OneToMany(mappedBy = "reference", cascade = ALL)
+    @OneToMany(mappedBy = "reference", fetch = EAGER, cascade = ALL)
     private Set<T> translations = new HashSet<>();
 }
