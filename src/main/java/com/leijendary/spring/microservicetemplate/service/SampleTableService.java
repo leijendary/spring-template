@@ -9,6 +9,10 @@ import com.leijendary.spring.microservicetemplate.model.SampleTable;
 import com.leijendary.spring.microservicetemplate.repository.SampleTableRepository;
 import com.leijendary.spring.microservicetemplate.specification.SampleListSpecification;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -18,10 +22,13 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class SampleTableService extends AbstractService {
 
+    private static final String CACHE_PAGE = "SampleTablePage";
+    private static final String CACHE = "SampleTable";
     private static final String RESOURCE_NAME = "Sample Table";
 
     private final SampleTableRepository sampleTableRepository;
 
+    @Cacheable(value = CACHE_PAGE, key = "#queryRequest.toString() + '|' + #pageable.toString()")
     public Page<SampleTable> list(final QueryRequest queryRequest, final Pageable pageable) {
         final var specification = SampleListSpecification.builder()
                 .query(queryRequest.getQuery())
@@ -30,15 +37,16 @@ public class SampleTableService extends AbstractService {
         return sampleTableRepository.findAll(specification, pageable);
     }
 
+    @Caching(
+            evict = @CacheEvict(value = CACHE_PAGE, allEntries = true),
+            put = @CachePut(value = CACHE, key = "#result.id"))
     @Transactional
     public SampleTable create(final SampleData sampleData) {
         final var sampleTable = SampleFactory.of(sampleData);
+        final var column1 = sampleData.getColumn1();
 
-        sampleTableRepository
-                .findFirstByColumn1IgnoreCaseAndIdNot(sampleData.getColumn1(), 0)
-                .ifPresent(sample -> {
-                    throw new ResourceNotUniqueException("column1", sampleData.getColumn1());
-                });
+        // Validate the column1 field
+        validateColumn1(column1, 0);
 
         // Set the reference of each translation first
         sampleTable.getTranslations().forEach(translation -> translation.setReference(sampleTable));
@@ -46,20 +54,22 @@ public class SampleTableService extends AbstractService {
         return sampleTableRepository.save(sampleTable);
     }
 
+    @Cacheable(value = CACHE, key = "#id")
     public SampleTable get(final long id) {
         return sampleTableRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(RESOURCE_NAME, id));
     }
 
+    @Caching(evict = {
+            @CacheEvict(value = CACHE_PAGE, allEntries = true),
+            @CacheEvict(value = CACHE, key = "#id") })
     @Transactional
     public SampleTable update(final long id, final SampleData sampleData) {
-        var sampleTable = get(id);
+        final var sampleTable = get(id);
+        final var column1 = sampleData.getColumn1();
 
-        sampleTableRepository
-                .findFirstByColumn1IgnoreCaseAndIdNot(sampleData.getColumn1(), id)
-                .ifPresent(sampleTable1 -> {
-                    throw new ResourceNotUniqueException("column1", sampleData.getColumn1());
-                });
+        // Validate the column1 field
+        validateColumn1(column1, id);
 
         SampleFactory.map(sampleData, sampleTable);
 
@@ -69,10 +79,21 @@ public class SampleTableService extends AbstractService {
         return sampleTableRepository.save(sampleTable);
     }
 
+    @Caching(evict = {
+            @CacheEvict(value = CACHE_PAGE, allEntries = true),
+            @CacheEvict(value = CACHE, key = "#id") })
     @Transactional
     public void delete(final long id) {
         final var sampleTable = get(id);
 
         sampleTableRepository.delete(sampleTable);
+    }
+
+    private void validateColumn1(final String column1, final long id) {
+        final var exists = sampleTableRepository.existsByColumn1IgnoreCaseAndIdNot(column1, id);
+
+        if (exists) {
+            throw new ResourceNotUniqueException("column1", column1);
+        }
     }
 }
