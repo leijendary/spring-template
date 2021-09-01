@@ -7,6 +7,7 @@ import lombok.ToString;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToMany;
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -18,7 +19,7 @@ import static javax.persistence.FetchType.EAGER;
 
 @Data
 @MappedSuperclass
-public abstract class LocalizedCopy<R, T extends LocaleCopy<R>> {
+public abstract class LocalizedCopy<R, T extends LocaleCopy<R>> implements Serializable {
 
     @Id
     private long id;
