@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.auditing.DateTimeProvider;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
-import static com.leijendary.spring.microservicetemplate.util.RequestContext.now;
+import static java.time.OffsetDateTime.now;
 import static java.util.Optional.of;
 
 @Configuration
