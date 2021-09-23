@@ -74,7 +74,7 @@ Test Merge Request:
     key: merge_requests
   script:
     - echo "Running tests..."
-    - mvn -Dspring.profiles.active=test test
+    - mvn -Dspring.profiles.active=cicd test
     - echo "Tests completed."
   tags:
     - MediumRunner
@@ -87,7 +87,7 @@ Test:
   image: maven:3-adoptopenjdk-11-openj9
   script:
     - echo "Running tests..."
-    - mvn -Dspring.profiles.active=test test
+    - mvn -Dspring.profiles.active=cicd test
     - echo "Tests completed."
   tags:
     - MediumRunner

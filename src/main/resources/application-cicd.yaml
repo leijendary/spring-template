@@ -1,0 +1,14 @@
+spring:
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration
+      - org.springframework.boot.autoconfigure.data.redis.RedisRepositoriesAutoConfiguration
+  datasource:
+    url: jdbc:h2:mem:sample
+    username: ea
+    password: password
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwkSetUri: https://leijendary.us.auth0.com/.well-known/jwks.json
