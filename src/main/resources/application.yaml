@@ -150,6 +150,8 @@ spring:
           url:
   redis:
     host:
+    cluster:
+      nodes:
   security:
     oauth2:
       resourceserver:
