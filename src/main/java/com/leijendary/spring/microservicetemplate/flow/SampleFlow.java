@@ -5,6 +5,7 @@ import com.leijendary.spring.microservicetemplate.data.request.v1.SampleRequestV
 import com.leijendary.spring.microservicetemplate.data.response.v1.SampleResponseV1;
 import com.leijendary.spring.microservicetemplate.factory.SampleDataFactory;
 import com.leijendary.spring.microservicetemplate.factory.SampleFactory;
+import com.leijendary.spring.microservicetemplate.service.SampleSearchService;
 import com.leijendary.spring.microservicetemplate.service.SampleTableService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -19,6 +20,7 @@ import static com.leijendary.spring.microservicetemplate.factory.SampleFactory.t
 @RequiredArgsConstructor
 public class SampleFlow {
 
+    private final SampleSearchService sampleSearchService;
     private final SampleTableService sampleTableService;
 
     public Page<SampleResponseV1> listV1(final QueryRequest queryRequest, final Pageable pageable) {
@@ -30,6 +32,9 @@ public class SampleFlow {
     public SampleResponseV1 createV1(final SampleRequestV1 request) {
         final var sampleData = SampleDataFactory.of(request);
         final var sampleTable = sampleTableService.create(sampleData);
+
+        // Save the object to elasticsearch
+        sampleSearchService.save(sampleTable);
 
         return toResponseV1(sampleTable);
     }
@@ -45,11 +50,17 @@ public class SampleFlow {
         final var sampleData = SampleDataFactory.of(request);
         final var sampleTable = sampleTableService.update(id, sampleData);
 
+        // Update the object from elasticsearch
+        sampleSearchService.update(sampleTable);
+
         return toResponseV1(sampleTable);
     }
 
     @Transactional
     public void deleteV1(final long id) {
         sampleTableService.delete(id);
+
+        // Delete the object from elasticsearch
+        sampleSearchService.delete(id);
     }
 }

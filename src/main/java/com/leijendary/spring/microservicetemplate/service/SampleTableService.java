@@ -18,6 +18,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class SampleTableService extends AbstractService {
@@ -87,6 +89,10 @@ public class SampleTableService extends AbstractService {
         final var sampleTable = get(id);
 
         sampleTableRepository.delete(sampleTable);
+    }
+
+    public List<SampleTable> all() {
+        return sampleTableRepository.findAll();
     }
 
     private void validateColumn1(final String column1, final long id) {

@@ -49,7 +49,7 @@ import static org.springframework.http.MediaType.TEXT_PLAIN_VALUE;
  * For headers, I would recommend that the Header keys should be in Pascal-Kebab-Case
  */
 @RestController
-@RequestMapping(BASE_API_PATH + "/v1")
+@RequestMapping(BASE_API_PATH + "/v1/samples")
 @RequiredArgsConstructor
 @Api("This is just a sample controller with a swagger documentation")
 public class SampleControllerV1 extends AbstractController {
