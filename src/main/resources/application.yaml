@@ -150,7 +150,7 @@ spring:
           url:
   redis:
     host:
-    cluster:
+    sentinel:
       nodes:
   security:
     oauth2:
