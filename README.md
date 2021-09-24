@@ -37,3 +37,14 @@
 - AOP
 - Avro
 - JUnit
+
+# Spring Microservice Template
+
+### To run the code:
+`mvnw spring-boot:run`
+
+### To run tests:
+`mvnw test`
+
+### To build a JAR file:
+`mvnw clean package -D skipTests`
