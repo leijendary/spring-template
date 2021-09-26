@@ -149,6 +149,7 @@ spring:
           url:
   redis:
     host:
+    ssl:
   security:
     oauth2:
       resourceserver:
