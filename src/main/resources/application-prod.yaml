@@ -1,6 +1,8 @@
 spring:
   main:
     bannerMode: off
+  redis:
+    ssl: true
 
 springfox:
   documentation:

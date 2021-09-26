@@ -149,7 +149,7 @@ spring:
           url:
   redis:
     host:
-    ssl:
+    ssl: false
   security:
     oauth2:
       resourceserver:
