@@ -24,6 +24,7 @@
 - Spring Kafka
 - Spring Cloud Stream
 - Spring Cloud Stream Binder Kafka Streams
+- Spring Cloud AWS
 - Spring Configuration Processor
 - Spring Devtools
 - Kafka Streams
@@ -37,6 +38,7 @@
 - AOP
 - Avro
 - JUnit
+- ElasticSearch
 
 # Spring Microservice Template
 
