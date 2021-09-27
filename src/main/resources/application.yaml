@@ -134,9 +134,9 @@ spring:
                 applicationId: ${info.app.artifactId}.${info.app.organization}.sample.delete
   elasticsearch:
     rest:
-      uris:
+      uris: http://localhost:9200
   kafka:
-    bootstrapServers:
+    bootstrapServers: localhost:9092
     consumer:
       keyDeserializer: org.apache.kafka.common.serialization.StringDeserializer
       valueDeserializer: io.confluent.kafka.streams.serdes.avro.SpecificAvroDeserializer
@@ -146,15 +146,15 @@ spring:
     properties:
       schema:
         registry:
-          url:
+          url: http://localhost:8081
   redis:
-    host:
+    host: localhost
     ssl: false
   security:
     oauth2:
       resourceserver:
         jwt:
-          jwkSetUri:
+          jwkSetUri: https://leijendary.us.auth0.com/.well-known/jwks.json
 
 server:
   compression:

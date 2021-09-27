@@ -1,0 +1,9 @@
+auth:
+  audience: https://test.leijendary.com
+
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwkSetUri: http://authentication.test:8080/authentication/api/v1/.well-known/jwks.json
