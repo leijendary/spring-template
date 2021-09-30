@@ -19,6 +19,14 @@ public abstract class LocalizedModel<R, T extends LocaleModel<R>> extends Snowfl
 
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    @OneToMany(mappedBy = "reference", fetch = EAGER, cascade = ALL)
+    @OneToMany(mappedBy = "reference", fetch = EAGER, cascade = ALL, orphanRemoval = true)
     private Set<T> translations = new HashSet<>();
+
+    public LocalizedModel<R, T> setTranslations(final Set<T> translations) {
+        // clear() and addAll() to keep hibernate reference
+        this.translations.clear();
+        this.translations.addAll(translations);
+
+        return this;
+    }
 }

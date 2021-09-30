@@ -26,7 +26,7 @@ public abstract class LocalizedCopy<R, T extends LocaleCopy<R>> implements Seria
 
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    @OneToMany(mappedBy = "reference", fetch = EAGER, cascade = ALL)
+    @OneToMany(mappedBy = "reference", fetch = EAGER, cascade = ALL, orphanRemoval = true)
     private Set<T> translations = new HashSet<>();
 
     public T getTranslation() {
@@ -41,5 +41,13 @@ public abstract class LocalizedCopy<R, T extends LocaleCopy<R>> implements Seria
                 .filter(t -> t.getLanguage().equals(language))
                 .findFirst()
                 .orElse(sorted.iterator().next());
+    }
+
+    public LocalizedCopy<R, T> setTranslations(final Set<T> translations) {
+        // clear() and addAll() to keep hibernate reference
+        this.translations.clear();
+        this.translations.addAll(translations);
+
+        return this;
     }
 }
