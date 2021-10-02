@@ -24,7 +24,7 @@ public abstract class LocalizedCopy<T extends LocaleCopy> extends AbstractModel 
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @ElementCollection(fetch = EAGER)
-    @CollectionTable(joinColumns = @JoinColumn(name = "reference_id"))
+    @CollectionTable(joinColumns = @JoinColumn(name = "id"))
     private Set<T> translations = new HashSet<>();
 
     public T getTranslation() {
