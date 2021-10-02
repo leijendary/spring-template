@@ -7,7 +7,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
-import java.util.Set;
+import java.util.LinkedHashSet;
 
 @Data
 @FieldsNotEqualV1
@@ -21,5 +21,5 @@ public class SampleRequestV1 {
 
     @Valid
     @NotEmpty(message = "validation.required")
-    private Set<SampleTranslationRequestV1> translations;
+    public LinkedHashSet<SampleTranslationRequestV1> translations = new LinkedHashSet<>();
 }
