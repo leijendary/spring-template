@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 
 @Builder
-public class LocalizedSpecification<T extends LocalizedModel<T, ?>> implements Specification<T> {
+public class LocalizedSpecification<T extends LocalizedModel<?>> implements Specification<T> {
 
     private final String language;
 

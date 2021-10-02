@@ -2,23 +2,27 @@ package com.leijendary.spring.microservicetemplate.model;
 
 import lombok.Data;
 
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
-import java.io.Serializable;
 
 @Data
 @MappedSuperclass
-public abstract class LocaleCopy<R> implements Serializable {
-
-    @Id
-    private long id;
-
-    @ManyToOne
-    @JoinColumn(name = "reference_id")
-    private R reference;
+public abstract class LocaleCopy extends AbstractModel {
 
     private String language;
     private int ordinal;
+
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        LocaleCopy that = (LocaleCopy) o;
+
+        return language.equals(that.language);
+    }
+
+    @Override
+    public int hashCode() {
+        return language.hashCode();
+    }
 }

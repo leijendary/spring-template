@@ -16,7 +16,7 @@ import static java.util.Collections.singletonList;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 
 @Builder
-public class LocaleSpecification<T extends LocaleModel<?>> implements Specification<T> {
+public class LocaleSpecification<T extends LocaleModel> implements Specification<T> {
 
     private final long referenceId;
     private final String language;

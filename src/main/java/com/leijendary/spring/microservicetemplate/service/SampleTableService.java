@@ -50,9 +50,6 @@ public class SampleTableService extends AbstractService {
         // Validate the column1 field
         validateColumn1(column1, 0);
 
-        // Set the reference of each translation first
-        sampleTable.getTranslations().forEach(translation -> translation.setReference(sampleTable));
-
         return sampleTableRepository.save(sampleTable);
     }
 
@@ -74,9 +71,6 @@ public class SampleTableService extends AbstractService {
         validateColumn1(column1, id);
 
         SampleFactory.map(sampleData, sampleTable);
-
-        // Set the reference of each translation first
-        sampleTable.getTranslations().forEach(translation -> translation.setReference(sampleTable));
 
         return sampleTableRepository.save(sampleTable);
     }

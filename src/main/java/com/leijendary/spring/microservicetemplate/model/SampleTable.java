@@ -18,7 +18,7 @@ import java.time.OffsetDateTime;
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @EntityListeners({ AuditingEntityListener.class, SampleTableListener.class })
-public class SampleTable extends LocalizedModel<SampleTable, SampleTableTranslation> {
+public class SampleTable extends LocalizedModel<SampleTableTranslations> {
 
     @Column(name = "column_1")
     private String column1;

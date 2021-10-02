@@ -4,10 +4,6 @@
   "name": "SampleTranslationSchema",
   "fields": [
     {
-      "name": "id",
-      "type": "long"
-    },
-    {
       "name": "name",
       "type": "string"
     },

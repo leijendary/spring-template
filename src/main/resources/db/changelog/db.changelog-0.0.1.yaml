@@ -50,12 +50,6 @@ databaseChangeLog:
                   type: bigint
                   constraints:
                     nullable: false
-                  autoIncrement: true
-              - column:
-                  name: reference_id
-                  type: bigint
-                  constraints:
-                    nullable: false
               - column:
                   name: name
                   type: varchar(100)
@@ -76,29 +70,7 @@ databaseChangeLog:
                   type: int
                   constraints:
                     nullable: false
-              - column:
-                  name: created_date
-                  type: timestamp
-                  constraints:
-                    nullable: false
-                  defaultValueDate: current_timestamp
-              - column:
-                  name: created_by
-                  type: text
-                  constraints:
-                    nullable: false
-              - column:
-                  name: last_modified_date
-                  type: timestamp
-                  constraints:
-                    nullable: false
-                  defaultValueDate: current_timestamp
-              - column:
-                  name: last_modified_by
-                  type: text
-                  constraints:
-                    nullable: false
-            tableName: sample_table_translation
+            tableName: sample_table_translations
   - changeSet:
       id: sample-table-primary-key
       author: Leijendekker
@@ -118,31 +90,22 @@ databaseChangeLog:
             tableName: sample_table
             validate: true
   - changeSet:
-      id: sample-table-translation-primary-key
+      id: sample-table-translations-primary-key
       author: Leijendekker
       changes:
         - addPrimaryKey:
-            columnNames: id
-            constraintName: pk_sample_table_translation
-            tableName: sample_table_translation
+            columnNames: id, language
+            constraintName: pk_sample_table_translations
+            tableName: sample_table_translations
             validate: true
   - changeSet:
-      id: sample-table-translation-id-unique-constraint
-      author: Leijendekker
-      changes:
-        - addUniqueConstraint:
-            columnNames: id
-            constraintName: uidx_sample_table_translation_id
-            tableName: sample_table_translation
-            validate: true
-  - changeSet:
-      id: sample-table-translation-to-sample-table-foreign-key
-      author: Leijendary (generated)
+      id: sample-table-translations-to-sample-table-foreign-key
+      author: Leijendary
       changes:
         - addForeignKeyConstraint:
-            baseColumnNames: reference_id
-            baseTableName: sample_table_translation
-            constraintName: fk_sample_table_translation_reference_id
+            baseColumnNames: id
+            baseTableName: sample_table_translations
+            constraintName: fk_sample_table_translations_id
             deferrable: false
             initiallyDeferred: false
             onDelete: NO ACTION

@@ -7,7 +7,6 @@ import java.io.Serializable;
 @Data
 public abstract class LocaleData implements Serializable {
 
-    private long id;
     private String language;
     private int ordinal;
 }

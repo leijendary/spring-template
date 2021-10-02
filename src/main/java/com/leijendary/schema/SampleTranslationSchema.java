@@ -12,8 +12,8 @@ import org.apache.avro.specific.SpecificData;
 
 @org.apache.avro.specific.AvroGenerated
 public class SampleTranslationSchema extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
-  private static final long serialVersionUID = -4707739943971861658L;
-  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"SampleTranslationSchema\",\"namespace\":\"com.leijendary.schema\",\"fields\":[{\"name\":\"id\",\"type\":\"long\"},{\"name\":\"name\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"description\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"language\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"ordinal\",\"type\":\"int\"}]}");
+  private static final long serialVersionUID = 1724766110570635157L;
+  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"SampleTranslationSchema\",\"namespace\":\"com.leijendary.schema\",\"fields\":[{\"name\":\"name\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"description\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"language\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"ordinal\",\"type\":\"int\"}]}");
   public static org.apache.avro.Schema getClassSchema() { return SCHEMA$; }
 
   private static SpecificData MODEL$ = new SpecificData();
@@ -69,7 +69,6 @@ public class SampleTranslationSchema extends org.apache.avro.specific.SpecificRe
     return DECODER.decode(b);
   }
 
-   private long id;
    private java.lang.String name;
    private java.lang.String description;
    private java.lang.String language;
@@ -84,14 +83,12 @@ public class SampleTranslationSchema extends org.apache.avro.specific.SpecificRe
 
   /**
    * All-args constructor.
-   * @param id The new value for id
    * @param name The new value for name
    * @param description The new value for description
    * @param language The new value for language
    * @param ordinal The new value for ordinal
    */
-  public SampleTranslationSchema(java.lang.Long id, java.lang.String name, java.lang.String description, java.lang.String language, java.lang.Integer ordinal) {
-    this.id = id;
+  public SampleTranslationSchema(java.lang.String name, java.lang.String description, java.lang.String language, java.lang.Integer ordinal) {
     this.name = name;
     this.description = description;
     this.language = language;
@@ -103,11 +100,10 @@ public class SampleTranslationSchema extends org.apache.avro.specific.SpecificRe
   // Used by DatumWriter.  Applications should not call.
   public java.lang.Object get(int field$) {
     switch (field$) {
-    case 0: return id;
-    case 1: return name;
-    case 2: return description;
-    case 3: return language;
-    case 4: return ordinal;
+    case 0: return name;
+    case 1: return description;
+    case 2: return language;
+    case 3: return ordinal;
     default: throw new IndexOutOfBoundsException("Invalid index: " + field$);
     }
   }
@@ -116,30 +112,12 @@ public class SampleTranslationSchema extends org.apache.avro.specific.SpecificRe
   @SuppressWarnings(value="unchecked")
   public void put(int field$, java.lang.Object value$) {
     switch (field$) {
-    case 0: id = (java.lang.Long)value$; break;
-    case 1: name = value$ != null ? value$.toString() : null; break;
-    case 2: description = value$ != null ? value$.toString() : null; break;
-    case 3: language = value$ != null ? value$.toString() : null; break;
-    case 4: ordinal = (java.lang.Integer)value$; break;
+    case 0: name = value$ != null ? value$.toString() : null; break;
+    case 1: description = value$ != null ? value$.toString() : null; break;
+    case 2: language = value$ != null ? value$.toString() : null; break;
+    case 3: ordinal = (java.lang.Integer)value$; break;
     default: throw new IndexOutOfBoundsException("Invalid index: " + field$);
     }
-  }
-
-  /**
-   * Gets the value of the 'id' field.
-   * @return The value of the 'id' field.
-   */
-  public long getId() {
-    return id;
-  }
-
-
-  /**
-   * Sets the value of the 'id' field.
-   * @param value the value to set.
-   */
-  public void setId(long value) {
-    this.id = value;
   }
 
   /**
@@ -251,7 +229,6 @@ public class SampleTranslationSchema extends org.apache.avro.specific.SpecificRe
   public static class Builder extends org.apache.avro.specific.SpecificRecordBuilderBase<SampleTranslationSchema>
     implements org.apache.avro.data.RecordBuilder<SampleTranslationSchema> {
 
-    private long id;
     private java.lang.String name;
     private java.lang.String description;
     private java.lang.String language;
@@ -268,25 +245,21 @@ public class SampleTranslationSchema extends org.apache.avro.specific.SpecificRe
      */
     private Builder(com.leijendary.schema.SampleTranslationSchema.Builder other) {
       super(other);
-      if (isValidValue(fields()[0], other.id)) {
-        this.id = data().deepCopy(fields()[0].schema(), other.id);
+      if (isValidValue(fields()[0], other.name)) {
+        this.name = data().deepCopy(fields()[0].schema(), other.name);
         fieldSetFlags()[0] = other.fieldSetFlags()[0];
       }
-      if (isValidValue(fields()[1], other.name)) {
-        this.name = data().deepCopy(fields()[1].schema(), other.name);
+      if (isValidValue(fields()[1], other.description)) {
+        this.description = data().deepCopy(fields()[1].schema(), other.description);
         fieldSetFlags()[1] = other.fieldSetFlags()[1];
       }
-      if (isValidValue(fields()[2], other.description)) {
-        this.description = data().deepCopy(fields()[2].schema(), other.description);
+      if (isValidValue(fields()[2], other.language)) {
+        this.language = data().deepCopy(fields()[2].schema(), other.language);
         fieldSetFlags()[2] = other.fieldSetFlags()[2];
       }
-      if (isValidValue(fields()[3], other.language)) {
-        this.language = data().deepCopy(fields()[3].schema(), other.language);
+      if (isValidValue(fields()[3], other.ordinal)) {
+        this.ordinal = data().deepCopy(fields()[3].schema(), other.ordinal);
         fieldSetFlags()[3] = other.fieldSetFlags()[3];
-      }
-      if (isValidValue(fields()[4], other.ordinal)) {
-        this.ordinal = data().deepCopy(fields()[4].schema(), other.ordinal);
-        fieldSetFlags()[4] = other.fieldSetFlags()[4];
       }
     }
 
@@ -296,65 +269,22 @@ public class SampleTranslationSchema extends org.apache.avro.specific.SpecificRe
      */
     private Builder(com.leijendary.schema.SampleTranslationSchema other) {
       super(SCHEMA$);
-      if (isValidValue(fields()[0], other.id)) {
-        this.id = data().deepCopy(fields()[0].schema(), other.id);
+      if (isValidValue(fields()[0], other.name)) {
+        this.name = data().deepCopy(fields()[0].schema(), other.name);
         fieldSetFlags()[0] = true;
       }
-      if (isValidValue(fields()[1], other.name)) {
-        this.name = data().deepCopy(fields()[1].schema(), other.name);
+      if (isValidValue(fields()[1], other.description)) {
+        this.description = data().deepCopy(fields()[1].schema(), other.description);
         fieldSetFlags()[1] = true;
       }
-      if (isValidValue(fields()[2], other.description)) {
-        this.description = data().deepCopy(fields()[2].schema(), other.description);
+      if (isValidValue(fields()[2], other.language)) {
+        this.language = data().deepCopy(fields()[2].schema(), other.language);
         fieldSetFlags()[2] = true;
       }
-      if (isValidValue(fields()[3], other.language)) {
-        this.language = data().deepCopy(fields()[3].schema(), other.language);
+      if (isValidValue(fields()[3], other.ordinal)) {
+        this.ordinal = data().deepCopy(fields()[3].schema(), other.ordinal);
         fieldSetFlags()[3] = true;
       }
-      if (isValidValue(fields()[4], other.ordinal)) {
-        this.ordinal = data().deepCopy(fields()[4].schema(), other.ordinal);
-        fieldSetFlags()[4] = true;
-      }
-    }
-
-    /**
-      * Gets the value of the 'id' field.
-      * @return The value.
-      */
-    public long getId() {
-      return id;
-    }
-
-
-    /**
-      * Sets the value of the 'id' field.
-      * @param value The value of 'id'.
-      * @return This builder.
-      */
-    public com.leijendary.schema.SampleTranslationSchema.Builder setId(long value) {
-      validate(fields()[0], value);
-      this.id = value;
-      fieldSetFlags()[0] = true;
-      return this;
-    }
-
-    /**
-      * Checks whether the 'id' field has been set.
-      * @return True if the 'id' field has been set, false otherwise.
-      */
-    public boolean hasId() {
-      return fieldSetFlags()[0];
-    }
-
-
-    /**
-      * Clears the value of the 'id' field.
-      * @return This builder.
-      */
-    public com.leijendary.schema.SampleTranslationSchema.Builder clearId() {
-      fieldSetFlags()[0] = false;
-      return this;
     }
 
     /**
@@ -372,9 +302,9 @@ public class SampleTranslationSchema extends org.apache.avro.specific.SpecificRe
       * @return This builder.
       */
     public com.leijendary.schema.SampleTranslationSchema.Builder setName(java.lang.String value) {
-      validate(fields()[1], value);
+      validate(fields()[0], value);
       this.name = value;
-      fieldSetFlags()[1] = true;
+      fieldSetFlags()[0] = true;
       return this;
     }
 
@@ -383,7 +313,7 @@ public class SampleTranslationSchema extends org.apache.avro.specific.SpecificRe
       * @return True if the 'name' field has been set, false otherwise.
       */
     public boolean hasName() {
-      return fieldSetFlags()[1];
+      return fieldSetFlags()[0];
     }
 
 
@@ -393,7 +323,7 @@ public class SampleTranslationSchema extends org.apache.avro.specific.SpecificRe
       */
     public com.leijendary.schema.SampleTranslationSchema.Builder clearName() {
       name = null;
-      fieldSetFlags()[1] = false;
+      fieldSetFlags()[0] = false;
       return this;
     }
 
@@ -412,9 +342,9 @@ public class SampleTranslationSchema extends org.apache.avro.specific.SpecificRe
       * @return This builder.
       */
     public com.leijendary.schema.SampleTranslationSchema.Builder setDescription(java.lang.String value) {
-      validate(fields()[2], value);
+      validate(fields()[1], value);
       this.description = value;
-      fieldSetFlags()[2] = true;
+      fieldSetFlags()[1] = true;
       return this;
     }
 
@@ -423,7 +353,7 @@ public class SampleTranslationSchema extends org.apache.avro.specific.SpecificRe
       * @return True if the 'description' field has been set, false otherwise.
       */
     public boolean hasDescription() {
-      return fieldSetFlags()[2];
+      return fieldSetFlags()[1];
     }
 
 
@@ -433,7 +363,7 @@ public class SampleTranslationSchema extends org.apache.avro.specific.SpecificRe
       */
     public com.leijendary.schema.SampleTranslationSchema.Builder clearDescription() {
       description = null;
-      fieldSetFlags()[2] = false;
+      fieldSetFlags()[1] = false;
       return this;
     }
 
@@ -452,9 +382,9 @@ public class SampleTranslationSchema extends org.apache.avro.specific.SpecificRe
       * @return This builder.
       */
     public com.leijendary.schema.SampleTranslationSchema.Builder setLanguage(java.lang.String value) {
-      validate(fields()[3], value);
+      validate(fields()[2], value);
       this.language = value;
-      fieldSetFlags()[3] = true;
+      fieldSetFlags()[2] = true;
       return this;
     }
 
@@ -463,7 +393,7 @@ public class SampleTranslationSchema extends org.apache.avro.specific.SpecificRe
       * @return True if the 'language' field has been set, false otherwise.
       */
     public boolean hasLanguage() {
-      return fieldSetFlags()[3];
+      return fieldSetFlags()[2];
     }
 
 
@@ -473,7 +403,7 @@ public class SampleTranslationSchema extends org.apache.avro.specific.SpecificRe
       */
     public com.leijendary.schema.SampleTranslationSchema.Builder clearLanguage() {
       language = null;
-      fieldSetFlags()[3] = false;
+      fieldSetFlags()[2] = false;
       return this;
     }
 
@@ -492,9 +422,9 @@ public class SampleTranslationSchema extends org.apache.avro.specific.SpecificRe
       * @return This builder.
       */
     public com.leijendary.schema.SampleTranslationSchema.Builder setOrdinal(int value) {
-      validate(fields()[4], value);
+      validate(fields()[3], value);
       this.ordinal = value;
-      fieldSetFlags()[4] = true;
+      fieldSetFlags()[3] = true;
       return this;
     }
 
@@ -503,7 +433,7 @@ public class SampleTranslationSchema extends org.apache.avro.specific.SpecificRe
       * @return True if the 'ordinal' field has been set, false otherwise.
       */
     public boolean hasOrdinal() {
-      return fieldSetFlags()[4];
+      return fieldSetFlags()[3];
     }
 
 
@@ -512,7 +442,7 @@ public class SampleTranslationSchema extends org.apache.avro.specific.SpecificRe
       * @return This builder.
       */
     public com.leijendary.schema.SampleTranslationSchema.Builder clearOrdinal() {
-      fieldSetFlags()[4] = false;
+      fieldSetFlags()[3] = false;
       return this;
     }
 
@@ -521,11 +451,10 @@ public class SampleTranslationSchema extends org.apache.avro.specific.SpecificRe
     public SampleTranslationSchema build() {
       try {
         SampleTranslationSchema record = new SampleTranslationSchema();
-        record.id = fieldSetFlags()[0] ? this.id : (java.lang.Long) defaultValue(fields()[0]);
-        record.name = fieldSetFlags()[1] ? this.name : (java.lang.String) defaultValue(fields()[1]);
-        record.description = fieldSetFlags()[2] ? this.description : (java.lang.String) defaultValue(fields()[2]);
-        record.language = fieldSetFlags()[3] ? this.language : (java.lang.String) defaultValue(fields()[3]);
-        record.ordinal = fieldSetFlags()[4] ? this.ordinal : (java.lang.Integer) defaultValue(fields()[4]);
+        record.name = fieldSetFlags()[0] ? this.name : (java.lang.String) defaultValue(fields()[0]);
+        record.description = fieldSetFlags()[1] ? this.description : (java.lang.String) defaultValue(fields()[1]);
+        record.language = fieldSetFlags()[2] ? this.language : (java.lang.String) defaultValue(fields()[2]);
+        record.ordinal = fieldSetFlags()[3] ? this.ordinal : (java.lang.Integer) defaultValue(fields()[3]);
         return record;
       } catch (org.apache.avro.AvroMissingFieldException e) {
         throw e;
@@ -558,8 +487,6 @@ public class SampleTranslationSchema extends org.apache.avro.specific.SpecificRe
   @Override public void customEncode(org.apache.avro.io.Encoder out)
     throws java.io.IOException
   {
-    out.writeLong(this.id);
-
     out.writeString(this.name);
 
     out.writeString(this.description);
@@ -575,8 +502,6 @@ public class SampleTranslationSchema extends org.apache.avro.specific.SpecificRe
   {
     org.apache.avro.Schema.Field[] fieldOrder = in.readFieldOrderIfDiff();
     if (fieldOrder == null) {
-      this.id = in.readLong();
-
       this.name = in.readString();
 
       this.description = in.readString();
@@ -586,25 +511,21 @@ public class SampleTranslationSchema extends org.apache.avro.specific.SpecificRe
       this.ordinal = in.readInt();
 
     } else {
-      for (int i = 0; i < 5; i++) {
+      for (int i = 0; i < 4; i++) {
         switch (fieldOrder[i].pos()) {
         case 0:
-          this.id = in.readLong();
-          break;
-
-        case 1:
           this.name = in.readString();
           break;
 
-        case 2:
+        case 1:
           this.description = in.readString();
           break;
 
-        case 3:
+        case 2:
           this.language = in.readString();
           break;
 
-        case 4:
+        case 3:
           this.ordinal = in.readInt();
           break;
 

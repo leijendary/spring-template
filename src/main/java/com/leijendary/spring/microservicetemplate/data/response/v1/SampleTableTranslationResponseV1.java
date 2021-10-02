@@ -1,14 +1,13 @@
 package com.leijendary.spring.microservicetemplate.data.response.v1;
 
+import com.leijendary.spring.microservicetemplate.data.LocaleData;
 import lombok.Data;
-
-import java.io.Serializable;
+import lombok.EqualsAndHashCode;
 
 @Data
-public class SampleTableTranslationResponseV1 implements Serializable {
+@EqualsAndHashCode(callSuper = true)
+public class SampleTableTranslationResponseV1 extends LocaleData {
 
     private String name;
     private String description;
-    private String language;
-    private int ordinal;
 }
