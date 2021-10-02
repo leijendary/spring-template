@@ -1,12 +1,12 @@
 package com.leijendary.spring.microservicetemplate.data;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
-public class SampleTranslationData {
+@EqualsAndHashCode(callSuper = true)
+public class SampleTranslationData extends LocaleData {
 
     private String name;
     private String description;
-    private String language;
-    private int ordinal;
 }

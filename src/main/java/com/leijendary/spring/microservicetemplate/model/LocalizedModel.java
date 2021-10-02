@@ -2,7 +2,6 @@ package com.leijendary.spring.microservicetemplate.model;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.ToString;
 
 import javax.persistence.CollectionTable;
 import javax.persistence.ElementCollection;
@@ -21,8 +20,6 @@ import static javax.persistence.FetchType.EAGER;
 @MappedSuperclass
 public abstract class LocalizedModel<T extends LocaleModel> extends SnowflakeIdModel {
 
-    @ToString.Exclude
-    @EqualsAndHashCode.Exclude
     @ElementCollection(fetch = EAGER)
     @CollectionTable(joinColumns = @JoinColumn(name = "id"))
     private Set<T> translations = new HashSet<>();

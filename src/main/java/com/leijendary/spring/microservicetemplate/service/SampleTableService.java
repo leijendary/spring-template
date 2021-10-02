@@ -59,9 +59,9 @@ public class SampleTableService extends AbstractService {
                 .orElseThrow(() -> new ResourceNotFoundException(RESOURCE_NAME, id));
     }
 
-    @Caching(evict = {
-            @CacheEvict(value = CACHE_PAGE, allEntries = true),
-            @CacheEvict(value = CACHE, key = "#id") })
+    @Caching(
+            evict = @CacheEvict(value = CACHE_PAGE, allEntries = true),
+            put = @CachePut(value = CACHE, key = "#id"))
     @Transactional
     public SampleTable update(final long id, final SampleData sampleData) {
         final var sampleTable = get(id);

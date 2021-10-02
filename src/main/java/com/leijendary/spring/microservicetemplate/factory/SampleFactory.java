@@ -5,6 +5,7 @@ import com.leijendary.spring.microservicetemplate.data.SampleData;
 import com.leijendary.spring.microservicetemplate.data.request.v1.SampleRequestV1;
 import com.leijendary.spring.microservicetemplate.data.response.v1.SampleResponseV1;
 import com.leijendary.spring.microservicetemplate.model.SampleTable;
+import com.leijendary.spring.microservicetemplate.model.SampleTableTranslations;
 
 public class SampleFactory extends AbstractFactory {
 
@@ -24,7 +25,13 @@ public class SampleFactory extends AbstractFactory {
         return MAPPER.map(sampleData, SampleTable.class);
     }
 
-    public static void map(final SampleData sampleData, final SampleTable destination) {
-        MAPPER.map(sampleData, destination);
+    public static void map(final SampleData sampleData, final SampleTable sampleTable) {
+        final var id = sampleTable.getId();
+
+        sampleData.setId(id);
+
+        MAPPER.map(sampleData, sampleTable);
+
+        translations(sampleData, sampleTable, SampleTableTranslations.class);
     }
 }

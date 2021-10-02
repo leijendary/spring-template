@@ -1,11 +1,10 @@
 package com.leijendary.spring.microservicetemplate.data;
 
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
 
 import java.io.Serializable;
-import java.util.LinkedHashSet;
+import java.util.HashSet;
+import java.util.Set;
 
 import static com.leijendary.spring.microservicetemplate.util.RequestContext.getLanguage;
 import static java.util.Comparator.comparingInt;
@@ -15,10 +14,7 @@ import static java.util.stream.Collectors.toList;
 public abstract class LocalizedData<T extends LocaleData> implements Serializable {
 
     private long id;
-
-    @ToString.Exclude
-    @EqualsAndHashCode.Exclude
-    private LinkedHashSet<T> translations = new LinkedHashSet<>();
+    private Set<T> translations = new HashSet<>();
 
     public T getTranslation() {
         final var language = getLanguage();

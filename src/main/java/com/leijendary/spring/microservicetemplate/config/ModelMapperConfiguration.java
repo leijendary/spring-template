@@ -16,18 +16,27 @@ public class ModelMapperConfiguration {
 
     @Bean
     public ModelMapper modelMapper() {
-        final var config = builder()
-                .dateTimeFormatter(ISO_OFFSET_DATE_TIME)
-                .build();
         final var modelMapper = new ModelMapper();
-        modelMapper.registerModule(new Jsr310Module(config));
-        // Matching strategy set to "STRICT" to avoid mismatching of fields
-        modelMapper.getConfiguration().setMatchingStrategy(STRICT);
-        // Skip if the property is already null
-        modelMapper.getConfiguration().setPropertyCondition(isNotNull());
+        // Configuration setup
+        modelMapper.getConfiguration()
+                // Matching strategy set to "STRICT" to avoid mismatching of fields
+                .setMatchingStrategy(STRICT)
+                // Skip if the property is already null
+                .setPropertyCondition(isNotNull());
+        // Module registration
+        modelMapper.registerModule(jsr310Module());
+        // Mappings
         // SampleRequestV1 to SampleData mapping
         modelMapper.addMappings(new SampleRequestV1ToSampleDataMap());
 
         return modelMapper;
+    }
+
+    private Jsr310Module jsr310Module() {
+        final var jsr310ModuleConfig = builder()
+                .dateTimeFormatter(ISO_OFFSET_DATE_TIME)
+                .build();
+
+        return new Jsr310Module(jsr310ModuleConfig);
     }
 }

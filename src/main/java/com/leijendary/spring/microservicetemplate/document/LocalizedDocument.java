@@ -3,7 +3,8 @@ package com.leijendary.spring.microservicetemplate.document;
 import lombok.Data;
 import org.springframework.data.elasticsearch.annotations.Field;
 
-import java.util.LinkedHashSet;
+import java.util.HashSet;
+import java.util.Set;
 
 import static com.leijendary.spring.microservicetemplate.util.RequestContext.getLanguage;
 import static java.util.Comparator.comparingInt;
@@ -14,7 +15,7 @@ import static org.springframework.data.elasticsearch.annotations.FieldType.Neste
 public abstract class LocalizedDocument<T extends LocaleDocument> {
 
     @Field(type = Nested, includeInParent = true)
-    private LinkedHashSet<T> translations = new LinkedHashSet<>();
+    private Set<T> translations = new HashSet<>();
 
     public T getTranslation() {
         final var language = getLanguage();
