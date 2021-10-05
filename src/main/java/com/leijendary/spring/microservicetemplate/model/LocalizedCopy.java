@@ -2,6 +2,7 @@ package com.leijendary.spring.microservicetemplate.model;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -20,6 +21,8 @@ public abstract class LocalizedCopy<T extends LocaleCopy> extends AbstractModel 
     @Id
     private long id;
 
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     @ElementCollection(fetch = EAGER)
     @CollectionTable(joinColumns = @JoinColumn(name = "id"))
     private Set<T> translations = new HashSet<>();
