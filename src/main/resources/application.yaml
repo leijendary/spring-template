@@ -170,4 +170,4 @@ server:
   tomcat:
     relaxedQueryChars: '[,]'
     threads:
-      max: 500
+      max: 1
