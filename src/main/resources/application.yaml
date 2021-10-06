@@ -171,3 +171,9 @@ server:
     relaxedQueryChars: '[,]'
     threads:
       max: 500
+
+logging:
+  level:
+    org:
+      apache:
+        kafka: ERROR
