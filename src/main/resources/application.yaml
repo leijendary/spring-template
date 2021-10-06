@@ -176,4 +176,4 @@ logging:
   level:
     org:
       apache:
-        kafka: ERROR
+        kafka: WARN
