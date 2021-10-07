@@ -67,6 +67,11 @@ spring:
           batch_size: 1000
   messages:
     basename: messages.access, messages.error, messages.validation
+  mvc:
+    throwExceptionIfNoHandlerFound: true
+  web:
+    resources:
+      addMappings: false
   cache:
     type: redis
     redis:
@@ -174,6 +179,9 @@ server:
 
 logging:
   level:
+    io:
+      confluent:
+        kafka: WARN
     org:
       apache:
         kafka: WARN
