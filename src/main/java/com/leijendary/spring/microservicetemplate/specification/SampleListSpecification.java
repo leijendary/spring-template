@@ -10,6 +10,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
+import static com.leijendary.spring.microservicetemplate.specification.TranslationPredicate.query;
 import static com.leijendary.spring.microservicetemplate.util.PredicateUtil.lowerLike;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 
@@ -28,17 +29,9 @@ public class SampleListSpecification implements Specification<SampleTable> {
         // Column 1 filtering
         final var column1Path = root.<String>get("column1");
         final var column1Like = lowerLike(query, column1Path, criteriaBuilder);
+        final var translations = query(root, criteriaBuilder, query, "name", "description");
 
-        // Translations join and paths
-        final var translationJoin = root.join("translations");
-        final var namePath = translationJoin.<String>get("name");
-        final var descriptionPath = translationJoin.<String>get("description");
-
-        // Name or description translation like query
-        final var nameLike = criteriaBuilder.like(namePath, "%" + query + "%");
-        final var descriptionLike = criteriaBuilder.like(descriptionPath, "%" + query + "%");
-
-        final var predicate = criteriaBuilder.or(column1Like, nameLike, descriptionLike);
+        final var predicate = criteriaBuilder.or(column1Like, translations);
 
         return criteriaQuery.where(predicate).getRestriction();
     }

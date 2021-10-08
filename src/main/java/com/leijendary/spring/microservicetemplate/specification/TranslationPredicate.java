@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 import static com.leijendary.spring.microservicetemplate.util.PredicateUtil.lowerLike;
 import static java.util.Arrays.stream;
+import static javax.persistence.criteria.JoinType.LEFT;
 
 public class TranslationPredicate {
 
@@ -17,8 +18,8 @@ public class TranslationPredicate {
             final Root<R> root, final CriteriaBuilder criteriaBuilder, final String query, final String... paths) {
         // Array of predicates as the paths are dynamic
         final var predicates = new ArrayList<Predicate>();
-        // Join translations for filtering
-        final var translationJoin = root.<R, T>join("translations");
+        // Get the translation path to be used later
+        final var translationJoin = root.<R, T>joinSet("translations", LEFT);
 
         stream(paths).forEach(path -> {
             final var stringPath = translationJoin.<String>get(path);
