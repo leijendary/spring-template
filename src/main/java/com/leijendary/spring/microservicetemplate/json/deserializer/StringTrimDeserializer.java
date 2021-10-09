@@ -13,8 +13,8 @@ import static java.util.Optional.ofNullable;
 public class StringTrimDeserializer extends StringDeserializer {
 
     @Override
-    public String deserialize(final JsonParser jsonParser,
-                              final DeserializationContext deserializationContext) throws IOException {
+    public String deserialize(final JsonParser jsonParser, final DeserializationContext deserializationContext)
+            throws IOException {
         // Get the result from the original StringDeserializer
         final var deserialized = super.deserialize(jsonParser, deserializationContext);
 
