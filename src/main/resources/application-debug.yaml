@@ -20,6 +20,13 @@ logging:
     io:
       confluent:
         kafka: INFO
+    liquibase:
+      hub: DEBUG
     org:
       apache:
         kafka: INFO
+      springframework:
+        data:
+          elasticsearch:
+            support:
+              VersionInfo: DEBUG

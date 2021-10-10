@@ -181,7 +181,14 @@ logging:
   level:
     io:
       confluent:
-        kafka: WARN
+        kafka: ERROR
+    liquibase:
+      hub: ERROR
     org:
       apache:
-        kafka: WARN
+        kafka: ERROR
+      springframework:
+        data:
+          elasticsearch:
+            support:
+              VersionInfo: ERROR
