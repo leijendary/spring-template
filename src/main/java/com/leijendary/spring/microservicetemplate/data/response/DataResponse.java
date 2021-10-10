@@ -114,15 +114,21 @@ public class DataResponse<T> {
         }
 
         private URI createLink(final int page, final int size, final Sort sort) {
-            final var uri = fromUri(uri());
-            uri.replaceQueryParam("page", page + 1);
-            uri.replaceQueryParam("size", size);
+            final var uri = uri();
 
-            if (sort.isSorted()) {
-                uri.replaceQueryParam("sort", sort.toString());
+            if  (uri == null) {
+                return null;
             }
 
-            return uri.build().toUri();
+            final var builder = fromUri(uri);
+            builder.replaceQueryParam("page", page + 1);
+            builder.replaceQueryParam("size", size);
+
+            if (sort.isSorted()) {
+                builder.replaceQueryParam("sort", sort.toString());
+            }
+
+            return builder.build().toUri();
         }
     }
 }

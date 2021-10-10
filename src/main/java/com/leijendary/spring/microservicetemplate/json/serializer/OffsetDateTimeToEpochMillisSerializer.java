@@ -13,7 +13,7 @@ public class OffsetDateTimeToEpochMillisSerializer extends StdSerializer<OffsetD
         this(null);
     }
 
-    protected OffsetDateTimeToEpochMillisSerializer(Class<OffsetDateTime> t) {
+    protected OffsetDateTimeToEpochMillisSerializer(final Class<OffsetDateTime> t) {
         super(t);
     }
 

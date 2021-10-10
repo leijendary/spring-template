@@ -1,6 +1,7 @@
 package com.leijendary.spring.microservicetemplate;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.leijendary.spring.microservicetemplate.data.request.OAuthRequest;
 import com.leijendary.spring.microservicetemplate.data.response.OAuthResponse;
@@ -96,6 +97,6 @@ public abstract class ApplicationTests {
     }
 
     public PropertyNamingStrategy propertyNamingStrategy() {
-        return new PropertyNamingStrategy.SnakeCaseStrategy();
+        return new PropertyNamingStrategies.SnakeCaseStrategy();
     }
 }

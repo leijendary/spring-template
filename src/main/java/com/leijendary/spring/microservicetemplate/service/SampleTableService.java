@@ -4,7 +4,7 @@ import com.leijendary.spring.microservicetemplate.data.SampleData;
 import com.leijendary.spring.microservicetemplate.data.request.QueryRequest;
 import com.leijendary.spring.microservicetemplate.exception.ResourceNotFoundException;
 import com.leijendary.spring.microservicetemplate.exception.ResourceNotUniqueException;
-import com.leijendary.spring.microservicetemplate.factory.SampleFactory;
+import com.leijendary.spring.microservicetemplate.mapper.SampleMapper;
 import com.leijendary.spring.microservicetemplate.model.SampleTable;
 import com.leijendary.spring.microservicetemplate.repository.SampleTableRepository;
 import com.leijendary.spring.microservicetemplate.specification.SampleListSpecification;
@@ -27,6 +27,7 @@ public class SampleTableService extends AbstractService {
     private static final String CACHE_PAGE = "SampleTablePage";
     private static final String CACHE = "SampleTable";
     private static final String RESOURCE_NAME = "Sample Table";
+    private static final SampleMapper MAPPER = SampleMapper.INSTANCE;
 
     private final SampleTableRepository sampleTableRepository;
 
@@ -44,7 +45,7 @@ public class SampleTableService extends AbstractService {
             put = @CachePut(value = CACHE, key = "#result.id"))
     @Transactional
     public SampleTable create(final SampleData sampleData) {
-        final var sampleTable = SampleFactory.of(sampleData);
+        final var sampleTable = MAPPER.toEntity(sampleData);
         final var column1 = sampleData.getColumn1();
 
         // Validate the column1 field
@@ -70,14 +71,15 @@ public class SampleTableService extends AbstractService {
         // Validate the column1 field
         validateColumn1(column1, id);
 
-        SampleFactory.map(sampleData, sampleTable);
+        MAPPER.update(sampleData, sampleTable);
 
         return sampleTableRepository.save(sampleTable);
     }
 
     @Caching(evict = {
             @CacheEvict(value = CACHE_PAGE, allEntries = true),
-            @CacheEvict(value = CACHE, key = "#id") })
+            @CacheEvict(value = CACHE, key = "#id")
+    })
     @Transactional
     public void delete(final long id) {
         final var sampleTable = get(id);

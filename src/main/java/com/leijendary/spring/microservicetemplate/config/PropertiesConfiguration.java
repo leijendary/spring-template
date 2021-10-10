@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Configuration;
         AspectProperties.class,
         AuthProperties.class,
         CorsProperties.class,
-        InfoProperties.class })
+        InfoProperties.class
+})
 public class PropertiesConfiguration {
 }

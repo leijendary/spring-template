@@ -3,7 +3,7 @@ package com.leijendary.spring.microservicetemplate.service;
 import com.leijendary.spring.microservicetemplate.data.request.QueryRequest;
 import com.leijendary.spring.microservicetemplate.document.SampleDocument;
 import com.leijendary.spring.microservicetemplate.exception.ResourceNotFoundException;
-import com.leijendary.spring.microservicetemplate.factory.SampleDocumentFactory;
+import com.leijendary.spring.microservicetemplate.mapper.SampleMapper;
 import com.leijendary.spring.microservicetemplate.model.SampleTable;
 import com.leijendary.spring.microservicetemplate.repository.SampleSearchRepository;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +24,7 @@ import static java.util.stream.Collectors.toList;
 public class SampleSearchService extends AbstractService {
 
     private static final String RESOURCE_NAME = "Sample Document";
+    private static final SampleMapper MAPPER = SampleMapper.INSTANCE;
 
     private final ElasticsearchRestTemplate elasticsearchRestTemplate;
     private final SampleSearchRepository serviceSearchRepository;
@@ -56,7 +57,7 @@ public class SampleSearchService extends AbstractService {
     }
 
     public SampleDocument save(final SampleTable sampleTable) {
-        final var serviceDocument = SampleDocumentFactory.of(sampleTable);
+        final var serviceDocument = MAPPER.toDocument(sampleTable);
 
         return serviceSearchRepository.save(serviceDocument);
     }
@@ -70,7 +71,7 @@ public class SampleSearchService extends AbstractService {
         final var id = sampleTable.getId();
         final var sampleDocument = get(id);
 
-        SampleDocumentFactory.map(sampleTable, sampleDocument);
+        MAPPER.update(sampleTable, sampleDocument);
 
         return serviceSearchRepository.save(sampleDocument);
     }
