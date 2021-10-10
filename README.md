@@ -32,7 +32,7 @@
 - Liquibase
 - Lombok
 - Swagger
-- ModelMapper
+- MapStruct
 - Caffeine
 - Docker
 - AOP
