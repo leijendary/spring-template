@@ -13,24 +13,30 @@ public class StringUtil {
         final var builder = new StringBuilder();
         final var strings = value.split("_");
 
-        for (String string: strings) {
-            final char[] chars = string.toCharArray();
-            chars[0] = toUpperCase(chars[0]);
-
-            string = new String(chars);
-
-            builder.append(string);
+        for (final String string: strings) {
+            builder.append(upperCaseFirst(string));
         }
 
-        var result = builder.toString();
+        final var result = builder.toString();
 
         if (!capitalizeFirst) {
-            final char[] chars = result.toCharArray();
-            chars[0] = toLowerCase(chars[0]);
-
-            result = new String(chars);
+            return lowerCaseFirst(result);
         }
 
         return result;
+    }
+
+    public static String upperCaseFirst(final String value) {
+        final char[] chars = value.toCharArray();
+        chars[0] = toUpperCase(chars[0]);
+
+        return new String(chars);
+    }
+
+    public static String lowerCaseFirst(final String value) {
+        final char[] chars = value.toCharArray();
+        chars[0] = toLowerCase(chars[0]);
+
+        return new String(chars);
     }
 }

@@ -92,7 +92,7 @@ databaseChangeLog:
       changes:
         - addPrimaryKey:
             columnNames: id, language
-            constraintName: pk_sample_table_translations
+            constraintName: sample_table_translations_pk
             tableName: sample_table_translations
             validate: true
   - changeSet:
