@@ -13,11 +13,13 @@ public class StringUtil {
         final var builder = new StringBuilder();
         final var strings = value.split("_");
 
-        for (final String string: strings) {
+        for (String string: strings) {
             final char[] chars = string.toCharArray();
             chars[0] = toUpperCase(chars[0]);
 
-            builder.append(new String(chars));
+            string = new String(chars);
+
+            builder.append(string);
         }
 
         var result = builder.toString();
