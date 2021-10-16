@@ -37,4 +37,7 @@ public class SampleTable extends LocalizedModel<SampleTableTranslations> {
 
     @LastModifiedBy
     private String lastModifiedBy;
+
+    private OffsetDateTime deletedDate;
+    private String deletedBy;
 }
