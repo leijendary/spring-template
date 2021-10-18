@@ -34,7 +34,7 @@ public class AppAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
     public void commence(final HttpServletRequest request, final HttpServletResponse response,
                          final AuthenticationException exception) throws IOException {
-        log.error("AuthenticationException {}", exception.getMessage());
+        log.error(exception.getMessage());
 
         var code = "access.unauthorized";
 
