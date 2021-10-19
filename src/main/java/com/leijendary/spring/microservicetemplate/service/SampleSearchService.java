@@ -45,8 +45,8 @@ public class SampleSearchService extends AbstractService {
         sortBuilders.forEach(searchBuilder::withSort);
 
         final var searchQuery = searchBuilder.build();
-        final var searchHits = elasticsearchRestTemplate.search(searchQuery,
-                SampleDocument.class);
+        final var searchHits = elasticsearchRestTemplate.search(
+                searchQuery, SampleDocument.class);
         final var list = searchHits
                 .stream()
                 .map(SearchHit::getContent)
@@ -57,9 +57,9 @@ public class SampleSearchService extends AbstractService {
     }
 
     public SampleDocument save(final SampleTable sampleTable) {
-        final var serviceDocument = MAPPER.toDocument(sampleTable);
+        final var document = MAPPER.toDocument(sampleTable);
 
-        return serviceSearchRepository.save(serviceDocument);
+        return serviceSearchRepository.save(document);
     }
 
     public SampleDocument get(final long id) {
@@ -69,16 +69,16 @@ public class SampleSearchService extends AbstractService {
 
     public SampleDocument update(final SampleTable sampleTable) {
         final var id = sampleTable.getId();
-        final var sampleDocument = get(id);
+        final var document = get(id);
 
-        MAPPER.update(sampleTable, sampleDocument);
+        MAPPER.update(sampleTable, document);
 
-        return serviceSearchRepository.save(sampleDocument);
+        return serviceSearchRepository.save(document);
     }
 
     public void delete(final long id) {
-        final var serviceDocument = get(id);
+        final var document = get(id);
 
-        serviceSearchRepository.delete(serviceDocument);
+        serviceSearchRepository.delete(document);
     }
 }

@@ -10,9 +10,8 @@ services:
       - spring.datasource.username=
       - spring.datasource.password=
       - spring.profiles.active=local,aws
-      - spring.security.oauth2.resourceserver.jwt.jwkSetUri=https://leijendary.us.auth0.com/.well-known/jwks.json
       - spring.kafka.properties.schema.registry.url=http://schema-registry:8081
-      - spring.kafka.bootrapServers=kafka:9092
+      - spring.kafka.bootrapServers=kafka:29092
       - spring.redis.host=redis
       - spring.elasticsearch.rest.uris=http://elasticsearch:9200
       - cloud.aws.credentials.accessKey=

@@ -260,7 +260,6 @@
                             <goal>schema</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>${project.basedir}/src/main/java</outputDirectory>
                             <stringType>String</stringType>
                             <!-- In Avro, you have to define the nested schemas first -->
                             <imports>

@@ -42,6 +42,9 @@
 
 # Spring Microservice Template
 
+### To generate sources (for avro):
+`mvnw generate-sources`
+
 ### To run the code:
 `mvnw spring-boot:run`
 

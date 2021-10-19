@@ -18,7 +18,7 @@ databaseChangeLog:
                   type: int
               - column:
                   name: created_date
-                  type: timestamp
+                  type: timestamp with time zone
                   constraints:
                     nullable: false
                   defaultValueDate: current_timestamp
@@ -29,7 +29,7 @@ databaseChangeLog:
                     nullable: false
               - column:
                   name: last_modified_date
-                  type: timestamp
+                  type: timestamp with time zone
                   constraints:
                     nullable: false
                   defaultValueDate: current_timestamp
@@ -38,6 +38,12 @@ databaseChangeLog:
                   type: text
                   constraints:
                     nullable: false
+              - column:
+                  name: deleted_date
+                  type: timestamp with time zone
+              - column:
+                  name: deleted_by
+                  type: text
             tableName: sample_table
   - changeSet:
       id: create-sample-translations-table
@@ -77,16 +83,7 @@ databaseChangeLog:
       changes:
         - addPrimaryKey:
             columnNames: id
-            constraintName: pk_sample_table
-            tableName: sample_table
-            validate: true
-  - changeSet:
-      id: sample-table-id-unique-constraint
-      author: Leijendekker
-      changes:
-        - addUniqueConstraint:
-            columnNames: id
-            constraintName: uidx_sample_table_id
+            constraintName: sample_table_pk
             tableName: sample_table
             validate: true
   - changeSet:
@@ -95,7 +92,7 @@ databaseChangeLog:
       changes:
         - addPrimaryKey:
             columnNames: id, language
-            constraintName: pk_sample_table_translations
+            constraintName: sample_table_translations_pk
             tableName: sample_table_translations
             validate: true
   - changeSet:
@@ -105,7 +102,7 @@ databaseChangeLog:
         - addForeignKeyConstraint:
             baseColumnNames: id
             baseTableName: sample_table_translations
-            constraintName: fk_sample_table_translations_id
+            constraintName: sample_table_translations_id_fk
             deferrable: false
             initiallyDeferred: false
             onDelete: NO ACTION
@@ -113,3 +110,10 @@ databaseChangeLog:
             referencedColumnNames: id
             referencedTableName: sample_table
             validate: true
+  - changeSet:
+      id: add-column1-unique-constraint
+      author: Leijendekker
+      changes:
+        - sql:  create unique index sample_table_column_1_uindex
+                on sample_table (column_1)
+                where deleted_date is null;

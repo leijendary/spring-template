@@ -3,16 +3,12 @@ package com.leijendary.spring.microservicetemplate;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import sun.misc.Unsafe;
 
-import static java.lang.System.setProperty;
 import static org.springframework.boot.SpringApplication.run;
 
 @SpringBootApplication
 public class Application {
 
     public static void main(String[] args) {
-        // Disable devtools restart for avro
-        setProperty("spring.devtools.restart.enabled", "false");
-
         disableIllegalAccessLoggerWarning();
 
         run(Application.class, args);

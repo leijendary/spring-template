@@ -4,6 +4,7 @@ import com.leijendary.spring.microservicetemplate.data.response.ErrorResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.MessageSource;
+import org.springframework.core.annotation.Order;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -12,6 +13,7 @@ import static com.leijendary.spring.microservicetemplate.util.RequestContext.get
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 
 @RestControllerAdvice
+@Order
 @RequiredArgsConstructor
 @Slf4j
 public class GlobalExceptionHandler {
