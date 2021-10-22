@@ -36,14 +36,10 @@
 - Caffeine
 - Docker
 - AOP
-- Avro
 - JUnit
 - ElasticSearch
 
 # Spring Microservice Template
-
-### To generate sources (for avro):
-`mvnw generate-sources`
 
 ### To run the code:
 `mvnw spring-boot:run`

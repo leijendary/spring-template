@@ -21,7 +21,7 @@ public class SampleTableListener {
     public void onSave(final SampleTable sampleTable) {
         afterCommit(() -> {
             final var sampleProducer = getBean(SampleProducer.class);
-            final var sampleSchema = MAPPER.toSchema(sampleTable);
+            final var sampleSchema = MAPPER.toData(sampleTable);
 
             sampleProducer.create(sampleSchema);
         });
@@ -31,7 +31,7 @@ public class SampleTableListener {
     public void onUpdate(final SampleTable sampleTable) {
         afterCommit(() -> {
             final var sampleProducer = getBean(SampleProducer.class);
-            final var sampleSchema = MAPPER.toSchema(sampleTable);
+            final var sampleSchema = MAPPER.toData(sampleTable);
 
             sampleProducer.update(sampleSchema);
         });
@@ -41,7 +41,7 @@ public class SampleTableListener {
     public void onDelete(final SampleTable sampleTable) {
         afterCommit(() -> {
             final var sampleProducer = getBean(SampleProducer.class);
-            final var sampleSchema = MAPPER.toSchema(sampleTable);
+            final var sampleSchema = MAPPER.toData(sampleTable);
 
             sampleProducer.delete(sampleSchema);
         });

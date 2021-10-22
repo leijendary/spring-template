@@ -14,12 +14,16 @@ import static org.springframework.messaging.support.MessageBuilder.withPayload;
 public abstract class AbstractProducer<V> {
 
     public Message<V> messageWithKey(final String key, final V value) {
+        log.info("Sending Key: {} with Message: {}", key, value);
+
         return withPayload(value)
                 .setHeader(MESSAGE_KEY, key)
                 .build();
     }
 
     public Message<V> message(final V value) {
+        log.info("Sending Message: {}", value);
+
         return withPayload(value).build();
     }
 }

@@ -97,20 +97,14 @@ spring:
           destination: ${info.app.organization}.sample.create
         sampleCreate-out-0:
           destination: ${info.app.organization}.sample.create
-          producer:
-            useNativeEncoding: true
         sampleUpdated-in-0:
           destination: ${info.app.organization}.sample.update
         sampleUpdate-out-0:
           destination: ${info.app.organization}.sample.update
-          producer:
-            useNativeEncoding: true
         sampleDeleted-in-0:
           destination: ${info.app.organization}.sample.delete
         sampleDelete-out-0:
           destination: ${info.app.organization}.sample.delete
-          producer:
-            useNativeEncoding: true
       function:
         definition: sampleCreated;sampleUpdated;sampleDeleted;sampleCreate;sampleUpdate;sampleDelete
       kafka:
@@ -118,12 +112,6 @@ spring:
           autoAddPartitions: true
         streams:
           binder:
-            configuration:
-              default:
-                key:
-                  serde: org.apache.kafka.common.serialization.Serdes$StringSerde
-                value:
-                  serde: io.confluent.kafka.streams.serdes.avro.SpecificAvroSerde
             functions:
               sampleCreate:
                 applicationId: ${info.app.artifactId}.${info.app.organization}.sample.create
@@ -142,16 +130,13 @@ spring:
       uris: http://localhost:9200
   kafka:
     bootstrapServers: localhost:9092
-    consumer:
-      keyDeserializer: org.apache.kafka.common.serialization.StringDeserializer
-      valueDeserializer: io.confluent.kafka.streams.serdes.avro.SpecificAvroDeserializer
     producer:
-      keySerializer: org.apache.kafka.common.serialization.StringSerializer
-      valueSerializer: io.confluent.kafka.streams.serdes.avro.SpecificAvroSerializer
-    properties:
-      schema:
-        registry:
-          url: http://localhost:8081
+      properties:
+        spring:
+          json:
+            add:
+              type:
+                headers: false
   redis:
     host: localhost
     ssl: false
@@ -179,9 +164,6 @@ server:
 
 logging:
   level:
-    io:
-      confluent:
-        kafka: ERROR
     liquibase:
       hub: ERROR
     org:

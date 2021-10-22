@@ -1,6 +1,5 @@
 package com.leijendary.spring.microservicetemplate.mapper;
 
-import com.leijendary.schema.SampleSchema;
 import com.leijendary.spring.microservicetemplate.data.SampleData;
 import com.leijendary.spring.microservicetemplate.data.request.v1.SampleRequestV1;
 import com.leijendary.spring.microservicetemplate.data.response.v1.SampleResponseV1;
@@ -21,8 +20,6 @@ public interface SampleMapper {
 
     SampleResponseV1 toResponseV1(final SampleTable sampleTable);
 
-    SampleSchema toSchema(final SampleTable sampleTable);
-
     SampleTable toEntity(final SampleData sampleData);
 
     @Mapping(target = "id", ignore = true)
@@ -33,6 +30,8 @@ public interface SampleMapper {
             @Mapping(source = "field2", target = "column2")
     })
     SampleData toData(final SampleRequestV1 sampleRequestV1);
+
+    SampleData toData(final SampleTable sampleTable);
 
     @Mappings({
             @Mapping(source = "translation.name", target = "name"),

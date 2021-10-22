@@ -17,9 +17,6 @@ spring:
 logging:
   level:
     root: DEBUG
-    io:
-      confluent:
-        kafka: INFO
     liquibase:
       hub: DEBUG
     org:

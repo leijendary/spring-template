@@ -1,6 +1,6 @@
 package com.leijendary.spring.microservicetemplate.event.consumer;
 
-import com.leijendary.schema.SampleSchema;
+import com.leijendary.spring.microservicetemplate.data.SampleData;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.streams.kstream.KStream;
@@ -15,17 +15,17 @@ import java.util.function.Consumer;
 public class SampleConsumer {
 
     @Bean
-    public Consumer<KStream<String, SampleSchema>> sampleCreated() {
+    public Consumer<KStream<String, SampleData>> sampleCreated() {
         return stream -> stream.foreach((key, value) -> log.info("Created: '{}', '{}'", key, value));
     }
 
     @Bean
-    public Consumer<KStream<String, SampleSchema>> sampleUpdated() {
+    public Consumer<KStream<String, SampleData>> sampleUpdated() {
         return stream -> stream.foreach((key, value) -> log.info("Updated: '{}', '{}'", key, value));
     }
 
     @Bean
-    public Consumer<KStream<String, SampleSchema>> sampleDeleted() {
+    public Consumer<KStream<String, SampleData>> sampleDeleted() {
         return stream -> stream.foreach((key, value) -> log.info("Deleted: '{}', '{}'", key, value));
     }
 }
