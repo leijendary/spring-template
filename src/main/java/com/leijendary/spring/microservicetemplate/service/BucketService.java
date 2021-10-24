@@ -6,6 +6,7 @@ import com.amazonaws.services.s3.model.PutObjectResult;
 import com.amazonaws.services.s3.model.S3Object;
 import com.amazonaws.services.s3.model.S3ObjectInputStream;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletResponse;
@@ -13,6 +14,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+@Profile("aws")
 @Service
 @RequiredArgsConstructor
 public class BucketService {

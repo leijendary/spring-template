@@ -1,15 +1,4 @@
-spring:
-  autoconfigure:
-    exclude:
-      - org.springframework.cloud.aws.autoconfigure.context.ContextInstanceDataAutoConfiguration
-
 cloud:
   aws:
     credentials:
-      accessKey:
-      secretKey:
-    region:
-      static:
-      auto: false
-    stack:
-      auto: false
+      profileName:
