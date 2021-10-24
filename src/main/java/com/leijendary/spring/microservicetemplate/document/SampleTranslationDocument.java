@@ -4,15 +4,15 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.data.elasticsearch.annotations.Field;
 
-import static org.springframework.data.elasticsearch.annotations.FieldType.Keyword;
+import static org.springframework.data.elasticsearch.annotations.FieldType.Text;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class SampleTranslationDocument extends LocaleDocument {
 
-    @Field(type = Keyword)
+    @Field(type = Text)
     private String name;
 
-    @Field(type = Keyword)
+    @Field(type = Text)
     private String description;
 }

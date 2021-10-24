@@ -10,7 +10,7 @@ import javax.persistence.Id;
 import java.time.OffsetDateTime;
 
 import static org.springframework.data.elasticsearch.annotations.DateFormat.date_time;
-import static org.springframework.data.elasticsearch.annotations.FieldType.Keyword;
+import static org.springframework.data.elasticsearch.annotations.FieldType.Text;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -21,7 +21,7 @@ public class SampleDocument extends LocalizedDocument<SampleTranslationDocument>
     @Field(type = FieldType.Long)
     private long id;
 
-    @Field(type = Keyword)
+    @Field(type = Text)
     private String column1;
 
     @Field(type = FieldType.Integer)
