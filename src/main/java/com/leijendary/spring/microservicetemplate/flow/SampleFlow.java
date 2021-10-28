@@ -12,6 +12,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.UUID;
+
 @Component
 @RequiredArgsConstructor
 public class SampleFlow {
@@ -37,14 +39,14 @@ public class SampleFlow {
         return MAPPER.toResponseV1(sampleTable);
     }
 
-    public SampleResponseV1 getV1(final long id) {
+    public SampleResponseV1 getV1(final UUID id) {
         final var sampleTable = sampleTableService.get(id);
 
         return MAPPER.toResponseV1(sampleTable);
     }
 
     @Transactional
-    public SampleResponseV1 updateV1(final long id, final SampleRequestV1 request) {
+    public SampleResponseV1 updateV1(final UUID id, final SampleRequestV1 request) {
         final var sampleData = MAPPER.toData(request);
         final var sampleTable = sampleTableService.update(id, sampleData);
 
@@ -55,7 +57,7 @@ public class SampleFlow {
     }
 
     @Transactional
-    public void deleteV1(final long id) {
+    public void deleteV1(final UUID id) {
         sampleTableService.delete(id);
 
         // Delete the object from elasticsearch

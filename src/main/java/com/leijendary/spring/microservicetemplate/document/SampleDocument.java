@@ -8,6 +8,7 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 
 import javax.persistence.Id;
 import java.time.OffsetDateTime;
+import java.util.UUID;
 
 import static org.springframework.data.elasticsearch.annotations.DateFormat.date_time;
 import static org.springframework.data.elasticsearch.annotations.FieldType.Text;
@@ -18,8 +19,8 @@ import static org.springframework.data.elasticsearch.annotations.FieldType.Text;
 public class SampleDocument extends LocalizedDocument<SampleTranslationDocument> {
 
     @Id
-    @Field(type = FieldType.Long)
-    private long id;
+    @Field(type = FieldType.Keyword)
+    private UUID id;
 
     @Field(type = Text)
     private String column1;

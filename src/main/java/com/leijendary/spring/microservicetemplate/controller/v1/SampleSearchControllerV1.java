@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
 import static com.leijendary.spring.microservicetemplate.controller.AbstractController.BASE_API_PATH;
@@ -42,7 +43,7 @@ public class SampleSearchControllerV1 extends AbstractController {
 
     @GetMapping("{id}")
     @ApiOperation("Get the specific object using the ID in elasticsearch")
-    public CompletableFuture<DataResponse<SampleSearchResponseV1>> get(@PathVariable final long id) {
+    public CompletableFuture<DataResponse<SampleSearchResponseV1>> get(@PathVariable final UUID id) {
         final var sampleResponse = sampleSearchFlow.getV1(id);
         final var response = DataResponse.<SampleSearchResponseV1>builder()
                 .data(sampleResponse)

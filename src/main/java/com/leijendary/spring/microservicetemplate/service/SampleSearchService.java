@@ -15,6 +15,8 @@ import org.springframework.data.elasticsearch.core.SearchHit;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 import static com.leijendary.spring.microservicetemplate.util.SearchUtil.sortBuilders;
 import static com.leijendary.spring.microservicetemplate.util.SearchUtil.wildcard;
 import static java.util.stream.Collectors.toList;
@@ -62,7 +64,7 @@ public class SampleSearchService extends AbstractService {
         return serviceSearchRepository.save(document);
     }
 
-    public SampleDocument get(final long id) {
+    public SampleDocument get(final UUID id) {
         return serviceSearchRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(RESOURCE_NAME, id));
     }
@@ -76,7 +78,7 @@ public class SampleSearchService extends AbstractService {
         return serviceSearchRepository.save(document);
     }
 
-    public void delete(final long id) {
+    public void delete(final UUID id) {
         final var document = get(id);
 
         serviceSearchRepository.delete(document);

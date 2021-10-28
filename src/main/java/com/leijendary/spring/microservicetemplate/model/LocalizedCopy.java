@@ -7,6 +7,7 @@ import lombok.ToString;
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 import static com.leijendary.spring.microservicetemplate.util.RequestContext.getLanguage;
 import static java.util.Comparator.comparingInt;
@@ -19,7 +20,7 @@ import static javax.persistence.FetchType.EAGER;
 public abstract class LocalizedCopy<T extends LocaleCopy> extends AbstractModel {
 
     @Id
-    private long id;
+    private UUID id;
 
     @ToString.Exclude
     @EqualsAndHashCode.Exclude

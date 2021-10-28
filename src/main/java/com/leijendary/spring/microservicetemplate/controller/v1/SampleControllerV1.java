@@ -22,6 +22,7 @@ import java.time.format.TextStyle;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
 import static com.leijendary.spring.microservicetemplate.controller.AbstractController.BASE_API_PATH;
@@ -100,7 +101,7 @@ public class SampleControllerV1 extends AbstractController {
     @GetMapping("{id}")
     @PreAuthorize("hasAuthority('SCOPE_urn:sample:get:v1')")
     @ApiOperation("Retrieves the sample record from the database")
-    public CompletableFuture<DataResponse<SampleResponseV1>> get(@PathVariable final long id) {
+    public CompletableFuture<DataResponse<SampleResponseV1>> get(@PathVariable final UUID id) {
         final var sampleResponse = sampleFlow.getV1(id);
         final var response = DataResponse.<SampleResponseV1>builder()
                 .data(sampleResponse)
@@ -114,7 +115,7 @@ public class SampleControllerV1 extends AbstractController {
     @PreAuthorize("hasAuthority('SCOPE_urn:sample:update:v1')")
     @ApiOperation("Updates the sample record into the database")
     public CompletableFuture<DataResponse<SampleResponseV1>> update(
-            @PathVariable final long id, @Valid @RequestBody final SampleRequestV1 request) {
+            @PathVariable final UUID id, @Valid @RequestBody final SampleRequestV1 request) {
         final var sampleResponse = sampleFlow.updateV1(id, request);
         final var response = DataResponse.<SampleResponseV1>builder()
                 .data(sampleResponse)
@@ -128,7 +129,7 @@ public class SampleControllerV1 extends AbstractController {
     @PreAuthorize("hasAuthority('SCOPE_urn:sample:delete:v1')")
     @ResponseStatus(NO_CONTENT)
     @ApiOperation("Removes the sample record from the database")
-    public CompletableFuture<Void> delete(@PathVariable final long id) {
+    public CompletableFuture<Void> delete(@PathVariable final UUID id) {
         sampleFlow.deleteV1(id);
 
         return completedFuture(null);

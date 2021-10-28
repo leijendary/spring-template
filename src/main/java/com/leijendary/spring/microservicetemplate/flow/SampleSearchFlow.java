@@ -10,6 +10,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
+import java.util.UUID;
+
 @Component
 @RequiredArgsConstructor
 public class SampleSearchFlow {
@@ -24,7 +26,7 @@ public class SampleSearchFlow {
                 .map(MAPPER::toSearchResponseV1);
     }
 
-    public SampleSearchResponseV1 getV1(final long id) {
+    public SampleSearchResponseV1 getV1(final UUID id) {
         final var serviceDocument = sampleSearchService.get(id);
 
         return MAPPER.toSearchResponseV1(serviceDocument);

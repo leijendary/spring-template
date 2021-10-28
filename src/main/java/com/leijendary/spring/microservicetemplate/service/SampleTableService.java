@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -49,13 +50,13 @@ public class SampleTableService extends AbstractService {
         final var column1 = sampleData.getColumn1();
 
         // Validate the column1 field
-        validateColumn1(column1, 0);
+        validateColumn1(column1, null);
 
         return sampleTableRepository.save(sampleTable);
     }
 
     @Cacheable(value = CACHE, key = "#id")
-    public SampleTable get(final long id) {
+    public SampleTable get(final UUID id) {
         return sampleTableRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(RESOURCE_NAME, id));
     }
@@ -64,7 +65,7 @@ public class SampleTableService extends AbstractService {
             evict = @CacheEvict(value = CACHE_PAGE, allEntries = true),
             put = @CachePut(value = CACHE, key = "#id"))
     @Transactional
-    public SampleTable update(final long id, final SampleData sampleData) {
+    public SampleTable update(final UUID id, final SampleData sampleData) {
         final var sampleTable = get(id);
         final var column1 = sampleData.getColumn1();
 
@@ -81,7 +82,7 @@ public class SampleTableService extends AbstractService {
             @CacheEvict(value = CACHE, key = "#id")
     })
     @Transactional
-    public void delete(final long id) {
+    public void delete(final UUID id) {
         final var sampleTable = get(id);
 
         sampleTableRepository.delete(sampleTable);
@@ -91,8 +92,14 @@ public class SampleTableService extends AbstractService {
         return sampleTableRepository.findAll();
     }
 
-    private void validateColumn1(final String column1, final long id) {
-        final var exists = sampleTableRepository.existsByColumn1IgnoreCaseAndIdNot(column1, id);
+    private void validateColumn1(final String column1, final UUID id) {
+        boolean exists;
+
+        if (id == null) {
+            exists = sampleTableRepository.existsByColumn1IgnoreCase(column1);
+        } else {
+            exists = sampleTableRepository.existsByColumn1IgnoreCaseAndIdNot(column1, id);
+        }
 
         if (exists) {
             throw new ResourceNotUniqueException("column1", column1);

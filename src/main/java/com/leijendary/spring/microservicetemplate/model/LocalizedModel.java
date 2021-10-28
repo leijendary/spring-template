@@ -19,7 +19,7 @@ import static javax.persistence.FetchType.EAGER;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @MappedSuperclass
-public abstract class LocalizedModel<T extends LocaleModel> extends SnowflakeIdModel {
+public abstract class LocalizedModel<T extends LocaleModel> extends UUIDModel {
 
     @ToString.Exclude
     @EqualsAndHashCode.Exclude

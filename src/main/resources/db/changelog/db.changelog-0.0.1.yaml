@@ -7,7 +7,7 @@ databaseChangeLog:
             columns:
               - column:
                   name: id
-                  type: bigint
+                  type: uuid
                   constraints:
                     nullable: false
               - column:
@@ -53,7 +53,7 @@ databaseChangeLog:
             columns:
               - column:
                   name: id
-                  type: bigint
+                  type: uuid
                   constraints:
                     nullable: false
               - column:
