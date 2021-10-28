@@ -16,10 +16,10 @@
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
-          <intProp name="LoopController.loops">-1</intProp>
+          <stringProp name="LoopController.loops">50</stringProp>
         </elementProp>
-        <stringProp name="ThreadGroup.num_threads">50</stringProp>
-        <stringProp name="ThreadGroup.ramp_time">5</stringProp>
+        <stringProp name="ThreadGroup.num_threads">500</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
         <boolProp name="ThreadGroup.scheduler">false</boolProp>
         <stringProp name="ThreadGroup.duration"></stringProp>
         <stringProp name="ThreadGroup.delay"></stringProp>
@@ -30,7 +30,7 @@
           <collectionProp name="HeaderManager.headers">
             <elementProp name="" elementType="Header">
               <stringProp name="Header.name">Authorization</stringProp>
-              <stringProp name="Header.value">Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ik94Z216M3ZTcHFtOFJNNDBKbzhXYSJ9.eyJpc3MiOiJodHRwczovL2xlaWplbmRhcnkudXMuYXV0aDAuY29tLyIsInN1YiI6ImF1dGgwfDYwNjEyN2E0MmJlMGY1MDA2YTUxZmNhNCIsImF1ZCI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODA4MCIsImlhdCI6MTYzMzkyODYyOCwiZXhwIjoxNjM0MDE1MDI4LCJhenAiOiIwWFF4Y1d5Y1d1SElWcFlRSjZqNFZGVlJrUG4xbHRsQiIsInNjb3BlIjoidXJuOnNhbXBsZTpsaXN0OnYxIHVybjpzYW1wbGU6Y3JlYXRlOnYxIHVybjpzYW1wbGU6Z2V0OnYxIHVybjpzYW1wbGU6dXBkYXRlOnYxIHVybjpzYW1wbGU6ZGVsZXRlOnYxIiwiZ3R5IjoicGFzc3dvcmQifQ.iLhDvYX7Z2ByX2aNx9odnJaxb_sorGk0bWqpw_-UfaY-7ynfMRrYZo4ny7zcjWwGE7j58aQDWLxEGOdR3L9D0bnN8XcDyXdHsBbO_6L23ivcjdMZuB0U4wSSvoVw21_3xSLLai62ZOECzrO-ybfBAz_-1ZlcDzifol6NjuRFI6bqnlG8cuHB7TsGRwVaCR7DoaBLxeHvQ-NSKSLj3NdXaj5XuiCuqoJh4Ku_hyIikaZjGiPuobVmgszpb7ctoi7LJVM_F4egYZisBn_6rpt9sSse0QsIldBH_pr8F-ax4Eghwx2Y_dYNKmsVlFu2H6hqjuY82QRT9_Gze0O6xO-zqg</stringProp>
+              <stringProp name="Header.value">Bearer </stringProp>
             </elementProp>
             <elementProp name="" elementType="Header">
               <stringProp name="Header.name">Content-Type</stringProp>

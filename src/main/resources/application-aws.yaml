@@ -1,4 +1,6 @@
 cloud:
   aws:
     credentials:
-      profileName:
+      useDefaultAwsCredentialsChain: true
+    region:
+      useDefaultAwsRegionChain: true

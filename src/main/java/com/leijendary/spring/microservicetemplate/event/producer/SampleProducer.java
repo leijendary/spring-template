@@ -36,18 +36,18 @@ public class SampleProducer extends AbstractProducer<SampleData> {
     public void create(final SampleData sampleData) {
         final var message = message(sampleData);
 
-        createBuffer.tryEmitNext(message);
+        emitNext(createBuffer, message);
     }
 
     public void update(final SampleData sampleData) {
         final var message = message(sampleData);
 
-        updateBuffer.tryEmitNext(message);
+        emitNext(updateBuffer, message);
     }
 
     public void delete(final SampleData sampleData) {
         final var message = message(sampleData);
 
-        deleteBuffer.tryEmitNext(message);
+        emitNext(deleteBuffer, message);
     }
 }
