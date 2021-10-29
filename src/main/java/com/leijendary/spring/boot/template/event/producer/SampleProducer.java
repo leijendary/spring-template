@@ -37,18 +37,18 @@ public class SampleProducer extends AppProducer<SampleData> {
     public void create(final SampleData sampleData) {
         final var message = message(sampleData);
 
-        emitNext(createBuffer, message);
+        createBuffer.emitNext(message, failureHandler());
     }
 
     public void update(final SampleData sampleData) {
         final var message = message(sampleData);
 
-        emitNext(updateBuffer, message);
+        updateBuffer.emitNext(message, failureHandler());
     }
 
     public void delete(final SampleData sampleData) {
         final var message = message(sampleData);
 
-        emitNext(deleteBuffer, message);
+        deleteBuffer.emitNext(message, failureHandler());
     }
 }
