@@ -18,5 +18,5 @@ ENTRYPOINT [ \
     "-Xquickstart", \
     "-cp", \
     "app:app/lib/*", \
-    "com.leijendary.spring.microservicetemplate.Application" \
+    "com.leijendary.spring.boot.template.Application" \
 ]

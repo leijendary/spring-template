@@ -8,36 +8,7 @@
 
 # Technologies Used:
 
-- Spring Actuator
-- Spring Data JPA
-- Spring Web
-- Spring Security
-- Spring OAuth2 Resource Server
-- Spring Security OAuth2 JOSE
-- Spring Cloud Bootstrap
-- Spring Cloud Openfeign
-- Spring Cloud Loadbalancer
-- Spring Cloud Netflix Ribbon
-- Spring Cache
-- Spring Data Redis
-- Spring Retry
-- Spring Kafka
-- Spring Cloud Stream
-- Spring Cloud Stream Binder Kafka Streams
-- Spring Cloud AWS
-- Spring Configuration Processor
-- Spring Devtools
-- Kafka Streams
-- PostgreSQL
-- Liquibase
-- Lombok
-- Swagger
-- MapStruct
-- Caffeine
-- Docker
-- AOP
-- JUnit
-- ElasticSearch
+Refer to [Spring Boot Starter Parent](https://github.com/leijendary/spring-boot-starter-parent).
 
 # Spring Microservice Template
 
