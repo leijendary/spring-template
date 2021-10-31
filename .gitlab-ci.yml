@@ -1,9 +1,10 @@
 image: docker:20
 
 variables:
-  MAVEN_OPTS: -Dmaven.repo.local=$CI_PROJECT_DIR/.m2/repository -Djava.awt.headless=true
-  REPOSITORY_URL: $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$REPOSITORY_NAME
   PIP_CACHE_DIR: $CI_PROJECT_DIR/.cache/pip
+  MAVEN_REPOSITORY_DIR: $CI_PROJECT_DIR/.m2/repository
+  MAVEN_OPTS: -D maven.repo.local=$MAVEN_REPOSITORY_DIR -D java.awt.headless=true
+  REPOSITORY_URL: $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$REPOSITORY_NAME
 
 services:
   - docker:20-dind
@@ -13,8 +14,15 @@ services:
 cache: &global_cache
   key: ${CI_COMMIT_REF_SLUG}
   paths:
-    - .cache/pip
-    - .m2/repository
+    - $PIP_CACHE_DIR
+    - $MAVEN_REPOSITORY_DIR
+
+# Installation of dependencies
+.dependency_installation:
+  before_script:
+    - git clone https://github.com/leijendary/spring-boot-starter-parent.git
+    - cd spring-boot-starter-parent
+    - mvn clean install -D skipTests
 
 # Installation of OS and CLI requirements.
 .aws_configuration:
@@ -69,12 +77,13 @@ stages:
 Test Merge Request:
   stage: test
   image: maven:3-adoptopenjdk-11-openj9
+  extends: .dependency_installation
   cache:
     <<: *global_cache
     key: merge_requests
   script:
     - echo "Running tests..."
-    - mvn -Dspring.profiles.active=cicd test
+    - mvn -D spring.profiles.active=cicd test
     - echo "Tests completed."
   tags:
     - MediumRunner
@@ -85,9 +94,10 @@ Test Merge Request:
 Test:
   stage: test
   image: maven:3-adoptopenjdk-11-openj9
+  extends: .dependency_installation
   script:
     - echo "Running tests..."
-    - mvn -Dspring.profiles.active=cicd test
+    - mvn -D spring.profiles.active=cicd test
     - echo "Tests completed."
   tags:
     - MediumRunner
