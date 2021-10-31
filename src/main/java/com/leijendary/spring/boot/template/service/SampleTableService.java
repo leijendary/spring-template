@@ -19,8 +19,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.UUID;
+import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
@@ -89,8 +89,9 @@ public class SampleTableService extends AppService {
         sampleTableRepository.delete(sampleTable);
     }
 
-    public List<SampleTable> all() {
-        return sampleTableRepository.findAll();
+    @Transactional
+    public Stream<SampleTable> streamAll() {
+        return sampleTableRepository.streamAll();
     }
 
     private void validateColumn1(final String column1, final UUID id) {

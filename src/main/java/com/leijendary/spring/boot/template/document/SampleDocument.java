@@ -6,6 +6,7 @@ import lombok.EqualsAndHashCode;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
+import org.springframework.data.elasticsearch.annotations.Setting;
 
 import javax.persistence.Id;
 import java.time.OffsetDateTime;
@@ -17,13 +18,14 @@ import static org.springframework.data.elasticsearch.annotations.FieldType.Text;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Document(indexName = "sample")
+@Setting(settingPath = "/elasticsearch/ngram-analyzer.settings.json")
 public class SampleDocument extends LocalizedDocument<SampleTranslationDocument> {
 
     @Id
     @Field(type = FieldType.Keyword)
     private UUID id;
 
-    @Field(type = Text)
+    @Field(type = Text, analyzer = "ngram_analyzer", searchAnalyzer = "standard")
     private String column1;
 
     @Field(type = FieldType.Integer)

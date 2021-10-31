@@ -11,9 +11,9 @@ import static org.springframework.data.elasticsearch.annotations.FieldType.Text;
 @EqualsAndHashCode(callSuper = true)
 public class SampleTranslationDocument extends LocaleDocument {
 
-    @Field(type = Text)
+    @Field(type = Text, analyzer = "ngram_analyzer", searchAnalyzer = "standard")
     private String name;
 
-    @Field(type = Text)
+    @Field(type = Text, analyzer = "ngram_analyzer", searchAnalyzer = "standard")
     private String description;
 }
