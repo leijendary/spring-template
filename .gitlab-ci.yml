@@ -18,14 +18,15 @@ cache: &global_cache
     - $MAVEN_REPOSITORY_DIR
 
 # Installation of dependencies. Should only be executed once since there is a cache involved
-.dependency_installation:
+.dependency:
   before_script:
+    - apk add git
     - git clone https://github.com/leijendary/spring-boot-starter-parent.git
     - cd spring-boot-starter-parent
     - mvn clean install -D skipTests
 
 # Installation of OS and CLI requirements.
-.aws_configuration:
+.configuration:
   before_script:
     - apk add py-pip
     - pip install awscli --cache-dir $PIP_CACHE_DIR
@@ -33,9 +34,9 @@ cache: &global_cache
     # Set the AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY and AWS_DEFAULT_REGION first
     - $(aws ecr get-login --no-include-email --region "${AWS_DEFAULT_REGION}")
 
-# Update of AWS ECS Service
-.aws_ecs_update_service:
-  extends: .aws_configuration
+# Deployment to the AWS ECS Service
+.deploy:
+  extends: .configuration
   script:
     - echo "Updating ECS service..."
     - aws ecs update-service --force-new-deployment --region "${AWS_DEFAULT_REGION}" --cluster "${AWS_CLUSTER_NAME}" --service "${AWS_SERVICE_NAME}"
@@ -45,7 +46,7 @@ cache: &global_cache
 
 # Docker Build
 .docker_build:
-  extends: .aws_configuration
+  extends: .configuration
   script:
     - echo "Building docker image..."
     - docker pull $REPOSITORY_URL:latest || true
@@ -77,7 +78,7 @@ stages:
 Test Merge Request:
   stage: test
   image: maven:3-adoptopenjdk-11-openj9
-  extends: .dependency_installation
+  extends: .dependency
   cache:
     <<: *global_cache
     key: merge_requests
@@ -94,7 +95,7 @@ Test Merge Request:
 Test:
   stage: test
   image: maven:3-adoptopenjdk-11-openj9
-  extends: .dependency_installation
+  extends: .dependency
   script:
     - echo "Running tests..."
     - mvn -D spring.profiles.active=cicd test
@@ -146,7 +147,7 @@ Build for Production:
 # Tag the docker image based on the pushed repository tag
 Tag:
   stage: tag
-  extends: .aws_configuration
+  extends: .configuration
   script:
     - echo "Tagging docker image..."
     - docker pull $REPOSITORY_URL:$CI_COMMIT_SHA
@@ -161,7 +162,7 @@ Tag:
 # Deploy the image into the Development cluster
 Deploy to Development:
   stage: deploy
-  extends: .aws_ecs_update_service
+  extends: .deploy
   environment:
     # We want to isolate AWS_CLUSTER_NAME and AWS_SERVICE_NAME per environment
     name: development
@@ -171,7 +172,7 @@ Deploy to Development:
 # Deploy the image into the Testing cluster
 Deploy to Testing:
   stage: deploy
-  extends: .aws_ecs_update_service
+  extends: .deploy
   environment:
     # We want to isolate AWS_CLUSTER_NAME and AWS_SERVICE_NAME per environment
     name: testing
@@ -181,7 +182,7 @@ Deploy to Testing:
 # Deploy the image into the Staging cluster
 Deploy to Staging:
   stage: deploy
-  extends: .aws_ecs_update_service
+  extends: .deploy
   environment:
     # We want to isolate AWS_CLUSTER_NAME and AWS_SERVICE_NAME per environment
     name: staging
@@ -191,7 +192,7 @@ Deploy to Staging:
 # Deploy the image into the Production cluster
 Deploy to Production:
   stage: deploy
-  extends: .aws_ecs_update_service
+  extends: .deploy
   environment:
     # We want to isolate AWS_CLUSTER_NAME and AWS_SERVICE_NAME per environment
     name: production
