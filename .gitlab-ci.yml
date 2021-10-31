@@ -17,7 +17,7 @@ cache: &global_cache
     - $PIP_CACHE_DIR
     - $MAVEN_REPOSITORY_DIR
 
-# Installation of dependencies
+# Installation of dependencies. Should only be executed once since there is a cache involved
 .dependency_installation:
   before_script:
     - git clone https://github.com/leijendary/spring-boot-starter-parent.git
