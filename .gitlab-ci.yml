@@ -19,6 +19,7 @@ cache: &global_cache
 
 # Installation of dependencies. Should only be executed once since there is a cache involved
 .dependency:
+  image: maven:3-adoptopenjdk-11-openj9
   before_script:
     - apk add git
     - git clone https://github.com/leijendary/spring-boot-starter-parent.git
@@ -77,7 +78,6 @@ stages:
 # Test the Merge Request
 Test Merge Request:
   stage: test
-  image: maven:3-adoptopenjdk-11-openj9
   extends: .dependency
   cache:
     <<: *global_cache
@@ -94,7 +94,6 @@ Test Merge Request:
 # Per-Branch test
 Test:
   stage: test
-  image: maven:3-adoptopenjdk-11-openj9
   extends: .dependency
   script:
     - echo "Running tests..."
