@@ -21,7 +21,7 @@ cache: &global_cache
 .dependency:
   image: maven:3-adoptopenjdk-11-openj9
   before_script:
-    - apk add git
+    - apt install git
     - git clone https://github.com/leijendary/spring-boot-starter-parent.git
     - cd spring-boot-starter-parent
     - mvn clean install -D skipTests
