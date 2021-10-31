@@ -18,8 +18,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
+import static com.leijendary.spring.boot.core.util.SearchUtil.match;
 import static com.leijendary.spring.boot.core.util.SearchUtil.sortBuilders;
-import static com.leijendary.spring.boot.core.util.SearchUtil.wildcard;
 import static java.util.stream.Collectors.toList;
 
 @Service
@@ -36,10 +36,10 @@ public class SampleSearchService extends AppService {
         final var query = queryRequest.getQuery();
         final var searchBuilder = new NativeSearchQueryBuilder();
         // Query for translations.name and translations.description
-        final var wildcard = wildcard(query, "translations.name", "translations.description");
+        final var boolQuery = match(query, "translations.name", "translations.description");
 
         // Add the query for the actual search
-        searchBuilder.withQuery(wildcard);
+        searchBuilder.withQuery(boolQuery);
         // Add the pagination to the search builder
         searchBuilder.withPageable(pageable);
 
