@@ -113,7 +113,7 @@ databaseChangeLog:
   - changeSet:
       id: add-column1-unique-constraint
       author: Leijendekker
-      dbms: !h2
+      dbms: "!h2"
       changes:
         - sql:  create unique index sample_table_column_1_uindex
                 on sample_table (column_1)
