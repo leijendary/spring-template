@@ -19,4 +19,4 @@ Refer to [Spring Boot Starter Parent](https://github.com/leijendary/spring-boot-
 `mvnw test`
 
 ### To build a JAR file:
-`mvnw clean package -D skipTests`
+`mvnw clean package -DskipTests`

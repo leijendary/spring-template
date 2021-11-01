@@ -3,7 +3,7 @@ image: docker:20
 variables:
   PIP_CACHE_DIR: $CI_PROJECT_DIR/.cache/pip
   MAVEN_REPOSITORY_DIR: $CI_PROJECT_DIR/.m2/repository
-  MAVEN_OPTS: -D maven.repo.local=$MAVEN_REPOSITORY_DIR -D java.awt.headless=true
+  MAVEN_OPTS: -Dmaven.repo.local=$MAVEN_REPOSITORY_DIR -Djava.awt.headless=true
   REPOSITORY_URL: $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$REPOSITORY_NAME
 
 services:
@@ -16,15 +16,6 @@ cache: &global_cache
   paths:
     - $PIP_CACHE_DIR
     - $MAVEN_REPOSITORY_DIR
-
-# Installation of dependencies. Should only be executed once since there is a cache involved
-.dependency:
-  image: maven:3-adoptopenjdk-11-openj9
-  before_script:
-    - apt install git
-    - git clone https://github.com/leijendary/spring-boot-starter-parent.git
-    - cd spring-boot-starter-parent
-    - mvn clean install -D skipTests
 
 # Installation of OS and CLI requirements.
 .configuration:
@@ -78,13 +69,13 @@ stages:
 # Test the Merge Request
 Test Merge Request:
   stage: test
-  extends: .dependency
+  image: maven:3-adoptopenjdk-11-openj9
   cache:
     <<: *global_cache
     key: merge_requests
   script:
     - echo "Running tests..."
-    - mvn -D spring.profiles.active=cicd test
+    - mvn -Dspring.profiles.active=cicd test
     - echo "Tests completed."
   tags:
     - MediumRunner
@@ -94,10 +85,10 @@ Test Merge Request:
 # Per-Branch test
 Test:
   stage: test
-  extends: .dependency
+  image: maven:3-adoptopenjdk-11-openj9
   script:
     - echo "Running tests..."
-    - mvn -D spring.profiles.active=cicd test
+    - mvn -Dspring.profiles.active=cicd test
     - echo "Tests completed."
   tags:
     - MediumRunner
