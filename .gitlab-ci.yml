@@ -74,6 +74,9 @@ Test Merge Request:
     <<: *global_cache
     key: merge_requests
   script:
+    - echo $PIP_CACHE_DIR
+    - echo $MAVEN_REPOSITORY_DIR
+    - echo $MAVEN_OPTS
     - echo "Running tests..."
     - mvn -Dspring.profiles.active=cicd test
     - echo "Tests completed."
