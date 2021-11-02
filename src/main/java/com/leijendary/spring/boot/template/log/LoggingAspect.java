@@ -54,13 +54,14 @@ public class LoggingAspect {
         return result;
     }
 
-    @Pointcut("execution(* com.leijendary.spring.microservicetemplate..*.*(..))")
+    @Pointcut("execution(* com.leijendary.spring.boot.template..*.*(..))")
     public void includedPointcut() {}
 
     @Pointcut(
-            "execution(* com.leijendary.spring.microservicetemplate.config..*.*(..)) || " +
-                    "execution(* com.leijendary.spring.microservicetemplate.filter..*.*(..)) || " +
-                    "execution(* com.leijendary.spring.microservicetemplate.log..*.*(..)) || " +
-                    "execution(* com.leijendary.spring.microservicetemplate.Application..*(..))")
+            "execution(* com.leijendary.spring.boot.template.config..*.*(..)) || " +
+            "execution(* com.leijendary.spring.boot.template.filter..*.*(..)) || " +
+            "execution(* com.leijendary.spring.boot.template.log..*.*(..)) || " +
+            "execution(* com.leijendary.spring.boot.template.Application..*(..))"
+    )
     public void excludedPointcut() {}
 }
