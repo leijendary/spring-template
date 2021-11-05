@@ -17,7 +17,7 @@ databaseChangeLog:
                   name: column_2
                   type: int
               - column:
-                  name: created_date
+                  name: created_at
                   type: timestamp with time zone
                   constraints:
                     nullable: false
@@ -28,7 +28,7 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
-                  name: last_modified_date
+                  name: last_modified_at
                   type: timestamp with time zone
                   constraints:
                     nullable: false
@@ -39,7 +39,7 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
-                  name: deleted_date
+                  name: deleted_at
                   type: timestamp with time zone
               - column:
                   name: deleted_by
@@ -117,4 +117,4 @@ databaseChangeLog:
       changes:
         - sql:  create unique index sample_table_column_1_uindex
                 on sample_table (column_1)
-                where deleted_date is null;
+                where deleted_at is null;

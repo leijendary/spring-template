@@ -28,17 +28,17 @@ public class SampleTable extends LocalizedModel<SampleTableTranslations> {
     private int column2;
 
     @CreatedDate
-    private OffsetDateTime createdDate;
+    private OffsetDateTime createdAt;
 
     @CreatedBy
     private String createdBy;
 
     @LastModifiedDate
-    private OffsetDateTime lastModifiedDate;
+    private OffsetDateTime lastModifiedAt;
 
     @LastModifiedBy
     private String lastModifiedBy;
 
-    private OffsetDateTime deletedDate;
+    private OffsetDateTime deletedAt;
     private String deletedBy;
 }

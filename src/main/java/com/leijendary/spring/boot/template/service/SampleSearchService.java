@@ -2,11 +2,11 @@ package com.leijendary.spring.boot.template.service;
 
 import com.leijendary.spring.boot.core.data.request.QueryRequest;
 import com.leijendary.spring.boot.core.exception.ResourceNotFoundException;
+import com.leijendary.spring.boot.core.service.AppService;
 import com.leijendary.spring.boot.template.document.SampleDocument;
 import com.leijendary.spring.boot.template.mapper.SampleMapper;
 import com.leijendary.spring.boot.template.model.SampleTable;
 import com.leijendary.spring.boot.template.repository.SampleSearchRepository;
-import com.leijendary.spring.boot.template.sevice.AppService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
