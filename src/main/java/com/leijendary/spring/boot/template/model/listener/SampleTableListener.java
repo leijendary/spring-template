@@ -1,20 +1,19 @@
 package com.leijendary.spring.boot.template.model.listener;
 
-import com.leijendary.spring.boot.template.event.producer.SampleProducer;
-import com.leijendary.spring.boot.template.mapper.SampleMapper;
-import com.leijendary.spring.boot.template.model.SampleTable;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
+import static com.leijendary.spring.boot.core.util.SpringContext.getBean;
+import static com.leijendary.spring.boot.core.util.TransactionUtil.afterCommit;
 
 import javax.persistence.PostPersist;
 import javax.persistence.PostRemove;
 import javax.persistence.PostUpdate;
 
-import static com.leijendary.spring.boot.core.util.SpringContext.getBean;
-import static com.leijendary.spring.boot.core.util.TransactionUtil.afterCommit;
+import com.leijendary.spring.boot.template.event.producer.SampleProducer;
+import com.leijendary.spring.boot.template.mapper.SampleMapper;
+import com.leijendary.spring.boot.template.model.SampleTable;
+
+import org.springframework.stereotype.Component;
 
 @Component
-@Slf4j
 public class SampleTableListener {
 
     private static final SampleMapper MAPPER = SampleMapper.INSTANCE;
