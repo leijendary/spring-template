@@ -1,18 +1,20 @@
 package com.leijendary.spring.boot.template.flow;
 
+import java.util.UUID;
+
 import com.leijendary.spring.boot.core.data.request.QueryRequest;
 import com.leijendary.spring.boot.core.flow.AppFlow;
 import com.leijendary.spring.boot.template.data.response.v1.SampleSearchResponseV1;
 import com.leijendary.spring.boot.template.mapper.SampleMapper;
 import com.leijendary.spring.boot.template.service.SampleSearchService;
 import com.leijendary.spring.boot.template.service.SampleTableService;
-import lombok.RequiredArgsConstructor;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.UUID;
+import lombok.RequiredArgsConstructor;
 
 @Component
 @RequiredArgsConstructor
@@ -36,6 +38,8 @@ public class SampleSearchFlow extends AppFlow {
 
     @Transactional
     public void reindexV1() {
-        sampleTableService.streamAll().forEach(sampleSearchService::save);
+        sampleTableService.streamAll()
+                .parallel()
+                .forEach(sampleSearchService::save);
     }
 }
