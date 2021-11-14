@@ -4,19 +4,21 @@ services:
     build: .
     container_name: microservice-template
     ports:
-      - "8080:8080"
+      - '8080:8080'
     environment:
-      - spring.datasource.url=jdbc:postgresql://postgres:5432/spring_microservice
+      - spring.datasource.url=
       - spring.datasource.username=
       - spring.datasource.password=
-      - spring.profiles.active=local,aws
-      - spring.kafka.properties.schema.registry.url=http://schema-registry:8081
-      - spring.kafka.bootrapServers=kafka:29092
-      - spring.redis.host=redis
-      - spring.elasticsearch.rest.uris=http://elasticsearch:9200
+      - spring.profiles.active=
+      - spring.elasticsearch.rest.uris=
+      - spring.kafka.bootstrapServers=
+      - spring.redis.host=
+      - cloud.aws.credentials.useDefaultAwsCredentialsChain=
       - cloud.aws.credentials.accessKey=
       - cloud.aws.credentials.secretKey=
       - cloud.aws.region.static=
+      - cloud.aws.region.useDefaultAwsRegionChain=
+      - cloud.aws.stack.auto=
     networks:
       - postgres_network
       - redis_network
