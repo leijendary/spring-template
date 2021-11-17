@@ -10,10 +10,8 @@ import com.leijendary.spring.boot.template.config.properties.CorsProperties;
 import com.leijendary.spring.boot.template.security.AppAuthenticationEntryPoint;
 import com.leijendary.spring.boot.template.security.AudienceValidator;
 
-import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.OAuth2ResourceServerProperties;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -26,7 +24,6 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import lombok.RequiredArgsConstructor;
 
 @Configuration
-@ConditionalOnClass(AuthenticationManager.class)
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityAutoConfiguration extends WebSecurityConfigurerAdapter {

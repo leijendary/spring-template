@@ -8,7 +8,6 @@ import java.util.concurrent.CompletableFuture;
 import com.leijendary.spring.boot.template.config.properties.InfoProperties;
 import com.leijendary.spring.boot.template.data.AppPageable;
 
-import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.Pageable;
@@ -22,12 +21,10 @@ import springfox.documentation.service.ApiKey;
 import springfox.documentation.service.AuthorizationScope;
 import springfox.documentation.service.SecurityReference;
 import springfox.documentation.spi.service.contexts.SecurityContext;
-import springfox.documentation.spring.web.SpringfoxWebConfiguration;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @Configuration
-@ConditionalOnClass(SpringfoxWebConfiguration.class)
 @EnableSwagger2
 @RequiredArgsConstructor
 public class SwaggerAutoConfiguration {
