@@ -1,18 +1,20 @@
 package com.leijendary.spring.boot.template.specification;
 
-import com.leijendary.spring.boot.template.model.SampleTable;
-import lombok.Builder;
-import org.springframework.data.jpa.domain.Specification;
-import org.springframework.lang.NonNull;
+import static com.leijendary.spring.boot.template.specification.TranslationPredicate.query;
+import static com.leijendary.spring.boot.template.util.PredicateUtil.lowerLike;
+import static org.apache.commons.lang3.StringUtils.isBlank;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
-import static com.leijendary.spring.boot.core.specification.TranslationPredicate.query;
-import static com.leijendary.spring.boot.core.util.PredicateUtil.lowerLike;
-import static org.apache.commons.lang3.StringUtils.isBlank;
+import com.leijendary.spring.boot.template.model.SampleTable;
+
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.lang.NonNull;
+
+import lombok.Builder;
 
 @Builder
 public class SampleListSpecification implements Specification<SampleTable> {

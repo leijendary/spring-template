@@ -1,0 +1,9 @@
+package com.leijendary.spring.boot.template.config;
+
+import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.annotation.EnableAsync;
+
+@Configuration
+@EnableAsync
+public class AsyncAutoConfiguration {
+}

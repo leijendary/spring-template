@@ -1,7 +1,7 @@
 package com.leijendary.spring.boot.template.log;
 
-import com.leijendary.spring.boot.core.config.properties.AspectProperties;
-import lombok.extern.slf4j.Slf4j;
+import com.leijendary.spring.boot.template.config.properties.AspectProperties;
+
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -10,6 +10,8 @@ import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StopWatch;
+
+import lombok.extern.slf4j.Slf4j;
 
 @Component
 @ConditionalOnExpression("${aspect.logging.enabled:false}")

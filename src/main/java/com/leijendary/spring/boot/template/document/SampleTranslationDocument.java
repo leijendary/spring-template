@@ -1,11 +1,11 @@
 package com.leijendary.spring.boot.template.document;
 
-import com.leijendary.spring.boot.core.document.LocaleDocument;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import static org.springframework.data.elasticsearch.annotations.FieldType.Text;
+
 import org.springframework.data.elasticsearch.annotations.Field;
 
-import static org.springframework.data.elasticsearch.annotations.FieldType.Text;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper = true)

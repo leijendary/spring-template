@@ -2,8 +2,7 @@ package com.leijendary.spring.boot.template.flow;
 
 import java.util.UUID;
 
-import com.leijendary.spring.boot.core.data.request.QueryRequest;
-import com.leijendary.spring.boot.core.flow.AppFlow;
+import com.leijendary.spring.boot.template.data.request.QueryRequest;
 import com.leijendary.spring.boot.template.data.response.v1.SampleSearchResponseV1;
 import com.leijendary.spring.boot.template.mapper.SampleMapper;
 import com.leijendary.spring.boot.template.service.SampleSearchService;

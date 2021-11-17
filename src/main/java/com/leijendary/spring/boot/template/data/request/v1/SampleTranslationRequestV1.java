@@ -1,10 +1,11 @@
 package com.leijendary.spring.boot.template.data.request.v1;
 
-import com.leijendary.spring.boot.core.data.request.TranslationRequest;
+import javax.validation.constraints.NotBlank;
+
+import com.leijendary.spring.boot.template.data.request.TranslationRequest;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-
-import javax.validation.constraints.NotBlank;
 
 @Data
 @EqualsAndHashCode(callSuper = true)

@@ -1,7 +1,7 @@
 package com.leijendary.spring.boot.template.model.listener;
 
-import static com.leijendary.spring.boot.core.util.SpringContext.getBean;
-import static com.leijendary.spring.boot.core.util.TransactionUtil.afterCommit;
+import static com.leijendary.spring.boot.template.util.SpringContext.getBean;
+import static com.leijendary.spring.boot.template.util.TransactionUtil.afterCommit;
 
 import javax.persistence.PostPersist;
 import javax.persistence.PostRemove;

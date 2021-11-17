@@ -1,19 +1,21 @@
 package com.leijendary.spring.boot.template.model;
 
-import com.leijendary.spring.boot.core.model.LocalizedModel;
+import java.time.OffsetDateTime;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
+
 import com.leijendary.spring.boot.template.model.listener.SampleTableListener;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
-import java.time.OffsetDateTime;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper = true)

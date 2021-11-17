@@ -1,19 +1,20 @@
 package com.leijendary.spring.boot.template.document;
 
-import com.leijendary.spring.boot.core.document.LocalizedDocument;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import static org.springframework.data.elasticsearch.annotations.DateFormat.date_time;
+import static org.springframework.data.elasticsearch.annotations.FieldType.Text;
+
+import java.time.OffsetDateTime;
+import java.util.UUID;
+
+import javax.persistence.Id;
+
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 import org.springframework.data.elasticsearch.annotations.Setting;
 
-import javax.persistence.Id;
-import java.time.OffsetDateTime;
-import java.util.UUID;
-
-import static org.springframework.data.elasticsearch.annotations.DateFormat.date_time;
-import static org.springframework.data.elasticsearch.annotations.FieldType.Text;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper = true)

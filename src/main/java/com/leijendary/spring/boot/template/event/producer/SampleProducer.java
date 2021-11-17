@@ -1,16 +1,17 @@
 package com.leijendary.spring.boot.template.event.producer;
 
-import com.leijendary.spring.boot.core.event.producer.AppProducer;
-import com.leijendary.spring.boot.template.data.SampleData;
-import org.springframework.context.annotation.Bean;
-import org.springframework.messaging.Message;
-import org.springframework.stereotype.Component;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Sinks;
+import static reactor.core.publisher.Sinks.many;
 
 import java.util.function.Supplier;
 
-import static reactor.core.publisher.Sinks.many;
+import com.leijendary.spring.boot.template.data.SampleData;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.messaging.Message;
+import org.springframework.stereotype.Component;
+
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Sinks;
 
 @Component
 public class SampleProducer extends AppProducer<SampleData> {

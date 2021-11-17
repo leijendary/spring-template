@@ -3,10 +3,9 @@ package com.leijendary.spring.boot.template.service;
 import java.util.UUID;
 import java.util.stream.Stream;
 
-import com.leijendary.spring.boot.core.data.request.QueryRequest;
-import com.leijendary.spring.boot.core.exception.ResourceNotFoundException;
-import com.leijendary.spring.boot.core.service.AppService;
 import com.leijendary.spring.boot.template.data.SampleData;
+import com.leijendary.spring.boot.template.data.request.QueryRequest;
+import com.leijendary.spring.boot.template.exception.ResourceNotFoundException;
 import com.leijendary.spring.boot.template.mapper.SampleMapper;
 import com.leijendary.spring.boot.template.model.SampleTable;
 import com.leijendary.spring.boot.template.repository.SampleTableRepository;

@@ -1,10 +1,10 @@
 package com.leijendary.spring.boot.template.controller.v1;
 
-import static com.leijendary.spring.boot.core.controller.AppController.BASE_API_PATH;
-import static com.leijendary.spring.boot.core.util.RequestContext.getLanguage;
-import static com.leijendary.spring.boot.core.util.RequestContext.getLocale;
-import static com.leijendary.spring.boot.core.util.RequestContext.getTimeZone;
-import static com.leijendary.spring.boot.core.util.RequestContext.now;
+import static com.leijendary.spring.boot.template.controller.AppController.BASE_API_PATH;
+import static com.leijendary.spring.boot.template.util.RequestContext.getLanguage;
+import static com.leijendary.spring.boot.template.util.RequestContext.getLocale;
+import static com.leijendary.spring.boot.template.util.RequestContext.getTimeZone;
+import static com.leijendary.spring.boot.template.util.RequestContext.now;
 import static java.util.concurrent.CompletableFuture.completedFuture;
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.NO_CONTENT;
@@ -22,11 +22,11 @@ import java.util.concurrent.CompletableFuture;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
-import com.leijendary.spring.boot.core.controller.AppController;
-import com.leijendary.spring.boot.core.data.request.QueryRequest;
-import com.leijendary.spring.boot.core.data.response.DataResponse;
 import com.leijendary.spring.boot.template.client.SampleClient;
+import com.leijendary.spring.boot.template.controller.AppController;
+import com.leijendary.spring.boot.template.data.request.QueryRequest;
 import com.leijendary.spring.boot.template.data.request.v1.SampleRequestV1;
+import com.leijendary.spring.boot.template.data.response.DataResponse;
 import com.leijendary.spring.boot.template.data.response.v1.SampleResponseV1;
 import com.leijendary.spring.boot.template.flow.SampleFlow;
 

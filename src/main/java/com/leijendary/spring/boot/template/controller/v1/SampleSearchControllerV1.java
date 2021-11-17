@@ -1,22 +1,28 @@
 package com.leijendary.spring.boot.template.controller.v1;
 
-import com.leijendary.spring.boot.core.controller.AppController;
-import com.leijendary.spring.boot.core.data.request.QueryRequest;
-import com.leijendary.spring.boot.core.data.response.DataResponse;
-import com.leijendary.spring.boot.template.data.response.v1.SampleSearchResponseV1;
-import com.leijendary.spring.boot.template.flow.SampleSearchFlow;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Pageable;
-import org.springframework.web.bind.annotation.*;
+import static com.leijendary.spring.boot.template.controller.AppController.BASE_API_PATH;
+import static java.util.concurrent.CompletableFuture.completedFuture;
 
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
-import static com.leijendary.spring.boot.core.controller.AppController.BASE_API_PATH;
-import static java.util.concurrent.CompletableFuture.completedFuture;
+import com.leijendary.spring.boot.template.controller.AppController;
+import com.leijendary.spring.boot.template.data.request.QueryRequest;
+import com.leijendary.spring.boot.template.data.response.DataResponse;
+import com.leijendary.spring.boot.template.data.response.v1.SampleSearchResponseV1;
+import com.leijendary.spring.boot.template.flow.SampleSearchFlow;
+
+import org.springframework.data.domain.Pageable;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping(BASE_API_PATH + "/v1/samples/search")
