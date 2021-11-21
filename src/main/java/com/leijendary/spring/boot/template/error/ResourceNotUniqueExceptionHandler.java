@@ -3,7 +3,7 @@ package com.leijendary.spring.boot.template.error;
 import static com.leijendary.spring.boot.template.util.RequestContext.getLocale;
 import static org.springframework.http.HttpStatus.CONFLICT;
 
-import com.leijendary.spring.boot.template.data.response.ErrorResponse;
+import com.leijendary.spring.boot.template.data.ErrorResponse;
 import com.leijendary.spring.boot.template.exception.ResourceNotUniqueException;
 
 import org.springframework.context.MessageSource;

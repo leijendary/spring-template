@@ -20,7 +20,7 @@ import lombok.RequiredArgsConstructor;
 @Profile("aws")
 @Service
 @RequiredArgsConstructor
-public class BucketService extends AppService {
+public class BucketService {
 
     private final AmazonS3Client amazonS3Client;
 

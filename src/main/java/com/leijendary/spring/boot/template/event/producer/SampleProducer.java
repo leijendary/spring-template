@@ -4,7 +4,7 @@ import static reactor.core.publisher.Sinks.many;
 
 import java.util.function.Supplier;
 
-import com.leijendary.spring.boot.template.data.SampleData;
+import com.leijendary.spring.boot.template.api.v1.data.SampleEvent;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.messaging.Message;
@@ -14,41 +14,41 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Sinks;
 
 @Component
-public class SampleProducer extends AppProducer<SampleData> {
+public class SampleProducer extends AppProducer<SampleEvent> {
 
-    private final Sinks.Many<Message<SampleData>> createBuffer = many().multicast().onBackpressureBuffer();
-    private final Sinks.Many<Message<SampleData>> updateBuffer = many().multicast().onBackpressureBuffer();
-    private final Sinks.Many<Message<SampleData>> deleteBuffer = many().multicast().onBackpressureBuffer();
+    private final Sinks.Many<Message<SampleEvent>> createBuffer = many().multicast().onBackpressureBuffer();
+    private final Sinks.Many<Message<SampleEvent>> updateBuffer = many().multicast().onBackpressureBuffer();
+    private final Sinks.Many<Message<SampleEvent>> deleteBuffer = many().multicast().onBackpressureBuffer();
 
     @Bean
-    public Supplier<Flux<Message<SampleData>>> sampleCreate() {
+    public Supplier<Flux<Message<SampleEvent>>> sampleCreate() {
         return createBuffer::asFlux;
     }
 
     @Bean
-    public Supplier<Flux<Message<SampleData>>> sampleUpdate() {
+    public Supplier<Flux<Message<SampleEvent>>> sampleUpdate() {
         return updateBuffer::asFlux;
     }
 
     @Bean
-    public Supplier<Flux<Message<SampleData>>> sampleDelete() {
+    public Supplier<Flux<Message<SampleEvent>>> sampleDelete() {
         return deleteBuffer::asFlux;
     }
 
-    public void create(final SampleData sampleData) {
-        final var message = message(sampleData);
+    public void create(final SampleEvent sampleEvent) {
+        final var message = message(sampleEvent);
 
         createBuffer.emitNext(message, failureHandler());
     }
 
-    public void update(final SampleData sampleData) {
-        final var message = message(sampleData);
+    public void update(final SampleEvent sampleEvent) {
+        final var message = message(sampleEvent);
 
         updateBuffer.emitNext(message, failureHandler());
     }
 
-    public void delete(final SampleData sampleData) {
-        final var message = message(sampleData);
+    public void delete(final SampleEvent sampleEvent) {
+        final var message = message(sampleEvent);
 
         deleteBuffer.emitNext(message, failureHandler());
     }

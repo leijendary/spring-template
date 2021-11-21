@@ -43,10 +43,17 @@
 # Spring Microservice Template
 
 ### To run the code:
+
 `mvnw spring-boot:run`
 
 ### To run tests:
+
 `mvnw test`
 
 ### To build a JAR file:
+
 `mvnw clean package -DskipTests`
+
+### To generate a certificate:
+
+`keytool -genkeypair -alias spring-boot -keyalg RSA -keysize 2048 -validity 3650 -keypass spring-boot -storetype PKCS12 -keystore keystore.p12`

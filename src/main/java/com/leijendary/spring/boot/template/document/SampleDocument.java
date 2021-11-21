@@ -33,5 +33,5 @@ public class SampleDocument extends LocalizedDocument<SampleTranslationDocument>
     private int column2;
 
     @Field(type = FieldType.Date, format = date_time)
-    private OffsetDateTime createdDate;
+    private OffsetDateTime createdAt;
 }

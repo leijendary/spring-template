@@ -6,7 +6,7 @@ import static org.apache.commons.lang3.StringUtils.substringBetween;
 import static org.springframework.http.HttpStatus.CONFLICT;
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 
-import com.leijendary.spring.boot.template.data.response.ErrorResponse;
+import com.leijendary.spring.boot.template.data.ErrorResponse;
 
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.context.MessageSource;

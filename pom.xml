@@ -200,6 +200,9 @@
                         <delimiter>@[*]</delimiter>
                     </delimiters>
                     <useDefaultDelimiters>false</useDefaultDelimiters>
+                    <exclusions>
+                        <exclusion>ssl/*</exclusion>
+                    </exclusions>
                 </configuration>
             </plugin>
             <plugin>
@@ -247,13 +250,6 @@
                 </configuration>
             </plugin>
         </plugins>
-
-        <resources>
-            <resource>
-                <directory>src/main/resources</directory>
-                <filtering>true</filtering>
-            </resource>
-        </resources>
     </build>
 
 </project>

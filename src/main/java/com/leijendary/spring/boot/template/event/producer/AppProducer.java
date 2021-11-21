@@ -1,5 +1,6 @@
 package com.leijendary.spring.boot.template.event.producer;
 
+import static com.leijendary.spring.boot.template.util.JsonUtil.toJson;
 import static org.springframework.kafka.support.KafkaHeaders.MESSAGE_KEY;
 import static org.springframework.messaging.support.MessageBuilder.withPayload;
 
@@ -16,7 +17,7 @@ import reactor.core.publisher.Sinks;
 public abstract class AppProducer<V> {
 
     public Message<V> messageWithKey(final String key, final V value) {
-        log.info("Sending Key: {} with Message: {}", key, value);
+        log.info("Sending Key: {} with Message: {}", key, toJson(value));
 
         return withPayload(value)
                 .setHeader(MESSAGE_KEY, key)
@@ -24,7 +25,7 @@ public abstract class AppProducer<V> {
     }
 
     public Message<V> message(final V value) {
-        log.info("Sending Message: {}", value);
+        log.info("Sending Message: {}", toJson(value));
 
         return withPayload(value).build();
     }

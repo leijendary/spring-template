@@ -3,6 +3,9 @@ package com.leijendary.spring.boot.template.util;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public class JsonUtil {
 
     private static final ObjectMapper MAPPER = SpringContext.getBean(ObjectMapper.class);
@@ -15,7 +18,13 @@ public class JsonUtil {
         return MAPPER.convertValue(object, type);
     }
 
-    public static String toJson(final Object object) throws JsonProcessingException {
-        return MAPPER.writeValueAsString(object);
+    public static String toJson(final Object object) {
+        try {
+            return MAPPER.writeValueAsString(object);
+        } catch (final JsonProcessingException e) {
+            log.warn("Failed to parse object to json", e);
+        }
+
+        return null;
     }
 }

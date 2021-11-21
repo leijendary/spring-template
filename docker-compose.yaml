@@ -4,7 +4,7 @@ services:
     build: .
     container_name: microservice-template
     ports:
-      - '8080:8080'
+      - '443:443'
     environment:
       - spring.datasource.url=
       - spring.datasource.username=

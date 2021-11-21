@@ -5,7 +5,7 @@ import static java.util.Optional.ofNullable;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.util.ClassUtils.getDescriptiveType;
 
-import com.leijendary.spring.boot.template.data.response.ErrorResponse;
+import com.leijendary.spring.boot.template.data.ErrorResponse;
 
 import org.springframework.context.MessageSource;
 import org.springframework.core.annotation.Order;

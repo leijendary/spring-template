@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.leijendary.spring.boot.template.config.properties.AuthProperties;
-import com.leijendary.spring.boot.template.data.response.ErrorResponse;
+import com.leijendary.spring.boot.template.data.ErrorResponse;
 
 import org.springframework.context.MessageSource;
 import org.springframework.security.core.AuthenticationException;

@@ -1,1 +1,0 @@
-package com.leijendary.spring.boot.template.event;

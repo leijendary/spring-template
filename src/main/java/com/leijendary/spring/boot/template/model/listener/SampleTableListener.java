@@ -7,8 +7,8 @@ import javax.persistence.PostPersist;
 import javax.persistence.PostRemove;
 import javax.persistence.PostUpdate;
 
+import com.leijendary.spring.boot.template.api.v1.mapper.SampleMapper;
 import com.leijendary.spring.boot.template.event.producer.SampleProducer;
-import com.leijendary.spring.boot.template.mapper.SampleMapper;
 import com.leijendary.spring.boot.template.model.SampleTable;
 
 import org.springframework.stereotype.Component;
@@ -22,9 +22,9 @@ public class SampleTableListener {
     public void onSave(final SampleTable sampleTable) {
         afterCommit(() -> {
             final var sampleProducer = getBean(SampleProducer.class);
-            final var sampleData = MAPPER.toData(sampleTable);
+            final var sampleEvent = MAPPER.toEvent(sampleTable);
 
-            sampleProducer.create(sampleData);
+            sampleProducer.create(sampleEvent);
         });
     }
 
@@ -32,9 +32,9 @@ public class SampleTableListener {
     public void onUpdate(final SampleTable sampleTable) {
         afterCommit(() -> {
             final var sampleProducer = getBean(SampleProducer.class);
-            final var sampleData = MAPPER.toData(sampleTable);
+            final var sampleEvent = MAPPER.toEvent(sampleTable);
 
-            sampleProducer.update(sampleData);
+            sampleProducer.update(sampleEvent);
         });
     }
 
@@ -42,9 +42,9 @@ public class SampleTableListener {
     public void onDelete(final SampleTable sampleTable) {
         afterCommit(() -> {
             final var sampleProducer = getBean(SampleProducer.class);
-            final var sampleData = MAPPER.toData(sampleTable);
+            final var sampleEvent = MAPPER.toEvent(sampleTable);
 
-            sampleProducer.delete(sampleData);
+            sampleProducer.delete(sampleEvent);
         });
     }
 }

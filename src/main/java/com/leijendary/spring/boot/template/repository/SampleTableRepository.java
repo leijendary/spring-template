@@ -2,6 +2,7 @@ package com.leijendary.spring.boot.template.repository;
 
 import static org.hibernate.jpa.QueryHints.HINT_FETCH_SIZE;
 
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Stream;
 
@@ -15,6 +16,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.jpa.repository.QueryHints;
 
 public interface SampleTableRepository extends JpaRepository<SampleTable, UUID>, JpaSpecificationExecutor<SampleTable> {
+
+    Optional<SampleTable> findByIdAndDeletedAtIsNull(final UUID id);
 
     boolean existsByColumn1IgnoreCaseAndIdNot(final String column1, final UUID id);
 

@@ -1,11 +1,11 @@
 info:
   app:
     organization: leijendary
-    groupId: "@[project.groupId]"
-    artifactId: "@[project.artifactId]"
-    name: "@[project.name]"
-    description: "@[project.description]"
-    version: "@[project.version]"
+    groupId: '@[project.groupId]'
+    artifactId: '@[project.artifactId]'
+    name: '@[project.name]'
+    description: '@[project.description]'
+    version: '@[project.version]'
   api:
     termsOfServiceUrl:
     contact:
@@ -155,8 +155,15 @@ server:
       enabled: false
   http2:
     enabled: true
+  port: 443
   servlet:
     contextPath: /sample
+  ssl:
+    enabled: true
+    key-alias: spring-boot
+    key-store-type: PKCS12
+    key-store: classpath:ssl/keystore.p12
+    key-store-password: spring-boot
   tomcat:
     relaxedQueryChars: '[,]'
     threads:

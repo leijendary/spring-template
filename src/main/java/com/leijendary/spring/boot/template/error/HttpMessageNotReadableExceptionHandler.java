@@ -10,7 +10,7 @@ import java.util.List;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonMappingException.Reference;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
-import com.leijendary.spring.boot.template.data.response.ErrorResponse;
+import com.leijendary.spring.boot.template.data.ErrorResponse;
 
 import org.springframework.context.MessageSource;
 import org.springframework.core.annotation.Order;
