@@ -106,7 +106,7 @@ spring:
         sampleDelete-out-0:
           destination: ${info.app.organization}.sample.delete
       function:
-        definition: sampleCreated;sampleUpdated;sampleDeleted;sampleCreate;sampleUpdate;sampleDelete
+        definition: sampleCreated;sampleUpdated;sampleDeleted
       kafka:
         binder:
           autoAddPartitions: true

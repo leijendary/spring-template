@@ -4,17 +4,19 @@ import static com.leijendary.spring.boot.template.util.JsonUtil.toJson;
 import static org.springframework.kafka.support.KafkaHeaders.MESSAGE_KEY;
 import static org.springframework.messaging.support.MessageBuilder.withPayload;
 
+import org.springframework.cloud.stream.function.StreamBridge;
 import org.springframework.messaging.Message;
 import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import reactor.core.publisher.Sinks;
 
 @Component
 @RequiredArgsConstructor
 @Slf4j
 public abstract class AppProducer<V> {
+
+    protected final StreamBridge streamBridge;
 
     public Message<V> messageWithKey(final String key, final V value) {
         log.info("Sending Key: {} with Message: {}", key, toJson(value));
@@ -28,17 +30,5 @@ public abstract class AppProducer<V> {
         log.info("Sending Message: {}", toJson(value));
 
         return withPayload(value).build();
-    }
-
-    public Sinks.EmitFailureHandler failureHandler() {
-        return (signalType, emitResult) -> {
-            final var isFailure = emitResult.isFailure();
-
-            if (isFailure) {
-                log.warn("Sink emission failure signal type {} and result {}. Retrying...", signalType, emitResult);
-            }
-
-            return isFailure;
-        };
     }
 }
