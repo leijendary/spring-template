@@ -87,8 +87,12 @@ public class SampleController {
     public CompletableFuture<DataResponse<List<SampleResponse>>> list(final QueryRequest queryRequest,
             final Pageable pageable) {
         final var page = sampleTableService.list(queryRequest, pageable);
-        final var response = DataResponse.<List<SampleResponse>>builder().data(page.getContent()).meta(page)
-                .links(page).object(SampleResponse.class).build();
+        final var response = DataResponse.<List<SampleResponse>>builder()
+                .data(page.getContent())
+                .meta(page)
+                .links(page)
+                .object(SampleResponse.class)
+                .build();
 
         return completedFuture(response);
     }
@@ -100,8 +104,11 @@ public class SampleController {
     public CompletableFuture<DataResponse<SampleResponse>> create(@Valid @RequestBody final SampleRequest request,
             final HttpServletResponse httpServletResponse) {
         final var sampleResponse = sampleTableService.create(request);
-        final var response = DataResponse.<SampleResponse>builder().data(sampleResponse).status(CREATED)
-                .object(SampleResponse.class).build();
+        final var response = DataResponse.<SampleResponse>builder()
+                .data(sampleResponse)
+                .status(CREATED)
+                .object(SampleResponse.class)
+                .build();
 
         locationHeader(httpServletResponse, sampleResponse.getId());
 
@@ -113,8 +120,10 @@ public class SampleController {
     @ApiOperation("Retrieves the sample record from the database")
     public CompletableFuture<DataResponse<SampleResponse>> get(@PathVariable final UUID id) {
         final var sampleResponse = sampleTableService.get(id);
-        final var response = DataResponse.<SampleResponse>builder().data(sampleResponse)
-                .object(SampleResponse.class).build();
+        final var response = DataResponse.<SampleResponse>builder()
+                .data(sampleResponse)
+                .object(SampleResponse.class)
+                .build();
 
         return completedFuture(response);
     }
@@ -125,8 +134,10 @@ public class SampleController {
     public CompletableFuture<DataResponse<SampleResponse>> update(@PathVariable final UUID id,
             @Valid @RequestBody final SampleRequest request) {
         final var sampleResponse = sampleTableService.update(id, request);
-        final var response = DataResponse.<SampleResponse>builder().data(sampleResponse)
-                .object(SampleResponse.class).build();
+        final var response = DataResponse.<SampleResponse>builder()
+                .data(sampleResponse)
+                .object(SampleResponse.class)
+                .build();
 
         return completedFuture(response);
     }

@@ -54,6 +54,7 @@ spring:
         cachePrepStmts: true
         rewriteBatchedStatements: true
         useServerPrepStmts: true
+      maximumPoolSize: 20
   data:
     web:
       pageable:
@@ -160,10 +161,10 @@ server:
     contextPath: /sample
   ssl:
     enabled: true
-    key-alias: spring-boot
-    key-store-type: PKCS12
-    key-store: classpath:ssl/keystore.p12
-    key-store-password: spring-boot
+    keyAlias: spring-boot
+    keyStoreType: PKCS12
+    keyStore: classpath:ssl/keystore.p12
+    keyStorePassword: spring-boot
   tomcat:
     relaxedQueryChars: '[,]'
     threads:

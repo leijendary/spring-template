@@ -1,8 +1,8 @@
 version: '3.9'
 services:
-  microservice-template:
+  spring-template:
     build: .
-    container_name: microservice-template
+    container_name: spring-template
     ports:
       - '443:443'
     environment:
