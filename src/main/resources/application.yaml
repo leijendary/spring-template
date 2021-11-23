@@ -38,6 +38,10 @@ cors:
     - trace
   exposedHeaders: '*'
 
+encrypt:
+  key:
+  salt:
+
 spring:
   application:
     name: ${info.app.name}
