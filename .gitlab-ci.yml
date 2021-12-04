@@ -5,6 +5,7 @@ variables:
   MAVEN_REPOSITORY_DIR: $CI_PROJECT_DIR/.m2/repository
   MAVEN_OPTS: -Dmaven.repo.local=$MAVEN_REPOSITORY_DIR -Djava.awt.headless=true
   REPOSITORY_URL: $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$REPOSITORY_NAME
+  DOCKER_BUILDKIT: 1
 
 services:
   - docker:20-dind
@@ -42,7 +43,7 @@ cache: &global_cache
   script:
     - echo "Building docker image..."
     - docker pull $REPOSITORY_URL:latest || true
-    - DOCKER_BUILDKIT=1 docker build --cache-from $REPOSITORY_URL:latest -t $REPOSITORY_URL:latest .
+    - DOCKER_BUILDKIT=1 docker build --cache-from $REPOSITORY_URL:latest -t $REPOSITORY_URL:latest --build-arg BUILDKIT_INLINE_CACHE=1 .
     - echo "Done building docker image."
     - echo "Pushing images..."
     - docker tag $REPOSITORY_URL:latest $REPOSITORY_URL:$CI_ENVIRONMENT_NAME

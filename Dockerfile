@@ -1,4 +1,3 @@
-# syntax=docker/dockerfile:experimental
 FROM maven:3-openjdk-11-slim as build
 WORKDIR /workspace/app
 COPY pom.xml .
