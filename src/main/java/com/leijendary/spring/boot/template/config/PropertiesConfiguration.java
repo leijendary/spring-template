@@ -1,6 +1,5 @@
 package com.leijendary.spring.boot.template.config;
 
-import com.leijendary.spring.boot.template.config.properties.AspectProperties;
 import com.leijendary.spring.boot.template.config.properties.AuthProperties;
 import com.leijendary.spring.boot.template.config.properties.CorsProperties;
 import com.leijendary.spring.boot.template.config.properties.InfoProperties;
@@ -10,7 +9,6 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @EnableConfigurationProperties({
-        AspectProperties.class,
         AuthProperties.class,
         CorsProperties.class,
         InfoProperties.class
