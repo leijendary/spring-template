@@ -5,20 +5,7 @@ services:
     container_name: spring-template
     ports:
       - '443:443'
-    environment:
-      - spring.datasource.url=
-      - spring.datasource.username=
-      - spring.datasource.password=
-      - spring.profiles.active=
-      - spring.elasticsearch.rest.uris=
-      - spring.kafka.bootstrapServers=
-      - spring.redis.host=
-      - cloud.aws.credentials.useDefaultAwsCredentialsChain=
-      - cloud.aws.credentials.accessKey=
-      - cloud.aws.credentials.secretKey=
-      - cloud.aws.region.static=
-      - cloud.aws.region.useDefaultAwsRegionChain=
-      - cloud.aws.stack.auto=
+    env_file: .docker.env
     networks:
       - postgres_network
       - redis_network
