@@ -22,22 +22,6 @@ auth:
   anonymousUser:
     principal: Anonymous User
 
-cors:
-  allowCredentials: true
-  allowedOrigins:
-  allowedOriginPatterns: '*'
-  allowedHeaders: '*'
-  allowedMethods:
-    - get
-    - post
-    - put
-    - patch
-    - delete
-    - options
-    - head
-    - trace
-  exposedHeaders: '*'
-
 encrypt:
   key:
   salt:
@@ -153,8 +137,7 @@ spring:
 
 server:
   compression:
-    enabled: true
-    mimeTypes: application/json
+    enabled: false
   error:
     whitelabel:
       enabled: false

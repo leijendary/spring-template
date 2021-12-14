@@ -11,9 +11,6 @@ import com.leijendary.spring.boot.template.exception.ResourceNotFoundException;
 import com.leijendary.spring.boot.template.repository.SampleTableRepository;
 import com.leijendary.spring.boot.template.specification.SampleListSpecification;
 
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -25,7 +22,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class SampleTableService {
 
-    private static final String CACHE = "SampleTable";
     private static final String RESOURCE_NAME = "Sample Table";
     private static final SampleMapper MAPPER = SampleMapper.INSTANCE;
 
@@ -42,7 +38,6 @@ public class SampleTableService {
                 .map(MAPPER::toResponse);
     }
 
-    @CachePut(value = CACHE, key = "#result.id")
     @Transactional
     public SampleResponse create(final SampleRequest sampleRequest) {
         final var sampleTable = MAPPER.toEntity(sampleRequest);
@@ -55,14 +50,12 @@ public class SampleTableService {
         return MAPPER.toResponse(sampleTable);
     }
 
-    @Cacheable(value = CACHE, key = "#id")
     public SampleResponse get(final UUID id) {
         return sampleTableRepository.findByIdAndDeletedAtIsNull(id)
                 .map(MAPPER::toResponse)
                 .orElseThrow(() -> new ResourceNotFoundException(RESOURCE_NAME, id));
     }
 
-    @CachePut(value = CACHE, key = "#result.id")
     @Transactional
     public SampleResponse update(final UUID id, final SampleRequest sampleRequest) {
         final var sampleTable = sampleTableRepository.findByIdAndDeletedAtIsNull(id)
@@ -78,7 +71,6 @@ public class SampleTableService {
         return MAPPER.toResponse(sampleTable);
     }
 
-    @CacheEvict(value = CACHE, key = "#id")
     @Transactional
     public void delete(final UUID id) {
         final var sampleTable = sampleTableRepository.findByIdAndDeletedAtIsNull(id)

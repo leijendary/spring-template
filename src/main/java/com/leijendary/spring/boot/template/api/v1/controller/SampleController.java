@@ -5,7 +5,6 @@ import static com.leijendary.spring.boot.template.util.RequestContext.getLanguag
 import static com.leijendary.spring.boot.template.util.RequestContext.getLocale;
 import static com.leijendary.spring.boot.template.util.RequestContext.getTimeZone;
 import static com.leijendary.spring.boot.template.util.RequestContext.now;
-import static java.util.concurrent.CompletableFuture.completedFuture;
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.NO_CONTENT;
 import static org.springframework.http.MediaType.TEXT_HTML_VALUE;
@@ -17,7 +16,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-import java.util.concurrent.CompletableFuture;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -29,6 +27,9 @@ import com.leijendary.spring.boot.template.client.SampleClient;
 import com.leijendary.spring.boot.template.data.DataResponse;
 import com.leijendary.spring.boot.template.data.QueryRequest;
 
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -70,6 +71,8 @@ import lombok.RequiredArgsConstructor;
 @Api("This is just a sample controller with a swagger documentation")
 public class SampleController {
 
+    private static final String CACHE = "sample:v1";
+
     private final SampleClient sampleClient;
     private final SampleTableService sampleTableService;
 
@@ -84,24 +87,23 @@ public class SampleController {
     @GetMapping
     @PreAuthorize("hasAuthority('SCOPE_urn:sample:list:v1')")
     @ApiOperation("Sample implementation of swagger in a api")
-    public CompletableFuture<DataResponse<List<SampleResponse>>> list(final QueryRequest queryRequest,
-            final Pageable pageable) {
+    public DataResponse<List<SampleResponse>> list(final QueryRequest queryRequest, final Pageable pageable) {
         final var page = sampleTableService.list(queryRequest, pageable);
-        final var response = DataResponse.<List<SampleResponse>>builder()
+
+        return DataResponse.<List<SampleResponse>>builder()
                 .data(page.getContent())
                 .meta(page)
                 .links(page)
                 .object(SampleResponse.class)
                 .build();
-
-        return completedFuture(response);
     }
 
     @PostMapping
     @PreAuthorize("hasAuthority('SCOPE_urn:sample:create:v1')")
+    @CachePut(value = CACHE, key = "#result.data.id")
     @ResponseStatus(CREATED)
     @ApiOperation("Saves a sample record into the database")
-    public CompletableFuture<DataResponse<SampleResponse>> create(@Valid @RequestBody final SampleRequest request,
+    public DataResponse<SampleResponse> create(@Valid @RequestBody final SampleRequest request,
             final HttpServletResponse httpServletResponse) {
         final var sampleResponse = sampleTableService.create(request);
         final var response = DataResponse.<SampleResponse>builder()
@@ -112,44 +114,43 @@ public class SampleController {
 
         locationHeader(httpServletResponse, sampleResponse.getId());
 
-        return completedFuture(response);
+        return response;
     }
 
     @GetMapping("{id}")
     @PreAuthorize("hasAuthority('SCOPE_urn:sample:get:v1')")
+    @Cacheable(value = CACHE, key = "#id")
     @ApiOperation("Retrieves the sample record from the database")
-    public CompletableFuture<DataResponse<SampleResponse>> get(@PathVariable final UUID id) {
+    public DataResponse<SampleResponse> get(@PathVariable final UUID id) {
         final var sampleResponse = sampleTableService.get(id);
-        final var response = DataResponse.<SampleResponse>builder()
+
+        return DataResponse.<SampleResponse>builder()
                 .data(sampleResponse)
                 .object(SampleResponse.class)
                 .build();
-
-        return completedFuture(response);
     }
 
     @PutMapping("{id}")
     @PreAuthorize("hasAuthority('SCOPE_urn:sample:update:v1')")
+    @CachePut(value = CACHE, key = "#result.data.id")
     @ApiOperation("Updates the sample record into the database")
-    public CompletableFuture<DataResponse<SampleResponse>> update(@PathVariable final UUID id,
+    public DataResponse<SampleResponse> update(@PathVariable final UUID id,
             @Valid @RequestBody final SampleRequest request) {
         final var sampleResponse = sampleTableService.update(id, request);
-        final var response = DataResponse.<SampleResponse>builder()
+
+        return DataResponse.<SampleResponse>builder()
                 .data(sampleResponse)
                 .object(SampleResponse.class)
                 .build();
-
-        return completedFuture(response);
     }
 
     @DeleteMapping("{id}")
     @PreAuthorize("hasAuthority('SCOPE_urn:sample:delete:v1')")
+    @CacheEvict(value = CACHE, key = "#id")
     @ResponseStatus(NO_CONTENT)
     @ApiOperation("Removes the sample record from the database")
-    public CompletableFuture<Void> delete(@PathVariable final UUID id) {
+    public void delete(@PathVariable final UUID id) {
         sampleTableService.delete(id);
-
-        return completedFuture(null);
     }
 
     @GetMapping(value = "client", produces = TEXT_HTML_VALUE)

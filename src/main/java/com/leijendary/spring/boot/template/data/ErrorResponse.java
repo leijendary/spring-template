@@ -4,6 +4,7 @@ import static com.leijendary.spring.boot.template.util.RequestContext.now;
 import static com.leijendary.spring.boot.template.util.RequestContext.uri;
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 
+import java.io.Serializable;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,7 +20,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ErrorResponse {
+public class ErrorResponse implements Serializable {
 
     private List<ErrorData> errors;
     private Map<String, Object> meta;

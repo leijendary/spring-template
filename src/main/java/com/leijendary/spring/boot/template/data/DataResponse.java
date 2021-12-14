@@ -5,6 +5,7 @@ import static com.leijendary.spring.boot.template.util.RequestContext.uri;
 import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.web.util.UriComponentsBuilder.fromUri;
 
+import java.io.Serializable;
 import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
@@ -20,7 +21,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class DataResponse<T> {
+public class DataResponse<T> implements Serializable {
 
     private T data;
     private Map<String, Object> meta;
