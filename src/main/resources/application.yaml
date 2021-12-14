@@ -136,8 +136,6 @@ spring:
           jwkSetUri: https://leijendary.us.auth0.com/.well-known/jwks.json
 
 server:
-  compression:
-    enabled: false
   error:
     whitelabel:
       enabled: false
