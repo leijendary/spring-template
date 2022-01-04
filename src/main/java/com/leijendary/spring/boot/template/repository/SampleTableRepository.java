@@ -15,9 +15,8 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.jpa.repository.QueryHints;
 
-public interface SampleTableRepository extends JpaRepository<SampleTable, UUID>, JpaSpecificationExecutor<SampleTable> {
-
-    Optional<SampleTable> findByIdAndDeletedAtIsNull(final UUID id);
+public interface SampleTableRepository extends JpaRepository<SampleTable, UUID>, JpaSpecificationExecutor<SampleTable>,
+        SoftDeleteRepository<SampleTable> {
 
     boolean existsByColumn1IgnoreCaseAndIdNot(final String column1, final UUID id);
 

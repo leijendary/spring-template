@@ -18,23 +18,10 @@ public class SampleTableListener {
 
     private static final SampleMapper MAPPER = SampleMapper.INSTANCE;
 
-    @PostPersist
-    public void onSave(final SampleTable sampleTable) {
-        afterCommit(() -> {
-            final var sampleProducer = getBean(SampleProducer.class);
-            final var sampleEvent = MAPPER.toEvent(sampleTable);
-
-            sampleProducer.create(sampleEvent);
-        });
-    }
-
     @PostUpdate
     public void onUpdate(final SampleTable sampleTable) {
         afterCommit(() -> {
             final var sampleProducer = getBean(SampleProducer.class);
-            final var sampleEvent = MAPPER.toEvent(sampleTable);
-
-            sampleProducer.update(sampleEvent);
         });
     }
 
@@ -42,9 +29,6 @@ public class SampleTableListener {
     public void onDelete(final SampleTable sampleTable) {
         afterCommit(() -> {
             final var sampleProducer = getBean(SampleProducer.class);
-            final var sampleEvent = MAPPER.toEvent(sampleTable);
-
-            sampleProducer.delete(sampleEvent);
         });
     }
 }

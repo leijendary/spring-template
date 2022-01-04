@@ -7,6 +7,7 @@ import com.leijendary.spring.boot.template.api.v1.data.SampleResponse;
 import com.leijendary.spring.boot.template.api.v1.mapper.SampleMapper;
 import com.leijendary.spring.boot.template.api.v1.search.SampleSearch;
 import com.leijendary.spring.boot.template.data.QueryRequest;
+import com.leijendary.spring.boot.template.event.producer.SampleProducer;
 import com.leijendary.spring.boot.template.exception.ResourceNotFoundException;
 import com.leijendary.spring.boot.template.repository.SampleTableRepository;
 import com.leijendary.spring.boot.template.specification.SampleListSpecification;
@@ -25,6 +26,7 @@ public class SampleTableService {
     private static final String RESOURCE_NAME = "Sample Table";
     private static final SampleMapper MAPPER = SampleMapper.INSTANCE;
 
+    private final SampleProducer sampleProducer;
     private final SampleSearch sampleSearch;
     private final SampleTableRepository sampleTableRepository;
 
@@ -47,18 +49,24 @@ public class SampleTableService {
         // Save the object to elasticsearch
         sampleSearch.save(sampleTable);
 
+        // Create an event object
+        final var sampleEvent = MAPPER.toEvent(sampleTable);
+
+        // Send the event object to kafka
+        sampleProducer.create(sampleEvent);
+
         return MAPPER.toResponse(sampleTable);
     }
 
     public SampleResponse get(final UUID id) {
-        return sampleTableRepository.findByIdAndDeletedAtIsNull(id)
+        return sampleTableRepository.findById(id)
                 .map(MAPPER::toResponse)
                 .orElseThrow(() -> new ResourceNotFoundException(RESOURCE_NAME, id));
     }
 
     @Transactional
     public SampleResponse update(final UUID id, final SampleRequest sampleRequest) {
-        final var sampleTable = sampleTableRepository.findByIdAndDeletedAtIsNull(id)
+        final var sampleTable = sampleTableRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(RESOURCE_NAME, id));
 
         MAPPER.update(sampleRequest, sampleTable);
@@ -68,18 +76,30 @@ public class SampleTableService {
         // Update the object from elasticsearch
         sampleSearch.update(sampleTable);
 
+        // Create an event object
+        final var sampleEvent = MAPPER.toEvent(sampleTable);
+
+        // Send the event object to kafka
+        sampleProducer.update(sampleEvent);
+
         return MAPPER.toResponse(sampleTable);
     }
 
     @Transactional
     public void delete(final UUID id) {
-        final var sampleTable = sampleTableRepository.findByIdAndDeletedAtIsNull(id)
+        final var sampleTable = sampleTableRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(RESOURCE_NAME, id));
 
-        sampleTableRepository.delete(sampleTable);
+        sampleTableRepository.softDelete(sampleTable);
 
         // Delete the object from elasticsearch
         sampleSearch.delete(id);
+
+        // Create an event object
+        final var sampleEvent = MAPPER.toEvent(sampleTable);
+
+        // Send the event object to kafka
+        sampleProducer.delete(sampleEvent);
     }
 
     @Transactional

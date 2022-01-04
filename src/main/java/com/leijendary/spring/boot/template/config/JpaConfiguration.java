@@ -1,6 +1,6 @@
 package com.leijendary.spring.boot.template.config;
 
-import static java.time.OffsetDateTime.now;
+import static com.leijendary.spring.boot.template.util.RequestContext.now;
 import static java.util.Optional.of;
 
 import org.springframework.context.annotation.Bean;

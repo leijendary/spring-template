@@ -18,6 +18,8 @@ import org.springframework.web.servlet.support.RequestContextUtils;
 
 public class RequestContext {
 
+    public static final String USERNAME_SYSTEM = "System";
+
     @Nullable
     public static HttpServletRequest getCurrentRequest() {
         final var attributes = getRequestAttributes();

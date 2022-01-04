@@ -6,8 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 
-import com.leijendary.spring.boot.template.model.listener.SampleTableListener;
-
+import org.hibernate.annotations.Where;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
@@ -20,8 +19,10 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Entity
-@EntityListeners({ AuditingEntityListener.class, SampleTableListener.class })
-public class SampleTable extends LocalizedModel<SampleTableTranslations> {
+@EntityListeners(AuditingEntityListener.class)
+@Where(clause = "deleted_at is null")
+public class SampleTable extends LocalizedModel<SampleTableTranslations>
+        implements SoftDeleteModel {
 
     @Column(name = "column_1")
     private String column1;
