@@ -23,6 +23,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class SampleTableService {
 
+    public static final String CACHE_KEY = "sample:v1";
+
     private static final String RESOURCE_NAME = "Sample Table";
     private static final SampleMapper MAPPER = SampleMapper.INSTANCE;
 

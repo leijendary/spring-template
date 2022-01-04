@@ -1,5 +1,6 @@
 package com.leijendary.spring.boot.template.api.v1.controller;
 
+import static com.leijendary.spring.boot.template.api.v1.service.SampleTableService.CACHE_KEY;
 import static com.leijendary.spring.boot.template.util.LocationUtil.locationHeader;
 import static com.leijendary.spring.boot.template.util.RequestContext.getLanguage;
 import static com.leijendary.spring.boot.template.util.RequestContext.getLocale;
@@ -71,8 +72,6 @@ import lombok.RequiredArgsConstructor;
 @Api("This is just a sample controller with a swagger documentation")
 public class SampleController {
 
-    private static final String CACHE = "sample:v1";
-
     private final SampleClient sampleClient;
     private final SampleTableService sampleTableService;
 
@@ -100,7 +99,7 @@ public class SampleController {
 
     @PostMapping
     @PreAuthorize("hasAuthority('SCOPE_urn:sample:create:v1')")
-    @CachePut(value = CACHE, key = "#result.data.id")
+    @CachePut(value = CACHE_KEY, key = "#result.data.id")
     @ResponseStatus(CREATED)
     @ApiOperation("Saves a sample record into the database")
     public DataResponse<SampleResponse> create(@Valid @RequestBody final SampleRequest request,
@@ -119,7 +118,7 @@ public class SampleController {
 
     @GetMapping("{id}")
     @PreAuthorize("hasAuthority('SCOPE_urn:sample:get:v1')")
-    @Cacheable(value = CACHE, key = "#id")
+    @Cacheable(value = CACHE_KEY, key = "#id")
     @ApiOperation("Retrieves the sample record from the database")
     public DataResponse<SampleResponse> get(@PathVariable final UUID id) {
         final var sampleResponse = sampleTableService.get(id);
@@ -132,7 +131,7 @@ public class SampleController {
 
     @PutMapping("{id}")
     @PreAuthorize("hasAuthority('SCOPE_urn:sample:update:v1')")
-    @CachePut(value = CACHE, key = "#result.data.id")
+    @CachePut(value = CACHE_KEY, key = "#result.data.id")
     @ApiOperation("Updates the sample record into the database")
     public DataResponse<SampleResponse> update(@PathVariable final UUID id,
             @Valid @RequestBody final SampleRequest request) {
@@ -146,7 +145,7 @@ public class SampleController {
 
     @DeleteMapping("{id}")
     @PreAuthorize("hasAuthority('SCOPE_urn:sample:delete:v1')")
-    @CacheEvict(value = CACHE, key = "#id")
+    @CacheEvict(value = CACHE_KEY, key = "#id")
     @ResponseStatus(NO_CONTENT)
     @ApiOperation("Removes the sample record from the database")
     public void delete(@PathVariable final UUID id) {
