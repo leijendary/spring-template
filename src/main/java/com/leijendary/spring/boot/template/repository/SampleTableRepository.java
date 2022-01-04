@@ -2,7 +2,6 @@ package com.leijendary.spring.boot.template.repository;
 
 import static org.hibernate.jpa.QueryHints.HINT_FETCH_SIZE;
 
-import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Stream;
 
