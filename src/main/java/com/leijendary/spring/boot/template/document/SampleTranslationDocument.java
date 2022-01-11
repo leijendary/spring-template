@@ -2,6 +2,8 @@ package com.leijendary.spring.boot.template.document;
 
 import static org.springframework.data.elasticsearch.annotations.FieldType.Text;
 
+import com.leijendary.spring.boot.template.core.document.LocaleDocument;
+
 import org.springframework.data.elasticsearch.annotations.Field;
 
 import lombok.Data;

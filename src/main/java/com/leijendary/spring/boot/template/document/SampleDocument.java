@@ -8,6 +8,8 @@ import java.util.UUID;
 
 import javax.persistence.Id;
 
+import com.leijendary.spring.boot.template.core.document.LocalizedDocument;
+
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;

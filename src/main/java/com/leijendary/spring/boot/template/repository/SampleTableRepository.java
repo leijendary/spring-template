@@ -7,6 +7,7 @@ import java.util.stream.Stream;
 
 import javax.persistence.QueryHint;
 
+import com.leijendary.spring.boot.template.core.repository.SoftDeleteRepository;
 import com.leijendary.spring.boot.template.model.SampleTable;
 
 import org.springframework.data.jpa.repository.JpaRepository;

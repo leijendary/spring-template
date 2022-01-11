@@ -1,11 +1,11 @@
 package com.leijendary.spring.boot.template.api.v1.controller;
 
 import static com.leijendary.spring.boot.template.api.v1.service.SampleTableService.CACHE_KEY;
-import static com.leijendary.spring.boot.template.util.LocationUtil.locationHeader;
-import static com.leijendary.spring.boot.template.util.RequestContext.getLanguage;
-import static com.leijendary.spring.boot.template.util.RequestContext.getLocale;
-import static com.leijendary.spring.boot.template.util.RequestContext.getTimeZone;
-import static com.leijendary.spring.boot.template.util.RequestContext.now;
+import static com.leijendary.spring.boot.template.core.util.LocationUtil.locationHeader;
+import static com.leijendary.spring.boot.template.core.util.RequestContext.getLanguage;
+import static com.leijendary.spring.boot.template.core.util.RequestContext.getLocale;
+import static com.leijendary.spring.boot.template.core.util.RequestContext.getTimeZone;
+import static com.leijendary.spring.boot.template.core.util.RequestContext.now;
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.NO_CONTENT;
 import static org.springframework.http.MediaType.TEXT_HTML_VALUE;
@@ -25,8 +25,8 @@ import com.leijendary.spring.boot.template.api.v1.data.SampleRequest;
 import com.leijendary.spring.boot.template.api.v1.data.SampleResponse;
 import com.leijendary.spring.boot.template.api.v1.service.SampleTableService;
 import com.leijendary.spring.boot.template.client.SampleClient;
-import com.leijendary.spring.boot.template.data.DataResponse;
-import com.leijendary.spring.boot.template.data.QueryRequest;
+import com.leijendary.spring.boot.template.core.data.DataResponse;
+import com.leijendary.spring.boot.template.core.data.QueryRequest;
 
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;

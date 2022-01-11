@@ -2,7 +2,7 @@ package com.leijendary.spring.boot.template.api.v1.data;
 
 import javax.validation.constraints.NotBlank;
 
-import com.leijendary.spring.boot.template.data.TranslationRequest;
+import com.leijendary.spring.boot.template.core.data.TranslationRequest;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;

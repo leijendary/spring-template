@@ -1,16 +1,16 @@
 package com.leijendary.spring.boot.template.api.v1.search;
 
-import static com.leijendary.spring.boot.template.util.SearchUtil.match;
-import static com.leijendary.spring.boot.template.util.SearchUtil.sortBuilders;
+import static com.leijendary.spring.boot.template.core.util.SearchUtil.match;
+import static com.leijendary.spring.boot.template.core.util.SearchUtil.sortBuilders;
 import static java.util.stream.Collectors.toList;
 
 import java.util.UUID;
 
 import com.leijendary.spring.boot.template.api.v1.data.SampleSearchResponse;
 import com.leijendary.spring.boot.template.api.v1.mapper.SampleMapper;
-import com.leijendary.spring.boot.template.data.QueryRequest;
+import com.leijendary.spring.boot.template.core.data.QueryRequest;
+import com.leijendary.spring.boot.template.core.exception.ResourceNotFoundException;
 import com.leijendary.spring.boot.template.document.SampleDocument;
-import com.leijendary.spring.boot.template.exception.ResourceNotFoundException;
 import com.leijendary.spring.boot.template.model.SampleTable;
 import com.leijendary.spring.boot.template.repository.SampleSearchRepository;
 

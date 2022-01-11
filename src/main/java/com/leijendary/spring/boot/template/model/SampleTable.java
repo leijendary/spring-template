@@ -6,6 +6,9 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 
+import com.leijendary.spring.boot.template.core.model.LocalizedModel;
+import com.leijendary.spring.boot.template.core.model.SoftDeleteModel;
+
 import org.hibernate.annotations.Where;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;

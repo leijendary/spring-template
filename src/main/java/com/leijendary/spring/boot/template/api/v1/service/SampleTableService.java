@@ -6,9 +6,9 @@ import com.leijendary.spring.boot.template.api.v1.data.SampleRequest;
 import com.leijendary.spring.boot.template.api.v1.data.SampleResponse;
 import com.leijendary.spring.boot.template.api.v1.mapper.SampleMapper;
 import com.leijendary.spring.boot.template.api.v1.search.SampleSearch;
-import com.leijendary.spring.boot.template.data.QueryRequest;
-import com.leijendary.spring.boot.template.event.producer.SampleProducer;
-import com.leijendary.spring.boot.template.exception.ResourceNotFoundException;
+import com.leijendary.spring.boot.template.core.data.QueryRequest;
+import com.leijendary.spring.boot.template.core.exception.ResourceNotFoundException;
+import com.leijendary.spring.boot.template.event.SampleProducer;
 import com.leijendary.spring.boot.template.repository.SampleTableRepository;
 import com.leijendary.spring.boot.template.specification.SampleListSpecification;
 

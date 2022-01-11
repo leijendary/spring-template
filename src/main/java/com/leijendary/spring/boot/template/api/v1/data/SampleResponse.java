@@ -2,7 +2,7 @@ package com.leijendary.spring.boot.template.api.v1.data;
 
 import java.time.OffsetDateTime;
 
-import com.leijendary.spring.boot.template.data.LocalizedData;
+import com.leijendary.spring.boot.template.core.data.LocalizedData;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;

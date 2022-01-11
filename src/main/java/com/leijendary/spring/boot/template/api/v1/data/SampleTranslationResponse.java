@@ -1,6 +1,6 @@
 package com.leijendary.spring.boot.template.api.v1.data;
 
-import com.leijendary.spring.boot.template.data.LocaleData;
+import com.leijendary.spring.boot.template.core.data.LocaleData;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;

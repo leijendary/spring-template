@@ -1,7 +1,7 @@
 package com.leijendary.spring.boot.template.specification;
 
-import static com.leijendary.spring.boot.template.specification.TranslationPredicate.query;
-import static com.leijendary.spring.boot.template.util.PredicateUtil.lowerLike;
+import static com.leijendary.spring.boot.template.core.specification.TranslationPredicate.query;
+import static com.leijendary.spring.boot.template.core.util.PredicateUtil.lowerLike;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 
 import javax.persistence.criteria.CriteriaBuilder;

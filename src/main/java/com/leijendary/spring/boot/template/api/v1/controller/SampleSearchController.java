@@ -6,8 +6,8 @@ import java.util.UUID;
 import com.leijendary.spring.boot.template.api.v1.data.SampleSearchResponse;
 import com.leijendary.spring.boot.template.api.v1.search.SampleSearch;
 import com.leijendary.spring.boot.template.api.v1.service.SampleTableService;
-import com.leijendary.spring.boot.template.data.DataResponse;
-import com.leijendary.spring.boot.template.data.QueryRequest;
+import com.leijendary.spring.boot.template.core.data.DataResponse;
+import com.leijendary.spring.boot.template.core.data.QueryRequest;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
