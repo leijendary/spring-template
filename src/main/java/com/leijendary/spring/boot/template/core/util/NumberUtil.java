@@ -5,7 +5,6 @@ import static java.lang.Long.parseLong;
 import static java.math.BigDecimal.ZERO;
 import static java.math.BigDecimal.valueOf;
 import static java.math.RoundingMode.FLOOR;
-import static java.math.RoundingMode.HALF_DOWN;
 import static java.math.RoundingMode.DOWN;
 import static java.nio.ByteBuffer.wrap;
 
