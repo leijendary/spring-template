@@ -6,7 +6,7 @@ import static java.math.BigDecimal.ZERO;
 import static java.math.BigDecimal.valueOf;
 import static java.math.RoundingMode.FLOOR;
 import static java.math.RoundingMode.HALF_DOWN;
-import static java.math.RoundingMode.HALF_UP;
+import static java.math.RoundingMode.DOWN;
 import static java.nio.ByteBuffer.wrap;
 
 import java.math.BigDecimal;
@@ -40,7 +40,7 @@ public class NumberUtil {
     public static BigDecimal multiply(final BigDecimal multiplier, final int multiplicand) {
         return multiplier
                 .multiply(valueOf(multiplicand))
-                .setScale(SCALE, HALF_UP);
+                .setScale(SCALE, DOWN);
     }
 
     public static BigDecimal percentage(final BigDecimal number, final BigDecimal divisor) {
@@ -48,9 +48,9 @@ public class NumberUtil {
             return ZERO;
         }
 
-        final var percent = valueOf(100).divide(divisor, SCALE + 2, HALF_DOWN);
+        final var percent = valueOf(100).divide(divisor, SCALE, DOWN);
 
-        return number.divide(percent, SCALE, HALF_DOWN);
+        return number.divide(percent, SCALE, DOWN);
     }
 
     public static ByteBuffer toByteBuffer(final BigDecimal bigDecimal) {
