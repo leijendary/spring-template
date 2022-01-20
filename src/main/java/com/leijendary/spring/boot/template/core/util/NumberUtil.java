@@ -4,8 +4,8 @@ import static java.lang.Integer.parseInt;
 import static java.lang.Long.parseLong;
 import static java.math.BigDecimal.ZERO;
 import static java.math.BigDecimal.valueOf;
-import static java.math.RoundingMode.FLOOR;
 import static java.math.RoundingMode.DOWN;
+import static java.math.RoundingMode.FLOOR;
 import static java.nio.ByteBuffer.wrap;
 
 import java.math.BigDecimal;
@@ -14,7 +14,7 @@ import java.nio.ByteBuffer;
 
 public class NumberUtil {
 
-    public static final int SCALE = 2;
+    public static final int SCALE = 4;
 
     public static boolean isInt(final String s) {
         try {
@@ -36,20 +36,28 @@ public class NumberUtil {
         }
     }
 
-    public static BigDecimal multiply(final BigDecimal multiplier, final int multiplicand) {
+    public static BigDecimal multiply(final BigDecimal multiplier, final BigDecimal multiplicand) {
         return multiplier
-                .multiply(valueOf(multiplicand))
+                .multiply(multiplicand)
                 .setScale(SCALE, DOWN);
     }
 
-    public static BigDecimal percentage(final BigDecimal number, final BigDecimal divisor) {
-        if (number.compareTo(ZERO) == 0 || divisor.compareTo(ZERO) == 0) {
+    public static BigDecimal percentage(final BigDecimal number, final BigDecimal percent) {
+        if (number.compareTo(ZERO) == 0 || percent.compareTo(ZERO) == 0) {
             return ZERO;
         }
 
-        final var percent = valueOf(100).divide(divisor, SCALE, DOWN);
+        final var divisor = divisor(percent);
 
-        return number.divide(percent, SCALE, DOWN);
+        return divide(number, divisor);
+    }
+
+    public static BigDecimal divisor(final BigDecimal percent) {
+        return divide(valueOf(100), percent);
+    }
+
+    public static BigDecimal divide(final BigDecimal number, final BigDecimal divisor) {
+        return number.divide(divisor, SCALE, DOWN);
     }
 
     public static ByteBuffer toByteBuffer(final BigDecimal bigDecimal) {
