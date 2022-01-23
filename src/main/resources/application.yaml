@@ -34,15 +34,26 @@ spring:
       - org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration
       - org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration
   datasource:
-    url:
-    username:
-    password:
-    hikari:
+    primary:
+      poolName: Primary
+      jdbcUrl:
+      username:
+      password:
       dataSourceProperties:
         cachePrepStmts: true
         rewriteBatchedStatements: true
         useServerPrepStmts: true
       maximumPoolSize: 20
+    readonly:
+      poolName: Read-only
+      jdbcUrl:
+      username:
+      password:
+      dataSourceProperties:
+        cachePrepStmts: true
+        rewriteBatchedStatements: true
+        useServerPrepStmts: true
+      maximumPoolSize: 10
   data:
     web:
       pageable:
@@ -54,6 +65,10 @@ spring:
       hibernate:
         jdbc:
           batch_size: 1000
+      javax:
+        persistence:
+          lock:
+            timeout: 3000
   messages:
     basename: messages.access, messages.error, messages.validation
   mvc:
@@ -134,6 +149,11 @@ spring:
       resourceserver:
         jwt:
           jwkSetUri: https://leijendary.us.auth0.com/.well-known/jwks.json
+
+management:
+  endpoint:
+    health:
+      showDetails: ALWAYS
 
 server:
   error:

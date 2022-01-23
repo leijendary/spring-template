@@ -6,18 +6,17 @@ import static com.leijendary.spring.boot.template.core.util.RequestContext.now;
 import static java.util.Optional.ofNullable;
 
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 import com.leijendary.spring.boot.template.core.model.SoftDeleteModel;
 
 import org.springframework.stereotype.Repository;
 
-import lombok.RequiredArgsConstructor;
-
 @Repository
-@RequiredArgsConstructor
 public class SoftDeleteRepositoryImpl<T extends SoftDeleteModel> implements SoftDeleteRepository<T> {
 
-    private final EntityManager entityManager;
+    @PersistenceContext
+    private EntityManager entityManager;
 
     @Override
     public void softDelete(final T entity) {

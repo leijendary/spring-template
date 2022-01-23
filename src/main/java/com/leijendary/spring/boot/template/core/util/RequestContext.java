@@ -13,6 +13,7 @@ import java.util.TimeZone;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.lang.Nullable;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.support.RequestContextUtils;
 
@@ -33,7 +34,9 @@ public class RequestContext {
 
     @Nullable
     public static String getUsername() {
-        return getContext().getAuthentication().getName();
+        return ofNullable(getContext().getAuthentication())
+                .map(Authentication::getName)
+                .orElse(null);
     }
 
     @Nullable

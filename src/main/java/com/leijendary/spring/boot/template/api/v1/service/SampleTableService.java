@@ -32,6 +32,7 @@ public class SampleTableService {
     private final SampleSearch sampleSearch;
     private final SampleTableRepository sampleTableRepository;
 
+    @Transactional(readOnly = true)
     public Page<SampleResponse> list(final QueryRequest queryRequest, final Pageable pageable) {
         final var specification = SampleListSpecification.builder()
                 .query(queryRequest.getQuery())
@@ -60,6 +61,7 @@ public class SampleTableService {
         return MAPPER.toResponse(sampleTable);
     }
 
+    @Transactional(readOnly = true)
     public SampleResponse get(final UUID id) {
         return sampleTableRepository.findById(id)
                 .map(MAPPER::toResponse)
@@ -68,7 +70,7 @@ public class SampleTableService {
 
     @Transactional
     public SampleResponse update(final UUID id, final SampleRequest sampleRequest) {
-        final var sampleTable = sampleTableRepository.findById(id)
+        final var sampleTable = sampleTableRepository.findLockedById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(RESOURCE_NAME, id));
 
         MAPPER.update(sampleRequest, sampleTable);
@@ -89,7 +91,7 @@ public class SampleTableService {
 
     @Transactional
     public void delete(final UUID id) {
-        final var sampleTable = sampleTableRepository.findById(id)
+        final var sampleTable = sampleTableRepository.findLockedById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(RESOURCE_NAME, id));
 
         sampleTableRepository.softDelete(sampleTable);

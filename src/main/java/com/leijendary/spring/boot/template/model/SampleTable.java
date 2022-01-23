@@ -5,6 +5,7 @@ import java.time.OffsetDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
+import javax.persistence.Version;
 
 import com.leijendary.spring.boot.template.core.model.LocalizedModel;
 import com.leijendary.spring.boot.template.core.model.SoftDeleteModel;
@@ -24,14 +25,16 @@ import lombok.EqualsAndHashCode;
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 @Where(clause = "deleted_at is null")
-public class SampleTable extends LocalizedModel<SampleTableTranslations>
-        implements SoftDeleteModel {
+public class SampleTable extends LocalizedModel<SampleTableTranslations> implements SoftDeleteModel {
 
     @Column(name = "column_1")
     private String column1;
 
     @Column(name = "column_2")
     private int column2;
+
+    @Version
+    private int version;
 
     @CreatedDate
     private OffsetDateTime createdAt;
