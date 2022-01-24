@@ -49,11 +49,7 @@ spring:
       jdbcUrl:
       username:
       password:
-      dataSourceProperties:
-        cachePrepStmts: true
-        rewriteBatchedStatements: true
-        useServerPrepStmts: true
-      maximumPoolSize: 10
+      maximumPoolSize: 5
   data:
     web:
       pageable:
