@@ -1,26 +1,27 @@
 info:
   app:
     organization: leijendary
-    groupId: "@[project.groupId]"
-    artifactId: "@[project.artifactId]"
-    name: "@[project.name]"
-    description: "@[project.description]"
-    version: "@[project.version]"
+    group: ${group}
+    name: ${name}
+    description: ${description}
+    version: ${version}
   api:
-    termsOfServiceUrl:
+    termsOfService:
     contact:
       name: Jonathan Leijendekker
       url: https://leijendary.com
       email:
     license:
-    licenseUrl:
-    vendorExtensions:
+      name: Jonathan Leijendekker
+      url: https://leijendary.com
 
 auth:
   audience: http://localhost:8080
   realm: Spring Template API v1
   anonymousUser:
     principal: Anonymous User
+  system:
+    principal: System
 
 encrypt:
   key:
@@ -28,7 +29,7 @@ encrypt:
 
 spring:
   application:
-    name: ${info.app.name}
+    name: \${info.app.name}
   autoconfigure:
     exclude:
       - org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration
@@ -87,24 +88,27 @@ spring:
       retry:
         maxRetriesOnSameServiceInstance: 3
         retryOnAllOperations: true
-        retryableStatusCodes: 502,503,521
+        retryableStatusCodes:
+          - 502
+          - 503
+          - 521
     serviceRegistry:
       autoRegistration:
         enabled: false
     stream:
       bindings:
         sampleCreated-in-0:
-          destination: ${info.app.organization}.sample.create
+          destination: \${info.app.organization}.sample.create
         sampleCreate-out-0:
-          destination: ${info.app.organization}.sample.create
+          destination: \${info.app.organization}.sample.create
         sampleUpdated-in-0:
-          destination: ${info.app.organization}.sample.update
+          destination: \${info.app.organization}.sample.update
         sampleUpdate-out-0:
-          destination: ${info.app.organization}.sample.update
+          destination: \${info.app.organization}.sample.update
         sampleDeleted-in-0:
-          destination: ${info.app.organization}.sample.delete
+          destination: \${info.app.organization}.sample.delete
         sampleDelete-out-0:
-          destination: ${info.app.organization}.sample.delete
+          destination: \${info.app.organization}.sample.delete
       function:
         definition: sampleCreated;sampleUpdated;sampleDeleted
       kafka:
@@ -114,20 +118,19 @@ spring:
           binder:
             functions:
               sampleCreate:
-                applicationId: ${info.app.artifactId}.${info.app.organization}.sample.create
+                applicationId: \${info.app.name}.\${info.app.organization}.sample.create
               sampleCreated:
-                applicationId: ${info.app.artifactId}.${info.app.organization}.sample.create
+                applicationId: \${info.app.name}.\${info.app.organization}.sample.create
               sampleUpdate:
-                applicationId: ${info.app.artifactId}.${info.app.organization}.sample.update
+                applicationId: \${info.app.name}.\${info.app.organization}.sample.update
               sampleUpdated:
-                applicationId: ${info.app.artifactId}.${info.app.organization}.sample.update
+                applicationId: \${info.app.name}.\${info.app.organization}.sample.update
               sampleDelete:
-                applicationId: ${info.app.artifactId}.${info.app.organization}.sample.delete
+                applicationId: \${info.app.name}.\${info.app.organization}.sample.delete
               sampleDeleted:
-                applicationId: ${info.app.artifactId}.${info.app.organization}.sample.delete
+                applicationId: \${info.app.name}.\${info.app.organization}.sample.delete
   elasticsearch:
-    rest:
-      uris: http://localhost:9200
+    uris: http://localhost:9200
   kafka:
     bootstrapServers: localhost:9092
     producer:
@@ -170,6 +173,9 @@ server:
     relaxedQueryChars: "[,]"
     threads:
       max: 500
+
+springdoc:
+  pathsToMatch: /api/**
 
 logging:
   level:

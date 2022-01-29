@@ -14,29 +14,23 @@
 - Spring Security
 - Spring OAuth2 Resource Server
 - Spring Security OAuth2 JOSE
-- Spring Cloud Bootstrap
 - Spring Cloud Openfeign
 - Spring Cloud Loadbalancer
-- Spring Cloud Netflix Ribbon
 - Spring Cache
 - Spring Data Redis
 - Spring Retry
-- Spring Kafka
-- Spring Cloud Stream
+- Spring Cloud Stream Binder Kafka
 - Spring Cloud Stream Binder Kafka Streams
 - Spring Cloud AWS
 - Spring Configuration Processor
 - Spring Autoconfigure Processor
 - Spring Devtools
-- Kafka Streams
 - PostgreSQL
 - Liquibase
-- Lombok
 - Swagger
 - MapStruct
 - Caffeine
 - Docker
-- AOP
 - JUnit
 - ElasticSearch
 
@@ -44,15 +38,15 @@
 
 ### To run the code:
 
-`mvnw spring-boot:run`
+`./gradlew bootRun`
 
 ### To run tests:
 
-`mvnw test`
+`./gradlew test`
 
 ### To build a JAR file:
 
-`mvnw clean package -DskipTests`
+`./gradlew bootJar -x test`
 
 ### To generate a certificate:
 
