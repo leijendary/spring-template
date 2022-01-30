@@ -108,9 +108,11 @@ class SnowflakeIdWorker {
                     }
                 }
             }
+
             stringBuilder.toString().hashCode().toLong()
         } catch (e: Exception) {
             log.error("Error when getting the network interfaces. Generating a random ID", e)
+
             SecureRandom().nextLong()
         }
 
