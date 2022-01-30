@@ -4,6 +4,7 @@ plugins {
     id("org.springframework.boot") version "2.6.3"
     id("io.spring.dependency-management") version "1.0.11.RELEASE"
     kotlin("jvm") version "1.6.10"
+    kotlin("kapt") version "1.6.10"
     kotlin("plugin.spring") version "1.6.10"
     kotlin("plugin.jpa") version "1.6.10"
 }
@@ -21,6 +22,12 @@ configurations {
 
 repositories {
     mavenCentral()
+}
+
+kapt {
+    arguments {
+        arg("mapstruct.defaultComponentModel", "spring")
+    }
 }
 
 dependencies {
@@ -43,14 +50,15 @@ dependencies {
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.13.1")
     implementation("org.jetbrains.kotlin:kotlin-reflect:1.6.10")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.6.10")
-    implementation("org.liquibase:liquibase-core:4.5.0")
+    implementation("org.liquibase:liquibase-core:4.7.1")
     implementation("org.springframework.boot:spring-boot-configuration-processor:2.6.3")
     implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.13.1")
     implementation("org.apache.commons:commons-lang3:3.12.0")
     implementation("org.springdoc:springdoc-openapi-ui:1.6.5")
     implementation("org.springdoc:springdoc-openapi-security:1.6.5")
     implementation("org.mapstruct:mapstruct:1.4.2.Final")
-    implementation("com.github.ben-manes.caffeine:caffeine:2.9.3")
+    implementation("com.github.ben-manes.caffeine:caffeine:3.0.5")
+    kapt("org.mapstruct:mapstruct-processor:1.4.2.Final")
     runtimeOnly("org.springframework.boot:spring-boot-devtools:2.6.3")
     runtimeOnly("com.h2database:h2:2.1.210")
     runtimeOnly("org.postgresql:postgresql:42.3.1")
