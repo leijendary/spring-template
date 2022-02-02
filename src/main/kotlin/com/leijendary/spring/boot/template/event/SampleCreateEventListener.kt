@@ -4,6 +4,7 @@ import com.leijendary.spring.boot.template.api.v1.mapper.SampleMapper
 import com.leijendary.spring.boot.template.api.v1.search.SampleSearch
 import com.leijendary.spring.boot.template.data.SampleCreateEvent
 import com.leijendary.spring.boot.template.message.SampleMessageProducer
+import org.springframework.scheduling.annotation.Async
 import org.springframework.stereotype.Component
 import org.springframework.transaction.event.TransactionalEventListener
 
@@ -17,6 +18,7 @@ class SampleCreateEventListener(
     }
 
     @TransactionalEventListener
+    @Async
     fun handleSampleCreate(sampleCreateEvent: SampleCreateEvent) {
         val sampleTable = sampleCreateEvent.sampleTable
 

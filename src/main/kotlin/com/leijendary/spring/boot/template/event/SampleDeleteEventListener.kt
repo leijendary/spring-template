@@ -4,6 +4,7 @@ import com.leijendary.spring.boot.template.api.v1.mapper.SampleMapper
 import com.leijendary.spring.boot.template.api.v1.search.SampleSearch
 import com.leijendary.spring.boot.template.data.SampleDeleteEvent
 import com.leijendary.spring.boot.template.message.SampleMessageProducer
+import org.springframework.scheduling.annotation.Async
 import org.springframework.stereotype.Component
 import org.springframework.transaction.event.TransactionalEventListener
 
@@ -17,6 +18,7 @@ class SampleDeleteEventListener(
     }
 
     @TransactionalEventListener
+    @Async
     fun handleSampleDelete(sampleDeleteEvent: SampleDeleteEvent) {
         val sampleTable = sampleDeleteEvent.sampleTable
         val id = sampleTable.id!!
