@@ -21,7 +21,8 @@ import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.http.HttpStatus.CREATED
 import org.springframework.http.HttpStatus.NO_CONTENT
-import org.springframework.http.MediaType
+import org.springframework.http.MediaType.TEXT_HTML_VALUE
+import org.springframework.http.MediaType.TEXT_PLAIN_VALUE
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
 import java.time.OffsetDateTime
@@ -34,10 +35,10 @@ import javax.validation.Valid
 /**
  * This is an example of a controller that will be created in microservices.
  *
- * There are 3 parts of the [RequestMapping] url that we need to take note
- * of: 1. The api prefix ("api") 2. The version ("v1") 3. The parent path of
- * this API ("/") which can be anything that this specific controller should be
- * doing.
+ * There are 3 parts of the [RequestMapping] url that we need to take note of:
+ *      1. The api prefix ("api")
+ *      2. The version ("v1")
+ *      3. The parent path of this API ("/") which can be anything that this specific controller should be doing.
  *
  * Since this microservice uses a context path, the result of the url should be
  * "/sample/api/v1"
@@ -127,12 +128,12 @@ class SampleController(private val sampleClient: SampleClient, private val sampl
         sampleTableService.delete(id)
     }
 
-    @GetMapping(value = ["client"], produces = [MediaType.TEXT_HTML_VALUE])
+    @GetMapping(value = ["client"], produces = [TEXT_HTML_VALUE])
     fun client(): String {
         return sampleClient.homepage()
     }
 
-    @GetMapping(value = ["timezone"], produces = [MediaType.TEXT_PLAIN_VALUE])
+    @GetMapping(value = ["timezone"], produces = [TEXT_PLAIN_VALUE])
     fun timezone(): String {
         val timeZone: TimeZone = timeZone
         val zoneId: ZoneId = timeZone.toZoneId()
@@ -142,12 +143,12 @@ class SampleController(private val sampleClient: SampleClient, private val sampl
         return String.format("%s %s", displayName, id)
     }
 
-    @GetMapping(value = ["locale"], produces = [MediaType.TEXT_PLAIN_VALUE])
+    @GetMapping(value = ["locale"], produces = [TEXT_PLAIN_VALUE])
     fun locale(): String {
         return locale.toString()
     }
 
-    @GetMapping(value = ["language"], produces = [MediaType.TEXT_PLAIN_VALUE])
+    @GetMapping(value = ["language"], produces = [TEXT_PLAIN_VALUE])
     fun language(): String {
         return language
     }

@@ -9,7 +9,7 @@ import org.springframework.data.jpa.domain.Specification
 import org.springframework.data.jpa.repository.*
 import java.util.*
 import java.util.stream.Stream
-import javax.persistence.LockModeType
+import javax.persistence.LockModeType.PESSIMISTIC_FORCE_INCREMENT
 import javax.persistence.QueryHint
 
 interface SampleTableRepository : JpaRepository<SampleTable, UUID>, JpaSpecificationExecutor<SampleTable>,
@@ -17,7 +17,7 @@ interface SampleTableRepository : JpaRepository<SampleTable, UUID>, JpaSpecifica
 
     override fun findAll(specification: Specification<SampleTable>?, pageable: Pageable): Page<SampleTable>
 
-    @Lock(LockModeType.PESSIMISTIC_FORCE_INCREMENT)
+    @Lock(PESSIMISTIC_FORCE_INCREMENT)
     fun findLockedById(id: UUID): Optional<SampleTable>
 
     @QueryHints(value = [QueryHint(name = HINT_FETCH_SIZE, value = "1")])
