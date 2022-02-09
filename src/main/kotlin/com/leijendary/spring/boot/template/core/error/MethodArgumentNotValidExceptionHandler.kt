@@ -23,7 +23,7 @@ class MethodArgumentNotValidExceptionHandler(private val messageSource: MessageS
 
         exception.allErrors.forEach { field: ObjectError ->
             val objectName: String = if (field is FieldError) field.field else field.objectName
-            val source: List<String> = objectName.split("\\.").map {
+            val source: List<String> = listOf("body") + objectName.split(".").map {
                 it.replace("[]", "")
             }
             val code: String = field.defaultMessage ?: ""

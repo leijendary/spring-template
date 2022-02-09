@@ -81,7 +81,7 @@ class SampleController(private val sampleClient: SampleClient, private val sampl
     @ResponseStatus(CREATED)
     @Operation(summary = "Saves a sample record into the database")
     fun create(
-        @RequestBody request: @Valid SampleRequest,
+        @Valid @RequestBody request: SampleRequest,
         httpServletResponse: HttpServletResponse
     ): DataResponse<SampleResponse> {
         val sampleResponse: SampleResponse = sampleTableService.create(request)
@@ -111,7 +111,7 @@ class SampleController(private val sampleClient: SampleClient, private val sampl
     @PreAuthorize("hasAuthority('SCOPE_urn:sample:update:v1')")
     @CachePut(value = [CACHE_NAME], key = "#result.data.id")
     @Operation(summary = "Updates the sample record into the database")
-    fun update(@PathVariable id: UUID, @RequestBody request: @Valid SampleRequest): DataResponse<SampleResponse> {
+    fun update(@PathVariable id: UUID, @Valid @RequestBody request: SampleRequest): DataResponse<SampleResponse> {
         val sampleResponse: SampleResponse = sampleTableService.update(id, request)
 
         return DataResponse.builder<SampleResponse>()

@@ -70,6 +70,17 @@ spring:
     basename: messages.access, messages.error, messages.validation
   mvc:
     throwExceptionIfNoHandlerFound: true
+  task:
+    execution:
+      shutdown:
+        awaitTermination: true
+        awaitTerminationPeriod: 60s
+    scheduling:
+      pool:
+        size: 20
+      shutdown:
+        awaitTermination: true
+        awaitTerminationPeriod: 60s
   web:
     resources:
       addMappings: false

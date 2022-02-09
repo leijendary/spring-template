@@ -6,13 +6,13 @@ import javax.validation.constraints.NotEmpty
 import javax.validation.constraints.Size
 
 data class SampleRequest(
-    @NotBlank(message = "validation.required")
-    @Size(max = 50, message = "validation.maxLength")
+    @get:NotBlank(message = "validation.required")
+    @get:Size(max = 50, message = "validation.maxLength")
     val field1: String? = null,
 
     val field2: Int = 0,
 
-    @Valid
-    @NotEmpty(message = "validation.required")
+    @get:Valid
+    @get:NotEmpty(message = "validation.required")
     val translations: MutableSet<SampleTranslationRequest>? = HashSet()
 )
