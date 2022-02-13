@@ -4,17 +4,9 @@ import org.springframework.data.domain.Page
 
 class PageMeta(page: Page<*>) {
 
-    private val numberOfElements: Int
-    private val totalPages: Int
-    private val totalElements: Long
-    private val size: Int
-    private val page: Int
-
-    init {
-        numberOfElements = page.numberOfElements
-        totalPages = page.totalPages
-        totalElements = page.totalElements
-        size = page.size
-        this.page = page.number + 1
-    }
+    var numberOfElements: Int = page.numberOfElements
+    var totalPages: Int = page.totalPages
+    var totalElements: Long = page.totalElements
+    var size: Int = page.size
+    var number: Int = page.number
 }

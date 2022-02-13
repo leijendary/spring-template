@@ -58,8 +58,7 @@ spring:
   data:
     web:
       pageable:
-        maxPageSize: 100
-        oneIndexedParameters: true
+        maxPageSize: 50
   jpa:
     openInView: false
     properties:
