@@ -27,6 +27,10 @@ encrypt:
   key:
   salt:
 
+number:
+  scale: 2
+  round: HALF_UP
+
 spring:
   application:
     name: \${info.app.name}

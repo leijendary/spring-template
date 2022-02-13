@@ -9,6 +9,8 @@ import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.LastModifiedBy
 import org.springframework.data.annotation.LastModifiedDate
 import org.springframework.data.jpa.domain.support.AuditingEntityListener
+import java.math.BigDecimal
+import java.math.BigDecimal.ZERO
 import java.time.OffsetDateTime
 import javax.persistence.Column
 import javax.persistence.Entity
@@ -24,6 +26,8 @@ class SampleTable : LocalizedModel<SampleTableTranslations>(), SoftDeleteModel {
 
     @Column(name = "column_2")
     var column2 = 0
+
+    var amount: BigDecimal = ZERO
 
     @Version
     var version = 0

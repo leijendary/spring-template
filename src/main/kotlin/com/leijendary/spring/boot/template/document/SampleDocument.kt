@@ -7,6 +7,7 @@ import org.springframework.data.elasticsearch.annotations.Field
 import org.springframework.data.elasticsearch.annotations.FieldType.*
 import org.springframework.data.elasticsearch.annotations.FieldType.Date
 import org.springframework.data.elasticsearch.annotations.Setting
+import java.math.BigDecimal
 import java.time.OffsetDateTime
 import java.util.*
 import javax.persistence.Id
@@ -23,6 +24,9 @@ data class SampleDocument(
 
     @Field(type = Integer)
     var column2: Int,
+
+    @Field(type = Text)
+    var amount: BigDecimal,
 
     @Field(type = Date, format = [date_time])
     var createdAt: OffsetDateTime

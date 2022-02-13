@@ -16,6 +16,7 @@ open class OffsetDateTimeToEpochMillisSerializer protected constructor(t: Class<
         serializerProvider: SerializerProvider
     ) {
         val epochMillis = offsetDateTime.toInstant().toEpochMilli()
+
         jsonGenerator.writeNumber(epochMillis)
     }
 }

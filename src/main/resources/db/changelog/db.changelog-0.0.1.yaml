@@ -21,6 +21,11 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
+                  name: amount
+                  type: decimal(12,2)
+                  constraints:
+                    nullable: false
+              - column:
                   name: version
                   type: int
                   defaultValueNumeric: 0

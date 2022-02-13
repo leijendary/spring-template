@@ -99,7 +99,7 @@ class SampleController(private val sampleClient: SampleClient, private val sampl
     @PreAuthorize("hasAuthority('SCOPE_urn:sample:get:v1')")
     @Cacheable(value = [CACHE_NAME], key = "#id")
     @Operation(summary = "Retrieves the sample record from the database")
-    operator fun get(@PathVariable id: UUID): DataResponse<SampleResponse> {
+    fun get(@PathVariable id: UUID): DataResponse<SampleResponse> {
         val sampleResponse: SampleResponse = sampleTableService.get(id)
 
         return DataResponse.builder<SampleResponse>()
