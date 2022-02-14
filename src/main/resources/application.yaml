@@ -106,6 +106,12 @@ spring:
           - 502
           - 503
           - 521
+          - 404
+        backoff:
+          enabled: true
+          minBackoff: 500ms
+          maxBackoff: 2s
+          jitter: 2
     serviceRegistry:
       autoRegistration:
         enabled: false
