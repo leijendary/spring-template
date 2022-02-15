@@ -16,7 +16,7 @@ class SampleMessageConsumer {
     fun sampleCreated(): Consumer<KStream<String, SampleMessage>> {
         return Consumer<KStream<String, SampleMessage>> { stream: KStream<String, SampleMessage> ->
             stream.foreach { key: String?, value: SampleMessage ->
-                log.info("Created: '{}', '{}'", key, value.toJson())
+                log.info("Created: {}, {}", key, value.toJson())
             }
         }
     }
@@ -25,7 +25,7 @@ class SampleMessageConsumer {
     fun sampleUpdated(): Consumer<KStream<String?, SampleMessage>> {
         return Consumer<KStream<String?, SampleMessage>> { stream: KStream<String?, SampleMessage> ->
             stream.foreach { key: String?, value: SampleMessage ->
-                log.info("Updated: '{}', '{}'", key, value.toJson())
+                log.info("Updated: {}, {}", key, value.toJson())
             }
         }
     }
@@ -34,7 +34,7 @@ class SampleMessageConsumer {
     fun sampleDeleted(): Consumer<KStream<String?, SampleMessage>> {
         return Consumer<KStream<String?, SampleMessage>> { stream: KStream<String?, SampleMessage> ->
             stream.foreach { key: String?, value: SampleMessage ->
-                log.info("Deleted: '{}', '{}'", key, value.toJson())
+                log.info("Deleted: {}, {}", key, value.toJson())
             }
         }
     }
