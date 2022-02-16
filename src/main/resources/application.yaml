@@ -31,6 +31,13 @@ number:
   scale: 2
   round: HALF_UP
 
+retry:
+  maxAttempts: 3
+  backoff:
+    delay: 50
+    maxDelay: 200
+    multiplier: 2
+
 spring:
   application:
     name: \${info.app.name}
@@ -109,9 +116,9 @@ spring:
           - 404
         backoff:
           enabled: true
-          minBackoff: 500ms
-          maxBackoff: 2s
-          jitter: 2
+          minBackoff: \${retry.backoff.delay}
+          maxBackoff: \${retry.backoff.maxDelay}
+          jitter: \${retry.backoff.multiplier}
     serviceRegistry:
       autoRegistration:
         enabled: false

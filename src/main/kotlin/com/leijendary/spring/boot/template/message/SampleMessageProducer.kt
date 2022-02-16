@@ -1,7 +1,7 @@
 package com.leijendary.spring.boot.template.message
 
 import com.leijendary.spring.boot.template.api.v1.data.SampleMessage
-import com.leijendary.spring.boot.template.core.event.KafkaProducer
+import com.leijendary.spring.boot.template.core.message.KafkaProducer
 import org.springframework.stereotype.Component
 
 @Component

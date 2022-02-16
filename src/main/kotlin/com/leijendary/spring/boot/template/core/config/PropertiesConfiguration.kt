@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Configuration
     DataSourcePrimaryProperties::class,
     DataSourceReadonlyProperties::class,
     InfoProperties::class,
-    NumberProperties::class
+    NumberProperties::class,
+    RetryProperties::class
 )
 class PropertiesConfiguration 
