@@ -116,8 +116,8 @@ spring:
           - 404
         backoff:
           enabled: true
-          minBackoff: \${retry.backoff.delay}
-          maxBackoff: \${retry.backoff.maxDelay}
+          minBackoff: \${retry.backoff.delay}ms
+          maxBackoff: \${retry.backoff.maxDelay}ms
           jitter: \${retry.backoff.multiplier}
     serviceRegistry:
       autoRegistration:
