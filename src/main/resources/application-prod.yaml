@@ -12,6 +12,9 @@ spring:
         jwt:
           jwkSetUri: http://authentication.production:8080/authentication/api/v1/.well-known/jwks.json
 
+server:
+  port: 443
+
 springdoc:
   apiDocs:
     enabled: false

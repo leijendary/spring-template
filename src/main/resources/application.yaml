@@ -187,7 +187,7 @@ server:
       enabled: false
   http2:
     enabled: true
-  port: 443
+  port: 8443
   servlet:
     contextPath: /sample
   ssl:

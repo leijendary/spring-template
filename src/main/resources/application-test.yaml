@@ -7,3 +7,6 @@ spring:
       resourceserver:
         jwt:
           jwkSetUri: http://authentication.test:8080/authentication/api/v1/.well-known/jwks.json
+
+server:
+  port: 443
