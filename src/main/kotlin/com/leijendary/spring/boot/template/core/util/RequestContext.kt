@@ -17,9 +17,7 @@ object RequestContext {
         get() {
             val attributes = getRequestAttributes()
 
-            return if (attributes !is ServletRequestAttributes) {
-                null
-            } else attributes.request
+            return if (attributes !is ServletRequestAttributes) null else attributes.request
         }
 
     val username: String?
