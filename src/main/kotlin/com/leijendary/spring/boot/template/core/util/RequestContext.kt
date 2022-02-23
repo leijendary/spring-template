@@ -10,6 +10,7 @@ import java.time.OffsetDateTime.now
 import java.util.*
 import javax.servlet.http.HttpServletRequest
 
+const val HEADER_TRACE_ID = "X-Trace-ID"
 const val HEADER_USER_ID = "X-User-ID"
 
 object RequestContext {
@@ -20,7 +21,10 @@ object RequestContext {
             return if (attributes !is ServletRequestAttributes) null else attributes.request
         }
 
-    val username: String?
+    val traceId: String?
+        get() = currentRequest?.getHeader(HEADER_TRACE_ID)
+
+    val userId: String?
         get() = currentRequest?.getHeader(HEADER_USER_ID)
 
     val path: String?

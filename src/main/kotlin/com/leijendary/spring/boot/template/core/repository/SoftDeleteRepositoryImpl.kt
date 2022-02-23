@@ -3,7 +3,7 @@ package com.leijendary.spring.boot.template.core.repository
 import com.leijendary.spring.boot.template.core.config.properties.AuthProperties
 import com.leijendary.spring.boot.template.core.model.SoftDeleteModel
 import com.leijendary.spring.boot.template.core.util.RequestContext.now
-import com.leijendary.spring.boot.template.core.util.RequestContext.username
+import com.leijendary.spring.boot.template.core.util.RequestContext.userId
 import org.springframework.stereotype.Repository
 import javax.persistence.EntityManager
 import javax.persistence.PersistenceContext
@@ -17,12 +17,10 @@ class SoftDeleteRepositoryImpl<T : SoftDeleteModel?>(
 ) : SoftDeleteRepository<T> {
 
     override fun softDelete(entity: T) {
-        val username: String = username ?: authProperties.system.principal
-
         checkNotNull(entity)
 
         entity.deletedAt = now
-        entity.deletedBy = username
+        entity.deletedBy = userId ?: authProperties.system.principal
 
         entityManager.persist(entity)
     }
