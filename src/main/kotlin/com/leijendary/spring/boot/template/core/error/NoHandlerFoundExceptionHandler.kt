@@ -1,6 +1,6 @@
 package com.leijendary.spring.boot.template.core.error
 
-import com.leijendary.spring.boot.template.core.data.ErrorResponse
+import com.leijendary.spring.boot.template.core.data.ErrorData
 import com.leijendary.spring.boot.template.core.util.RequestContext.locale
 import org.springframework.context.MessageSource
 import org.springframework.core.annotation.Order
@@ -15,14 +15,12 @@ import org.springframework.web.servlet.NoHandlerFoundException
 class NoHandlerFoundExceptionHandler(private val messageSource: MessageSource) {
     @ExceptionHandler(NoHandlerFoundException::class)
     @ResponseStatus(NOT_FOUND)
-    fun catchNoHandlerFound(exception: NoHandlerFoundException): ErrorResponse {
+    fun catchNoHandlerFound(exception: NoHandlerFoundException): List<ErrorData> {
         val code = "error.mapping.notFound"
         val arguments: Array<String?> = arrayOf(exception.message)
         val message = messageSource.getMessage(code, arguments, locale)
+        val errorData = ErrorData(listOf("request", "path"), code, message)
 
-        return ErrorResponse.builder()
-            .addError(mutableListOf("request", "path"), code, message)
-            .status(NOT_FOUND)
-            .build()
+        return listOf(errorData)
     }
 }

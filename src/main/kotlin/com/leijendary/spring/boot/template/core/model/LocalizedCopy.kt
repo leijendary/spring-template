@@ -1,6 +1,6 @@
 package com.leijendary.spring.boot.template.core.model
 
-import com.leijendary.spring.boot.template.core.util.RequestContext
+import com.leijendary.spring.boot.template.core.util.RequestContext.language
 import java.util.*
 import javax.persistence.*
 
@@ -15,7 +15,7 @@ abstract class LocalizedCopy<T : LocaleCopy?> : AppModel() {
 
     val translation: T
         get() {
-            val language: String = RequestContext.language
+            val language: String = language
             val sorted = translations.sortedBy { it!!.ordinal }
 
             return sorted.first { it!!.language == language } ?: sorted.first()

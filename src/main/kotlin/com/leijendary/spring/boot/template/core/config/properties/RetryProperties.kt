@@ -8,8 +8,8 @@ class RetryProperties {
     var backoff: Backoff = Backoff()
 
     inner class Backoff {
-        var delay: Long = 50
-        var maxDelay: Long = 200
+        var delay: Long = 5
+        var maxDelay: Long = 20
         var multiplier: Double = 2.0
     }
 }

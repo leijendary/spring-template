@@ -4,8 +4,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties
 
 @ConfigurationProperties(prefix = "auth")
 class AuthProperties {
-    var audience: String = ""
-    var realm: String = ""
     var anonymousUser: AnonymousUser = AnonymousUser()
     var system: System = System()
 

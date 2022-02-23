@@ -31,7 +31,7 @@ class SampleSearch(
         private val SOURCE = listOf("search", "SampleSearch")
     }
 
-    fun list(queryRequest: QueryRequest, pageable: Pageable): Page<SampleSearchResponse> {
+    fun page(queryRequest: QueryRequest, pageable: Pageable): Page<SampleSearchResponse> {
         val query: String? = queryRequest.query
         val searchBuilder = NativeSearchQueryBuilder()
         // Query for translations.name and translations.description

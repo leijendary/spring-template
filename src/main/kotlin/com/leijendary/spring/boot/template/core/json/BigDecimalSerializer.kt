@@ -13,7 +13,7 @@ class BigDecimalSerializer(private val numberProperties: NumberProperties) : Jso
     override fun serialize(value: BigDecimal?, generator: JsonGenerator, provider: SerializerProvider) {
         val scale = numberProperties.scale
         val round = numberProperties.round
-        val formatted = value?.setScale(scale, round)?.toPlainString();
+        val formatted = value?.setScale(scale, round)?.toPlainString()
 
         generator.writeNumber(formatted)
     }

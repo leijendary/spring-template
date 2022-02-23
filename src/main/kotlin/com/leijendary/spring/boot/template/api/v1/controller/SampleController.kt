@@ -5,7 +5,6 @@ import com.leijendary.spring.boot.template.api.v1.data.SampleResponse
 import com.leijendary.spring.boot.template.api.v1.service.SampleTableService
 import com.leijendary.spring.boot.template.api.v1.service.SampleTableService.Companion.CACHE_NAME
 import com.leijendary.spring.boot.template.client.SampleClient
-import com.leijendary.spring.boot.template.core.data.DataResponse
 import com.leijendary.spring.boot.template.core.data.QueryRequest
 import com.leijendary.spring.boot.template.core.util.RequestContext.language
 import com.leijendary.spring.boot.template.core.util.RequestContext.locale
@@ -23,7 +22,6 @@ import org.springframework.http.HttpStatus.CREATED
 import org.springframework.http.HttpStatus.NO_CONTENT
 import org.springframework.http.MediaType.TEXT_HTML_VALUE
 import org.springframework.http.MediaType.TEXT_PLAIN_VALUE
-import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
 import java.time.OffsetDateTime
 import java.time.ZoneId
@@ -63,64 +61,38 @@ class SampleController(private val sampleClient: SampleClient, private val sampl
      * [Pageable]
      */
     @GetMapping
-    @PreAuthorize("hasAuthority('SCOPE_urn:sample:list:v1')")
     @Operation(summary = "Sample implementation of swagger in a api")
-    fun list(queryRequest: QueryRequest, pageable: Pageable): DataResponse<List<SampleResponse>> {
-        val page: Page<SampleResponse> = sampleTableService.list(queryRequest, pageable)
-
-        return DataResponse.builder<List<SampleResponse>>()
-            .data(page.content)
-            .meta(page)
-            .links(page)
-            .build()
+    fun list(queryRequest: QueryRequest, pageable: Pageable): Page<SampleResponse> {
+        return sampleTableService.page(queryRequest, pageable)
     }
 
     @PostMapping
-    @PreAuthorize("hasAuthority('SCOPE_urn:sample:create:v1')")
-    @CachePut(value = [CACHE_NAME], key = "#result.data.id")
+    @CachePut(value = [CACHE_NAME], key = "#result.id")
     @ResponseStatus(CREATED)
     @Operation(summary = "Saves a sample record into the database")
-    fun create(
-        @Valid @RequestBody request: SampleRequest,
-        httpServletResponse: HttpServletResponse
-    ): DataResponse<SampleResponse> {
-        val sampleResponse: SampleResponse = sampleTableService.create(request)
-        val response = DataResponse.builder<SampleResponse>()
-            .data(sampleResponse)
-            .status(CREATED)
-            .build()
+    fun create(@Valid @RequestBody request: SampleRequest, httpServletResponse: HttpServletResponse): SampleResponse {
+        val sampleResponse = sampleTableService.create(request)
 
         httpServletResponse.setLocation(sampleResponse.id)
 
-        return response
+        return sampleResponse
     }
 
     @GetMapping("{id}")
-    @PreAuthorize("hasAuthority('SCOPE_urn:sample:get:v1')")
     @Cacheable(value = [CACHE_NAME], key = "#id")
     @Operation(summary = "Retrieves the sample record from the database")
-    fun get(@PathVariable id: UUID): DataResponse<SampleResponse> {
-        val sampleResponse: SampleResponse = sampleTableService.get(id)
-
-        return DataResponse.builder<SampleResponse>()
-            .data(sampleResponse)
-            .build()
+    fun get(@PathVariable id: UUID): SampleResponse {
+        return sampleTableService.get(id)
     }
 
     @PutMapping("{id}")
-    @PreAuthorize("hasAuthority('SCOPE_urn:sample:update:v1')")
-    @CachePut(value = [CACHE_NAME], key = "#result.data.id")
+    @CachePut(value = [CACHE_NAME], key = "#result.id")
     @Operation(summary = "Updates the sample record into the database")
-    fun update(@PathVariable id: UUID, @Valid @RequestBody request: SampleRequest): DataResponse<SampleResponse> {
-        val sampleResponse: SampleResponse = sampleTableService.update(id, request)
-
-        return DataResponse.builder<SampleResponse>()
-            .data(sampleResponse)
-            .build()
+    fun update(@PathVariable id: UUID, @Valid @RequestBody request: SampleRequest): SampleResponse {
+        return sampleTableService.update(id, request)
     }
 
     @DeleteMapping("{id}")
-    @PreAuthorize("hasAuthority('SCOPE_urn:sample:delete:v1')")
     @CacheEvict(value = [CACHE_NAME], key = "#id")
     @ResponseStatus(NO_CONTENT)
     @Operation(summary = "Removes the sample record from the database")

@@ -33,7 +33,7 @@ class SampleTableService(
     }
 
     @Transactional(readOnly = true)
-    fun list(queryRequest: QueryRequest, pageable: Pageable): Page<SampleResponse> {
+    fun page(queryRequest: QueryRequest, pageable: Pageable): Page<SampleResponse> {
         val specification: Specification<SampleTable> = SampleListSpecification(queryRequest.query)
 
         return sampleTableRepository

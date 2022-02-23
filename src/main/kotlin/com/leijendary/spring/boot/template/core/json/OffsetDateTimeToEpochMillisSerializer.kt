@@ -11,12 +11,9 @@ open class OffsetDateTimeToEpochMillisSerializer protected constructor(t: Class<
     constructor() : this(null)
 
     @Throws(IOException::class)
-    override fun serialize(
-        offsetDateTime: OffsetDateTime, jsonGenerator: JsonGenerator,
-        serializerProvider: SerializerProvider
-    ) {
+    override fun serialize(offsetDateTime: OffsetDateTime, generator: JsonGenerator, provider: SerializerProvider) {
         val epochMillis = offsetDateTime.toInstant().toEpochMilli()
 
-        jsonGenerator.writeNumber(epochMillis)
+        generator.writeNumber(epochMillis)
     }
 }

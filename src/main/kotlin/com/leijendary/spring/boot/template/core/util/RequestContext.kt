@@ -1,19 +1,18 @@
 package com.leijendary.spring.boot.template.core.util
 
-import org.springframework.security.core.Authentication
-import org.springframework.security.core.context.SecurityContextHolder.getContext
+import org.springframework.context.i18n.LocaleContextHolder.getLocale
+import org.springframework.context.i18n.LocaleContextHolder.getTimeZone
 import org.springframework.web.context.request.RequestContextHolder.getRequestAttributes
 import org.springframework.web.context.request.ServletRequestAttributes
-import org.springframework.web.servlet.support.RequestContextUtils.getLocale
-import org.springframework.web.servlet.support.RequestContextUtils.getTimeZone
 import java.net.URI
 import java.time.OffsetDateTime
 import java.time.OffsetDateTime.now
 import java.util.*
 import javax.servlet.http.HttpServletRequest
 
-object RequestContext {
+const val HEADER_USER_ID = "X-User-ID"
 
+object RequestContext {
     val currentRequest: HttpServletRequest?
         get() {
             val attributes = getRequestAttributes()
@@ -24,11 +23,7 @@ object RequestContext {
         }
 
     val username: String?
-        get() {
-            val context = getContext()
-
-            return context.authentication?.let { obj: Authentication -> obj.name }
-        }
+        get() = currentRequest?.getHeader(HEADER_USER_ID)
 
     val path: String?
         get() {
@@ -53,10 +48,10 @@ object RequestContext {
         }
 
     val timeZone: TimeZone
-        get() = currentRequest?.let { getTimeZone(it) } ?: TimeZone.getDefault()
+        get() = getTimeZone()
 
     val locale: Locale
-        get() = currentRequest?.let { getLocale(it) } ?: Locale.getDefault()
+        get() = getLocale()
 
     val language: String
         get() = locale.language

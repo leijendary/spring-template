@@ -16,8 +16,6 @@ info:
       url: https://leijendary.com
 
 auth:
-  audience: http://localhost:8080
-  realm: Spring Template API v1
   anonymousUser:
     principal: Anonymous User
   system:
@@ -34,8 +32,8 @@ number:
 retry:
   maxAttempts: 3
   backoff:
-    delay: 50
-    maxDelay: 200
+    delay: 5
+    maxDelay: 20
     multiplier: 2
 
 spring:
@@ -65,7 +63,10 @@ spring:
   data:
     web:
       pageable:
-        maxPageSize: 50
+        maxPageSize: 100
+  devtools:
+    livereload:
+      port: 35730
   jpa:
     openInView: false
     properties:
@@ -77,7 +78,7 @@ spring:
           lock:
             timeout: 3000
   messages:
-    basename: messages.access, messages.error, messages.validation
+    basename: messages.error, messages.validation
   mvc:
     throwExceptionIfNoHandlerFound: true
   task:
@@ -112,8 +113,6 @@ spring:
         retryableStatusCodes:
           - 502
           - 503
-          - 521
-          - 404
         backoff:
           enabled: true
           minBackoff: \${retry.backoff.delay}ms
@@ -170,11 +169,6 @@ spring:
   redis:
     host: localhost
     ssl: false
-  security:
-    oauth2:
-      resourceserver:
-        jwt:
-          jwkSetUri: https://leijendary.us.auth0.com/.well-known/jwks.json
 
 management:
   endpoint:
@@ -188,8 +182,6 @@ server:
   http2:
     enabled: true
   port: 8443
-  servlet:
-    contextPath: /sample
   ssl:
     enabled: true
     keyAlias: spring-boot
@@ -197,7 +189,6 @@ server:
     keyStore: classpath:ssl/keystore.p12
     keyStorePassword: spring-boot
   tomcat:
-    relaxedQueryChars: "[,]"
     threads:
       max: 500
 
