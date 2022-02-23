@@ -1,12 +1,2 @@
-auth:
-  audience: https://test.leijendary.com
-
-spring:
-  security:
-    oauth2:
-      resourceserver:
-        jwt:
-          jwkSetUri: http://authentication.test:8443/authentication/api/v1/.well-known/jwks.json
-
 server:
   port: 443

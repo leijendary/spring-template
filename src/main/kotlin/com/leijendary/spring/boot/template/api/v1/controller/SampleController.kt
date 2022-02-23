@@ -5,6 +5,7 @@ import com.leijendary.spring.boot.template.api.v1.data.SampleResponse
 import com.leijendary.spring.boot.template.api.v1.service.SampleTableService
 import com.leijendary.spring.boot.template.api.v1.service.SampleTableService.Companion.CACHE_NAME
 import com.leijendary.spring.boot.template.client.SampleClient
+import com.leijendary.spring.boot.template.core.data.DataResponse
 import com.leijendary.spring.boot.template.core.data.QueryRequest
 import com.leijendary.spring.boot.template.core.extension.setLocation
 import com.leijendary.spring.boot.template.core.util.RequestContext.language
@@ -62,34 +63,55 @@ class SampleController(private val sampleClient: SampleClient, private val sampl
      */
     @GetMapping
     @Operation(summary = "Sample implementation of swagger in a api")
-    fun list(queryRequest: QueryRequest, pageable: Pageable): Page<SampleResponse> {
-        return sampleTableService.page(queryRequest, pageable)
+    fun list(queryRequest: QueryRequest, pageable: Pageable): DataResponse<List<SampleResponse>> {
+        val page: Page<SampleResponse> = sampleTableService.page(queryRequest, pageable)
+
+        return DataResponse.builder<List<SampleResponse>>()
+            .data(page.content)
+            .meta(page)
+            .links(page)
+            .build()
     }
 
     @PostMapping
-    @CachePut(value = [CACHE_NAME], key = "#result.id")
+    @CachePut(value = [CACHE_NAME], key = "#result.data.id")
     @ResponseStatus(CREATED)
     @Operation(summary = "Saves a sample record into the database")
-    fun create(@Valid @RequestBody request: SampleRequest, httpServletResponse: HttpServletResponse): SampleResponse {
-        val sampleResponse = sampleTableService.create(request)
+    fun create(
+        @Valid @RequestBody request: SampleRequest,
+        httpServletResponse: HttpServletResponse
+    ): DataResponse<SampleResponse> {
+        val sampleResponse: SampleResponse = sampleTableService.create(request)
+        val response = DataResponse.builder<SampleResponse>()
+            .data(sampleResponse)
+            .status(CREATED)
+            .build()
 
         httpServletResponse.setLocation(sampleResponse.id)
 
-        return sampleResponse
+        return response
     }
 
     @GetMapping("{id}")
     @Cacheable(value = [CACHE_NAME], key = "#id")
     @Operation(summary = "Retrieves the sample record from the database")
-    fun get(@PathVariable id: UUID): SampleResponse {
-        return sampleTableService.get(id)
+    fun get(@PathVariable id: UUID): DataResponse<SampleResponse> {
+        val sampleResponse: SampleResponse = sampleTableService.get(id)
+
+        return DataResponse.builder<SampleResponse>()
+            .data(sampleResponse)
+            .build()
     }
 
     @PutMapping("{id}")
-    @CachePut(value = [CACHE_NAME], key = "#result.id")
+    @CachePut(value = [CACHE_NAME], key = "#result.data.id")
     @Operation(summary = "Updates the sample record into the database")
-    fun update(@PathVariable id: UUID, @Valid @RequestBody request: SampleRequest): SampleResponse {
-        return sampleTableService.update(id, request)
+    fun update(@PathVariable id: UUID, @Valid @RequestBody request: SampleRequest): DataResponse<SampleResponse> {
+        val sampleResponse: SampleResponse = sampleTableService.update(id, request)
+
+        return DataResponse.builder<SampleResponse>()
+            .data(sampleResponse)
+            .build()
     }
 
     @DeleteMapping("{id}")

@@ -1,6 +1,6 @@
 package com.leijendary.spring.boot.template.core.error
 
-import com.leijendary.spring.boot.template.core.data.ErrorData
+import com.leijendary.spring.boot.template.core.data.ErrorResponse
 import com.leijendary.spring.boot.template.core.util.RequestContext.locale
 import org.springframework.context.MessageSource
 import org.springframework.core.annotation.Order
@@ -17,7 +17,7 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 class MethodArgumentTypeMismatchExceptionHandler(private val messageSource: MessageSource) {
     @ExceptionHandler(MethodArgumentTypeMismatchException::class)
     @ResponseStatus(BAD_REQUEST)
-    fun catchMethodArgumentTypeMismatch(exception: MethodArgumentTypeMismatchException): List<ErrorData> {
+    fun catchMethodArgumentTypeMismatch(exception: MethodArgumentTypeMismatchException): ErrorResponse {
         val code = "error.invalid.type"
         val name = exception.name
         val parameter = exception.parameter
@@ -26,8 +26,10 @@ class MethodArgumentTypeMismatchExceptionHandler(private val messageSource: Mess
         val valueType = ClassUtils.getDescriptiveType(value)?.let { getShortName(it) }
         val arguments = arrayOf(name, value, valueType, requiredType)
         val message = messageSource.getMessage(code, arguments, locale)
-        val errorData = ErrorData(listOf("body", name), code, message)
 
-        return listOf(errorData)
+        return ErrorResponse.builder()
+            .addError(mutableListOf("body", name), code, message)
+            .status(BAD_REQUEST)
+            .build()
     }
 }

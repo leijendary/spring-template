@@ -1,6 +1,6 @@
 package com.leijendary.spring.boot.template.core.error
 
-import com.leijendary.spring.boot.template.core.data.ErrorData
+import com.leijendary.spring.boot.template.core.data.ErrorResponse
 import com.leijendary.spring.boot.template.core.extension.logger
 import org.springframework.core.annotation.Order
 import org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR
@@ -15,12 +15,11 @@ class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception::class)
     @ResponseStatus(INTERNAL_SERVER_ERROR)
-    fun catchException(exception: Exception): List<ErrorData> {
+    fun catchException(exception: Exception): ErrorResponse {
         log.error("Global Exception", exception)
 
-        val code = "error.generic"
-        val errorData = ErrorData(listOf("server", "internal"), code, exception.message)
-
-        return listOf(errorData)
+        return ErrorResponse.builder()
+            .addError(mutableListOf("server", "internal"), "error.generic", exception.message)
+            .build()
     }
 }

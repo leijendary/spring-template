@@ -1,6 +1,6 @@
 package com.leijendary.spring.boot.template.core.error
 
-import com.leijendary.spring.boot.template.core.data.ErrorData
+import com.leijendary.spring.boot.template.core.data.ErrorResponse
 import com.leijendary.spring.boot.template.core.util.RequestContext.locale
 import org.springframework.context.MessageSource
 import org.springframework.core.annotation.Order
@@ -17,8 +17,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice
 class BindExceptionHandler(private val messageSource: MessageSource) {
     @ExceptionHandler(BindException::class)
     @ResponseStatus(BAD_REQUEST)
-    fun catchMethodArgumentNotValid(exception: BindException): List<ErrorData> {
-        val errors: MutableList<ErrorData> = mutableListOf()
+    fun catchMethodArgumentNotValid(exception: BindException): ErrorResponse {
+        val response: ErrorResponse.ErrorResponseBuilder = ErrorResponse.builder().status(BAD_REQUEST)
 
         exception.allErrors.forEach { field: ObjectError ->
             val objectName: String = if (field is FieldError) field.field else field.objectName
@@ -29,9 +29,9 @@ class BindExceptionHandler(private val messageSource: MessageSource) {
             val arguments: Array<Any>? = field.arguments
             val message = code.let { messageSource.getMessage(it, arguments, code, locale) }
 
-            errors.add(ErrorData(source, code, message))
+            response.addError(source, code, message)
         }
 
-        return errors
+        return response.build()
     }
 }

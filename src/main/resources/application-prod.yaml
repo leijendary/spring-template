@@ -1,16 +1,8 @@
-auth:
-  audience: https://leijendary.com
-
 spring:
   main:
     bannerMode: off
   redis:
     ssl: true
-  security:
-    oauth2:
-      resourceserver:
-        jwt:
-          jwkSetUri: http://authentication.production:8443/authentication/api/v1/.well-known/jwks.json
 
 server:
   port: 443
