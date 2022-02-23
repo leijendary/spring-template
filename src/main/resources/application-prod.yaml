@@ -10,7 +10,7 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          jwkSetUri: http://authentication.production:8080/authentication/api/v1/.well-known/jwks.json
+          jwkSetUri: http://authentication.production:8443/authentication/api/v1/.well-known/jwks.json
 
 server:
   port: 443
