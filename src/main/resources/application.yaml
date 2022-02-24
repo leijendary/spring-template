@@ -121,6 +121,8 @@ spring:
     serviceRegistry:
       autoRegistration:
         enabled: false
+    function:
+      definition: sampleCreated;sampleUpdated;sampleDeleted
     stream:
       bindings:
         sampleCreated-in-0:
@@ -135,8 +137,6 @@ spring:
           destination: \${info.app.organization}.sample.delete
         sampleDelete-out-0:
           destination: \${info.app.organization}.sample.delete
-      function:
-        definition: sampleCreated;sampleUpdated;sampleDeleted
       kafka:
         binder:
           autoAddPartitions: true
