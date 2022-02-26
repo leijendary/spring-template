@@ -4,7 +4,6 @@ import org.springframework.context.i18n.LocaleContextHolder.getLocale
 import org.springframework.context.i18n.LocaleContextHolder.getTimeZone
 import org.springframework.web.context.request.RequestContextHolder.getRequestAttributes
 import org.springframework.web.context.request.ServletRequestAttributes
-import java.net.URI
 import java.time.OffsetDateTime
 import java.time.OffsetDateTime.now
 import java.util.*
@@ -33,20 +32,6 @@ object RequestContext {
             val contextPath = request.contextPath
 
             return request.requestURI.replaceFirst(contextPath.toRegex(), "")
-        }
-
-    val uri: URI?
-        get() {
-            val request = currentRequest
-            var path = path
-
-            if (request == null || path == null) {
-                return null
-            }
-
-            request.queryString?.also { path += "?$it" }
-
-            return URI.create(path)
         }
 
     val timeZone: TimeZone
