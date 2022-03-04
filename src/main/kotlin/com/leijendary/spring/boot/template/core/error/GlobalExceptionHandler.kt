@@ -1,7 +1,7 @@
 package com.leijendary.spring.boot.template.core.error
 
 import com.leijendary.spring.boot.template.core.data.ErrorData
-import com.leijendary.spring.boot.template.core.util.logger
+import com.leijendary.spring.boot.template.core.extension.logger
 import org.springframework.core.annotation.Order
 import org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR
 import org.springframework.web.bind.annotation.ExceptionHandler

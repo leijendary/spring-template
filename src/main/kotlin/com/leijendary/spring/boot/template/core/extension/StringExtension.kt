@@ -1,7 +1,17 @@
-package com.leijendary.spring.boot.template.core.util
+package com.leijendary.spring.boot.template.core.extension
 
+import com.fasterxml.jackson.core.JsonProcessingException
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.leijendary.spring.boot.template.core.util.SpringContext
 import java.lang.Character.toLowerCase
 import java.lang.Character.toUpperCase
+
+private val mapper: ObjectMapper = SpringContext.getBean(ObjectMapper::class.java)
+
+@Throws(JsonProcessingException::class)
+fun <T> String.toClass(type: Class<T>): T {
+    return mapper.readValue(this, type)
+}
 
 fun String.snakeCaseToCamelCase(capitalizeFirst: Boolean = false): String {
     val builder = StringBuilder()

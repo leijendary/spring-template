@@ -1,8 +1,8 @@
 package com.leijendary.spring.boot.template.core.error
 
 import com.leijendary.spring.boot.template.core.data.ErrorData
+import com.leijendary.spring.boot.template.core.extension.snakeCaseToCamelCase
 import com.leijendary.spring.boot.template.core.util.RequestContext.locale
-import com.leijendary.spring.boot.template.core.util.snakeCaseToCamelCase
 import org.apache.commons.lang3.StringUtils.substringBetween
 import org.hibernate.exception.ConstraintViolationException
 import org.springframework.context.MessageSource

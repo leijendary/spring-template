@@ -1,4 +1,4 @@
-package com.leijendary.spring.boot.template.core.util
+package com.leijendary.spring.boot.template.core.extension
 
 import com.leijendary.spring.boot.template.core.config.properties.NumberProperties
 import com.leijendary.spring.boot.template.core.util.SpringContext.Companion.getBean

@@ -1,4 +1,4 @@
-package com.leijendary.spring.boot.template.core.util
+package com.leijendary.spring.boot.template.core.extension
 
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory.getLogger

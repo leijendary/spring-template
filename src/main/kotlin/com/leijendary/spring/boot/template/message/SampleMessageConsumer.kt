@@ -1,8 +1,8 @@
 package com.leijendary.spring.boot.template.message
 
 import com.leijendary.spring.boot.template.api.v1.data.SampleMessage
-import com.leijendary.spring.boot.template.core.util.AnyUtil.toJson
-import com.leijendary.spring.boot.template.core.util.logger
+import com.leijendary.spring.boot.template.core.extension.AnyUtil.toJson
+import com.leijendary.spring.boot.template.core.extension.logger
 import org.apache.kafka.streams.kstream.KStream
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration

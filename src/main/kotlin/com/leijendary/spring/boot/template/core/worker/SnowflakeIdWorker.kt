@@ -1,6 +1,6 @@
 package com.leijendary.spring.boot.template.core.worker
 
-import com.leijendary.spring.boot.template.core.util.logger
+import com.leijendary.spring.boot.template.core.extension.logger
 import java.net.NetworkInterface
 import java.net.NetworkInterface.getNetworkInterfaces
 import java.security.SecureRandom

@@ -6,11 +6,11 @@ import com.leijendary.spring.boot.template.api.v1.service.SampleTableService
 import com.leijendary.spring.boot.template.api.v1.service.SampleTableService.Companion.CACHE_NAME
 import com.leijendary.spring.boot.template.client.SampleClient
 import com.leijendary.spring.boot.template.core.data.QueryRequest
+import com.leijendary.spring.boot.template.core.extension.setLocation
 import com.leijendary.spring.boot.template.core.util.RequestContext.language
 import com.leijendary.spring.boot.template.core.util.RequestContext.locale
 import com.leijendary.spring.boot.template.core.util.RequestContext.now
 import com.leijendary.spring.boot.template.core.util.RequestContext.timeZone
-import com.leijendary.spring.boot.template.core.util.setLocation
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.cache.annotation.CacheEvict

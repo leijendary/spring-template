@@ -1,7 +1,11 @@
 package com.leijendary.spring.boot.template.core.message
 
-import com.leijendary.spring.boot.template.core.util.AnyUtil.toJson
-import com.leijendary.spring.boot.template.core.util.logger
+import com.leijendary.spring.boot.template.core.extension.AnyUtil.toJson
+import com.leijendary.spring.boot.template.core.extension.logger
+import com.leijendary.spring.boot.template.core.util.RETRY_BACKOFF_DELAY
+import com.leijendary.spring.boot.template.core.util.RETRY_BACKOFF_MAX_DELAY
+import com.leijendary.spring.boot.template.core.util.RETRY_BACKOFF_MULTIPLIER
+import com.leijendary.spring.boot.template.core.util.RETRY_MAX_ATTEMPTS
 import org.springframework.cloud.stream.config.BindingServiceProperties
 import org.springframework.cloud.stream.function.StreamBridge
 import org.springframework.kafka.KafkaException
@@ -21,11 +25,11 @@ class KafkaProducer<V : Any>(
 
     @Retryable(
         value = [KafkaException::class],
-        maxAttemptsExpression = "\${retry.maxAttempts}",
+        maxAttemptsExpression = RETRY_MAX_ATTEMPTS,
         backoff = Backoff(
-            delayExpression = "\${retry.backoff.delay}",
-            maxDelayExpression = "\${retry.backoff.maxDelay}",
-            multiplierExpression = "\${retry.backoff.multiplier}"
+            delayExpression = RETRY_BACKOFF_DELAY,
+            maxDelayExpression = RETRY_BACKOFF_MAX_DELAY,
+            multiplierExpression = RETRY_BACKOFF_MULTIPLIER
         )
     )
     fun send(binding: String, value: V) {
@@ -34,11 +38,11 @@ class KafkaProducer<V : Any>(
 
     @Retryable(
         value = [KafkaException::class],
-        maxAttemptsExpression = "\${retry.maxAttempts}",
+        maxAttemptsExpression = RETRY_MAX_ATTEMPTS,
         backoff = Backoff(
-            delayExpression = "\${retry.backoff.delay}",
-            maxDelayExpression = "\${retry.backoff.maxDelay}",
-            multiplierExpression = "\${retry.backoff.multiplier}"
+            delayExpression = RETRY_BACKOFF_DELAY,
+            maxDelayExpression = RETRY_BACKOFF_MAX_DELAY,
+            multiplierExpression = RETRY_BACKOFF_MULTIPLIER
         )
     )
     fun send(binding: String, key: String?, value: V) {
