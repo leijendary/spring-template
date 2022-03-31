@@ -1,11 +1,6 @@
 spring:
   main:
     bannerMode: off
-  redis:
-    ssl: true
-
-server:
-  port: 443
 
 springdoc:
   apiDocs:

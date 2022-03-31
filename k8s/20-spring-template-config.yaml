@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: spring-template-config
+  namespace: template
+data:
+  SPRING_DATASOURCE_PRIMARY_JDBC_URL: "jdbc:postgresql://postgres-service.database.svc.cluster.local:5432/spring_microservice"
+  SPRING_DATASOURCE_PRIMARY_USERNAME: postgres
+  SPRING_DATASOURCE_READONLY_JDBC_URL: "jdbc:postgresql://postgres-service.database.svc.cluster.local:5432/spring_microservice"
+  SPRING_DATASOURCE_READONLY_USERNAME: postgres
+  SPRING_PROFILES_ACTIVE: dev,aws
+  CLOUD_AWS_CREDENTIALS_USER_DEFAULT_AWS_CREDENTIALS_CHAIN: "false"
+  CLOUD_AWS_REGION_STATIC: me-south-1
+  CLOUD_AWS_REGION_USE_DEFAULT_AWS_REGION_CHAIN: "false"
+  CLOUD_AWS_STACK_AUTO: "false"
+  SPRING_ELASTICSEARCH_URIS: http://elasticsearch-es-http.elasticstack.svc.cluster.local:9200
+  SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka-service.kafka.svc.cluster.local:9092
+  SPRING_REDIS_HOST: redis-service.cache.svc.cluster.local
+  SPRING_REDIS_PORT: "6379"

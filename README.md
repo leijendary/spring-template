@@ -11,9 +11,6 @@
 - Spring Actuator
 - Spring Data JPA
 - Spring Web
-- Spring Security
-- Spring OAuth2 Resource Server
-- Spring Security OAuth2 JOSE
 - Spring Cloud Openfeign
 - Spring Cloud Loadbalancer
 - Spring Cache
@@ -33,6 +30,7 @@
 - Docker
 - JUnit
 - ElasticSearch
+- Kubernetes
 
 # Spring Microservice Template
 
@@ -47,7 +45,3 @@
 ### To build a JAR file:
 
 `./gradlew bootJar -x test`
-
-### To generate a certificate:
-
-`keytool -genkeypair -alias spring-boot -keyalg RSA -keysize 2048 -validity 3650 -keypass spring-boot -storetype PKCS12 -keystore keystore.p12`

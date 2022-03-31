@@ -11,6 +11,13 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
+                  name: row_id
+                  type: bigserial
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
                   name: column_1
                   type: varchar(100)
                   constraints:

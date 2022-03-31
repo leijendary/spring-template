@@ -54,12 +54,14 @@ spring:
         rewriteBatchedStatements: true
         useServerPrepStmts: true
       maximumPoolSize: 20
+      driverClassName: org.postgresql.Driver
     readonly:
       poolName: Read-only
       jdbcUrl:
       username:
       password:
       maximumPoolSize: 5
+      driverClassName: org.postgresql.Driver
   data:
     web:
       pageable:
@@ -76,7 +78,7 @@ spring:
       javax:
         persistence:
           lock:
-            timeout: 3000
+            timeout: 2000
   messages:
     basename: messages.error, messages.validation
   mvc:
@@ -156,9 +158,9 @@ spring:
               sampleDeleted:
                 applicationId: \${info.app.name}.\${info.app.organization}.sample.delete
   elasticsearch:
-    uris: http://localhost:9200
+    uris:
   kafka:
-    bootstrapServers: localhost:9092
+    bootstrapServers:
     producer:
       properties:
         spring:
@@ -167,8 +169,8 @@ spring:
               type:
                 headers: false
   redis:
-    host: localhost
-    ssl: false
+    host:
+    port:
 
 management:
   endpoint:
@@ -181,13 +183,7 @@ server:
       enabled: false
   http2:
     enabled: true
-  port: 8443
-  ssl:
-    enabled: true
-    keyAlias: spring-boot
-    keyStoreType: PKCS12
-    keyStore: classpath:ssl/keystore.p12
-    keyStorePassword: spring-boot
+  port: 80
   tomcat:
     threads:
       max: 500
