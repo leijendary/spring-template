@@ -49,7 +49,6 @@ class SampleSearch(
         val searchQuery: NativeSearchQuery = searchBuilder.build()
         val searchHits: SearchHits<SampleDocument?> =
             elasticsearchRestTemplate.search(searchQuery, SampleDocument::class.java)
-
         val list: List<SampleDocument> = searchHits.map { it.content }.toList()
         val total = searchHits.totalHits
 
@@ -69,7 +68,7 @@ class SampleSearch(
     }
 
     fun update(sampleTable: SampleTable) {
-        val id: UUID = sampleTable.id!!
+        val id: UUID = sampleTable.id
         val document: SampleDocument = serviceSearchRepository.findById(id)
             .orElseThrow { ResourceNotFoundException(SOURCE, id) }
 

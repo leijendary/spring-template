@@ -9,7 +9,7 @@ import javax.persistence.EntityManager
 import javax.persistence.PersistenceContext
 
 @Repository
-class SoftDeleteRepositoryImpl<T : SoftDeleteModel?>(
+class SoftDeleteRepositoryImpl<T : SoftDeleteModel>(
     private val authProperties: AuthProperties,
 
     @PersistenceContext
@@ -17,8 +17,6 @@ class SoftDeleteRepositoryImpl<T : SoftDeleteModel?>(
 ) : SoftDeleteRepository<T> {
 
     override fun softDelete(entity: T) {
-        checkNotNull(entity)
-
         entity.deletedAt = now
         entity.deletedBy = userId ?: authProperties.system.principal
 

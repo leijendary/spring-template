@@ -54,15 +54,15 @@ class SampleTableService(
 
     @Transactional(readOnly = true)
     fun get(id: UUID): SampleResponse {
-        return sampleTableRepository.findById(id)
-            .map { MAPPER.toResponse(it) }
-            .orElseThrow { ResourceNotFoundException(SOURCE, id) }
+        return sampleTableRepository.findProjectedById(id)
+            ?.let { MAPPER.toResponse(it) }
+            ?: throw ResourceNotFoundException(SOURCE, id)
     }
 
     @Transactional
     fun update(id: UUID, sampleRequest: SampleRequest): SampleResponse {
         val sampleTable: SampleTable = sampleTableRepository.findLockedById(id)
-            .orElseThrow { ResourceNotFoundException(SOURCE, id) }
+            ?: throw ResourceNotFoundException(SOURCE, id)
 
         MAPPER.update(sampleRequest, sampleTable)
 
@@ -76,7 +76,7 @@ class SampleTableService(
     @Transactional
     fun delete(id: UUID) {
         val sampleTable: SampleTable = sampleTableRepository.findLockedById(id)
-            .orElseThrow { ResourceNotFoundException(SOURCE, id) }
+            ?: throw ResourceNotFoundException(SOURCE, id)
 
         sampleTableRepository.softDelete(sampleTable)
 

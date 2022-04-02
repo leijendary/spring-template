@@ -6,8 +6,8 @@ import javax.persistence.Id
 import javax.persistence.MappedSuperclass
 
 @MappedSuperclass
-abstract class IdentityIdModel : AppModel() {
+abstract class IdentityModel : AppModel() {
     @Id
     @GeneratedValue(strategy = IDENTITY)
-    var id: Long = 0
+    var pk: Long = 0
 }

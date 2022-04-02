@@ -6,17 +6,17 @@ databaseChangeLog:
         - createTable:
             columns:
               - column:
-                  name: id
-                  type: uuid
-                  constraints:
-                    nullable: false
-              - column:
-                  name: row_id
+                  name: pk
                   type: bigserial
                   autoIncrement: true
                   constraints:
                     nullable: false
                     unique: true
+              - column:
+                  name: id
+                  type: uuid
+                  constraints:
+                    nullable: false
               - column:
                   name: column_1
                   type: varchar(100)
@@ -74,8 +74,8 @@ databaseChangeLog:
         - createTable:
             columns:
               - column:
-                  name: id
-                  type: uuid
+                  name: pk
+                  type: bigint
                   constraints:
                     nullable: false
               - column:
@@ -104,7 +104,7 @@ databaseChangeLog:
       author: Leijendekker
       changes:
         - addPrimaryKey:
-            columnNames: id
+            columnNames: pk
             constraintName: sample_table_pk
             tableName: sample_table
             validate: true
@@ -113,7 +113,7 @@ databaseChangeLog:
       author: Leijendekker
       changes:
         - addPrimaryKey:
-            columnNames: id, language
+            columnNames: pk, language
             constraintName: sample_table_translations_pk
             tableName: sample_table_translations
             validate: true
@@ -122,14 +122,14 @@ databaseChangeLog:
       author: Leijendary
       changes:
         - addForeignKeyConstraint:
-            baseColumnNames: id
+            baseColumnNames: pk
             baseTableName: sample_table_translations
-            constraintName: sample_table_translations_id_fk
+            constraintName: sample_table_translations_pk_fk
             deferrable: false
             initiallyDeferred: false
             onDelete: NO ACTION
             onUpdate: NO ACTION
-            referencedColumnNames: id
+            referencedColumnNames: pk
             referencedTableName: sample_table
             validate: true
   - changeSet:

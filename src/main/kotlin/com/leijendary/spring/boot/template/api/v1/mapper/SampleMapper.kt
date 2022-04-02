@@ -6,6 +6,7 @@ import com.leijendary.spring.boot.template.api.v1.data.SampleResponse
 import com.leijendary.spring.boot.template.api.v1.data.SampleSearchResponse
 import com.leijendary.spring.boot.template.document.SampleDocument
 import com.leijendary.spring.boot.template.model.SampleTable
+import com.leijendary.spring.boot.template.projection.SampleTableProjection
 import org.mapstruct.Mapper
 import org.mapstruct.Mapping
 import org.mapstruct.MappingTarget
@@ -19,6 +20,8 @@ interface SampleMapper {
     }
 
     fun toResponse(sampleTable: SampleTable): SampleResponse
+
+    fun toResponse(sampleTableProjection: SampleTableProjection): SampleResponse
 
     @Mappings(
         Mapping(source = "field1", target = "column1"),

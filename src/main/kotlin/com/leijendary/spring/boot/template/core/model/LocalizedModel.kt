@@ -10,7 +10,7 @@ import javax.persistence.MappedSuperclass
 @MappedSuperclass
 abstract class LocalizedModel<T : LocaleModel> : UUIDModel() {
     @ElementCollection(fetch = EAGER)
-    @CollectionTable(joinColumns = [JoinColumn(name = "id")])
+    @CollectionTable(joinColumns = [JoinColumn(name = "pk")])
     val translations: Set<T> = HashSet()
 
     val translation: T
