@@ -5,6 +5,8 @@ import com.leijendary.spring.boot.template.api.v1.data.SampleResponse
 import com.leijendary.spring.boot.template.api.v1.mapper.SampleMapper
 import com.leijendary.spring.boot.template.api.v1.search.SampleSearch
 import com.leijendary.spring.boot.template.core.data.QueryRequest
+import com.leijendary.spring.boot.template.core.data.Seek
+import com.leijendary.spring.boot.template.core.data.Seekable
 import com.leijendary.spring.boot.template.core.exception.ResourceNotFoundException
 import com.leijendary.spring.boot.template.data.SampleCreateEvent
 import com.leijendary.spring.boot.template.data.SampleDeleteEvent
@@ -13,8 +15,6 @@ import com.leijendary.spring.boot.template.model.SampleTable
 import com.leijendary.spring.boot.template.repository.SampleTableRepository
 import com.leijendary.spring.boot.template.specification.SampleListSpecification
 import org.springframework.context.ApplicationEventPublisher
-import org.springframework.data.domain.Page
-import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.domain.Specification
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -33,11 +33,11 @@ class SampleTableService(
     }
 
     @Transactional(readOnly = true)
-    fun page(queryRequest: QueryRequest, pageable: Pageable): Page<SampleResponse> {
+    fun seek(queryRequest: QueryRequest, seekable: Seekable): Seek<SampleResponse> {
         val specification: Specification<SampleTable> = SampleListSpecification(queryRequest.query)
 
         return sampleTableRepository
-            .findAll(specification, pageable)
+            .findAll(SampleTable::class, specification, seekable)
             .map { MAPPER.toResponse(it) }
     }
 
@@ -54,9 +54,9 @@ class SampleTableService(
 
     @Transactional(readOnly = true)
     fun get(id: UUID): SampleResponse {
-        return sampleTableRepository.findProjectedById(id)
-            ?.let { MAPPER.toResponse(it) }
-            ?: throw ResourceNotFoundException(SOURCE, id)
+        return sampleTableRepository.findById(id)
+            .map { MAPPER.toResponse(it) }
+            .orElseThrow { ResourceNotFoundException(SOURCE, id) }
     }
 
     @Transactional

@@ -1,13 +1,14 @@
 package com.leijendary.spring.boot.template.core.model
 
+import com.leijendary.spring.boot.template.core.projection.IdentityProjection
 import javax.persistence.GeneratedValue
 import javax.persistence.GenerationType.IDENTITY
 import javax.persistence.Id
 import javax.persistence.MappedSuperclass
 
 @MappedSuperclass
-abstract class IdentityModel : AppModel() {
+abstract class IdentityModel : AppModel(), IdentityProjection {
     @Id
     @GeneratedValue(strategy = IDENTITY)
-    var pk: Long = 0
+    override var id: Long = 0
 }

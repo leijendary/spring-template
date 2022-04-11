@@ -10,7 +10,7 @@ import java.util.function.Consumer
 
 @Configuration
 class SampleMessageConsumer {
-    val log = logger()
+    private val log = logger()
 
     @Bean
     fun sampleCreated(): Consumer<KStream<String, SampleMessage>> {

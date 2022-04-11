@@ -15,7 +15,6 @@ import java.util.Optional.of
 @EnableJpaAuditing(auditorAwareRef = "auditorProvider", dateTimeProviderRef = "dateTimeProvider")
 @EnableTransactionManagement
 class JpaConfiguration(private val authProperties: AuthProperties) {
-
     @Bean
     fun auditorProvider(): AuditorAware<String> {
         val anonymousUser = authProperties.anonymousUser.principal

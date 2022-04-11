@@ -7,6 +7,7 @@ import org.springframework.web.context.request.ServletRequestAttributes
 import java.net.URI
 import java.time.OffsetDateTime
 import java.time.OffsetDateTime.now
+import java.time.ZoneId
 import java.util.*
 import javax.servlet.http.HttpServletRequest
 
@@ -51,6 +52,9 @@ object RequestContext {
 
     val timeZone: TimeZone
         get() = getTimeZone()
+
+    val zoneId: ZoneId
+        get() = timeZone.toZoneId()
 
     val locale: Locale
         get() = getLocale()

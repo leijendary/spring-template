@@ -11,7 +11,6 @@ class ErrorResponse(
     val meta: Map<String, Any> = emptyMap(),
     val links: Map<String, URI?>? = null
 ) : Response {
-
     companion object {
         fun builder(): ErrorResponseBuilder {
             return ErrorResponseBuilder()

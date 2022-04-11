@@ -39,10 +39,6 @@ retry:
 spring:
   application:
     name: \${info.app.name}
-  autoconfigure:
-    exclude:
-      - org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration
-      - org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration
   datasource:
     primary:
       poolName: Primary
@@ -75,6 +71,10 @@ spring:
       hibernate:
         jdbc:
           batch_size: 1000
+        session:
+          events:
+            log:
+              LOG_QUERIES_SLOWER_THAN_MS: 1
       javax:
         persistence:
           lock:

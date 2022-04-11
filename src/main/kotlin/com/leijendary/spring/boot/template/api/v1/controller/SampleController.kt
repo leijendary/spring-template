@@ -7,6 +7,8 @@ import com.leijendary.spring.boot.template.api.v1.service.SampleTableService.Com
 import com.leijendary.spring.boot.template.client.SampleClient
 import com.leijendary.spring.boot.template.core.data.DataResponse
 import com.leijendary.spring.boot.template.core.data.QueryRequest
+import com.leijendary.spring.boot.template.core.data.Seek
+import com.leijendary.spring.boot.template.core.data.Seekable
 import com.leijendary.spring.boot.template.core.extension.setLocation
 import com.leijendary.spring.boot.template.core.util.RequestContext.language
 import com.leijendary.spring.boot.template.core.util.RequestContext.locale
@@ -17,8 +19,6 @@ import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.cache.annotation.CacheEvict
 import org.springframework.cache.annotation.CachePut
 import org.springframework.cache.annotation.Cacheable
-import org.springframework.data.domain.Page
-import org.springframework.data.domain.Pageable
 import org.springframework.http.HttpStatus.CREATED
 import org.springframework.http.HttpStatus.NO_CONTENT
 import org.springframework.http.MediaType.TEXT_HTML_VALUE
@@ -57,19 +57,18 @@ class SampleController(private val sampleClient: SampleClient, private val sampl
      * This is a sample RequestMapping (Only GET method, that is why I used
      * [GetMapping])
      *
-     * @param pageable The page request. Since this API has pageable results, it is
-     * recommended that the request parameters contains
-     * [Pageable]
+     * @param seekable The seek request. Since this API has seekable results, it is
+     * recommended that the request parameters contains [Seekable]
      */
     @GetMapping
     @Operation(summary = "Sample implementation of swagger in a api")
-    fun list(queryRequest: QueryRequest, pageable: Pageable): DataResponse<List<SampleResponse>> {
-        val page: Page<SampleResponse> = sampleTableService.page(queryRequest, pageable)
+    fun seek(queryRequest: QueryRequest, seekable: Seekable): DataResponse<List<SampleResponse>> {
+        val seek: Seek<SampleResponse> = sampleTableService.seek(queryRequest, seekable)
 
         return DataResponse.builder<List<SampleResponse>>()
-            .data(page.content)
-            .meta(page)
-            .links(page)
+            .data(seek.content)
+            .meta(seek)
+            .links(seek)
             .build()
     }
 

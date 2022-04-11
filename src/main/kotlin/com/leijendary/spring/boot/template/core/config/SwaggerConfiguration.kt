@@ -8,7 +8,6 @@ import org.springframework.context.annotation.Configuration
 
 @Configuration
 class SwaggerConfiguration(private val infoProperties: InfoProperties) {
-
     @Bean
     fun openAPI(): OpenAPI {
         return OpenAPI()

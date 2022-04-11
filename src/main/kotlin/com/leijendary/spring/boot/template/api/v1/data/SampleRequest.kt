@@ -13,7 +13,7 @@ data class SampleRequest(
     @get:Size(max = 50, message = "validation.maxLength")
     val field1: String? = null,
 
-    val field2: Int = 0,
+    val field2: Long = 0,
 
     @get:DecimalMin(value = "0.00", message = "validation.decimal.min")
     val amount: BigDecimal = ZERO,

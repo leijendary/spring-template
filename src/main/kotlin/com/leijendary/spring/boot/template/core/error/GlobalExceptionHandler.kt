@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice
 @RestControllerAdvice
 @Order
 class GlobalExceptionHandler {
-    val log = logger()
+    private val log = logger()
 
     @ExceptionHandler(Exception::class)
     @ResponseStatus(INTERNAL_SERVER_ERROR)

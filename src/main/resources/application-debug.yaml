@@ -5,10 +5,6 @@ spring:
     properties:
       hibernate:
         generate_statistics: true
-        session:
-          events:
-            log:
-              LOG_QUERIES_SLOWER_THAN_MS: 1
     showSql: true
 
 logging:

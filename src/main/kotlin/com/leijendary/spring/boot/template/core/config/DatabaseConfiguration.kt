@@ -1,7 +1,7 @@
 package com.leijendary.spring.boot.template.core.config
 
-import com.leijendary.spring.boot.template.core.config.DatabaseConfiguration.DataSourceType.PRIMARY
-import com.leijendary.spring.boot.template.core.config.DatabaseConfiguration.DataSourceType.READONLY
+import com.leijendary.spring.boot.template.core.config.DatabaseConfiguration.DataSourceType.READ_ONLY
+import com.leijendary.spring.boot.template.core.config.DatabaseConfiguration.DataSourceType.READ_WRITE
 import com.leijendary.spring.boot.template.core.config.properties.DataSourcePrimaryProperties
 import com.leijendary.spring.boot.template.core.config.properties.DataSourceReadonlyProperties
 import com.zaxxer.hikari.HikariDataSource
@@ -19,15 +19,15 @@ class DatabaseConfiguration(
     private val readonlyProperties: DataSourceReadonlyProperties
 ) {
     enum class DataSourceType {
-        PRIMARY,
-        READONLY
+        READ_WRITE,
+        READ_ONLY
     }
 
     inner class TransactionRoutingDataSource : AbstractRoutingDataSource() {
         override fun determineCurrentLookupKey(): Any {
             val isReadOnly = isCurrentTransactionReadOnly()
 
-            return if (isReadOnly) READONLY else PRIMARY
+            return if (isReadOnly) READ_ONLY else READ_WRITE
         }
     }
 
@@ -39,23 +39,21 @@ class DatabaseConfiguration(
 
     @Bean
     fun routingDataSource(): TransactionRoutingDataSource {
-        val routing = TransactionRoutingDataSource()
         val dataSource = HashMap<Any, Any>()
-        dataSource[PRIMARY] = primaryDataSource()
-        dataSource[READONLY] = readonlyDataSource()
+        dataSource[READ_WRITE] = primaryDataSource()
+        dataSource[READ_ONLY] = readonlyDataSource()
 
+        val routing = TransactionRoutingDataSource()
         routing.setTargetDataSources(dataSource)
 
         return routing
     }
 
-    @Bean
-    fun primaryDataSource(): HikariDataSource {
+    private fun primaryDataSource(): HikariDataSource {
         return HikariDataSource(primaryProperties)
     }
 
-    @Bean
-    fun readonlyDataSource(): HikariDataSource {
+    private fun readonlyDataSource(): HikariDataSource {
         return HikariDataSource(readonlyProperties)
     }
 }

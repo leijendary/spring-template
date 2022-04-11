@@ -9,7 +9,6 @@ import java.math.BigDecimal
 
 @JsonComponent
 class BigDecimalSerializer(private val numberProperties: NumberProperties) : JsonSerializer<BigDecimal>() {
-
     override fun serialize(value: BigDecimal?, generator: JsonGenerator, provider: SerializerProvider) {
         val scale = numberProperties.scale
         val round = numberProperties.round

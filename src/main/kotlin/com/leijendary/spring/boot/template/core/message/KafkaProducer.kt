@@ -21,7 +21,7 @@ class KafkaProducer<V : Any>(
     private val bindingServiceProperties: BindingServiceProperties,
     private val streamBridge: StreamBridge
 ) {
-    val log = logger()
+    private val log = logger()
 
     @Retryable(
         value = [KafkaException::class],

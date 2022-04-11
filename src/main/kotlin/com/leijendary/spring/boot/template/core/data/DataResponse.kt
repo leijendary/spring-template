@@ -2,6 +2,7 @@ package com.leijendary.spring.boot.template.core.data
 
 import com.leijendary.spring.boot.template.core.util.RequestContext.now
 import com.leijendary.spring.boot.template.core.util.RequestContext.uri
+import org.apache.http.client.utils.URIBuilder
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Sort
 import org.springframework.http.HttpStatus
@@ -15,7 +16,6 @@ class DataResponse<T>(
     val meta: Map<String, Any> = emptyMap(),
     val links: Map<String, URI?>? = null
 ) : Response {
-
     companion object {
         fun <T> builder(): DataResponseBuilder<T> {
             return DataResponseBuilder<T>()
@@ -59,6 +59,12 @@ class DataResponse<T>(
             return this
         }
 
+        fun meta(seek: Seek<*>): DataResponseBuilder<T> {
+            meta["seek"] = SeekMeta(seek)
+
+            return this
+        }
+
         fun selfLink(): DataResponseBuilder<T> {
             links["self"] = uri
 
@@ -88,6 +94,15 @@ class DataResponse<T>(
             return this
         }
 
+        fun links(seek: Seek<*>): DataResponseBuilder<T> {
+            val nextToken = seek.nextToken
+            val limit = seek.seekable.limit
+
+            links["next"] = createLink(nextToken, limit)
+
+            return this
+        }
+
         private fun createLink(page: Int, size: Int, sort: Sort): URI? {
             val uri: URI = uri ?: return null
             val builder: UriComponentsBuilder = fromUri(uri)
@@ -99,6 +114,15 @@ class DataResponse<T>(
             }
 
             return builder.build().toUri()
+        }
+
+        private fun createLink(nextToken: String?, limit: Int): URI? {
+            val uri: URI = uri ?: return null
+
+            return URIBuilder(uri)
+                .removeQuery()
+                .setCustomQuery("limit=$limit&nextToken=$nextToken")
+                .build()
         }
     }
 }
