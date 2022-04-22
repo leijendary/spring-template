@@ -5,7 +5,7 @@ services:
     container_name: spring-template
     ports:
       - "80:80"
-    env_file: .docker.env
+    env_file: docker.env
     networks:
       - postgres_network
       - redis_network
