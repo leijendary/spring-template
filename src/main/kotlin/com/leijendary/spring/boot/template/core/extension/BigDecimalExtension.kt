@@ -12,6 +12,10 @@ private val SCALE = numberProperties.scale
 private val ROUNDING_MODE = numberProperties.round
 private val ONE_HUNDRED: BigDecimal = valueOf(100)
 
+fun BigDecimal.scaled(): BigDecimal {
+    return this.setScale(SCALE, ROUNDING_MODE)
+}
+
 fun BigDecimal.percent(value: BigDecimal, scale: Int = SCALE, roundingMode: RoundingMode = ROUNDING_MODE): BigDecimal {
     return if (this.compareTo(ZERO) == 0 || value.compareTo(ZERO) == 0) {
         ZERO
