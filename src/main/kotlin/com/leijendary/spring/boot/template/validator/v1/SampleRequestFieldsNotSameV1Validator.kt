@@ -6,7 +6,6 @@ import javax.validation.ConstraintValidator
 import javax.validation.ConstraintValidatorContext
 
 class SampleRequestFieldsNotSameV1Validator : ConstraintValidator<FieldsNotEqualV1, SampleRequest> {
-
     override fun initialize(constraintAnnotation: FieldsNotEqualV1) {
         super.initialize(constraintAnnotation)
     }

@@ -4,7 +4,7 @@ import com.leijendary.spring.boot.template.core.util.RequestContext.language
 import java.io.Serializable
 import java.util.*
 
-abstract class LocalizedData<T : LocaleData?> : Serializable {
+abstract class LocalizedData<T : LocaleData> : Serializable {
     var id: UUID? = null
     var translations: Set<T> = HashSet()
 

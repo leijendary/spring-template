@@ -23,13 +23,13 @@ fun Any.reflectField(property: String): Field {
     return field
 }
 
-fun Any.reflectGet(property: String): Any {
+fun Any.reflectGet(property: String): Any? {
     val field = reflectField(property)
 
     return field.get(this)
 }
 
-fun Any.reflectSet(property: String, value: Any): Any {
+fun Any.reflectSet(property: String, value: Any?): Any? {
     val field = reflectField(property)
 
     field.set(this, value)

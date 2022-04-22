@@ -39,6 +39,9 @@ retry:
 spring:
   application:
     name: \${info.app.name}
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration
   datasource:
     primary:
       poolName: Primary

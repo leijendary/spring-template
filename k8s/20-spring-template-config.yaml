@@ -13,7 +13,7 @@ data:
   CLOUD_AWS_REGION_STATIC: me-south-1
   CLOUD_AWS_REGION_USE_DEFAULT_AWS_REGION_CHAIN: "false"
   CLOUD_AWS_STACK_AUTO: "false"
-  SPRING_ELASTICSEARCH_URIS: http://elasticsearch-es-http.elasticstack.svc.cluster.local:9200
+  SPRING_ELASTICSEARCH_URIS: http://elasticsearch-service.elasticstack.svc.cluster.local:9200
   SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka-service.kafka.svc.cluster.local:9092
   SPRING_REDIS_HOST: redis-service.cache.svc.cluster.local
   SPRING_REDIS_PORT: "6379"

@@ -5,7 +5,7 @@ import java.util.*
 import javax.persistence.*
 
 @MappedSuperclass
-abstract class LocalizedCopy<T : LocaleCopy?> : AppModel() {
+abstract class LocalizedCopy<T : LocaleCopy> : AppModel() {
     @Id
     var id: UUID? = null
 

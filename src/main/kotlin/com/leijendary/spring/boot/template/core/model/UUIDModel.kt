@@ -11,8 +11,9 @@ import javax.persistence.MappedSuperclass
 abstract class UUIDModel {
     @Id
     @GeneratedValue
+    @Column(updatable = false)
     var id: UUID = randomUUID()
 
-    @Column(insertable = false)
+    @Column(insertable = false, updatable = false)
     var rowId: Long? = null
 }

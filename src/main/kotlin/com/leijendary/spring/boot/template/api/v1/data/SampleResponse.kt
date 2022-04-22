@@ -12,4 +12,4 @@ data class SampleResponse(
     val createdBy: String,
     val lastModifiedAt: OffsetDateTime,
     val lastModifiedBy: String,
-) : LocalizedData<SampleTranslationResponse?>()
+) : LocalizedData<SampleTranslationResponse>()

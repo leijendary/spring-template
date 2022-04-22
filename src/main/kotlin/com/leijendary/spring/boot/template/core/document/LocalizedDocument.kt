@@ -4,7 +4,7 @@ import com.leijendary.spring.boot.template.core.util.RequestContext.language
 import org.springframework.data.elasticsearch.annotations.Field
 import org.springframework.data.elasticsearch.annotations.FieldType.Nested
 
-abstract class LocalizedDocument<T : LocaleDocument?> {
+abstract class LocalizedDocument<T : LocaleDocument> {
     @Field(type = Nested, includeInParent = true)
     var translations: Set<T> = HashSet()
 

@@ -6,7 +6,7 @@ import org.hibernate.query.criteria.internal.OrderImpl
 import org.springframework.data.jpa.domain.Specification
 import javax.persistence.criteria.*
 
-class LocalizedSpecification<T : LocalizedModel<*>?>(val language: String? = null) : Specification<T> {
+class LocalizedSpecification<T : LocalizedModel<*>>(val language: String? = null) : Specification<T> {
     override fun toPredicate(
         root: Root<T>,
         criteriaQuery: CriteriaQuery<*>,

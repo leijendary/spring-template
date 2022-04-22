@@ -47,7 +47,7 @@ class SampleSearch(
         searchBuilder.withSorts(sortBuilders)
 
         val searchQuery: NativeSearchQuery = searchBuilder.build()
-        val searchHits: SearchHits<SampleDocument?> =
+        val searchHits: SearchHits<SampleDocument> =
             elasticsearchRestTemplate.search(searchQuery, SampleDocument::class.java)
         val list: List<SampleDocument> = searchHits.map { it.content }.toList()
         val total = searchHits.totalHits

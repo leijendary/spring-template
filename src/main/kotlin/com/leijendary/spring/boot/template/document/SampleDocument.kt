@@ -30,4 +30,4 @@ data class SampleDocument(
 
     @Field(type = Date, format = [date_time])
     var createdAt: OffsetDateTime
-) : LocalizedDocument<SampleTranslationDocument?>()
+) : LocalizedDocument<SampleTranslationDocument>()

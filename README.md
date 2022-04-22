@@ -29,7 +29,7 @@
 - Caffeine
 - Docker
 - JUnit
-- ElasticSearch
+- Elasticsearch
 - Kubernetes
 
 # Spring Microservice Template
