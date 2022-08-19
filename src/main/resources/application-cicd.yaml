@@ -1,7 +1,26 @@
+encrypt:
+  key: EFFbUfV4BB250GznmHdiQ1eYr79q8zSskPAmzVPe/k8=
+  salt: 08dbf175cbeb91f3
+
 spring:
-  cache:
-    type: none
   datasource:
-    url: jdbc:h2:mem:sample
-    username: ea
-    password: password
+    primary:
+      jdbcUrl: jdbc:postgresql://localhost:5432/spring_template
+      username: postgres
+      password: 12345678
+    readonly:
+      jdbcUrl: jdbc:postgresql://localhost:5432/spring_template
+      username: postgres
+      password: 12345678
+  elasticsearch:
+    uris: http://localhost:9200
+  kafka:
+    bootstrapServers: localhost:9092
+  redis:
+    host: localhost
+    port: 6379
+  sleuth:
+    otel:
+      exporter:
+        jaeger:
+          endpoint: http://localhost:14250

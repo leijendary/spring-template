@@ -1,0 +1,42 @@
+on:
+  push:
+    tags:
+      - '*'
+
+env:
+  REPOSITORY_URL: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ github.event.repository.name }}
+
+jobs:
+  docker:
+    name: Tag Image
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+      - id: login-aws-ecr
+        name: Login to AWS ECR
+        uses: aws-actions/amazon-ecr-login@v1
+      - name: Pull Image
+        run: docker pull $REPOSITORY_URL:$GITHUB_SHA
+      - name: Build New Image
+        run: docker tag $REPOSITORY_URL:$GITHUB_SHA $REPOSITORY_URL:$GITHUB_REF_NAME
+      - name: Push Image
+        run: docker push $REPOSITORY_URL:$GITHUB_REF_NAME
+      - name: Log out of AWS ECR
+        if: always()
+        run: docker logout ${{ steps.login-aws-ecr.outputs.registry }}
+  deploy-production:
+    name: Fargate
+    uses: ./.github/workflows/deploy.yaml
+    with:
+      environment: production
+      image-tag: ${{ github.ref_name }}
+    secrets: inherit
+    needs: docker

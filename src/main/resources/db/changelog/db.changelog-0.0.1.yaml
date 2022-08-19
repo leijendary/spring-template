@@ -9,6 +9,7 @@ databaseChangeLog:
                   name: id
                   type: uuid
                   constraints:
+                    primaryKey: true
                     nullable: false
                     unique: true
               - column:
@@ -25,7 +26,7 @@ databaseChangeLog:
                     nullable: false
               - column:
                   name: column_2
-                  type: int
+                  type: bigint
                   constraints:
                     nullable: false
               - column:
@@ -41,7 +42,7 @@ databaseChangeLog:
                     nullable: false
               - column:
                   name: created_at
-                  type: timestamp with time zone
+                  type: timestamp
                   constraints:
                     nullable: false
                   defaultValueDate: current_timestamp
@@ -52,7 +53,7 @@ databaseChangeLog:
                     nullable: false
               - column:
                   name: last_modified_at
-                  type: timestamp with time zone
+                  type: timestamp
                   constraints:
                     nullable: false
                   defaultValueDate: current_timestamp
@@ -63,7 +64,7 @@ databaseChangeLog:
                     nullable: false
               - column:
                   name: deleted_at
-                  type: timestamp with time zone
+                  type: timestamp
               - column:
                   name: deleted_by
                   type: text
@@ -125,11 +126,24 @@ databaseChangeLog:
             referencedTableName: sample_table
             validate: true
   - changeSet:
-      id: add-column1-unique-constraint
+      id: add-sample-table-column-1-case-insensitive-unique-constraint
       author: Leijendekker
-      dbms: "!h2"
       changes:
         - sql:
             sql: create unique index sample_table_column_1_uindex
-              on sample_table (column_1)
+              on sample_table (lower(column_1))
               where deleted_at is null;
+  - changeSet:
+      id: add-sample-table-created-at-row-id-index
+      author: Leijendekker
+      changes:
+        - createIndex:
+            columns:
+              - column:
+                  name: created_at
+                  descending: true
+              - column:
+                  name: row_id
+                  descending: true
+            indexName: sample_table_created_at_row_id_idx
+            tableName: sample_table

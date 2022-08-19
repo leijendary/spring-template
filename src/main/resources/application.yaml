@@ -21,6 +21,20 @@ auth:
   system:
     principal: System
 
+cloud:
+  aws:
+    credentials:
+      instanceProfile: false
+      useDefaultAwsCredentialsChain: false
+    stack:
+      auto: false
+    region:
+      auto: false
+      useDefaultAwsRegionChain: false
+
+emission:
+  deadline: 5m
+
 encrypt:
   key:
   salt:
@@ -42,6 +56,7 @@ spring:
   autoconfigure:
     exclude:
       - org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration
+      - org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration
   datasource:
     primary:
       poolName: Primary
@@ -62,6 +77,15 @@ spring:
       maximumPoolSize: 5
       driverClassName: org.postgresql.Driver
   data:
+    jdbc:
+      repositories:
+        enabled: false
+    ldap:
+      repositories:
+        enabled: false
+    redis:
+      repositories:
+        enabled: false
     web:
       pageable:
         maxPageSize: 100
@@ -83,7 +107,7 @@ spring:
           lock:
             timeout: 2000
   messages:
-    basename: messages.error, messages.validation
+    basename: messages.access, messages.error, messages.validation
   mvc:
     throwExceptionIfNoHandlerFound: true
   task:
@@ -127,43 +151,52 @@ spring:
       autoRegistration:
         enabled: false
     function:
-      definition: sampleCreated;sampleUpdated;sampleDeleted
+      definition: sampleCreate;sampleUpdate;sampleDelete;sampleCreated;sampleUpdated;sampleDeleted
     stream:
       bindings:
-        sampleCreated-in-0:
-          destination: \${info.app.organization}.sample.create
         sampleCreate-out-0:
           destination: \${info.app.organization}.sample.create
-        sampleUpdated-in-0:
-          destination: \${info.app.organization}.sample.update
+        sampleCreated-in-0:
+          destination: \${info.app.organization}.sample.create
         sampleUpdate-out-0:
           destination: \${info.app.organization}.sample.update
-        sampleDeleted-in-0:
-          destination: \${info.app.organization}.sample.delete
+        sampleUpdated-in-0:
+          destination: \${info.app.organization}.sample.update
         sampleDelete-out-0:
           destination: \${info.app.organization}.sample.delete
+        sampleDeleted-in-0:
+          destination: \${info.app.organization}.sample.delete
+      default:
+        group: \${info.app.name}
       kafka:
         binder:
           autoAddPartitions: true
+        default:
+          consumer:
+            enableDlq: true
         streams:
           binder:
+            deserializationExceptionHandler: sendToDlq
             functions:
               sampleCreate:
-                applicationId: \${info.app.name}.\${info.app.organization}.sample.create
+                applicationId: \${info.app.name}.\${spring.cloud.stream.bindings.sampleCreate-out-0.destination}
               sampleCreated:
-                applicationId: \${info.app.name}.\${info.app.organization}.sample.create
+                applicationId: \${info.app.name}.\${spring.cloud.stream.bindings.sampleCreated-in-0.destination}
               sampleUpdate:
-                applicationId: \${info.app.name}.\${info.app.organization}.sample.update
+                applicationId: \${info.app.name}.\${spring.cloud.stream.bindings.sampleUpdate-out-0.destination}
               sampleUpdated:
-                applicationId: \${info.app.name}.\${info.app.organization}.sample.update
+                applicationId: \${info.app.name}.\${spring.cloud.stream.bindings.sampleUpdated-in-0.destination}
               sampleDelete:
-                applicationId: \${info.app.name}.\${info.app.organization}.sample.delete
+                applicationId: \${info.app.name}.\${spring.cloud.stream.bindings.sampleDelete-out-0.destination}
               sampleDeleted:
-                applicationId: \${info.app.name}.\${info.app.organization}.sample.delete
+                applicationId: \${info.app.name}.\${spring.cloud.stream.bindings.sampleDeleted-in-0.destination}
   elasticsearch:
     uris:
   kafka:
     bootstrapServers:
+    properties:
+      interceptor:
+        classes: com.leijendary.spring.template.core.interceptor.KafkaLoggingInterceptor
     producer:
       properties:
         spring:
@@ -174,11 +207,19 @@ spring:
   redis:
     host:
     port:
-
-management:
-  endpoint:
-    health:
-      showDetails: ALWAYS
+  sleuth:
+    messaging:
+      enabled: true
+      kafka:
+        streams:
+          enabled: true
+    traceId128: true
+    otel:
+      config:
+        traceIdRatioBased: 1
+      exporter:
+        jaeger:
+          endpoint:
 
 server:
   error:
@@ -186,13 +227,25 @@ server:
       enabled: false
   http2:
     enabled: true
-  port: 80
+  port: 443
+  ssl:
+    enabled: true
+    keyAlias: spring-boot
+    keyStoreType: PKCS12
+    keyStore: classpath:ssl/keystore.p12
+    keyStorePassword: spring-boot
   tomcat:
     threads:
-      max: 500
+      max: 1000
 
 springdoc:
   pathsToMatch: /api/**
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, prometheus
 
 logging:
   level:

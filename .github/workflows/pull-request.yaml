@@ -1,0 +1,12 @@
+on:
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+
+jobs:
+  test:
+    name: JUnit
+    uses: ./.github/workflows/test.yaml
+    secrets: inherit

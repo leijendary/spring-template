@@ -1,0 +1,12 @@
+on:
+  push:
+    branches:
+      - feature/**
+      - fix/**
+      - hotfix/**
+
+jobs:
+  test:
+    name: JUnit
+    uses: ./.github/workflows/test.yaml
+    secrets: inherit

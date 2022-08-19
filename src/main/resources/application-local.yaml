@@ -1,2 +1,19 @@
 server:
-  port: 8080
+  port: 8443
+
+management:
+  endpoint:
+    health:
+      showDetails: ALWAYS
+
+logging:
+  level:
+    com:
+      amazonaws:
+        util:
+          EC2MetadataUtils: ERROR
+    io:
+      netty:
+        resolver:
+          dns:
+            DnsServerAddressStreamProviders: OFF

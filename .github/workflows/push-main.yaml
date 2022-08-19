@@ -1,0 +1,22 @@
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  test:
+    name: JUnit
+    uses: ./.github/workflows/test.yaml
+    secrets: inherit
+  build:
+    name: Docker Image
+    uses: ./.github/workflows/build.yaml
+    secrets: inherit
+    needs: test
+  deploy:
+    name: Fargate
+    uses: ./.github/workflows/deploy.yaml
+    with:
+      environment: production
+    secrets: inherit
+    needs: build

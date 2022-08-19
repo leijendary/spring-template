@@ -16,9 +16,9 @@ spec:
     spec:
       containers:
         - name: spring-template
-          image: jleijendekker/spring-template:2.0.0
+          image: spring-template:1.0.0
           ports:
-            - containerPort: 80
+            - containerPort: 443
           envFrom:
             - configMapRef:
                 name: spring-template-config
@@ -26,16 +26,18 @@ spec:
                 name: spring-template-secret
           readinessProbe:
             httpGet:
+              scheme: HTTPS
               path: /actuator/health
-              port: 80
-            initialDelaySeconds: 120
+              port: 443
+            initialDelaySeconds: 200
             timeoutSeconds: 5
             periodSeconds: 15
           livenessProbe:
             httpGet:
+              scheme: HTTPS
               path: /actuator/health
-              port: 80
-            initialDelaySeconds: 150
+              port: 443
+            initialDelaySeconds: 300
             timeoutSeconds: 5
             periodSeconds: 15
             failureThreshold: 3
@@ -57,8 +59,10 @@ metadata:
 spec:
   selector:
     app: spring-template
+  type: NodePort
   ports:
-    - name: http
+    - name: https
       protocol: TCP
-      port: 80
-      targetPort: 80
+      port: 443
+      targetPort: 443
+      nodePort: 30443

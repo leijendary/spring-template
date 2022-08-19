@@ -1,0 +1,38 @@
+on: workflow_call
+
+env:
+  REPOSITORY_URL: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ github.event.repository.name }}
+  IMAGE_TAG: ${{ github.sha }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    outputs:
+      image: ${{ steps.buid-image.outputs.image }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+      - id: login-aws-ecr
+        name: Login to AWS ECR
+        uses: aws-actions/amazon-ecr-login@v1
+      - name: Pull Latest Image
+        run: docker pull $REPOSITORY_URL:latest || true
+      - name: Build New Image
+        env:
+          DOCKER_BUILDKIT: 1
+        run: |
+          echo ${{ secrets.ECS_TASK_DEFINITION }}
+          docker build --cache-from $REPOSITORY_URL:latest -t $REPOSITORY_URL:$IMAGE_TAG --build-arg BUILDKIT_INLINE_CACHE=1 .
+          docker tag $REPOSITORY_URL:$IMAGE_TAG $REPOSITORY_URL:latest
+          echo "::set-output name=image::$(echo $REPOSITORY_URL:$IMAGE_TAG)"
+      - name: Push Image
+        run: docker push --all-tags $REPOSITORY_URL
+      - name: Log out of AWS ECR
+        if: always()
+        run: docker logout ${{ steps.login-aws-ecr.outputs.registry }}

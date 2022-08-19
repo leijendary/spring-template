@@ -41,8 +41,8 @@
               <stringProp name="Header.value">jmeter</stringProp>
             </elementProp>
             <elementProp name="" elementType="Header">
-              <stringProp name="Header.name">X-Trace-ID</stringProp>
-              <stringProp name="Header.value">jmeter</stringProp>
+              <stringProp name="Header.name">X-Scope</stringProp>
+              <stringProp name="Header.value">urn:sample:list:v1 urn:sample:create:v1 urn:sample:get:v1 urn:sample:update:v1 urn:sample:delete:v1</stringProp>
             </elementProp>
           </collectionProp>
         </HeaderManager>
@@ -71,6 +71,7 @@
                 <stringProp name="Argument.value">{&#xd;
   &quot;field1&quot;: &quot;Test ${uuid}&quot;,&#xd;
   &quot;field2&quot;: 1,&#xd;
+  &quot;amount&quot;: &quot;1000.00&quot;,&#xd;
   &quot;translations&quot;: [&#xd;
     {&#xd;
       &quot;name&quot;: &quot;test&quot;,&#xd;
@@ -91,8 +92,8 @@
             </collectionProp>
           </elementProp>
           <stringProp name="HTTPSampler.domain">localhost</stringProp>
-          <stringProp name="HTTPSampler.port">30080</stringProp>
-          <stringProp name="HTTPSampler.protocol">http</stringProp>
+          <stringProp name="HTTPSampler.port">8443</stringProp>
+          <stringProp name="HTTPSampler.protocol">https</stringProp>
           <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
           <stringProp name="HTTPSampler.path">/api/v1/samples</stringProp>
           <stringProp name="HTTPSampler.method">POST</stringProp>
@@ -140,6 +141,7 @@
             </value>
           </objProp>
           <stringProp name="filename"></stringProp>
+          <stringProp name="RespTimeGraph.interval">1000</stringProp>
         </ResultCollector>
         <hashTree/>
         <ResultCollector guiclass="SummaryReport" testclass="ResultCollector" testname="Summary Report" enabled="true">

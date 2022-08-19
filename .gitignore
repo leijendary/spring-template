@@ -38,4 +38,6 @@ out/
 
 ### Env Files ###
 *.env
-!example.env
+
+### Logs ###
+*.log

@@ -4,18 +4,22 @@ services:
     build: .
     container_name: spring-template
     ports:
-      - "80:80"
-    env_file: docker.env
+      - "443:443"
+    env_file: .docker.env
     networks:
       - postgres_network
       - redis_network
       - kafka_network
       - elastic_network
+      - jaeger_network
     deploy:
       resources:
-        limits:
-          cpus: "0.25"
+        reservations:
           memory: 512M
+          cpus: "0.25"
+        limits:
+          memory: 512M
+          cpus: "0.25"
 
 networks:
   postgres_network:
@@ -29,4 +33,7 @@ networks:
     external: true
   elastic_network:
     name: elastic_network
+    external: true
+  jaeger_network:
+    name: jaeger_network
     external: true

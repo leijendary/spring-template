@@ -28,7 +28,7 @@ cache: &global_cache
   extends: .configuration
   script:
     - echo "Updating ECS service..."
-    - aws ecs update-service --force-new-deployment --region "${AWS_DEFAULT_REGION}" --cluster "${AWS_CLUSTER_NAME}" --service "${AWS_SERVICE_NAME}"
+    - aws ecs update-service --force-new-deployment --region "${AWS_DEFAULT_REGION}" --cluster "${AWS_CLUSTER_NAME}-${$CI_ENVIRONMENT_NAME}" --service "${AWS_SERVICE_NAME}"
     - echo "Updated ECS service."
   tags:
     - MicroRunner
@@ -66,13 +66,13 @@ stages:
 # Test the Merge Request
 Test Merge Request:
   stage: test
-  image: gradle:7-jdk11
+  image: gradle:7-jdk17
   cache:
     <<: *global_cache
     key: merge_requests
   script:
     - echo "Running tests..."
-    - gradle test --args='--spring.profiles.active=cicd'
+    - SPRING_PROFILES_ACTIVE=cicd gradle test --info
     - echo "Tests completed."
   tags:
     - MediumRunner
@@ -82,10 +82,10 @@ Test Merge Request:
 # Per-Branch test
 Test:
   stage: test
-  image: gradle:7-jdk11
+  image: gradle:7-jdk17
   script:
     - echo "Running tests..."
-    - gradle test --args='--spring.profiles.active=cicd'
+    - SPRING_PROFILES_ACTIVE=cicd gradle test --info
     - echo "Tests completed."
   tags:
     - MediumRunner
@@ -93,14 +93,14 @@ Test:
     - develop
     - /^release/.*$/i
     - staging
-    - master
+    - main
 
 # Build the Docker Build for DEV using the JAR file created from the build stage
-Build for Development:
+Build for Dev:
   stage: build
   extends: .docker_build
   environment:
-    name: development
+    name: dev
   only:
     - develop
 
@@ -109,7 +109,7 @@ Build for Testing:
   stage: build
   extends: .docker_build
   environment:
-    name: testing
+    name: test
   only:
     - /^release/.*$/i
 
@@ -129,7 +129,7 @@ Build for Production:
   environment:
     name: production
   only:
-    - master
+    - main
 
 # Tag the docker image based on the pushed repository tag
 Tag:
@@ -146,13 +146,13 @@ Tag:
   only:
     - tags
 
-# Deploy the image into the Development cluster
-Deploy to Development:
+# Deploy the image into the Dev cluster
+Deploy to Dev:
   stage: deploy
   extends: .deploy
   environment:
     # We want to isolate AWS_CLUSTER_NAME and AWS_SERVICE_NAME per environment
-    name: development
+    name: dev
   only:
     - develop
 
@@ -162,7 +162,7 @@ Deploy to Testing:
   extends: .deploy
   environment:
     # We want to isolate AWS_CLUSTER_NAME and AWS_SERVICE_NAME per environment
-    name: testing
+    name: test
   only:
     - /^release/.*$/i
 
@@ -184,4 +184,4 @@ Deploy to Production:
     # We want to isolate AWS_CLUSTER_NAME and AWS_SERVICE_NAME per environment
     name: production
   only:
-    - master
+    - main
