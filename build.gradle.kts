@@ -71,10 +71,11 @@ dependencies {
     implementation("org.springdoc:springdoc-openapi-ui:1.6.9")
     implementation("org.mapstruct:mapstruct:1.5.2.Final")
     implementation("com.github.ben-manes.caffeine:caffeine:3.1.1")
-    kapt("org.mapstruct:mapstruct-processor:1.5.2.Final")
-    runtimeOnly("org.springframework.boot:spring-boot-devtools:2.7.2")
+    developmentOnly("org.springframework.boot:spring-boot-devtools:2.7.2")
+    runtimeOnly("io.micrometer:micrometer-registry-prometheus:1.9.2")
     runtimeOnly("org.postgresql:postgresql:42.3.6")
     testImplementation("org.springframework.boot:spring-boot-starter-test:2.7.2")
+    kapt("org.mapstruct:mapstruct-processor:1.5.2.Final")
 }
 
 dependencyManagement {
