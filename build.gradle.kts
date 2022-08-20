@@ -31,6 +31,7 @@ repositories {
 kapt {
     arguments {
         arg("mapstruct.defaultComponentModel", "spring")
+        arg("mapstruct.unmappedTargetPolicy", "IGNORE")
     }
 }
 
