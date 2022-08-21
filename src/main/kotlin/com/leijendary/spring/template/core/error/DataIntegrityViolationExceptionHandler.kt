@@ -45,13 +45,21 @@ class DataIntegrityViolationExceptionHandler(private val messageSource: MessageS
     }
 
     private fun constraintViolationException(exception: ConstraintViolationException): ErrorResponse {
-        val errorMessage = exception.sqlException.nextException.message
-        val sql: String = exception.sql
-        val table: String = sql.let {
-            substringBetween(it, "insert into ", " (") ?: substringBetween(it, "update ", " set ")
+        val errorMessage = exception.sqlException.nextException.message!!
+        val sql = exception.sql
+        val table = sql.let {
+            substringBetween(it, "insert into ", " (")
+                ?: substringBetween(it, "update ", " set ")
         }.snakeCaseToCamelCase(true)
-        val field: String = substringBetween(errorMessage, "Key (", ")=").snakeCaseToCamelCase()
-        val value = substringBetween(errorMessage, "=(", ") ")
+        val field = errorMessage
+            .substringAfter("Key (")
+            .substringBefore(")=")
+            .substringAfter("(")
+            .substringBefore("::")
+            .snakeCaseToCamelCase()
+        val value = errorMessage
+            .substringAfter("=(")
+            .substringBefore(") ")
         val code = "validation.alreadyExists"
         val arguments = arrayOf(field, value)
         val message = messageSource.getMessage(code, arguments, locale)
