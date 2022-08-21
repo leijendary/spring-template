@@ -46,7 +46,9 @@ class SampleTableService(
         var sampleTable: SampleTable = MAPPER.toEntity(sampleRequest)
         sampleTable = sampleTableRepository.save(sampleTable)
 
-        applicationEventPublisher.publishEvent(SampleCreateEvent(sampleTable))
+        val event = SampleCreateEvent(sampleTable)
+
+        applicationEventPublisher.publishEvent(event)
 
         return MAPPER.toResponse(sampleTable)
     }
@@ -67,7 +69,9 @@ class SampleTableService(
 
         sampleTable = sampleTableRepository.save(sampleTable)
 
-        applicationEventPublisher.publishEvent(SampleUpdateEvent(sampleTable))
+        val event = SampleUpdateEvent(sampleTable)
+
+        applicationEventPublisher.publishEvent(event)
 
         return MAPPER.toResponse(sampleTable)
     }
@@ -79,7 +83,9 @@ class SampleTableService(
 
         sampleTableRepository.softDelete(sampleTable)
 
-        applicationEventPublisher.publishEvent(SampleDeleteEvent(sampleTable))
+        val event = SampleDeleteEvent(sampleTable)
+
+        applicationEventPublisher.publishEvent(event)
     }
 
     @Transactional(readOnly = true)
