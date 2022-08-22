@@ -36,13 +36,16 @@ kapt {
 }
 
 dependencies {
+    implementation("org.springframework.boot:spring-boot-configuration-processor:2.7.3")
     implementation("org.springframework.boot:spring-boot-starter-actuator:2.7.3")
     implementation("org.springframework.boot:spring-boot-starter-cache:2.7.3")
+    implementation("org.springframework.boot:spring-boot-starter-data-elasticsearch:2.7.3")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa:2.7.3")
     implementation("org.springframework.boot:spring-boot-starter-data-redis:2.7.3")
-    implementation("org.springframework.boot:spring-boot-starter-data-rest:2.7.3")
     implementation("org.springframework.boot:spring-boot-starter-security:2.7.3")
     implementation("org.springframework.boot:spring-boot-starter-web:2.7.3")
+    implementation("org.springframework.cloud:spring-cloud-sleuth-otel-autoconfigure")
+    implementation("org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE")
     implementation("org.springframework.cloud:spring-cloud-starter-loadbalancer:3.1.3")
     implementation("org.springframework.cloud:spring-cloud-starter-openfeign:3.1.3")
     implementation("org.springframework.cloud:spring-cloud-starter-sleuth:3.1.3") {
@@ -53,11 +56,8 @@ dependencies {
             }
         }
     }
-    implementation("org.springframework.cloud:spring-cloud-sleuth-otel-autoconfigure")
     implementation("org.springframework.cloud:spring-cloud-stream-binder-kafka:3.2.4")
     implementation("org.springframework.cloud:spring-cloud-stream-binder-kafka-streams:3.2.4")
-    implementation("org.springframework.boot:spring-boot-starter-data-elasticsearch:2.7.3")
-    implementation("org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE")
     implementation("org.springframework.retry:spring-retry:1.3.3")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.13.3")
     implementation("org.jetbrains.kotlin:kotlin-reflect:1.6.10")
@@ -66,14 +66,12 @@ dependencies {
     implementation("io.opentelemetry:opentelemetry-extension-trace-propagators:1.17.0")
     implementation("io.opentelemetry:opentelemetry-exporter-jaeger:1.17.0")
     implementation("io.opentelemetry:opentelemetry-exporter-otlp-common:1.17.0")
-    implementation("org.springframework.boot:spring-boot-configuration-processor:2.7.3")
     implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.13.3")
-    implementation("org.apache.commons:commons-lang3:3.12.0")
-    implementation("org.springdoc:springdoc-openapi-ui:1.6.9")
+    implementation("org.springdoc:springdoc-openapi-ui:1.6.10")
     implementation("org.mapstruct:mapstruct:1.5.2.Final")
     implementation("com.github.ben-manes.caffeine:caffeine:3.1.1")
     developmentOnly("org.springframework.boot:spring-boot-devtools:2.7.3")
-    runtimeOnly("io.micrometer:micrometer-registry-prometheus:1.9.2")
+    runtimeOnly("io.micrometer:micrometer-registry-prometheus:1.9.3")
     runtimeOnly("org.postgresql:postgresql:42.4.2")
     testImplementation("org.springframework.boot:spring-boot-starter-test:2.7.3")
     kapt("org.mapstruct:mapstruct-processor:1.5.2.Final")

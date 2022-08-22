@@ -8,34 +8,33 @@
 
 # Technologies Used:
 
+- Kotlin
+- Spring Configuration Processor
 - Spring Actuator
-- Spring Data JPA
-- Spring Web
-- Spring Cloud Openfeign
-- Spring Cloud Loadbalancer
 - Spring Cache
+- Spring Data Elasticsearch
+- Spring Data JPA
 - Spring Data Redis
-- Spring Retry
+- Spring Security
+- Spring Web
+- Spring Cloud AWS
+- Spring Cloud Loadbalancer
+- Spring Cloud OpenFeign
+- Spring Cloud OpenTelemetry
+- Spring Cloud Sleuth
 - Spring Cloud Stream Binder Kafka
 - Spring Cloud Stream Binder Kafka Streams
-- Spring Cloud AWS
-- Spring Cloud Sleuth
-- Spring Cloud OpenTelemetry
-- Spring Configuration Processor
-- Spring Autoconfigure Processor
+- Spring Retry
 - Spring Devtools
-- Spring Validation
 - PostgreSQL
 - Liquibase
 - MapStruct
 - Caffeine
 - Docker
 - JUnit
-- Elasticsearch
-- Kubernetes
 - OpenAPI
 - Prometheus
-- OpenTelemetry
+- Kubernetes
 
 # Spring Microservice Template
 
