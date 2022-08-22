@@ -8,7 +8,7 @@ import java.util.*
 data class SampleSearchResponse(
     val id: UUID,
     val column1: String,
-    val column2: String,
+    val column2: Long,
     val amount: BigDecimal,
     val name: String,
     val description: String,

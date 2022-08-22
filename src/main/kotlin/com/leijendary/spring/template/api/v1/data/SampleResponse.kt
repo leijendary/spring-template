@@ -6,7 +6,7 @@ import java.time.LocalDateTime
 
 data class SampleResponse(
     val column1: String,
-    val column2: Int,
+    val column2: Long,
     val amount: BigDecimal,
     val createdAt: LocalDateTime,
     val createdBy: String,

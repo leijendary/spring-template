@@ -14,8 +14,10 @@ import com.leijendary.spring.template.data.SampleUpdateEvent
 import com.leijendary.spring.template.model.SampleTable
 import com.leijendary.spring.template.repository.SampleTableRepository
 import com.leijendary.spring.template.specification.SampleListSpecification
+import org.springframework.cache.annotation.CacheEvict
+import org.springframework.cache.annotation.CachePut
+import org.springframework.cache.annotation.Cacheable
 import org.springframework.context.ApplicationEventPublisher
-import org.springframework.data.jpa.domain.Specification
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.util.*
@@ -27,23 +29,24 @@ class SampleTableService(
     private val sampleTableRepository: SampleTableRepository,
 ) {
     companion object {
-        const val CACHE_NAME = "sample:v1"
-        private val MAPPER: SampleMapper = SampleMapper.INSTANCE
+        private const val CACHE_NAME = "sample:v1"
+        private val MAPPER = SampleMapper.INSTANCE
         private val SOURCE = listOf("data", "SampleTable", "id")
     }
 
     @Transactional(readOnly = true)
     fun seek(queryRequest: QueryRequest, seekable: Seekable): Seek<SampleResponse> {
-        val specification: Specification<SampleTable> = SampleListSpecification(queryRequest.query)
+        val specification = SampleListSpecification(queryRequest.query)
 
         return sampleTableRepository
             .findAll(SampleTable::class, specification, seekable)
             .map { MAPPER.toResponse(it) }
     }
 
+    @CachePut(value = [CACHE_NAME], key = "#result.id")
     @Transactional
     fun create(sampleRequest: SampleRequest): SampleResponse {
-        var sampleTable: SampleTable = MAPPER.toEntity(sampleRequest)
+        var sampleTable = MAPPER.toEntity(sampleRequest)
         sampleTable = sampleTableRepository.save(sampleTable)
 
         val event = SampleCreateEvent(sampleTable)
@@ -53,6 +56,7 @@ class SampleTableService(
         return MAPPER.toResponse(sampleTable)
     }
 
+    @Cacheable(value = [CACHE_NAME], key = "#id")
     @Transactional(readOnly = true)
     fun get(id: UUID): SampleResponse {
         return sampleTableRepository.findById(id)
@@ -60,9 +64,10 @@ class SampleTableService(
             .orElseThrow { ResourceNotFoundException(SOURCE, id) }
     }
 
+    @CachePut(value = [CACHE_NAME], key = "#result.id")
     @Transactional
     fun update(id: UUID, sampleRequest: SampleRequest): SampleResponse {
-        var sampleTable: SampleTable = sampleTableRepository.findLockedById(id)
+        var sampleTable = sampleTableRepository.findLockedById(id)
             ?: throw ResourceNotFoundException(SOURCE, id)
 
         MAPPER.update(sampleRequest, sampleTable)
@@ -76,9 +81,10 @@ class SampleTableService(
         return MAPPER.toResponse(sampleTable)
     }
 
+    @CacheEvict(value = [CACHE_NAME], key = "#id")
     @Transactional
     fun delete(id: UUID) {
-        val sampleTable: SampleTable = sampleTableRepository.findLockedById(id)
+        val sampleTable = sampleTableRepository.findLockedById(id)
             ?: throw ResourceNotFoundException(SOURCE, id)
 
         sampleTableRepository.softDelete(sampleTable)

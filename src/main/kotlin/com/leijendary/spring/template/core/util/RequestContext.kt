@@ -19,32 +19,21 @@ object RequestContext {
         get() {
             val attributes = getRequestAttributes()
 
-            return if (attributes !is ServletRequestAttributes) null else attributes.request
+            return if (attributes is ServletRequestAttributes) attributes.request else null
         }
 
     val userId: String
         get() = SecurityContextHolder.getContext().authentication.name
 
-    val path: String?
+    val uri: URI?
         get() {
             val request = currentRequest ?: return null
             val contextPath = request.contextPath
+            var url = request.requestURI.replaceFirst(contextPath.toRegex(), "")
 
-            return request.requestURI.replaceFirst(contextPath.toRegex(), "")
-        }
+            request.queryString?.also { url += "?$it" }
 
-    val uri: URI?
-        get() {
-            val request = currentRequest
-            var path = path
-
-            if (request == null || path == null) {
-                return null
-            }
-
-            request.queryString?.also { path += "?$it" }
-
-            return URI.create(path)
+            return URI.create(url)
         }
 
     val timeZone: TimeZone

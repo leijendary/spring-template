@@ -14,7 +14,7 @@ class SecurityAuthentication(request: HttpServletRequest, anonymousUser: String)
         ?.map { GrantedAuthority { it } }
         ?: listOf()
     private val principal = userId ?: anonymousUser
-    private var isAuthenticated = userId != null
+    private var isAuthenticated = true
 
     override fun getName(): String = principal
 
@@ -26,7 +26,7 @@ class SecurityAuthentication(request: HttpServletRequest, anonymousUser: String)
 
     override fun getPrincipal(): Any = principal
 
-    override fun isAuthenticated(): Boolean = this.isAuthenticated
+    override fun isAuthenticated(): Boolean = isAuthenticated
 
     override fun setAuthenticated(isAuthenticated: Boolean) {
         this.isAuthenticated = isAuthenticated

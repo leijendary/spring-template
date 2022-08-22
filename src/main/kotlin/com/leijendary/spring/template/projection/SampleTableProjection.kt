@@ -10,7 +10,7 @@ import java.math.BigDecimal
 interface SampleTableProjection : LocalizedProjection<SampleTableTranslationsProjection>, CreatedProjection,
     LastModifiedProjection {
     var column1: String
-    var column2: Int
+    var column2: Long
     var amount: BigDecimal
 
     interface SampleTableTranslationsProjection : LocaleProjection {

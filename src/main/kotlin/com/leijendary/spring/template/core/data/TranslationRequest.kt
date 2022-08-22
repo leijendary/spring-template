@@ -7,8 +7,8 @@ import javax.validation.constraints.Size
 open class TranslationRequest(
     @field:NotBlank(message = "validation.required")
     @field:Size(min = 2, max = 2, message = "validation.size.same")
-    val language: String? = null,
+    var language: String? = null,
 
     @get:Min(value = 1, message = "validation.min")
-    val ordinal: Int = 0
+    var ordinal: Int = 0
 )

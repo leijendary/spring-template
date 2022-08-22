@@ -4,7 +4,7 @@ import javax.persistence.criteria.CriteriaBuilder
 import javax.persistence.criteria.Path
 import javax.persistence.criteria.Predicate
 
-object PredicateUtil {
+object Predicate {
     fun lowerLike(query: String, path: Path<String>, criteriaBuilder: CriteriaBuilder): Predicate {
         val lowerQuery = query.lowercase()
         val lowerPath = criteriaBuilder.lower(path)

@@ -25,7 +25,7 @@ class SampleTable : LocalizedModel<SampleTableTranslations>(), SoftDeleteModel {
     var column1: String = ""
 
     @Column(name = "column_2")
-    var column2 = 0
+    var column2 = 0L
 
     var amount: BigDecimal = ZERO
 

@@ -77,7 +77,7 @@ class SeekPaginationRepositoryImpl<T : UUIDModel>(
     }
 
     private fun buildPredicate(specification: Specification<T>, seekable: Seekable): Specification<T> {
-        if (seekable.nextToken == null) {
+        if (seekable.nextToken.isNullOrBlank()) {
             return specification
         }
 

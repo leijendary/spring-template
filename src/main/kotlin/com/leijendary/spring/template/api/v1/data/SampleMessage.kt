@@ -5,6 +5,6 @@ import java.math.BigDecimal
 
 data class SampleMessage(
     val column1: String,
-    val column2: Int,
+    val column2: Long,
     val amount: BigDecimal?
 ) : LocalizedData<SampleTranslationMessage>()

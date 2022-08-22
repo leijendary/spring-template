@@ -11,10 +11,9 @@ import org.elasticsearch.search.sort.NestedSortBuilder
 import org.elasticsearch.search.sort.SortBuilder
 import org.elasticsearch.search.sort.SortBuilders.fieldSort
 import org.elasticsearch.search.sort.SortOrder.fromString
-import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Sort
 
-object SearchUtil {
+object SearchQuery {
     fun match(query: String?, vararg names: String): BoolQueryBuilder {
         val boolQuery = boolQuery()
 
@@ -45,10 +44,10 @@ object SearchUtil {
         return wildcardQuery(name, "*$query*").caseInsensitive(true)
     }
 
-    fun sortBuilders(pageable: Pageable): List<SortBuilder<*>> {
+    fun sortBuilders(sort: Sort): List<SortBuilder<*>> {
         val sortBuilders = ArrayList<SortBuilder<*>>()
 
-        pageable.sort.forEach {
+        sort.forEach {
             val field = it.property
             val direction = it.direction
 

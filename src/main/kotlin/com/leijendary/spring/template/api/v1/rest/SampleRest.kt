@@ -3,22 +3,17 @@ package com.leijendary.spring.template.api.v1.rest
 import com.leijendary.spring.template.api.v1.data.SampleRequest
 import com.leijendary.spring.template.api.v1.data.SampleResponse
 import com.leijendary.spring.template.api.v1.service.SampleTableService
-import com.leijendary.spring.template.api.v1.service.SampleTableService.Companion.CACHE_NAME
 import com.leijendary.spring.template.client.SampleClient
 import com.leijendary.spring.template.core.data.DataResponse
 import com.leijendary.spring.template.core.data.QueryRequest
 import com.leijendary.spring.template.core.data.Seek
 import com.leijendary.spring.template.core.data.Seekable
-import com.leijendary.spring.template.core.extension.setLocation
 import com.leijendary.spring.template.core.util.RequestContext.language
 import com.leijendary.spring.template.core.util.RequestContext.locale
 import com.leijendary.spring.template.core.util.RequestContext.now
 import com.leijendary.spring.template.core.util.RequestContext.timeZone
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
-import org.springframework.cache.annotation.CacheEvict
-import org.springframework.cache.annotation.CachePut
-import org.springframework.cache.annotation.Cacheable
 import org.springframework.http.HttpStatus.CREATED
 import org.springframework.http.HttpStatus.NO_CONTENT
 import org.springframework.http.MediaType.TEXT_HTML_VALUE
@@ -76,30 +71,25 @@ class SampleRest(private val sampleClient: SampleClient, private val sampleTable
 
     @PostMapping
     @PreAuthorize("hasAuthority('urn:sample:create:v1')")
-    @CachePut(value = [CACHE_NAME], key = "#result.data.id")
     @ResponseStatus(CREATED)
     @Operation(summary = "Saves a sample record into the database")
     fun create(
         @Valid @RequestBody request: SampleRequest,
         httpServletResponse: HttpServletResponse
     ): DataResponse<SampleResponse> {
-        val sampleResponse: SampleResponse = sampleTableService.create(request)
-        val response = DataResponse.builder<SampleResponse>()
+        val sampleResponse = sampleTableService.create(request)
+
+        return DataResponse.builder<SampleResponse>()
             .data(sampleResponse)
             .status(CREATED)
             .build()
-
-        httpServletResponse.setLocation(sampleResponse.id)
-
-        return response
     }
 
     @GetMapping("{id}")
     @PreAuthorize("hasAuthority('urn:sample:get:v1')")
-    @Cacheable(value = [CACHE_NAME], key = "#id")
     @Operation(summary = "Retrieves the sample record from the database")
     fun get(@PathVariable id: UUID): DataResponse<SampleResponse> {
-        val sampleResponse: SampleResponse = sampleTableService.get(id)
+        val sampleResponse = sampleTableService.get(id)
 
         return DataResponse.builder<SampleResponse>()
             .data(sampleResponse)
@@ -108,10 +98,9 @@ class SampleRest(private val sampleClient: SampleClient, private val sampleTable
 
     @PutMapping("{id}")
     @PreAuthorize("hasAuthority('urn:sample:update:v1')")
-    @CachePut(value = [CACHE_NAME], key = "#result.data.id")
     @Operation(summary = "Updates the sample record into the database")
     fun update(@PathVariable id: UUID, @Valid @RequestBody request: SampleRequest): DataResponse<SampleResponse> {
-        val sampleResponse: SampleResponse = sampleTableService.update(id, request)
+        val sampleResponse = sampleTableService.update(id, request)
 
         return DataResponse.builder<SampleResponse>()
             .data(sampleResponse)
@@ -120,7 +109,6 @@ class SampleRest(private val sampleClient: SampleClient, private val sampleTable
 
     @DeleteMapping("{id}")
     @PreAuthorize("hasAuthority('urn:sample:delete:v1')")
-    @CacheEvict(value = [CACHE_NAME], key = "#id")
     @ResponseStatus(NO_CONTENT)
     @Operation(summary = "Removes the sample record from the database")
     fun delete(@PathVariable id: UUID) {

@@ -3,13 +3,11 @@ package com.leijendary.spring.template.core.data
 import com.leijendary.spring.template.core.util.RequestContext.now
 import com.leijendary.spring.template.core.util.RequestContext.uri
 import io.opentelemetry.api.trace.Span
-import org.apache.http.client.utils.URIBuilder
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Sort
 import org.springframework.http.HttpStatus
 import org.springframework.http.HttpStatus.OK
 import org.springframework.web.util.UriComponentsBuilder
-import org.springframework.web.util.UriComponentsBuilder.fromUri
 import java.net.URI
 
 class DataResponse<T>(
@@ -97,7 +95,7 @@ class DataResponse<T>(
                 links["next"] = createLink(nextPageable.pageNumber, size, sort)
             }
 
-            links["last"] = createLink(page.totalPages, size, sort)
+            links["last"] = createLink(page.totalPages - 1, size, sort)
 
             return this
         }
@@ -112,25 +110,29 @@ class DataResponse<T>(
         }
 
         private fun createLink(page: Int, size: Int, sort: Sort): URI? {
-            val uri: URI = uri ?: return null
-            val builder: UriComponentsBuilder = fromUri(uri)
+            val path: URI = uri ?: return null
+            val builder = UriComponentsBuilder.fromUri(path)
                 .replaceQueryParam("page", page)
                 .replaceQueryParam("size", size)
 
             if (sort.isSorted) {
-                builder.replaceQueryParam("sort", sort.toString())
+                val sortString = sort
+                    .toSet()
+                    .map { "${it.property},${it.direction}" }
+
+                builder.replaceQueryParam("sort", sortString)
             }
 
             return builder.build().toUri()
         }
 
         private fun createLink(nextToken: String?, limit: Int): URI? {
-            val uri: URI = uri ?: return null
+            val path = uri ?: return null
+            val builder = UriComponentsBuilder.fromUri(path)
+                .replaceQueryParam("limit", limit)
+                .replaceQueryParam("nextToken", nextToken)
 
-            return URIBuilder(uri)
-                .removeQuery()
-                .setCustomQuery("limit=$limit&nextToken=$nextToken")
-                .build()
+            return builder.build().toUri()
         }
     }
 }

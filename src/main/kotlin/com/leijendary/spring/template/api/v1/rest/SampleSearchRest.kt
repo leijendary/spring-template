@@ -7,7 +7,6 @@ import com.leijendary.spring.template.core.data.DataResponse
 import com.leijendary.spring.template.core.data.QueryRequest
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
-import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.web.bind.annotation.*
 import java.util.*
@@ -22,7 +21,7 @@ class SampleSearchRest(
     @GetMapping
     @Operation(summary = "List all the objects based on the query parameter")
     fun list(queryRequest: QueryRequest, pageable: Pageable): DataResponse<List<SampleSearchResponse>> {
-        val page: Page<SampleSearchResponse> = sampleSearch.page(queryRequest, pageable)
+        val page = sampleSearch.page(queryRequest, pageable)
 
         return DataResponse.builder<List<SampleSearchResponse>>()
             .data(page.content)
@@ -34,7 +33,7 @@ class SampleSearchRest(
     @GetMapping("{id}")
     @Operation(summary = "Get the specific object using the ID in elasticsearch")
     fun get(@PathVariable id: UUID): DataResponse<SampleSearchResponse> {
-        val sampleResponse: SampleSearchResponse = sampleSearch.get(id)
+        val sampleResponse = sampleSearch.get(id)
 
         return DataResponse.builder<SampleSearchResponse>()
             .data(sampleResponse)

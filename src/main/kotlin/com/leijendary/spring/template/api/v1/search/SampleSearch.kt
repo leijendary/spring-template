@@ -4,8 +4,8 @@ import com.leijendary.spring.template.api.v1.data.SampleSearchResponse
 import com.leijendary.spring.template.api.v1.mapper.SampleMapper
 import com.leijendary.spring.template.core.data.QueryRequest
 import com.leijendary.spring.template.core.exception.ResourceNotFoundException
-import com.leijendary.spring.template.core.util.SearchUtil.match
-import com.leijendary.spring.template.core.util.SearchUtil.sortBuilders
+import com.leijendary.spring.template.core.util.SearchQuery.match
+import com.leijendary.spring.template.core.util.SearchQuery.sortBuilders
 import com.leijendary.spring.template.document.SampleDocument
 import com.leijendary.spring.template.model.SampleTable
 import com.leijendary.spring.template.repository.SampleSearchRepository
@@ -23,12 +23,12 @@ class SampleSearch(
     private val serviceSearchRepository: SampleSearchRepository
 ) {
     companion object {
-        private val MAPPER: SampleMapper = SampleMapper.INSTANCE
-        private val SOURCE = listOf("search", "SampleSearch")
+        private val MAPPER = SampleMapper.INSTANCE
+        private val SOURCE = listOf("search", "SampleSearch", "id")
     }
 
     fun page(queryRequest: QueryRequest, pageable: Pageable): Page<SampleSearchResponse> {
-        val query: String? = queryRequest.query
+        val query = queryRequest.query
         val searchBuilder = NativeSearchQueryBuilder()
         // Add the pagination to the search builder
         searchBuilder.withPageable(pageable)
@@ -41,7 +41,7 @@ class SampleSearch(
         }
 
         // Each sort builder should be added into the search builder's sort
-        val sortBuilders = sortBuilders(pageable)
+        val sortBuilders = sortBuilders(pageable.sort)
         searchBuilder.withSorts(sortBuilders)
 
         val searchQuery = searchBuilder.build()
@@ -49,11 +49,12 @@ class SampleSearch(
         val list = searchHits.map { it.content }.toList()
         val total = searchHits.totalHits
 
-        return PageImpl(list, pageable, total).map { MAPPER.toSearchResponse(it) }
+        return PageImpl(list, pageable, total)
+            .map { MAPPER.toSearchResponse(it) }
     }
 
     fun save(sampleTable: SampleTable) {
-        val document: SampleDocument = MAPPER.toDocument(sampleTable)
+        val document = MAPPER.toDocument(sampleTable)
 
         serviceSearchRepository.save(document)
     }
@@ -65,8 +66,8 @@ class SampleSearch(
     }
 
     fun update(sampleTable: SampleTable) {
-        val id: UUID = sampleTable.id
-        val document: SampleDocument = serviceSearchRepository.findById(id)
+        val id = sampleTable.id
+        val document = serviceSearchRepository.findById(id)
             .orElseThrow { ResourceNotFoundException(SOURCE, id) }
 
         MAPPER.update(sampleTable, document)
@@ -75,7 +76,7 @@ class SampleSearch(
     }
 
     fun delete(id: UUID) {
-        val document: SampleDocument = serviceSearchRepository.findById(id)
+        val document = serviceSearchRepository.findById(id)
             .orElseThrow { ResourceNotFoundException(SOURCE, id) }
 
         serviceSearchRepository.delete(document)

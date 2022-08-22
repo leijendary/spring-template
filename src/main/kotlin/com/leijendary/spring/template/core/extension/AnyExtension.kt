@@ -2,16 +2,11 @@ package com.leijendary.spring.template.core.extension
 
 import com.fasterxml.jackson.core.JsonProcessingException
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.leijendary.spring.template.core.util.RequestContext.path
 import com.leijendary.spring.template.core.util.SpringContext.Companion.getBean
 import java.lang.reflect.Field
 import kotlin.reflect.KClass
 
 private val mapper: ObjectMapper = getBean(ObjectMapper::class)
-
-fun Any.toLocation(): String {
-    return path?.let { if (!it.endsWith("/")) "$path/$this" else "$path$this" } ?: ""
-}
 
 fun <T : Any> Any.toClass(type: KClass<T>): T {
     return mapper.convertValue(this, type.java)
