@@ -37,7 +37,7 @@ out/
 .vscode/
 
 ### Env Files ###
-*.env
+.*.env
 
 ### Logs ###
 *.log

@@ -2,7 +2,7 @@ import org.gradle.api.file.DuplicatesStrategy.INCLUDE
 
 plugins {
     id("org.springframework.boot") version "2.7.3"
-    id("io.spring.dependency-management") version "1.0.11.RELEASE"
+    id("io.spring.dependency-management") version "1.0.13.RELEASE"
     id("org.jetbrains.kotlin.plugin.noarg") version "1.6.21"
     id("org.barfuin.gradle.jacocolog") version "2.0.0"
     kotlin("jvm") version "1.6.21"
@@ -60,8 +60,8 @@ dependencies {
     implementation("org.springframework.cloud:spring-cloud-stream-binder-kafka-streams:3.2.4")
     implementation("org.springframework.retry:spring-retry:1.3.3")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.13.3")
-    implementation("org.jetbrains.kotlin:kotlin-reflect:1.6.21")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.6.21")
+    implementation("org.jetbrains.kotlin:kotlin-reflect")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("org.liquibase:liquibase-core:4.15.0")
     implementation("io.opentelemetry:opentelemetry-extension-trace-propagators:1.17.0")
     implementation("io.opentelemetry:opentelemetry-exporter-jaeger:1.17.0")

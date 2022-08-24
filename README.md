@@ -9,14 +9,8 @@
 # Technologies Used:
 
 - Kotlin
-- Spring Configuration Processor
 - Spring Actuator
 - Spring Cache
-- Spring Data Elasticsearch
-- Spring Data JPA
-- Spring Data Redis
-- Spring Security
-- Spring Web
 - Spring Cloud AWS
 - Spring Cloud Loadbalancer
 - Spring Cloud OpenFeign
@@ -24,7 +18,13 @@
 - Spring Cloud Sleuth
 - Spring Cloud Stream Binder Kafka
 - Spring Cloud Stream Binder Kafka Streams
+- Spring Configuration Processor
+- Spring Data Elasticsearch
+- Spring Data JPA
+- Spring Data Redis
+- Spring Security
 - Spring Retry
+- Spring Web
 - Spring Devtools
 - PostgreSQL
 - Liquibase
