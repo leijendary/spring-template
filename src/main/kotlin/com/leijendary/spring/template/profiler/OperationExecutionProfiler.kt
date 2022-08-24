@@ -12,7 +12,7 @@ import kotlin.system.measureTimeMillis
 
 @Component
 @Aspect
-@Profile("debug")
+@Profile("profile")
 class OperationExecutionProfiler {
     private val log = logger()
 
