@@ -17,13 +17,11 @@ class OperationExecutionProfiler {
     private val log = logger()
 
     @Around("@annotation(io.swagger.v3.oas.annotations.Operation)")
-    fun profile(proceedingJoinPoint: ProceedingJoinPoint): Any {
-        var output: Any
-
+    fun profile(proceedingJoinPoint: ProceedingJoinPoint): Any? {
+        var output: Any?
         val time = measureTimeMillis {
             output = proceedingJoinPoint.proceed()
         }
-
         val operation = proceedingJoinPoint.signature.declaringType.simpleName
         val method = proceedingJoinPoint.signature.name
         val memoryUse = DataSize

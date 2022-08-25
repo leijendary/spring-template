@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.data.domain.Pageable
 import org.springframework.web.bind.annotation.*
 import java.util.*
+import kotlin.system.measureTimeMillis
 
 @RestController
 @RequestMapping("/api/v1/samples/search")
@@ -42,7 +43,12 @@ class SampleSearchRest(
 
     @PostMapping("reindex")
     @Operation(summary = "Reindex all objects")
-    fun reindex() {
-        sampleTableService.reindex()
+    fun reindex(): String {
+        var count: Int
+        val time = measureTimeMillis {
+            count = sampleTableService.reindex()
+        }
+
+        return "Re-indexed $count records to Sample Search, completed in ${time}ms"
     }
 }

@@ -21,6 +21,7 @@ import org.springframework.context.ApplicationEventPublisher
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.util.*
+import java.util.concurrent.atomic.AtomicInteger
 
 @Service
 class SampleTableService(
@@ -95,9 +96,17 @@ class SampleTableService(
     }
 
     @Transactional(readOnly = true)
-    fun reindex() {
+    fun reindex(): Int {
+        val count = AtomicInteger(0)
+
         sampleTableRepository.streamAll()
             .parallel()
-            .forEach { sampleSearch.save(it) }
+            .forEach {
+                sampleSearch.save(it)
+
+                count.incrementAndGet()
+            }
+
+        return count.get()
     }
 }

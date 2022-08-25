@@ -7,13 +7,12 @@ import org.hibernate.jpa.QueryHints.HINT_FETCH_SIZE
 import org.springframework.data.jpa.repository.*
 import java.util.*
 import java.util.stream.Stream
-import javax.persistence.LockModeType.PESSIMISTIC_FORCE_INCREMENT
+import javax.persistence.LockModeType.WRITE
 import javax.persistence.QueryHint
 
 interface SampleTableRepository : JpaRepository<SampleTable, UUID>, JpaSpecificationExecutor<SampleTable>,
     SeekPaginationRepository<SampleTable>, SoftDeleteRepository<SampleTable> {
-
-    @Lock(PESSIMISTIC_FORCE_INCREMENT)
+    @Lock(WRITE)
     fun findLockedById(id: UUID): SampleTable?
 
     @QueryHints(value = [QueryHint(name = HINT_FETCH_SIZE, value = "1")])
