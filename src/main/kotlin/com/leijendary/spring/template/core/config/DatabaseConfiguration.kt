@@ -38,7 +38,7 @@ class DatabaseConfiguration(
     }
 
     @Bean
-    fun routingDataSource(): TransactionRoutingDataSource {
+    fun routingDataSource(): DataSource {
         val dataSource = mutableMapOf<Any, Any>(
             READ_WRITE to primaryDataSource(),
             READ_ONLY to readonlyDataSource()
