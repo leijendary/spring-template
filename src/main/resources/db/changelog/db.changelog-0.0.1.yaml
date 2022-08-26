@@ -107,7 +107,7 @@ databaseChangeLog:
       changes:
         - addPrimaryKey:
             columnNames: id, language
-            constraintName: sample_table_translations_id
+            constraintName: sample_table_translations_id_pkey
             tableName: sample_table_translations
             validate: true
   - changeSet:
@@ -117,7 +117,7 @@ databaseChangeLog:
         - addForeignKeyConstraint:
             baseColumnNames: id
             baseTableName: sample_table_translations
-            constraintName: sample_table_translations_id_fk
+            constraintName: sample_table_translations_id_fkey
             deferrable: false
             initiallyDeferred: false
             onDelete: NO ACTION
@@ -130,7 +130,7 @@ databaseChangeLog:
       author: Leijendekker
       changes:
         - sql:
-            sql: create unique index sample_table_column_1_uindex
+            sql: create unique index sample_table_column_1_key
               on sample_table (lower(column_1))
               where deleted_at is null;
   - changeSet:
