@@ -55,10 +55,6 @@ spring:
     name: \${info.app.name}
   main:
     bannerMode: log
-  autoconfigure:
-    exclude:
-      - org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration
-      - org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration
   datasource:
     primary:
       poolName: Primary
@@ -70,14 +66,12 @@ spring:
         rewriteBatchedStatements: true
         useServerPrepStmts: true
       maximumPoolSize: 20
-      driverClassName: org.postgresql.Driver
     readonly:
       poolName: Read-only
       jdbcUrl:
       username:
       password:
       maximumPoolSize: 5
-      driverClassName: org.postgresql.Driver
   data:
     jdbc:
       repositories:
@@ -100,10 +94,6 @@ spring:
       hibernate:
         jdbc:
           batch_size: 1000
-        session:
-          events:
-            log:
-              LOG_QUERIES_SLOWER_THAN_MS: 1
       javax:
         persistence:
           lock:
