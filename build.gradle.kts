@@ -40,7 +40,6 @@ kapt {
 }
 
 dependencies {
-    implementation("org.springframework.boot:spring-boot-configuration-processor:2.7.3")
     implementation("org.springframework.boot:spring-boot-starter-actuator:2.7.3")
     implementation("org.springframework.boot:spring-boot-starter-cache:2.7.3")
     implementation("org.springframework.boot:spring-boot-starter-data-elasticsearch:2.7.3")
@@ -79,6 +78,7 @@ dependencies {
     runtimeOnly("io.micrometer:micrometer-registry-prometheus:1.9.3")
     runtimeOnly("org.postgresql:postgresql:42.5.0")
     testImplementation("org.springframework.boot:spring-boot-starter-test:2.7.3")
+    kapt("org.springframework.boot:spring-boot-configuration-processor:2.7.3")
     kapt("org.mapstruct:mapstruct-processor:1.5.2.Final")
 }
 
