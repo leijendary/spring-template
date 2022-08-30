@@ -22,6 +22,10 @@ configurations {
     }
 }
 
+buildscript {
+    extra["elasticsearch.version"] = "7.13.4"
+}
+
 repositories {
     maven("https://repo.spring.io/snapshot")
     maven("https://repo.spring.io/milestone")
@@ -69,11 +73,11 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("org.liquibase:liquibase-core:4.15.0")
-    implementation("org.springdoc:springdoc-openapi-ui:1.6.10")
+    implementation("org.springdoc:springdoc-openapi-ui:1.6.11")
     implementation("org.mapstruct:mapstruct:1.5.2.Final")
     developmentOnly("org.springframework.boot:spring-boot-devtools:2.7.3")
     runtimeOnly("io.micrometer:micrometer-registry-prometheus:1.9.3")
-    runtimeOnly("org.postgresql:postgresql:42.4.2")
+    runtimeOnly("org.postgresql:postgresql:42.5.0")
     testImplementation("org.springframework.boot:spring-boot-starter-test:2.7.3")
     kapt("org.mapstruct:mapstruct-processor:1.5.2.Final")
 }

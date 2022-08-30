@@ -184,6 +184,8 @@ spring:
                 applicationId: \${info.app.name}.\${spring.cloud.stream.bindings.sampleDeleted-in-0.destination}
   elasticsearch:
     uris:
+    username:
+    password:
   kafka:
     bootstrapServers:
     properties:
