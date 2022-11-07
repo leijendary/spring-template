@@ -27,7 +27,6 @@ jobs:
         env:
           DOCKER_BUILDKIT: 1
         run: |
-          echo ${{ secrets.ECS_TASK_DEFINITION }}
           docker build --cache-from $REPOSITORY_URL:latest -t $REPOSITORY_URL:$IMAGE_TAG --build-arg BUILDKIT_INLINE_CACHE=1 .
           docker tag $REPOSITORY_URL:$IMAGE_TAG $REPOSITORY_URL:latest
           echo "::set-output name=image::$(echo $REPOSITORY_URL:$IMAGE_TAG)"
