@@ -11,6 +11,7 @@ jobs:
         with:
           java-version: 17
           distribution: 'temurin'
+          cache: 'gradle'
       - name: Execute Gradle Test
         uses: gradle/gradle-build-action@v2
         with:
