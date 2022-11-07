@@ -34,7 +34,7 @@ jobs:
         with:
           task-definition: ./.aws/task-definitions/${{ inputs.environment }}.json
           container-name: ${{ secrets.CONTAINER_NAME }}
-          image: ${{ env.REPOSITORY_URL }}/${{ env.IMAGE_TAG }}
+          image: ${{ env.REPOSITORY_URL }}:${{ env.IMAGE_TAG }}
       - name: Deploy Amazon ECS task definition
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
         with:
