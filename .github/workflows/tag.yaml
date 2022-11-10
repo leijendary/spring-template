@@ -20,7 +20,7 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
-      - id: login-aws-ecr
+      - id: ecr
         name: Login to AWS ECR
         uses: aws-actions/amazon-ecr-login@v1
       - name: Pull Image
@@ -31,7 +31,7 @@ jobs:
         run: docker push $REPOSITORY_URL:$GITHUB_REF_NAME
       - name: Log out of AWS ECR
         if: always()
-        run: docker logout ${{ steps.login-aws-ecr.outputs.registry }}
+        run: docker logout ${{ steps.ecr.outputs.registry }}
   deploy-production:
     name: Fargate
     uses: ./.github/workflows/deploy.yaml

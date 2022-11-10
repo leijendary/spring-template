@@ -5,7 +5,7 @@ COPY gradle gradle
 COPY build.gradle.kts .
 COPY gradlew .
 COPY settings.gradle.kts .
-RUN --mount=type=cache,target=/root/.m2 ./gradlew build -x test
+RUN --mount=type=cache,target=/root/.m2 ./gradlew build --console plain -x test
 RUN mkdir -p build/dependency && (cd build/dependency; jar -xf ../libs/*.jar)
 
 FROM eclipse-temurin:17-jre-jammy

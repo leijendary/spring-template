@@ -7,8 +7,6 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
-    outputs:
-      image: ${{ steps.buid-image.outputs.image }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -16,22 +14,32 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.AWS_ACCESS_KEY_SECRET }}
           aws-region: ${{ secrets.AWS_REGION }}
-      - id: login-aws-ecr
-        name: Login to AWS ECR
+      - id: ecr
+        name: Get ECR Registry
         uses: aws-actions/amazon-ecr-login@v1
+      - name: Login to ECR
+        uses: docker/login-action@v2
+        with:
+          registry: ${{ steps.ecr.outputs.registry }}
       - name: Pull Latest Image
         run: docker pull $REPOSITORY_URL:latest || true
-      - name: Build New Image
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+      - name: Build and push
+        uses: docker/build-push-action@v3
         env:
           DOCKER_BUILDKIT: 1
-        run: |
-          docker build --cache-from $REPOSITORY_URL:latest -t $REPOSITORY_URL:$IMAGE_TAG --build-arg BUILDKIT_INLINE_CACHE=1 .
-          docker tag $REPOSITORY_URL:$IMAGE_TAG $REPOSITORY_URL:latest
-          echo "::set-output name=image::$(echo $REPOSITORY_URL:$IMAGE_TAG)"
-      - name: Push Image
-        run: docker push --all-tags $REPOSITORY_URL
+        with:
+          context: .
+          platforms: linux/arm64
+          build-args: BUILDKIT_INLINE_CACHE=1
+          cache-from: $REPOSITORY_URL:latest
+          tags: ${{ env.REPOSITORY_URL }}:${{ env.IMAGE_TAG }},${{ env.REPOSITORY_URL }}:latest
+          push: true
       - name: Log out of AWS ECR
         if: always()
-        run: docker logout ${{ steps.login-aws-ecr.outputs.registry }}
+        run: docker logout ${{ steps.ecr.outputs.registry }}
