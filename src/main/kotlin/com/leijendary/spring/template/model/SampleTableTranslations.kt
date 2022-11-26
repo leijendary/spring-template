@@ -1,7 +1,7 @@
 package com.leijendary.spring.template.model
 
 import com.leijendary.spring.template.core.model.LocaleModel
-import javax.persistence.Embeddable
+import jakarta.persistence.Embeddable
 
 @Embeddable
 data class SampleTableTranslations(

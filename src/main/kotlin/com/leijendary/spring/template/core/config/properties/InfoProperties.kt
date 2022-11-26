@@ -9,7 +9,7 @@ class InfoProperties {
     var app: App = App()
     var api: Api = Api()
 
-    inner class App {
+    class App {
         var organization: String = ""
         var group: String = ""
         var name: String = ""
@@ -17,7 +17,7 @@ class InfoProperties {
         var version: String = ""
     }
 
-    inner class Api {
+    class Api {
         var termsOfService: String = ""
         var contact: Contact? = null
         var license: License? = null

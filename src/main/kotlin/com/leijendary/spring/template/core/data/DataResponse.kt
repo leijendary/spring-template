@@ -2,7 +2,6 @@ package com.leijendary.spring.template.core.data
 
 import com.leijendary.spring.template.core.util.RequestContext.now
 import com.leijendary.spring.template.core.util.RequestContext.uri
-import io.opentelemetry.api.trace.Span
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Sort
 import org.springframework.http.HttpStatus
@@ -20,7 +19,6 @@ class DataResponse<T>(
             return DataResponseBuilder<T>()
                 .status(OK)
                 .selfLink()
-                .traceId()
         }
     }
 
@@ -61,12 +59,6 @@ class DataResponse<T>(
 
         fun meta(seek: Seek<*>): DataResponseBuilder<T> {
             meta["seek"] = SeekMeta(seek)
-
-            return this
-        }
-
-        fun traceId(): DataResponseBuilder<T> {
-            meta["traceId"] = Span.current().spanContext.traceId
 
             return this
         }

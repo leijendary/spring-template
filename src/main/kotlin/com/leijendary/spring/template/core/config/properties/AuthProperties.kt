@@ -7,11 +7,11 @@ class AuthProperties {
     var anonymousUser: AnonymousUser = AnonymousUser()
     var system: System = System()
 
-    inner class AnonymousUser {
+    class AnonymousUser {
         var principal: String = ""
     }
 
-    inner class System {
+    class System {
         var principal: String = ""
     }
 }

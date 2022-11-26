@@ -1,10 +1,9 @@
 package com.leijendary.spring.template.core.specification
 
 import com.leijendary.spring.template.core.model.LocalizedModel
+import jakarta.persistence.criteria.*
 import org.apache.commons.lang3.StringUtils.isBlank
-import org.hibernate.query.criteria.internal.OrderImpl
 import org.springframework.data.jpa.domain.Specification
-import javax.persistence.criteria.*
 
 class LocalizedSpecification<T : LocalizedModel<*>>(val language: String? = null) : Specification<T> {
     override fun toPredicate(
@@ -51,7 +50,7 @@ class LocalizedSpecification<T : LocalizedModel<*>>(val language: String? = null
 
         // Descending order of ordinal to get the actual language
         // filter first before the default
-        val ordinalDesc: Order = OrderImpl(ordinalPath).reverse()
+        val ordinalDesc: Order = criteriaBuilder.desc(ordinalPath)
 
         return criteriaQuery
             .where(*predicates.toTypedArray())

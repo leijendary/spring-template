@@ -1,6 +1,6 @@
 package com.leijendary.spring.template.core.model
 
-import javax.persistence.MappedSuperclass
+import jakarta.persistence.MappedSuperclass
 
 @MappedSuperclass
 abstract class LocaleCopy : AppModel() {

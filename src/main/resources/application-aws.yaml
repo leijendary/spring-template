@@ -1,7 +1,7 @@
-cloud:
-  aws:
-    credentials:
-      instanceProfile: true
-      useDefaultAwsCredentialsChain: true
-    region:
-      useDefaultAwsRegionChain: true
+spring:
+  cloud:
+    aws:
+      credentials:
+        instanceProfile: true
+      region:
+        instanceProfile: true

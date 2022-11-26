@@ -24,8 +24,8 @@ import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.format.TextStyle.FULL
 import java.util.*
-import javax.servlet.http.HttpServletResponse
-import javax.validation.Valid
+import jakarta.servlet.http.HttpServletResponse
+import jakarta.validation.Valid
 
 /**
  * This is an example of a controller that will be created in microservices.

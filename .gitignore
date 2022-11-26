@@ -42,3 +42,6 @@ out/
 
 ### Logs ###
 *.log
+
+### jenv ###
+.java-version

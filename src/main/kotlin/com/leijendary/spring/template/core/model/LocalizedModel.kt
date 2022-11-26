@@ -1,11 +1,11 @@
 package com.leijendary.spring.template.core.model
 
 import com.leijendary.spring.template.core.util.RequestContext.language
-import javax.persistence.CollectionTable
-import javax.persistence.ElementCollection
-import javax.persistence.FetchType.EAGER
-import javax.persistence.JoinColumn
-import javax.persistence.MappedSuperclass
+import jakarta.persistence.CollectionTable
+import jakarta.persistence.ElementCollection
+import jakarta.persistence.FetchType.EAGER
+import jakarta.persistence.JoinColumn
+import jakarta.persistence.MappedSuperclass
 
 @MappedSuperclass
 abstract class LocalizedModel<T : LocaleModel> : UUIDModel() {

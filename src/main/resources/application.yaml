@@ -21,17 +21,6 @@ auth:
   system:
     principal: System
 
-cloud:
-  aws:
-    credentials:
-      instanceProfile: false
-      useDefaultAwsCredentialsChain: false
-    stack:
-      auto: false
-    region:
-      auto: false
-      useDefaultAwsRegionChain: false
-
 emission:
   deadline: 5m
 
@@ -82,6 +71,8 @@ spring:
     redis:
       repositories:
         enabled: false
+      host:
+      port:
     web:
       pageable:
         maxPageSize: 100
@@ -94,10 +85,6 @@ spring:
       hibernate:
         jdbc:
           batch_size: 1000
-      javax:
-        persistence:
-          lock:
-            timeout: 2000
   messages:
     basename: messages.access, messages.error, messages.validation
   mvc:
@@ -161,13 +148,12 @@ spring:
       default:
         group: \${info.app.name}
       kafka:
-        binder:
-          autoAddPartitions: true
         default:
           consumer:
             enableDlq: true
         streams:
           binder:
+            autoAddPartitions: true
             deserializationExceptionHandler: sendToDlq
             functions:
               sampleCreate:
@@ -198,22 +184,6 @@ spring:
             add:
               type:
                 headers: false
-  redis:
-    host:
-    port:
-  sleuth:
-    messaging:
-      enabled: true
-      kafka:
-        streams:
-          enabled: true
-    traceId128: true
-    otel:
-      config:
-        traceIdRatioBased: 1
-      exporter:
-        jaeger:
-          endpoint:
 
 server:
   error:
@@ -239,7 +209,7 @@ management:
   endpoints:
     web:
       exposure:
-        include: health, prometheus
+        include: health
 
 logging:
   level:

@@ -1,9 +1,9 @@
 package com.leijendary.spring.template.api.v1.data
 
 import com.leijendary.spring.template.core.validator.annotation.UniqueFields
+import jakarta.validation.Valid
+import jakarta.validation.constraints.*
 import java.math.BigDecimal
-import javax.validation.Valid
-import javax.validation.constraints.*
 
 data class SampleRequest(
     @field:NotBlank(message = "validation.required")

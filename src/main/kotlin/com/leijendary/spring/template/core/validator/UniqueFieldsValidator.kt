@@ -2,8 +2,8 @@ package com.leijendary.spring.template.core.validator
 
 import com.leijendary.spring.template.core.extension.reflectGet
 import com.leijendary.spring.template.core.validator.annotation.UniqueFields
-import javax.validation.ConstraintValidator
-import javax.validation.ConstraintValidatorContext
+import jakarta.validation.ConstraintValidator
+import jakarta.validation.ConstraintValidatorContext
 
 class UniqueFieldsValidator : ConstraintValidator<UniqueFields, List<Any>> {
     private lateinit var uniqueFields: Array<String>

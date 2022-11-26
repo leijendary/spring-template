@@ -15,9 +15,9 @@ import org.springframework.data.jpa.repository.query.QueryUtils.toOrders
 import org.springframework.stereotype.Repository
 import java.util.Base64.getDecoder
 import java.util.Base64.getEncoder
-import javax.persistence.EntityManager
-import javax.persistence.criteria.CriteriaBuilder
-import javax.persistence.criteria.Expression
+import jakarta.persistence.EntityManager
+import jakarta.persistence.criteria.CriteriaBuilder
+import jakarta.persistence.criteria.Expression
 import kotlin.reflect.KClass
 
 private const val FUNCTION_NAME = "ROW"

@@ -2,7 +2,6 @@ package com.leijendary.spring.template.core.data
 
 import com.leijendary.spring.template.core.util.RequestContext.now
 import com.leijendary.spring.template.core.util.RequestContext.uri
-import io.opentelemetry.api.trace.Span
 import org.springframework.http.HttpStatus
 import org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR
 import java.net.URI
@@ -17,7 +16,6 @@ class ErrorResponse(
             return ErrorResponseBuilder()
                 .status(INTERNAL_SERVER_ERROR)
                 .selfLink()
-                .traceId()
         }
     }
 
@@ -46,12 +44,6 @@ class ErrorResponse(
 
         fun status(httpStatus: HttpStatus): ErrorResponseBuilder {
             meta["status"] = httpStatus.value()
-
-            return this
-        }
-
-        fun traceId(): ErrorResponseBuilder {
-            meta["traceId"] = Span.current().spanContext.traceId
 
             return this
         }

@@ -8,10 +8,6 @@ management:
 
 logging:
   level:
-    com:
-      amazonaws:
-        util:
-          EC2MetadataUtils: ERROR
     io:
       netty:
         resolver:

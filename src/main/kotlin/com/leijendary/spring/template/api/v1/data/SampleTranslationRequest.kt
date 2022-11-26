@@ -1,7 +1,7 @@
 package com.leijendary.spring.template.api.v1.data
 
 import com.leijendary.spring.template.core.data.TranslationRequest
-import javax.validation.constraints.NotBlank
+import jakarta.validation.constraints.NotBlank
 
 data class SampleTranslationRequest(
     @get:NotBlank(message = "validation.required")

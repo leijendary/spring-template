@@ -2,7 +2,7 @@ package com.leijendary.spring.template.core.model
 
 import com.leijendary.spring.template.core.util.RequestContext.language
 import java.util.*
-import javax.persistence.*
+import jakarta.persistence.*
 
 @MappedSuperclass
 abstract class LocalizedCopy<T : LocaleCopy> : AppModel() {
