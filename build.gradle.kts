@@ -24,7 +24,7 @@ configurations {
 }
 
 springBoot {
-    mainClass.set("com.leijendary.spring.template.Application")
+    mainClass.set("com.leijendary.spring.template.ApplicationKt")
 }
 
 repositories {
@@ -57,11 +57,11 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 
     // Spring Retry
-    implementation("org.springframework.retry:spring-retry:2.0.0")
+    implementation("org.springframework.retry:spring-retry")
 
     // Spring Cloud Starter
-    implementation("org.springframework.cloud:spring-cloud-starter-loadbalancer:3.1.5")
-    implementation("org.springframework.cloud:spring-cloud-starter-openfeign:3.1.5")
+    implementation("org.springframework.cloud:spring-cloud-starter-loadbalancer")
+    implementation("org.springframework.cloud:spring-cloud-starter-openfeign")
 
     // Spring Cloud Stream
     implementation("org.springframework.cloud:spring-cloud-stream")
