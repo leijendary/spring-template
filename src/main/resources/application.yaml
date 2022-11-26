@@ -206,6 +206,9 @@ springdoc:
   pathsToMatch: /api/**
 
 management:
+  endpoint:
+    health:
+      showDetails: ALWAYS
   endpoints:
     web:
       exposure:

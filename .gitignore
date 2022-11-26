@@ -45,3 +45,6 @@ out/
 
 ### jenv ###
 .java-version
+
+### Local configuration ###
+src/main/resources/application-local.yaml
