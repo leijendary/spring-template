@@ -6,16 +6,8 @@ import org.springframework.data.domain.Sort
 
 const val ROW_ID_FIELD = "rowId"
 
-class SeekToken {
-    val fields: Map<String, Any?>
-
-    constructor() {
-        this.fields = emptyMap()
-    }
-
-    constructor(last: UUIDModel, sort: Sort) {
-        this.fields = getFields(last, sort)
-    }
+class SeekToken(last: UUIDModel, sort: Sort) {
+    val fields: Map<String, Any?> = getFields(last, sort)
 
     private fun getFields(last: UUIDModel, sort: Sort): Map<String, Any?> {
         val fieldValueMap = mutableMapOf<String, Any?>()
