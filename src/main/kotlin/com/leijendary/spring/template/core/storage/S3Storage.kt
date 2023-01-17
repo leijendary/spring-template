@@ -1,5 +1,6 @@
 package com.leijendary.spring.template.core.storage
 
+import com.leijendary.spring.template.core.config.properties.AwsS3Properties
 import jakarta.servlet.http.HttpServletResponse
 import org.springframework.context.annotation.Profile
 import org.springframework.stereotype.Service
@@ -11,14 +12,16 @@ import java.io.File
 
 @Profile("aws")
 @Service
-class S3Storage(private val s3Client: S3Client) {
-    fun get(bucketName: String, key: String): GetObjectResponse {
-        val s3Object = stream(bucketName, key)
+class S3Storage(awsS3Properties: AwsS3Properties, private val s3Client: S3Client) {
+    private val bucketName = awsS3Properties.bucketName
+
+    fun get(key: String): GetObjectResponse {
+        val s3Object = stream(key)
 
         return s3Object.response()
     }
 
-    fun stream(bucketName: String, key: String): ResponseInputStream<GetObjectResponse> {
+    fun stream(key: String): ResponseInputStream<GetObjectResponse> {
         val request = GetObjectRequest.builder()
             .bucket(bucketName)
             .key(key)
@@ -27,7 +30,7 @@ class S3Storage(private val s3Client: S3Client) {
         return s3Client.getObject(request)
     }
 
-    fun put(bucketName: String, key: String, file: File): PutObjectResponse {
+    fun put(key: String, file: File): PutObjectResponse {
         val request = PutObjectRequest.builder()
             .bucket(bucketName)
             .key(key)
@@ -37,8 +40,8 @@ class S3Storage(private val s3Client: S3Client) {
         return s3Client.putObject(request, body)
     }
 
-    fun render(bucketName: String, key: String, servletResponse: HttpServletResponse) {
-        val objectStream = stream(bucketName, key)
+    fun render(key: String, servletResponse: HttpServletResponse) {
+        val objectStream = stream(key)
         val s3Object = objectStream.response()
         val contentType = s3Object.contentType()
         val outputStream = servletResponse.outputStream
@@ -48,7 +51,7 @@ class S3Storage(private val s3Client: S3Client) {
         objectStream.transferTo(outputStream)
     }
 
-    fun delete(bucketName: String, key: String): DeleteObjectResponse {
+    fun delete(key: String): DeleteObjectResponse {
         val request = DeleteObjectRequest.builder()
             .bucket(bucketName)
             .key(key)
@@ -57,7 +60,7 @@ class S3Storage(private val s3Client: S3Client) {
         return s3Client.deleteObject(request)
     }
 
-    fun deleteAll(bucketName: String, keys: List<String>): DeleteObjectsResponse {
+    fun deleteAll(keys: List<String>): DeleteObjectsResponse {
         val ids = keys.map { key -> ObjectIdentifier.builder().key(key).build() }
         val request = DeleteObjectsRequest.builder()
             .bucket(bucketName)
