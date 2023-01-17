@@ -3,8 +3,8 @@ package com.leijendary.spring.template.core.error
 import com.leijendary.spring.template.core.data.ErrorResponse
 import com.leijendary.spring.template.core.extension.snakeCaseToCamelCase
 import com.leijendary.spring.template.core.util.RequestContext.locale
-import jakarta.validation.ConstraintViolationException
 import org.apache.commons.lang3.StringUtils.substringBetween
+import org.hibernate.exception.ConstraintViolationException
 import org.springframework.context.MessageSource
 import org.springframework.core.annotation.Order
 import org.springframework.dao.DataIntegrityViolationException
@@ -45,17 +45,27 @@ class DataIntegrityViolationExceptionHandler(private val messageSource: MessageS
     }
 
     private fun constraintViolationException(exception: ConstraintViolationException): ErrorResponse {
-        val builder = ErrorResponse.builder()
-
-        exception.constraintViolations.forEach {
-            val code = "validation.alreadyExists"
-            val arguments = arrayOf(it.propertyPath, it.message)
-            val message = messageSource.getMessage(code, arguments, locale)
-
-            builder.addError(mutableListOf("data", it.propertyPath, it.propertyPath), code, message)
-        }
+        val errorMessage = exception.sqlException.nextException.message!!
+        val sql = exception.sql
+        val table = sql.let {
+            substringBetween(it, "insert into ", " (")
+                ?: substringBetween(it, "update ", " set ")
+        }.snakeCaseToCamelCase(true)
+        val field = errorMessage
+            .substringAfter("Key (")
+            .substringBefore(")=")
+            .substringAfter("(")
+            .substringBefore("::")
+            .snakeCaseToCamelCase()
+        val value = errorMessage
+            .substringAfter("=(")
+            .substringBefore(") ")
+        val code = "validation.alreadyExists"
+        val arguments = arrayOf(field, value)
+        val message = messageSource.getMessage(code, arguments, locale)
 
         return ErrorResponse.builder()
+            .addError(mutableListOf("data", table, field), code, message)
             .status(CONFLICT)
             .build()
     }

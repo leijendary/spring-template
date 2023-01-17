@@ -49,7 +49,9 @@ class SampleSearch(
 
         val searchQuery = searchBuilder.build()
         val searchHits = elasticsearchTemplate.search(searchQuery, SampleDocument::class.java)
-        val list = searchHits.map { MAPPER.toSearchResponse(it.content) }.toList()
+        val list = searchHits
+            .map { MAPPER.toSearchResponse(it.content) }
+            .toList()
         val total = searchHits.totalHits
 
         return PageImpl(list, pageable, total)

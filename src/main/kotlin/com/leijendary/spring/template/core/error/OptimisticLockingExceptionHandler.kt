@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.ResponseStatus
 
 @Component
 @Order(4)
-class OptimisticLockingFailureErrorMapping(private val messageSource: MessageSource) {
+class OptimisticLockingExceptionHandler(private val messageSource: MessageSource) {
     @ExceptionHandler(OptimisticLockingFailureException::class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     fun catchOptimisticLockingFailure(exception: OptimisticLockingFailureException): ErrorResponse {
@@ -28,7 +28,7 @@ class OptimisticLockingFailureErrorMapping(private val messageSource: MessageSou
 
         return ErrorResponse.builder()
             .addError(source, code, message)
-            .status(HttpStatus.METHOD_NOT_ALLOWED)
+            .status(HttpStatus.BAD_REQUEST)
             .build()
     }
 }

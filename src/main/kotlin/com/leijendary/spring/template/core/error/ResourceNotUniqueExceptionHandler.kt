@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice
 @RestControllerAdvice
 @Order(3)
 class ResourceNotUniqueExceptionHandler(private val messageSource: MessageSource) {
-
     @ExceptionHandler(ResourceNotUniqueException::class)
     @ResponseStatus(CONFLICT)
     fun catchResourceNotUnique(exception: ResourceNotUniqueException): ErrorResponse {

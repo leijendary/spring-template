@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice
 class BindExceptionHandler(private val messageSource: MessageSource) {
     @ExceptionHandler(BindException::class)
     @ResponseStatus(BAD_REQUEST)
-    fun catchMethodArgumentNotValid(exception: BindException): ErrorResponse {
+    fun catchBind(exception: BindException): ErrorResponse {
         val response: ErrorResponse.ErrorResponseBuilder = ErrorResponse.builder().status(BAD_REQUEST)
 
         exception.allErrors.forEach { field: ObjectError ->
