@@ -1,8 +1,8 @@
 import org.gradle.api.file.DuplicatesStrategy.INCLUDE
 
 plugins {
-    id("org.springframework.boot") version "2.7.3"
-    id("io.spring.dependency-management") version "1.0.13.RELEASE"
+    id("org.springframework.boot") version "2.7.7"
+    id("io.spring.dependency-management") version "1.0.15.RELEASE"
     id("org.jetbrains.kotlin.plugin.noarg") version "1.6.21"
     id("org.barfuin.gradle.jacocolog") version "2.0.0"
     kotlin("jvm") version "1.6.21"
@@ -40,13 +40,13 @@ kapt {
 }
 
 dependencies {
-    implementation("org.springframework.boot:spring-boot-starter-actuator:2.7.3")
-    implementation("org.springframework.boot:spring-boot-starter-cache:2.7.3")
-    implementation("org.springframework.boot:spring-boot-starter-data-elasticsearch:2.7.3")
-    implementation("org.springframework.boot:spring-boot-starter-data-jpa:2.7.3")
-    implementation("org.springframework.boot:spring-boot-starter-data-redis:2.7.3")
-    implementation("org.springframework.boot:spring-boot-starter-security:2.7.3")
-    implementation("org.springframework.boot:spring-boot-starter-web:2.7.3")
+    implementation("org.springframework.boot:spring-boot-starter-actuator:2.7.7")
+    implementation("org.springframework.boot:spring-boot-starter-cache:2.7.7")
+    implementation("org.springframework.boot:spring-boot-starter-data-elasticsearch:2.7.7")
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa:2.7.7")
+    implementation("org.springframework.boot:spring-boot-starter-data-redis:2.7.7")
+    implementation("org.springframework.boot:spring-boot-starter-security:2.7.7")
+    implementation("org.springframework.boot:spring-boot-starter-web:2.7.7")
     implementation("org.springframework.cloud:spring-cloud-sleuth-otel-autoconfigure")
     implementation("org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE")
     implementation("org.springframework.cloud:spring-cloud-starter-loadbalancer:3.1.3")
