@@ -1,15 +1,15 @@
 import org.gradle.api.file.DuplicatesStrategy.INCLUDE
 
 plugins {
-    id("org.springframework.boot") version "3.0.0"
+    id("org.springframework.boot") version "3.0.1"
     id("io.spring.dependency-management") version "1.1.0"
     id("org.jetbrains.kotlin.plugin.noarg") version "1.7.21"
     id("org.graalvm.buildtools.native") version "0.9.18"
     id("org.barfuin.gradle.jacocolog") version "2.0.0"
-    kotlin("jvm") version "1.7.21"
-    kotlin("kapt") version "1.7.21"
-    kotlin("plugin.spring") version "1.7.21"
-    kotlin("plugin.jpa") version "1.7.21"
+    kotlin("jvm") version "1.7.22"
+    kotlin("kapt") version "1.7.22"
+    kotlin("plugin.spring") version "1.7.22"
+    kotlin("plugin.jpa") version "1.7.22"
 }
 
 group = "com.leijendary.spring"
@@ -78,18 +78,18 @@ dependencies {
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.14.0")
 
     // Cache
-    implementation("com.github.ben-manes.caffeine:caffeine:3.1.1")
+    implementation("com.github.ben-manes.caffeine:caffeine:3.1.2")
 
     // AWS
     implementation("io.awspring.cloud:spring-cloud-aws-starter-s3")
 
     // Database
-    implementation("org.liquibase:liquibase-core:4.17.2")
+    implementation("org.liquibase:liquibase-core:4.19.0")
     implementation("org.hibernate:hibernate-core-jakarta:5.6.14.Final")
-    runtimeOnly("org.postgresql:postgresql:42.5.0")
+    runtimeOnly("org.postgresql:postgresql:42.5.1")
 
     // OpenAPI
-    implementation("org.springdoc:springdoc-openapi-ui:1.6.13")
+    implementation("org.springdoc:springdoc-openapi-ui:1.6.14")
 
     // MapStruct
     implementation("org.mapstruct:mapstruct:1.5.3.Final")
@@ -104,7 +104,7 @@ dependencies {
 dependencyManagement {
     imports {
         mavenBom("io.awspring.cloud:spring-cloud-aws-dependencies:3.0.0-M3")
-        mavenBom("org.springframework.cloud:spring-cloud-dependencies:2022.0.0-RC2")
+        mavenBom("org.springframework.cloud:spring-cloud-dependencies:2022.0.0")
     }
 }
 
