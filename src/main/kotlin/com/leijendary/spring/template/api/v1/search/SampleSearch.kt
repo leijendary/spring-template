@@ -33,7 +33,7 @@ class SampleSearch(
         // Add the pagination to the search builder
         searchBuilder.withPageable(pageable)
 
-        if (query != null && query.isNotEmpty()) {
+        if (!query.isNullOrEmpty()) {
             // Add the query for the actual search
             searchBuilder.withQuery { builder ->
                 builder.bool { bool ->
