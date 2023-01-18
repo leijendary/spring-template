@@ -2,7 +2,10 @@ package com.leijendary.spring.template.model
 
 import com.leijendary.spring.template.core.model.LocalizedModel
 import com.leijendary.spring.template.core.model.SoftDeleteModel
+import com.leijendary.spring.template.core.model.UUIDModel
 import com.leijendary.spring.template.core.util.RequestContext.now
+import jakarta.persistence.*
+import jakarta.persistence.FetchType.EAGER
 import org.hibernate.annotations.Where
 import org.springframework.data.annotation.CreatedBy
 import org.springframework.data.annotation.CreatedDate
@@ -12,15 +15,11 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener
 import java.math.BigDecimal
 import java.math.BigDecimal.ZERO
 import java.time.LocalDateTime
-import jakarta.persistence.Column
-import jakarta.persistence.Entity
-import jakarta.persistence.EntityListeners
-import jakarta.persistence.Version
 
 @Entity
 @EntityListeners(AuditingEntityListener::class)
 @Where(clause = "deleted_at is null")
-class SampleTable : LocalizedModel<SampleTableTranslations>(), SoftDeleteModel {
+class SampleTable : UUIDModel(), LocalizedModel<SampleTableTranslation>, SoftDeleteModel {
     @Column(name = "column_1")
     var column1: String = ""
 
@@ -31,6 +30,10 @@ class SampleTable : LocalizedModel<SampleTableTranslations>(), SoftDeleteModel {
 
     @Version
     var version = 0
+
+    @ElementCollection(fetch = EAGER)
+    @CollectionTable(name = "sample_table_translation", joinColumns = [JoinColumn(name = "id")])
+    override val translations: Set<SampleTableTranslation> = HashSet()
 
     @CreatedDate
     var createdAt: LocalDateTime = now

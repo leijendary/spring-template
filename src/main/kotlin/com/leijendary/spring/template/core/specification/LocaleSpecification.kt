@@ -1,8 +1,10 @@
 package com.leijendary.spring.template.core.specification
 
 import com.leijendary.spring.template.core.model.LocaleModel
-import jakarta.persistence.criteria.*
-import org.apache.commons.lang3.StringUtils.isBlank
+import jakarta.persistence.criteria.CriteriaBuilder
+import jakarta.persistence.criteria.CriteriaQuery
+import jakarta.persistence.criteria.Predicate
+import jakarta.persistence.criteria.Root
 import org.springframework.data.jpa.domain.Specification
 
 class LocaleSpecification<T : LocaleModel>(
@@ -15,16 +17,16 @@ class LocaleSpecification<T : LocaleModel>(
         criteriaBuilder: CriteriaBuilder
     ): Predicate? {
         val referenceId = referenceId(root, criteriaBuilder)
-        val predicates = ArrayList(listOf(referenceId))
+        val predicates = mutableListOf(referenceId)
 
         // If there is no language filter, return all based on the reference ID predicate
-        if (isBlank(language)) {
+        if (language.isNullOrBlank()) {
             return criteriaQuery.where(referenceId).restriction
         }
 
         val languagePath = root.get<String>("language")
         // Criteria for exact language
-        val languageEquals: Predicate = criteriaBuilder.equal(languagePath, language)
+        val languageEquals = criteriaBuilder.equal(languagePath, language)
         // Parent query ordinal
         val ordinalPath = root.get<Int>("ordinal")
 
@@ -34,7 +36,7 @@ class LocaleSpecification<T : LocaleModel>(
         val subQueryRoot = ordinalSubQuery.from(type)
         val subQueryOrdinalPath = subQueryRoot.get<Int>("ordinal")
         // Criteria for the lowest ordinal (the default)
-        val subQueryOrdinalMin: Expression<Int> = criteriaBuilder.min(subQueryOrdinalPath)
+        val subQueryOrdinalMin = criteriaBuilder.min(subQueryOrdinalPath)
         // Filter sub query reference id
         val subQueryReferenceId = referenceId(subQueryRoot, criteriaBuilder)
 
@@ -42,15 +44,15 @@ class LocaleSpecification<T : LocaleModel>(
         ordinalSubQuery.select(subQueryOrdinalMin).where(subQueryReferenceId)
 
         // Compare the ordinal of the main query vs the sub query
-        val ordinalEqual: Predicate = criteriaBuilder.equal(ordinalPath, ordinalSubQuery)
+        val ordinalEqual = criteriaBuilder.equal(ordinalPath, ordinalSubQuery)
 
         // language OR first ordinal
-        val languageOrFirstOrdinal: Predicate = criteriaBuilder.or(languageEquals, ordinalEqual)
+        val languageOrFirstOrdinal = criteriaBuilder.or(languageEquals, ordinalEqual)
         predicates.add(languageOrFirstOrdinal)
 
         // Descending order of ordinal to get the actual language
         // filter first before the default
-        val ordinalDesc: Order = criteriaBuilder.desc(ordinalPath)
+        val ordinalDesc = criteriaBuilder.desc(ordinalPath)
 
         return criteriaQuery
             .where(*predicates.toTypedArray())

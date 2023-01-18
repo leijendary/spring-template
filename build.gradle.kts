@@ -3,8 +3,6 @@ import org.gradle.api.file.DuplicatesStrategy.INCLUDE
 plugins {
     id("org.springframework.boot") version "3.0.1"
     id("io.spring.dependency-management") version "1.1.0"
-    id("org.jetbrains.kotlin.plugin.noarg") version "1.7.21"
-    id("org.graalvm.buildtools.native") version "0.9.18"
     id("org.barfuin.gradle.jacocolog") version "2.0.0"
     kotlin("jvm") version "1.7.22"
     kotlin("kapt") version "1.7.22"
@@ -21,10 +19,6 @@ configurations {
     compileOnly {
         extendsFrom(configurations.annotationProcessor.get())
     }
-}
-
-springBoot {
-    mainClass.set("com.leijendary.spring.template.ApplicationKt")
 }
 
 repositories {
@@ -55,6 +49,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("org.springframework.boot:spring-boot-starter-web")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("org.springframework.security:spring-security-test")
 
     // Spring Retry
     implementation("org.springframework.retry:spring-retry")
@@ -74,8 +69,8 @@ dependencies {
     testImplementation("org.springframework.kafka:spring-kafka-test")
 
     // Jackson
-    implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.14.0")
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.14.0")
+    implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 
     // Cache
     implementation("com.github.ben-manes.caffeine:caffeine:3.1.2")
@@ -84,9 +79,8 @@ dependencies {
     implementation("io.awspring.cloud:spring-cloud-aws-starter-s3")
 
     // Database
-    implementation("org.liquibase:liquibase-core:4.19.0")
-    implementation("org.hibernate:hibernate-core-jakarta:5.6.14.Final")
-    runtimeOnly("org.postgresql:postgresql:42.5.1")
+    implementation("org.liquibase:liquibase-core")
+    runtimeOnly("org.postgresql:postgresql")
 
     // OpenAPI
     implementation("org.springdoc:springdoc-openapi-ui:1.6.14")
@@ -99,6 +93,10 @@ dependencies {
     // Devtools
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     kapt("org.springframework.boot:spring-boot-configuration-processor")
+
+    // Tracing
+    implementation("io.micrometer:micrometer-tracing-bridge-brave")
+    implementation("io.zipkin.reporter2:zipkin-reporter-brave")
 }
 
 dependencyManagement {

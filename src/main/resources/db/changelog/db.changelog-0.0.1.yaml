@@ -100,15 +100,15 @@ databaseChangeLog:
                   type: int
                   constraints:
                     nullable: false
-            tableName: sample_table_translations
+            tableName: sample_table_translation
   - changeSet:
       id: sample-table-translations-primary-key
       author: Leijendekker
       changes:
         - addPrimaryKey:
             columnNames: id, language
-            constraintName: sample_table_translations_id_pkey
-            tableName: sample_table_translations
+            constraintName: sample_table_translation_id_pkey
+            tableName: sample_table_translation
             validate: true
   - changeSet:
       id: sample-table-translations-to-sample-table-foreign-key
@@ -116,8 +116,8 @@ databaseChangeLog:
       changes:
         - addForeignKeyConstraint:
             baseColumnNames: id
-            baseTableName: sample_table_translations
-            constraintName: sample_table_translations_id_fkey
+            baseTableName: sample_table_translation
+            constraintName: sample_table_translation_id_fkey
             deferrable: false
             initiallyDeferred: false
             onDelete: NO ACTION

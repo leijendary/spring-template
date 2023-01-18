@@ -13,15 +13,12 @@ import org.springframework.web.bind.annotation.ResponseStatus
 
 @Component
 @Order(4)
-class OptimisticLockingExceptionHandler(private val messageSource: MessageSource) {
+class OptimisticLockingFailureExceptionHandler(private val messageSource: MessageSource) {
     @ExceptionHandler(OptimisticLockingFailureException::class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     fun catchOptimisticLockingFailure(exception: OptimisticLockingFailureException): ErrorResponse {
         val exceptionMessage = exception.message!!
-        val table = exceptionMessage
-            .substringAfter("table [")
-            .substringBefore("].")
-            .snakeCaseToCamelCase(true)
+        val table = exceptionMessage.substringAfter("table [").substringBefore("].").snakeCaseToCamelCase(true)
         val source = listOf("data") + table + "version"
         val code = "error.data.version.conflict"
         val message = messageSource.getMessage(code, emptyArray(), locale)
