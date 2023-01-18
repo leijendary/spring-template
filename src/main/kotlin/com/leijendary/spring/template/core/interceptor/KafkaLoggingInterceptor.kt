@@ -39,9 +39,10 @@ class KafkaLoggingInterceptor : ProducerInterceptor<String, Any>, ConsumerInterc
             val key = it.key()
             val payload = String(it.value() as ByteArray)
             val traceParent = traceHeader(it.headers())
+            val text = "Received from topic '$topic' on partition '$partition' with key '$key' and payload '$payload'"
 
             traced(traceParent) {
-                log.info("Received from topic '$topic' on partition '$partition' with key '$key' and payload '$payload'")
+                log.info(text)
             }
         }
 
