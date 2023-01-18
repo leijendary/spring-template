@@ -87,6 +87,8 @@ spring:
           batch_size: 1000
       jakarta:
         persistence:
+          lock:
+            timeout: 2000
           sharedCache:
             mode: UNSPECIFIED
   messages:
@@ -152,6 +154,8 @@ spring:
       default:
         group: \${info.app.name}
       kafka:
+        binder:
+          enableObservation: true
         default:
           consumer:
             enableDlq: true
@@ -216,7 +220,10 @@ management:
   endpoints:
     web:
       exposure:
-        include: health
+        include: health, prometheus
+  tracing:
+    sampling:
+      probability: 1.0
 
 logging:
   level:
@@ -230,3 +237,5 @@ logging:
           elasticsearch:
             support:
               VersionInfo: ERROR
+  pattern:
+    level: "%5p [\${spring.application.name:},%X{traceId:-},%X{spanId:-}]"

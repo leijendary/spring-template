@@ -1,6 +1,7 @@
 package com.leijendary.spring.template.core.interceptor
 
 import com.leijendary.spring.template.core.extension.logger
+import com.leijendary.spring.template.core.util.traced
 import org.apache.kafka.clients.consumer.ConsumerInterceptor
 import org.apache.kafka.clients.consumer.ConsumerRecords
 import org.apache.kafka.clients.consumer.OffsetAndMetadata
@@ -8,12 +9,10 @@ import org.apache.kafka.clients.producer.ProducerInterceptor
 import org.apache.kafka.clients.producer.ProducerRecord
 import org.apache.kafka.clients.producer.RecordMetadata
 import org.apache.kafka.common.TopicPartition
-import org.slf4j.MDC
+import org.apache.kafka.common.header.Headers
 import org.springframework.stereotype.Component
 
-private const val HEADER_B3 = "b3"
-private const val MDC_TRACE_ID = "traceId"
-private const val MDC_SPAN_ID = "spanId"
+private const val TRACE_HEADER = "traceparent"
 
 @Component
 class KafkaLoggingInterceptor : ProducerInterceptor<String, Any>, ConsumerInterceptor<String, Any> {
@@ -24,8 +23,11 @@ class KafkaLoggingInterceptor : ProducerInterceptor<String, Any>, ConsumerInterc
         val partition = record.partition()
         val key = record.key()
         val payload = String(record.value() as ByteArray)
+        val traceParent = traceHeader(record.headers())
 
-        log.info("Sent to topic '$topic' on partition '$partition' with key '$key' and payload '$payload'")
+        traced(traceParent) {
+            log.info("Sent to topic '$topic' on partition '$partition' with key '$key' and payload '$payload'")
+        }
 
         return record
     }
@@ -36,18 +38,11 @@ class KafkaLoggingInterceptor : ProducerInterceptor<String, Any>, ConsumerInterc
             val partition = it.partition()
             val key = it.key()
             val payload = String(it.value() as ByteArray)
+            val traceParent = traceHeader(it.headers())
 
-            it.headers().lastHeader(HEADER_B3)?.let { header ->
-                val value = String(header.value()).split("-")
-
-                MDC.put(MDC_TRACE_ID, value[0])
-                MDC.put(MDC_SPAN_ID, value[1])
+            traced(traceParent) {
+                log.info("Received from topic '$topic' on partition '$partition' with key '$key' and payload '$payload'")
             }
-
-            log.info("Received from topic '$topic' on partition '$partition' with key '$key' and payload '$payload'")
-
-            MDC.remove(MDC_TRACE_ID)
-            MDC.remove(MDC_SPAN_ID)
         }
 
         return records
@@ -60,4 +55,6 @@ class KafkaLoggingInterceptor : ProducerInterceptor<String, Any>, ConsumerInterc
     override fun onCommit(offsets: MutableMap<TopicPartition, OffsetAndMetadata>) {}
 
     override fun close() {}
+
+    private fun traceHeader(headers: Headers) = headers.lastHeader(TRACE_HEADER).value().let { String(it) }
 }

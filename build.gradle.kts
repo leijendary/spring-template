@@ -73,7 +73,7 @@ dependencies {
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 
     // Cache
-    implementation("com.github.ben-manes.caffeine:caffeine:3.1.2")
+    implementation("com.github.ben-manes.caffeine:caffeine")
 
     // AWS
     implementation("io.awspring.cloud:spring-cloud-aws-starter-s3")
@@ -96,7 +96,9 @@ dependencies {
 
     // Tracing
     implementation("io.micrometer:micrometer-tracing-bridge-brave")
+    implementation("io.micrometer:micrometer-registry-prometheus")
     implementation("io.zipkin.reporter2:zipkin-reporter-brave")
+    implementation("com.github.loki4j:loki-logback-appender:1.4.0-m1")
 }
 
 dependencyManagement {
