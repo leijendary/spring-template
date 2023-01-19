@@ -1,5 +1,3 @@
-import org.gradle.api.file.DuplicatesStrategy.INCLUDE
-
 plugins {
     id("org.springframework.boot") version "3.0.1"
     id("io.spring.dependency-management") version "1.1.0"
@@ -116,7 +114,7 @@ tasks.compileKotlin {
 }
 
 tasks.bootJar {
-    duplicatesStrategy = INCLUDE
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
 }
 
 tasks.jar {

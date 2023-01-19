@@ -11,7 +11,7 @@ services:
       - redis_network
       - kafka_network
       - elastic_network
-      - jaeger_network
+      - zipkin_network
     deploy:
       resources:
         reservations:
@@ -34,6 +34,6 @@ networks:
   elastic_network:
     name: elastic_network
     external: true
-  jaeger_network:
-    name: jaeger_network
+  zipkin_network:
+    name: zipkin_network
     external: true
