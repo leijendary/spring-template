@@ -30,7 +30,7 @@ class OperationExecutionProfiler {
             .toBytes()
         val operation = proceedingJoinPoint.signature.declaringType.simpleName
         val method = proceedingJoinPoint.signature.name
-        val memoryUsed = if (currentMemory < previousMemory) 0 else currentMemory - previousMemory
+        val memoryUsed = if (currentMemory > previousMemory) currentMemory - previousMemory else 0
 
         log.info("Method $operation#$method completed in $time milliseconds. JVM memory used: $memoryUsed bytes")
 
