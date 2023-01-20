@@ -99,7 +99,8 @@ class SampleTableService(
     fun reindex(): Int {
         val count = AtomicInteger(0)
 
-        sampleTableRepository.streamAllByDeletedAtIsNull()
+        sampleTableRepository
+            .streamAllByDeletedAtIsNull()
             .parallel()
             .forEach {
                 sampleSearch.save(it)

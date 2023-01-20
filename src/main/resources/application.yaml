@@ -104,12 +104,13 @@ spring:
           audiences:
   task:
     execution:
+      coreSize: 100
       shutdown:
         awaitTermination: true
         awaitTerminationPeriod: 60s
     scheduling:
       pool:
-        size: 20
+        size: 100
       shutdown:
         awaitTermination: true
         awaitTerminationPeriod: 60s
