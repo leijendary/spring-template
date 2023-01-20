@@ -8,9 +8,7 @@ import kotlin.reflect.KClass
 
 private val mapper = getBean(ObjectMapper::class)
 
-fun <T : Any> String.toClass(type: KClass<T>): T {
-    return mapper.readValue(this, type.java)
-}
+fun <T : Any> String.toClass(type: KClass<T>): T = mapper.readValue(this, type.java)
 
 fun String.snakeCaseToCamelCase(capitalizeFirst: Boolean = false): String {
     val builder = StringBuilder()

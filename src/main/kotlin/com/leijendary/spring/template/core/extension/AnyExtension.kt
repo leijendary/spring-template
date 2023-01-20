@@ -8,9 +8,7 @@ import kotlin.reflect.KClass
 
 private val mapper = getBean(ObjectMapper::class)
 
-fun <T : Any> Any.toClass(type: KClass<T>): T {
-    return mapper.convertValue(this, type.java)
-}
+fun <T : Any> Any.toClass(type: KClass<T>): T = mapper.convertValue(this, type.java)
 
 fun Any.reflectField(property: String): Field {
     val field = try {
@@ -23,15 +21,10 @@ fun Any.reflectField(property: String): Field {
     return field
 }
 
-fun Any.reflectGet(property: String): Any? {
-    val field = reflectField(property)
-
-    return field.get(this)
-}
+fun Any.reflectGet(property: String): Any? = reflectField(property).get(this)
 
 fun Any.reflectSet(property: String, value: Any?): Any? {
     val field = reflectField(property)
-
     field.set(this, value)
 
     return field.get(this)

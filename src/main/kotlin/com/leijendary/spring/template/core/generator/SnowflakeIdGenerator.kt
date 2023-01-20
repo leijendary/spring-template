@@ -7,7 +7,7 @@ import java.io.Serializable
 
 class SnowflakeIdGenerator : IdentifierGenerator {
     companion object {
-        const val STRATEGY = "com.leijendary.spring.template.generator.SnowflakeIdGenerator"
+        const val STRATEGY = "com.leijendary.spring.template.core.generator.SnowflakeIdGenerator"
         private val WORKER: SnowflakeIdWorker = SnowflakeIdWorker()
     }
 
