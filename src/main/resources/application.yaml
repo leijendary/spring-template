@@ -95,6 +95,13 @@ spring:
     basename: messages.access, messages.error, messages.validation
   mvc:
     throwExceptionIfNoHandlerFound: true
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuerUri:
+          jwkSetUri:
+          audiences:
   task:
     execution:
       shutdown:
@@ -212,6 +219,8 @@ server:
 
 springdoc:
   pathsToMatch: /api/**
+  swaggerUi:
+    disableSwaggerDefaultUrl: true
 
 management:
   endpoint:
@@ -224,6 +233,9 @@ management:
   tracing:
     sampling:
       probability: 1.0
+  zipkin:
+    tracing:
+      endpoint:
 
 logging:
   level:
@@ -238,4 +250,4 @@ logging:
             support:
               VersionInfo: ERROR
   pattern:
-    level: "%5p [\${spring.application.name:},%X{traceId:-},%X{spanId:-}]"
+    level: '%5p [\${spring.application.name:},%X{traceId:-},%X{spanId:-}]'

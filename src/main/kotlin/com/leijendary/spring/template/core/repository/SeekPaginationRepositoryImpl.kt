@@ -9,15 +9,15 @@ import com.leijendary.spring.template.core.extension.logger
 import com.leijendary.spring.template.core.extension.toClass
 import com.leijendary.spring.template.core.model.UUIDModel
 import com.leijendary.spring.template.core.security.Encryption
+import jakarta.persistence.EntityManager
+import jakarta.persistence.criteria.CriteriaBuilder
+import jakarta.persistence.criteria.Expression
 import org.springframework.data.domain.Sort
 import org.springframework.data.jpa.domain.Specification
 import org.springframework.data.jpa.repository.query.QueryUtils.toOrders
 import org.springframework.stereotype.Repository
 import java.util.Base64.getDecoder
 import java.util.Base64.getEncoder
-import jakarta.persistence.EntityManager
-import jakarta.persistence.criteria.CriteriaBuilder
-import jakarta.persistence.criteria.Expression
 import kotlin.reflect.KClass
 
 private const val FUNCTION_NAME = "ROW"
@@ -73,7 +73,7 @@ class SeekPaginationRepositoryImpl<T : UUIDModel>(
             nextToken = encode(seekToken)
         }
 
-        return Seek(list, nextToken, size, seekable)
+        return Seek(list, nextToken, size, limit, sort)
     }
 
     private fun buildPredicate(specification: Specification<T>, seekable: Seekable): Specification<T> {

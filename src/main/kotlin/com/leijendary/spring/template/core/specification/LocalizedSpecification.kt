@@ -14,7 +14,7 @@ class LocalizedSpecification<T : LocalizedModel<*>>(val language: String? = null
 
         // If there is no language filter, return all based on the reference ID predicate
         if (language.isNullOrBlank()) {
-            return criteriaQuery.where().restriction
+            return criteriaBuilder.and()
         }
 
         // ID path for reference ID

@@ -5,3 +5,5 @@ spring:
         instanceProfile: true
       region:
         instanceProfile: true
+      s3:
+        bucketName: leijendary

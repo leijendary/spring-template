@@ -43,11 +43,14 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-elasticsearch")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-data-redis")
-    implementation("org.springframework.boot:spring-boot-starter-security")
+    implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
     implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("org.springframework.boot:spring-boot-starter-web")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.security:spring-security-test")
+
+    // Security
+    implementation("org.springframework.security:spring-security-oauth2-jose")
 
     // Spring Retry
     implementation("org.springframework.retry:spring-retry")
@@ -81,7 +84,7 @@ dependencies {
     runtimeOnly("org.postgresql:postgresql")
 
     // OpenAPI
-    implementation("org.springdoc:springdoc-openapi-ui:1.6.14")
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2")
 
     // MapStruct
     implementation("org.mapstruct:mapstruct:1.5.3.Final")
@@ -93,6 +96,8 @@ dependencies {
     kapt("org.springframework.boot:spring-boot-configuration-processor")
 
     // Tracing
+    implementation(platform("io.micrometer:micrometer-tracing-bom:1.0.1"))
+    implementation("io.micrometer:micrometer-observation")
     implementation("io.micrometer:micrometer-tracing-bridge-brave")
     implementation("io.micrometer:micrometer-registry-prometheus")
     implementation("io.zipkin.reporter2:zipkin-reporter-brave")

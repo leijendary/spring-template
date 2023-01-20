@@ -11,9 +11,6 @@ import java.time.LocalDateTime
 import java.time.ZoneId
 import java.util.*
 
-const val HEADER_USER_ID = "X-User-ID"
-const val HEADER_SCOPE = "X-Scope"
-
 object RequestContext {
     val currentRequest: HttpServletRequest?
         get() {

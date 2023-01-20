@@ -15,7 +15,7 @@ class SampleListSpecification(private val query: String? = null) : Specification
         criteriaBuilder: CriteriaBuilder
     ): Predicate {
         if (query.isNullOrBlank()) {
-            return criteriaQuery.where().restriction
+            return criteriaBuilder.and()
         }
 
         // Column 1 filtering

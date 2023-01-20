@@ -1,7 +1,8 @@
 package com.leijendary.spring.template.core.interceptor
 
 import com.leijendary.spring.template.core.extension.logger
-import com.leijendary.spring.template.core.util.traced
+import com.leijendary.spring.template.core.util.TRACE_PARENT_HEADER
+import com.leijendary.spring.template.core.util.Tracing
 import org.apache.kafka.clients.consumer.ConsumerInterceptor
 import org.apache.kafka.clients.consumer.ConsumerRecords
 import org.apache.kafka.clients.consumer.OffsetAndMetadata
@@ -11,8 +12,6 @@ import org.apache.kafka.clients.producer.RecordMetadata
 import org.apache.kafka.common.TopicPartition
 import org.apache.kafka.common.header.Headers
 import org.springframework.stereotype.Component
-
-private const val TRACE_HEADER = "traceparent"
 
 @Component
 class KafkaLoggingInterceptor : ProducerInterceptor<String, Any>, ConsumerInterceptor<String, Any> {
@@ -25,7 +24,7 @@ class KafkaLoggingInterceptor : ProducerInterceptor<String, Any>, ConsumerInterc
         val payload = String(record.value() as ByteArray)
         val traceParent = traceHeader(record.headers())
 
-        traced(traceParent) {
+        Tracing.log(traceParent) {
             log.info("Sent to topic '$topic' on partition '$partition' with key '$key' and payload '$payload'")
         }
 
@@ -41,7 +40,7 @@ class KafkaLoggingInterceptor : ProducerInterceptor<String, Any>, ConsumerInterc
             val traceParent = traceHeader(it.headers())
             val text = "Received from topic '$topic' on partition '$partition' with key '$key' and payload '$payload'"
 
-            traced(traceParent) {
+            Tracing.log(traceParent) {
                 log.info(text)
             }
         }
@@ -57,5 +56,5 @@ class KafkaLoggingInterceptor : ProducerInterceptor<String, Any>, ConsumerInterc
 
     override fun close() {}
 
-    private fun traceHeader(headers: Headers) = headers.lastHeader(TRACE_HEADER).value().let { String(it) }
+    private fun traceHeader(headers: Headers) = headers.lastHeader(TRACE_PARENT_HEADER).value().let { String(it) }
 }

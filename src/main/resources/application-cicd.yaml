@@ -20,3 +20,15 @@ spring:
     uris: http://localhost:9200
   kafka:
     bootstrapServers: localhost:9092
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuerUri: https://leijendary.eu.auth0.com/
+          jwkSetUri: https://leijendary.eu.auth0.com/.well-known/jwks.json
+          audiences: http://localhost:8000
+
+management:
+  zipkin:
+    tracing:
+      endpoint: http://localhost:9411/api/v2/spans

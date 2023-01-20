@@ -8,19 +8,20 @@ import java.math.BigDecimal.valueOf
 import java.math.RoundingMode
 
 private val numberProperties = getBean(NumberProperties::class)
-private val SCALE = numberProperties.scale
-private val ROUNDING_MODE = numberProperties.round
-private val ONE_HUNDRED: BigDecimal = valueOf(100)
+private val oneHundred = valueOf(100)
 
-fun BigDecimal.scaled(): BigDecimal {
-    return this.setScale(SCALE, ROUNDING_MODE)
-}
+fun BigDecimal.scaled(): BigDecimal = this.setScale(numberProperties.scale, numberProperties.round)
 
-fun BigDecimal.percent(value: BigDecimal, scale: Int = SCALE, roundingMode: RoundingMode = ROUNDING_MODE): BigDecimal {
+fun BigDecimal.percent(
+    value: BigDecimal,
+    scale: Int = numberProperties.scale,
+    roundingMode: RoundingMode = numberProperties.round
+): BigDecimal {
     return if (this.compareTo(ZERO) == 0 || value.compareTo(ZERO) == 0) {
         ZERO
     } else {
-        this.multiply(value)
-            .divide(ONE_HUNDRED, scale, roundingMode)
+        this
+            .multiply(value)
+            .divide(oneHundred, scale, roundingMode)
     }
 }

@@ -1,24 +1,26 @@
-package com.leijendary.spring.template.rest
+package com.leijendary.spring.template.api.v1.rest
 
 import com.leijendary.spring.template.ApplicationTests
 import com.leijendary.spring.template.api.v1.data.SampleRequest
 import com.leijendary.spring.template.api.v1.data.SampleResponse
 import com.leijendary.spring.template.api.v1.data.SampleTranslationRequest
-import com.leijendary.spring.template.core.data.DataResponse
 import com.leijendary.spring.template.core.extension.AnyUtil.toJson
 import com.leijendary.spring.template.core.extension.scaled
 import com.leijendary.spring.template.core.extension.toClass
-import com.leijendary.spring.template.core.util.HEADER_SCOPE
-import com.leijendary.spring.template.core.util.HEADER_USER_ID
+import com.leijendary.spring.template.core.filter.TRACE_ID_HEADER
 import org.apache.commons.lang3.RandomStringUtils
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.MessageSource
+import org.springframework.data.domain.Sort
+import org.springframework.data.domain.Sort.Direction
 import org.springframework.http.HttpHeaders.ACCEPT_LANGUAGE
-import org.springframework.http.HttpStatus.NOT_FOUND
-import org.springframework.http.HttpStatus.OK
 import org.springframework.http.MediaType.APPLICATION_JSON
-import org.springframework.test.web.servlet.*
+import org.springframework.security.test.context.support.WithMockUser
+import org.springframework.test.web.servlet.MockMvcResultMatchersDsl
+import org.springframework.test.web.servlet.delete
+import org.springframework.test.web.servlet.get
+import org.springframework.test.web.servlet.post
 import java.lang.Thread.sleep
 import java.math.BigDecimal
 import java.security.SecureRandom
@@ -31,46 +33,33 @@ import kotlin.math.ceil
 
 class SampleSearchRestTest(
     @Autowired
-    private val mockMvc: MockMvc,
-
-    @Autowired
     private val messageSource: MessageSource
 ) : ApplicationTests() {
     private val sampleUrl = "/api/v1/samples"
     private val url = "/api/v1/samples/search"
     private val random = SecureRandom()
-    private val userId = "junit-testing"
-    private val scopeCreate = "urn:sample:create:v1"
-    private val scopeDelete = "urn:sample:delete:v1"
     private val symbols = DecimalFormatSymbols(Locale.US)
     private val decimalFormat = DecimalFormat("0.0#", symbols)
     private val languages = arrayOf("en", "jp")
     private val listTotal = 21
     private val listSize = 10
     private val detailMemberSize = 7
-    private val detailMetaSize = 3
-    private val detailLinksSize = 1
     private val listMemberSize = 7
-    private val listMetaSize = 4
-    private val metaPageSize = 5
 
     @Test
-    fun `Sample Search Page - Should return the search page based on the limit and query`() {
+    @WithMockUser(username = "user-for-create", authorities = ["SCOPE_urn:sample:create:v1"])
+    fun `Page - Should return the search page based on the limit and query`() {
         val suffix = RandomStringUtils.randomAlphabetic(8)
         val requests = (1..listTotal).map { createRequest(suffix) }
         requests.forEach {
             mockMvc
                 .post(sampleUrl) {
-                    content = it.toJson()
                     contentType = APPLICATION_JSON
-                    header(HEADER_USER_ID, userId)
-                    header(HEADER_SCOPE, scopeCreate)
+                    content = it.toJson()
                 }
                 .andReturn()
                 .response
                 .contentAsString
-                .toClass(DataResponse::class)
-                .data!!
                 .toClass(SampleResponse::class)
         }
 
@@ -78,18 +67,17 @@ class SampleSearchRestTest(
 
         val size = requests.size
         val totalPages = ceil(size.toDouble() / listSize.toDouble()).toInt()
-        val lastPage = totalPages - 1
+        val direction = "desc"
+        val field = "createdAt"
+        val sort = Sort.by(Direction.valueOf(direction.uppercase()), field)
 
         languages.forEach { language ->
             var page = 0
             var nextIndex = size - 1
 
             while (nextIndex > 0) {
-                val pageUri = "$url?query=$suffix&limit=$listSize&page=$page&size=$listSize&sort=createdAt,DESC"
-                val selfUri = "$url?query=$suffix&limit=$listSize&page=$page&size=$listSize&sort=createdAt,DESC"
-                val lastUri = "$url?query=$suffix&limit=$listSize&page=$lastPage&size=$listSize&sort=createdAt,DESC"
+                val pageUri = "$url?query=$suffix&limit=$listSize&page=$page&size=$listSize&sort=$field,$direction"
                 val pageSize = if (nextIndex > listSize) listSize else nextIndex
-                val linkSize = if (page in arrayOf(0, lastPage)) 3 else 4
 
                 mockMvc
                     .get(pageUri) {
@@ -98,48 +86,20 @@ class SampleSearchRestTest(
                     }
                     .andExpect {
                         status { isOk() }
+                        header { exists(TRACE_ID_HEADER) }
                         content { contentType(APPLICATION_JSON) }
 
-                        jsonPath("$.data") { isArray() }
-                        jsonPath("$.data.length()") { value(listSize) }
-                        jsonPath("$.meta") { isMap() }
-                        jsonPath("$.meta.length()") { value(listMetaSize) }
-                        jsonPath("$.meta.traceId") { isNotEmpty() }
-                        jsonPath("$.meta.timestamp") { isNumber() }
-                        jsonPath("$.meta.page") { isMap() }
-                        jsonPath("$.meta.page.length()") { value(metaPageSize) }
-                        jsonPath("$.meta.page.numberOfElements") { value(pageSize) }
-                        jsonPath("$.meta.page.totalPages") { value(totalPages) }
-                        jsonPath("$.meta.page.totalElements") { value(size) }
-                        jsonPath("$.meta.page.size") { value(listSize) }
-                        jsonPath("$.meta.page.number") { value(page) }
-                        jsonPath("$.meta.status") { value(OK.value()) }
-                        jsonPath("$.links") { isMap() }
-                        jsonPath("$.links.length()") { value(linkSize) }
-                        jsonPath("$.links.self") { value(selfUri) }
-                        jsonPath("$.links.last") { value(lastUri) }
+                        jsonPath("$.content") { isArray() }
+                        jsonPath("$.content.length()") { value(listSize) }
 
-                        if (page > 0) {
-                            val previousUri =
-                                "$url?query=$suffix&limit=$listSize&page=${page - 1}&size=$listSize&sort=createdAt,DESC"
-
-                            jsonPath("$.links.previous") { value(previousUri) }
-                        }
-
-                        if (page < lastPage) {
-                            val nextUri =
-                                "$url?query=$suffix&limit=$listSize&page=${page + 1}&size=$listSize&sort=createdAt,DESC"
-
-                            jsonPath("$.links.next") { value(nextUri) }
-                        }
-
+                        assertPage(this, listSize, sort, page, pageSize, size, totalPages)
 
                         val lastIndex = nextIndex - pageSize + 1
 
                         for ((listIndex, i) in (nextIndex downTo lastIndex).withIndex()) {
-                            jsonPath("$.data[$listIndex].length()") { value(listMemberSize) }
+                            jsonPath("$.content[$listIndex].length()") { value(listMemberSize) }
 
-                            assertResponse(this, "$.data[$listIndex]", requests[i], language)
+                            assertResponse(this, "$.content[$listIndex]", requests[i], language)
 
                             nextIndex--
                         }
@@ -151,21 +111,18 @@ class SampleSearchRestTest(
     }
 
     @Test
-    fun `Sample Search Get - Should return the created search record`() {
+    @WithMockUser(username = "user-for-create", authorities = ["SCOPE_urn:sample:create:v1"])
+    fun `Get - Should return the created search record`() {
         val suffix = RandomStringUtils.randomAlphabetic(8)
         val request = createRequest(suffix)
         val createResponse = mockMvc
             .post(sampleUrl) {
-                content = request.toJson()
                 contentType = APPLICATION_JSON
-                header(HEADER_USER_ID, userId)
-                header(HEADER_SCOPE, scopeCreate)
+                content = request.toJson()
             }
             .andReturn()
             .response
             .contentAsString
-            .toClass(DataResponse::class)
-            .data!!
             .toClass(SampleResponse::class)
         val uri = "$url/${createResponse.id}"
 
@@ -179,54 +136,43 @@ class SampleSearchRestTest(
                 }
                 .andExpect {
                     status { isOk() }
+                    header { exists(TRACE_ID_HEADER) }
                     content { contentType(APPLICATION_JSON) }
 
-                    jsonPath("$.data") {
-                        isNotEmpty()
-                        jsonPath("$.data.length()") { value(detailMemberSize) }
-                        jsonPath("$.meta") { isMap() }
-                        jsonPath("$.meta.length()") { value(detailMetaSize) }
-                        jsonPath("$.meta.traceId") { isNotEmpty() }
-                        jsonPath("$.meta.timestamp") { isNumber() }
-                        jsonPath("$.meta.status") { value(OK.value()) }
-                        jsonPath("$.links") { isMap() }
-                        jsonPath("$.links.length()") { value(detailLinksSize) }
-                        jsonPath("$.links.self") { value(uri) }
-                    }
+                    jsonPath("$") { isMap() }
+                    jsonPath("$.length()") { value(detailMemberSize) }
 
-                    assertResponse(this, "$.data", request, language)
+                    assertResponse(this, "$", request, language)
                 }
         }
     }
 
     @Test
-    fun `Sample Delete - Should return empty then 404 after`() {
+    @WithMockUser(
+        username = "user-for-create-and-delete",
+        authorities = ["SCOPE_urn:sample:create:v1", "SCOPE_urn:sample:delete:v1"]
+    )
+    fun `Delete - Should return empty then 404 after`() {
         val suffix = RandomStringUtils.randomAlphabetic(8)
         val request = createRequest(suffix)
         val createResponse = mockMvc
             .post(sampleUrl) {
-                content = request.toJson()
                 contentType = APPLICATION_JSON
-                header(HEADER_USER_ID, userId)
-                header(HEADER_SCOPE, scopeCreate)
+                content = request.toJson()
             }
             .andReturn()
             .response
             .contentAsString
-            .toClass(DataResponse::class)
-            .data!!
             .toClass(SampleResponse::class)
         val sampleUri = "$sampleUrl/${createResponse.id}"
 
         sleep(2000)
 
         mockMvc
-            .delete(sampleUri) {
-                header(HEADER_USER_ID, userId)
-                header(HEADER_SCOPE, scopeDelete)
-            }
+            .delete(sampleUri)
             .andExpect {
                 status { isNoContent() }
+                header { exists(TRACE_ID_HEADER) }
 
                 jsonPath("$") { doesNotExist() }
             }
@@ -243,26 +189,17 @@ class SampleSearchRestTest(
             .get(uri)
             .andExpect {
                 status { isNotFound() }
+                header { exists(TRACE_ID_HEADER) }
 
-                jsonPath("$.errors") {
-                    isArray()
-                    jsonPath("$.errors.length()") { value(1) }
-                    jsonPath("$.errors[0].source") { isArray() }
-                    jsonPath("$.errors[0].source.length()") { value(3) }
-                    jsonPath("$.errors[0].source[0]") { value("search") }
-                    jsonPath("$.errors[0].source[1]") { value("SampleSearch") }
-                    jsonPath("$.errors[0].source[2]") { value("id") }
-                    jsonPath("$.errors[0].code") { value("error.resource.notFound") }
-                    jsonPath("$.errors[0].message") { value(message) }
-                    jsonPath("$.meta") { isMap() }
-                    jsonPath("$.meta.length()") { value(detailMetaSize) }
-                    jsonPath("$.meta.traceId") { isNotEmpty() }
-                    jsonPath("$.meta.timestamp") { isNumber() }
-                    jsonPath("$.meta.status") { value(NOT_FOUND.value()) }
-                    jsonPath("$.links") { isMap() }
-                    jsonPath("$.links.length()") { value(detailLinksSize) }
-                    jsonPath("$.links.self") { value(uri) }
-                }
+                jsonPath("$") { isArray() }
+                jsonPath("$.length()") { value(1) }
+                jsonPath("$[0].source") { isArray() }
+                jsonPath("$[0].source.length()") { value(3) }
+                jsonPath("$[0].source[0]") { value("search") }
+                jsonPath("$[0].source[1]") { value("SampleSearch") }
+                jsonPath("$[0].source[2]") { value("id") }
+                jsonPath("$[0].code") { value("error.resource.notFound") }
+                jsonPath("$[0].message") { value(message) }
             }
     }
 
@@ -309,7 +246,7 @@ class SampleSearchRestTest(
             jsonPath("$path.amount") { value(decimalFormat.format(request.amount!!)) }
             jsonPath("$path.name") { value(translated.name!!) }
             jsonPath("$path.description") { value(translated.description!!) }
-            jsonPath("$path.createdAt") { isNumber() }
+            jsonPath("$path.createdAt") { isString() }
         }
     }
 }

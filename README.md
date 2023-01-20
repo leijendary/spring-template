@@ -9,32 +9,36 @@
 # Technologies Used:
 
 - Kotlin
+- Spring Boot 3
 - Spring Actuator
 - Spring Cache
 - Spring Cloud AWS
-- Spring Cloud Loadbalancer
+- Spring Cloud AWS S3
+- Spring Cloud LoadBalancer
 - Spring Cloud OpenFeign
-- Spring Cloud OpenTelemetry
-- Spring Cloud Sleuth
-- Spring Cloud Stream Binder Kafka
 - Spring Cloud Stream Binder Kafka Streams
 - Spring Configuration Processor
 - Spring Data Elasticsearch
 - Spring Data JPA
 - Spring Data Redis
-- Spring Security
-- Spring Retry
-- Spring Web
 - Spring Devtools
-- PostgreSQL
-- Liquibase
-- MapStruct
+- Spring OAuth2 Resource Server
+- Spring Retry
+- Spring Validation
+- Spring Web
+- SpringDoc OpenAPI
 - Caffeine
 - Docker
 - JUnit
-- OpenAPI
-- Prometheus
+- Jackson
 - Kubernetes
+- Liquibase
+- MapStruct
+- Micrometer Tracing
+- OpenAPI
+- PostgreSQL
+- Prometheus
+- Zipkin
 
 # Spring Microservice Template
 
