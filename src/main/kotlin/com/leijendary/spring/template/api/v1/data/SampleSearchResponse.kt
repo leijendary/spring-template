@@ -2,7 +2,7 @@ package com.leijendary.spring.template.api.v1.data
 
 import java.io.Serializable
 import java.math.BigDecimal
-import java.time.LocalDateTime
+import java.time.OffsetDateTime
 import java.util.*
 
 data class SampleSearchResponse(
@@ -12,5 +12,5 @@ data class SampleSearchResponse(
     val amount: BigDecimal,
     val name: String,
     val description: String,
-    val createdAt: LocalDateTime,
+    val createdAt: OffsetDateTime,
 ) : Serializable

@@ -2,7 +2,7 @@ package com.leijendary.spring.template.document
 
 import com.leijendary.spring.template.core.document.LocalizedDocument
 import org.springframework.data.annotation.Id
-import org.springframework.data.elasticsearch.annotations.DateFormat.date_hour_minute_second_millis
+import org.springframework.data.elasticsearch.annotations.DateFormat.date_time
 import org.springframework.data.elasticsearch.annotations.Document
 import org.springframework.data.elasticsearch.annotations.Field
 import org.springframework.data.elasticsearch.annotations.FieldType
@@ -11,7 +11,7 @@ import org.springframework.data.elasticsearch.annotations.FieldType.Date
 import org.springframework.data.elasticsearch.annotations.FieldType.Double
 import org.springframework.data.elasticsearch.annotations.Setting
 import java.math.BigDecimal
-import java.time.LocalDateTime
+import java.time.OffsetDateTime
 import java.util.*
 
 @Document(indexName = "sample")
@@ -30,6 +30,6 @@ data class SampleDocument(
     @Field(type = Double)
     var amount: BigDecimal,
 
-    @Field(type = Date, format = [date_hour_minute_second_millis])
-    var createdAt: LocalDateTime
+    @Field(type = Date, format = [date_time])
+    var createdAt: OffsetDateTime
 ) : LocalizedDocument<SampleTranslationDocument>()

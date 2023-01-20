@@ -1,8 +1,8 @@
 package com.leijendary.spring.template.core.projection
 
-import java.time.LocalDateTime
+import java.time.OffsetDateTime
 
 interface LastModifiedProjection {
-    var lastModifiedAt: LocalDateTime
+    var lastModifiedAt: OffsetDateTime
     var lastModifiedBy: String
 }

@@ -7,7 +7,7 @@ import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.LastModifiedBy
 import org.springframework.data.annotation.LastModifiedDate
 import org.springframework.data.jpa.domain.support.AuditingEntityListener
-import java.time.LocalDateTime
+import java.time.OffsetDateTime
 import java.util.*
 
 @EntityListeners(AuditingEntityListener::class)
@@ -17,13 +17,13 @@ abstract class AuditingUUIDModel : UUIDModel() {
     var version = 0
 
     @CreatedDate
-    var createdAt: LocalDateTime = now
+    var createdAt: OffsetDateTime = now
 
     @CreatedBy
     var createdBy: String = ""
 
     @LastModifiedDate
-    var lastModifiedAt: LocalDateTime = now
+    var lastModifiedAt: OffsetDateTime = now
 
     @LastModifiedBy
     var lastModifiedBy: String = ""

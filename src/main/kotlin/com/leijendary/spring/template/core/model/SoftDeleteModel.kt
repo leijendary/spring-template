@@ -1,8 +1,8 @@
 package com.leijendary.spring.template.core.model
 
-import java.time.LocalDateTime
+import java.time.OffsetDateTime
 
 interface SoftDeleteModel {
-    var deletedAt: LocalDateTime?
+    var deletedAt: OffsetDateTime?
     var deletedBy: String?
 }

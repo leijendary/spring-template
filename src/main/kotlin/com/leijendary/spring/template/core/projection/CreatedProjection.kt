@@ -1,8 +1,8 @@
 package com.leijendary.spring.template.core.projection
 
-import java.time.LocalDateTime
+import java.time.OffsetDateTime
 
 interface CreatedProjection {
-    var createdAt: LocalDateTime
+    var createdAt: OffsetDateTime
     var createdBy: String
 }

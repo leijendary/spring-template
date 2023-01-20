@@ -20,7 +20,7 @@ import org.springframework.http.MediaType.TEXT_HTML_VALUE
 import org.springframework.http.MediaType.TEXT_PLAIN_VALUE
 import org.springframework.security.access.annotation.Secured
 import org.springframework.web.bind.annotation.*
-import java.time.LocalDateTime
+import java.time.OffsetDateTime
 import java.time.ZoneId
 import java.time.format.TextStyle.FULL
 import java.util.*
@@ -117,8 +117,8 @@ class SampleRest(
     fun language() = language
 
     @GetMapping("timestamp")
-    fun timestamp(): Map<String, LocalDateTime> {
-        val map: HashMap<String, LocalDateTime> = HashMap<String, LocalDateTime>()
+    fun timestamp(): Map<String, OffsetDateTime> {
+        val map: HashMap<String, OffsetDateTime> = HashMap<String, OffsetDateTime>()
         map["current"] = now
 
         return map

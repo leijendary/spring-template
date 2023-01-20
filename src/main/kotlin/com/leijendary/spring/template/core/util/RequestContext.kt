@@ -7,7 +7,7 @@ import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.web.context.request.RequestContextHolder.getRequestAttributes
 import org.springframework.web.context.request.ServletRequestAttributes
 import java.net.URI
-import java.time.LocalDateTime
+import java.time.OffsetDateTime
 import java.time.ZoneId
 import java.util.*
 
@@ -45,6 +45,6 @@ object RequestContext {
     val language: String
         get() = locale.language
 
-    val now: LocalDateTime
-        get() = LocalDateTime.now(zoneId)
+    val now: OffsetDateTime
+        get() = OffsetDateTime.now(zoneId)
 }

@@ -3,7 +3,7 @@ package com.leijendary.spring.template.core.mapper
 import org.mapstruct.Mapper
 import org.mapstruct.factory.Mappers.getMapper
 import java.time.Instant
-import java.time.LocalDateTime
+import java.time.OffsetDateTime
 import java.time.ZoneOffset.UTC
 
 @Mapper
@@ -12,15 +12,7 @@ interface DateMapper {
         val INSTANCE: DateMapper = getMapper(DateMapper::class.java)
     }
 
-    fun toLocalDateTime(epochMillis: Long): LocalDateTime {
-        val instant = Instant.ofEpochMilli(epochMillis)
+    fun toOffsetDateTime(epochMilli: Long): OffsetDateTime = Instant.ofEpochMilli(epochMilli).atOffset(UTC)
 
-        return LocalDateTime.ofInstant(instant, UTC)
-    }
-
-    fun toEpochMillis(localDateTime: LocalDateTime): Long {
-        return localDateTime
-            .toInstant(UTC)
-            .toEpochMilli()
-    }
+    fun toEpochMilli(offsetDateTime: OffsetDateTime): Long = offsetDateTime.toInstant().toEpochMilli()
 }

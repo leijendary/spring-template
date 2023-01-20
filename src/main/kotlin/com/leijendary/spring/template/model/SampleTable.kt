@@ -8,7 +8,7 @@ import jakarta.persistence.FetchType.EAGER
 import org.hibernate.annotations.Where
 import java.math.BigDecimal
 import java.math.BigDecimal.ZERO
-import java.time.LocalDateTime
+import java.time.OffsetDateTime
 
 @Entity
 @Where(clause = "deleted_at is null")
@@ -25,6 +25,6 @@ class SampleTable : AuditingUUIDModel(), LocalizedModel<SampleTableTranslation>,
     @CollectionTable(name = "sample_table_translation", joinColumns = [JoinColumn(name = "id")])
     override val translations: Set<SampleTableTranslation> = HashSet()
 
-    override var deletedAt: LocalDateTime? = null
+    override var deletedAt: OffsetDateTime? = null
     override var deletedBy: String? = null
 }
