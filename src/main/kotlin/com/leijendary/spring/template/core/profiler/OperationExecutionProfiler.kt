@@ -1,4 +1,4 @@
-package com.leijendary.spring.template.profiler
+package com.leijendary.spring.template.core.profiler
 
 import com.leijendary.spring.template.core.extension.logger
 import org.aspectj.lang.ProceedingJoinPoint
