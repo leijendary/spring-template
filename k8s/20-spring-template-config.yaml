@@ -9,13 +9,12 @@ data:
   SPRING_DATASOURCE_READONLY_JDBC_URL: "jdbc:postgresql://postgres-service.database.svc.cluster.local:5432/spring_template"
   SPRING_DATASOURCE_READONLY_USERNAME: postgres
   SPRING_PROFILES_ACTIVE: dev,aws
-  CLOUD_AWS_CREDENTIALS_USE_DEFAULT_AWS_CREDENTIALS_CHAIN: "false"
-  CLOUD_AWS_REGION_STATIC: me-south-1
-  CLOUD_AWS_REGION_USE_DEFAULT_AWS_REGION_CHAIN: "false"
-  CLOUD_AWS_STACK_AUTO: "false"
+  SPRING_CLOUD_AWS_CREDENTIALS_INSTANCE_PROFILE: "false"
+  SPRING_CLOUD_AWS_REGION_INSTANCE_PROFILE: "false"
+  SPRING_CLOUD_AWS_REGION_STATIC: me-south-1
   SPRING_ELASTICSEARCH_URIS: http://elasticsearch-service.elasticstack.svc.cluster.local:9200
   SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka-service.kafka.svc.cluster.local:9092
-  SPRING_REDIS_HOST: redis-service.cache.svc.cluster.local
-  SPRING_REDIS_PORT: "6379"
+  SPRING_DATA_REDIS_HOST: redis-service.cache.svc.cluster.local
+  SPRING_DATA_REDIS_PORT: "6379"
   AWS_EC2_METADATA_DISABLED: "true"
-  SPRING_SLEUTH_OTEL_EXPORTER_JAEGER_ENDPOINT: http://jaeger-service.monitoring.svc.cluster.local:14250/
+  MANAGEMENT_ZIPKIN_TRACING_ENDPOINT: http://zipkin-service.monitoring.svc.cluster.local:9411/api/v2/spans
