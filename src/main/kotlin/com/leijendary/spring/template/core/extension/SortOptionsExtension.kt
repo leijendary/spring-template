@@ -4,7 +4,7 @@ import co.elastic.clients.elasticsearch._types.NestedSortValue
 import co.elastic.clients.elasticsearch._types.SortOptions
 import co.elastic.clients.elasticsearch._types.SortOrder
 import co.elastic.clients.util.ObjectBuilder
-import com.leijendary.spring.template.core.util.RequestContext
+import com.leijendary.spring.template.core.util.RequestContext.language
 import org.springframework.data.domain.Sort
 
 fun SortOptions.Builder.sortBuilder(sort: Sort): ObjectBuilder<SortOptions> {
@@ -28,8 +28,6 @@ fun SortOptions.Builder.sortBuilder(sort: Sort): ObjectBuilder<SortOptions> {
 }
 
 private fun languageFilter(): NestedSortValue.Builder {
-    val language = RequestContext.language
-
     return NestedSortValue.Builder().nested { nested ->
         nested.path("translations").filter { filter ->
             filter.term { term ->

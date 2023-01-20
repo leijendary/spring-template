@@ -1,6 +1,6 @@
 package com.leijendary.spring.template.api.v1.rest
 
-import com.leijendary.spring.template.ApplicationTests
+import com.leijendary.spring.template.ApplicationTest
 import com.leijendary.spring.template.api.v1.data.SampleRequest
 import com.leijendary.spring.template.api.v1.data.SampleResponse
 import com.leijendary.spring.template.api.v1.data.SampleTranslationRequest
@@ -32,7 +32,7 @@ import kotlin.math.ceil
 class SampleRestTest(
     @Autowired
     private val messageSource: MessageSource
-) : ApplicationTests() {
+) : ApplicationTest() {
     private val url = "/api/v1/samples"
     private val random = SecureRandom()
     private val symbols = DecimalFormatSymbols(Locale.US)

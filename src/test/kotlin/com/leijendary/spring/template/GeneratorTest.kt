@@ -8,7 +8,7 @@ import java.util.*
  * This is outside of code testing, but more on generating what is needed for the application like
  * encryption keys.
  */
-class GeneratorTest : ApplicationTests() {
+class GeneratorTest {
     private val keyLength = 32
 
     @Test

@@ -6,17 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.data.domain.Sort
-import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.context.junit.jupiter.SpringExtension
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.MockMvcResultMatchersDsl
 
-
 @SpringBootTest
 @ExtendWith(SpringExtension::class)
 @AutoConfigureMockMvc
-@ContextConfiguration
-class ApplicationTests {
+class ApplicationTest {
     @Autowired
     protected lateinit var mockMvc: MockMvc
 
@@ -70,6 +67,7 @@ class ApplicationTests {
         with(matchersDsl) {
             assertSort(matchersDsl, "$.pageable.sort", sort)
             assertSort(matchersDsl, "$.sort", sort)
+
             jsonPath("$.pageable.offset") { value(page * size) }
             jsonPath("$.pageable.pageNumber") { value(page) }
             jsonPath("$.pageable.pageSize") { value(size) }

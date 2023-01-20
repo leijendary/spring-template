@@ -97,7 +97,7 @@ class SampleTableService(
 
     @Transactional(readOnly = true)
     fun reindex(): Int {
-        val count = AtomicInteger(0)
+        val count = AtomicInteger()
 
         sampleTableRepository
             .streamAllByDeletedAtIsNull()
