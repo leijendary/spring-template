@@ -1,17 +1,11 @@
 package com.leijendary.spring.template.core.model
 
+import com.leijendary.spring.template.core.projection.UUIDProjection
 import com.leijendary.spring.template.core.util.RequestContext.language
-import java.util.*
-import javax.persistence.*
+import java.io.Serializable
 
-@MappedSuperclass
-abstract class LocalizedCopy<T : LocaleCopy> : AppModel() {
-    @Id
-    var id: UUID? = null
-
-    @ElementCollection
-    @CollectionTable(joinColumns = [JoinColumn(name = "id")])
-    val translations: Set<T> = HashSet()
+interface LocalizedCopy<T : LocaleCopy> : UUIDProjection, Serializable {
+    val translations: Set<T>
 
     val translation: T
         get() {

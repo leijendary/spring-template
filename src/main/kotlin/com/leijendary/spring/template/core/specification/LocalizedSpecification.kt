@@ -1,10 +1,8 @@
 package com.leijendary.spring.template.core.specification
 
 import com.leijendary.spring.template.core.model.LocalizedModel
-import org.apache.commons.lang3.StringUtils.isBlank
-import org.hibernate.query.criteria.internal.OrderImpl
+import jakarta.persistence.criteria.*
 import org.springframework.data.jpa.domain.Specification
-import javax.persistence.criteria.*
 
 class LocalizedSpecification<T : LocalizedModel<*>>(val language: String? = null) : Specification<T> {
     override fun toPredicate(
@@ -15,8 +13,8 @@ class LocalizedSpecification<T : LocalizedModel<*>>(val language: String? = null
         val predicates = ArrayList<Predicate>()
 
         // If there is no language filter, return all based on the reference ID predicate
-        if (isBlank(language)) {
-            return criteriaQuery.where().restriction
+        if (language.isNullOrBlank()) {
+            return criteriaBuilder.and()
         }
 
         // ID path for reference ID
@@ -25,7 +23,7 @@ class LocalizedSpecification<T : LocalizedModel<*>>(val language: String? = null
         val translationJoin = root.join<Any, Any>("translations")
         val languagePath = translationJoin.get<String>("language")
         // Criteria for exact language
-        val languageEquals: Predicate = criteriaBuilder.equal(languagePath, language)
+        val languageEquals = criteriaBuilder.equal(languagePath, language)
         // Parent query ordinal
         val ordinalPath = translationJoin.get<Int>("ordinal")
 
@@ -35,7 +33,7 @@ class LocalizedSpecification<T : LocalizedModel<*>>(val language: String? = null
         val subQueryRoot = ordinalSubQuery.from(type)
         val subQueryOrdinalPath = subQueryRoot.get<Int>("ordinal")
         // Criteria for the lowest ordinal (the default)
-        val subQueryOrdinalMin: Expression<Int> = criteriaBuilder.min(subQueryOrdinalPath)
+        val subQueryOrdinalMin = criteriaBuilder.min(subQueryOrdinalPath)
         // Filter sub query reference id
         val subQueryReferenceId = referenceId(subQueryRoot, idPath, criteriaBuilder)
 
@@ -43,15 +41,15 @@ class LocalizedSpecification<T : LocalizedModel<*>>(val language: String? = null
         ordinalSubQuery.select(subQueryOrdinalMin).where(subQueryReferenceId)
 
         // Compare the ordinal of the main query vs the sub query
-        val ordinalEqual: Predicate = criteriaBuilder.equal(ordinalPath, ordinalSubQuery)
+        val ordinalEqual = criteriaBuilder.equal(ordinalPath, ordinalSubQuery)
 
         // language OR first ordinal
-        val languageOrFirstOrdinal: Predicate = criteriaBuilder.or(languageEquals, ordinalEqual)
+        val languageOrFirstOrdinal = criteriaBuilder.or(languageEquals, ordinalEqual)
         predicates.add(languageOrFirstOrdinal)
 
         // Descending order of ordinal to get the actual language
         // filter first before the default
-        val ordinalDesc: Order = OrderImpl(ordinalPath).reverse()
+        val ordinalDesc = criteriaBuilder.desc(ordinalPath)
 
         return criteriaQuery
             .where(*predicates.toTypedArray())

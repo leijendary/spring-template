@@ -9,6 +9,9 @@ const val ROW_ID_FIELD = "rowId"
 class SeekToken {
     val fields: Map<String, Any?>
 
+    /**
+     * Needed for json deserialization
+     */
     constructor() {
         this.fields = emptyMap()
     }

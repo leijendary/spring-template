@@ -10,9 +10,7 @@ import java.math.BigDecimal
 @JsonComponent
 class BigDecimalSerializer : JsonSerializer<BigDecimal>() {
     override fun serialize(value: BigDecimal?, generator: JsonGenerator, provider: SerializerProvider) {
-        val formatted = value
-            ?.scaled()
-            ?.toPlainString()
+        val formatted = value?.scaled()
 
         generator.writeNumber(formatted)
     }

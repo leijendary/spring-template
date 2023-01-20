@@ -8,12 +8,14 @@ import org.springframework.data.domain.Sort.by
 class Seekable(
     val nextToken: String? = null,
     val limit: Int = 10,
-    sortProperty: Array<String> = emptyArray(),
-    sortDirection: String = "desc"
-) {
-    val direction = Direction.valueOf(sortDirection.uppercase())
-    val sort = sortProperty
+    sort: Array<String> = emptyArray(),
+    direction: String = "desc"
+) : Response {
+    val direction: Direction = Direction
+        .fromOptionalString(direction.uppercase())
+        .orElse(Direction.DESC)
+    val sort = sort
         .distinct()
-        .map { if (direction.isAscending) asc(it) else desc(it) }
+        .map { if (this.direction.isAscending) asc(it) else desc(it) }
         .let { by(it) }
 }

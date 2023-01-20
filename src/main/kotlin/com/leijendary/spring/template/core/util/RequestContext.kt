@@ -1,5 +1,6 @@
 package com.leijendary.spring.template.core.util
 
+import jakarta.servlet.http.HttpServletRequest
 import org.springframework.context.i18n.LocaleContextHolder.getLocale
 import org.springframework.context.i18n.LocaleContextHolder.getTimeZone
 import org.springframework.security.core.context.SecurityContextHolder
@@ -9,10 +10,6 @@ import java.net.URI
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.util.*
-import javax.servlet.http.HttpServletRequest
-
-const val HEADER_USER_ID = "X-User-ID"
-const val HEADER_SCOPE = "X-Scope"
 
 object RequestContext {
     val currentRequest: HttpServletRequest?

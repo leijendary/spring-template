@@ -1,12 +1,10 @@
 package com.leijendary.spring.template.api.v1.rest
 
 import com.leijendary.spring.template.api.v1.data.SampleRequest
-import com.leijendary.spring.template.api.v1.data.SampleResponse
 import com.leijendary.spring.template.api.v1.service.SampleTableService
 import com.leijendary.spring.template.client.SampleClient
-import com.leijendary.spring.template.core.data.DataResponse
+import com.leijendary.spring.template.core.controller.SecuredController
 import com.leijendary.spring.template.core.data.QueryRequest
-import com.leijendary.spring.template.core.data.Seek
 import com.leijendary.spring.template.core.data.Seekable
 import com.leijendary.spring.template.core.util.RequestContext.language
 import com.leijendary.spring.template.core.util.RequestContext.locale
@@ -14,18 +12,18 @@ import com.leijendary.spring.template.core.util.RequestContext.now
 import com.leijendary.spring.template.core.util.RequestContext.timeZone
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
+import jakarta.servlet.http.HttpServletResponse
+import jakarta.validation.Valid
 import org.springframework.http.HttpStatus.CREATED
 import org.springframework.http.HttpStatus.NO_CONTENT
 import org.springframework.http.MediaType.TEXT_HTML_VALUE
 import org.springframework.http.MediaType.TEXT_PLAIN_VALUE
-import org.springframework.security.access.prepost.PreAuthorize
+import org.springframework.security.access.annotation.Secured
 import org.springframework.web.bind.annotation.*
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.format.TextStyle.FULL
 import java.util.*
-import javax.servlet.http.HttpServletResponse
-import javax.validation.Valid
 
 /**
  * This is an example of a controller that will be created in microservices.
@@ -47,7 +45,10 @@ import javax.validation.Valid
 @RestController
 @RequestMapping("/api/v1/samples")
 @Tag(name = "Sample")
-class SampleRest(private val sampleClient: SampleClient, private val sampleTableService: SampleTableService) {
+class SampleRest(
+    private val sampleClient: SampleClient,
+    private val sampleTableService: SampleTableService
+) : SecuredController() {
 
     /**
      * This is a sample RequestMapping (Only GET method, that is why I used
@@ -57,68 +58,47 @@ class SampleRest(private val sampleClient: SampleClient, private val sampleTable
      * recommended that the request parameters contains [Seekable]
      */
     @GetMapping
-    @PreAuthorize("hasAuthority('urn:sample:list:v1')")
+    @Secured("SCOPE_urn:sample:list:v1")
     @Operation(summary = "Sample implementation of swagger in a api")
-    fun seek(queryRequest: QueryRequest, seekable: Seekable): DataResponse<List<SampleResponse>> {
-        val seek: Seek<SampleResponse> = sampleTableService.seek(queryRequest, seekable)
-
-        return DataResponse.builder<List<SampleResponse>>()
-            .data(seek.content)
-            .meta(seek)
-            .links(seek)
-            .build()
-    }
+    fun seek(queryRequest: QueryRequest, seekable: Seekable) = sampleTableService.seek(queryRequest, seekable)
 
     @PostMapping
-    @PreAuthorize("hasAuthority('urn:sample:create:v1')")
+    @Secured("SCOPE_urn:sample:create:v1")
     @ResponseStatus(CREATED)
     @Operation(summary = "Saves a sample record into the database")
     fun create(
-        @Valid @RequestBody request: SampleRequest,
-        httpServletResponse: HttpServletResponse
-    ): DataResponse<SampleResponse> {
-        val sampleResponse = sampleTableService.create(request)
+        @Valid
+        @RequestBody
+        request: SampleRequest,
 
-        return DataResponse.builder<SampleResponse>()
-            .data(sampleResponse)
-            .status(CREATED)
-            .build()
-    }
+        httpServletResponse: HttpServletResponse
+    ) = sampleTableService.create(request)
 
     @GetMapping("{id}")
-    @PreAuthorize("hasAuthority('urn:sample:get:v1')")
+    @Secured("SCOPE_urn:sample:get:v1")
     @Operation(summary = "Retrieves the sample record from the database")
-    fun get(@PathVariable id: UUID): DataResponse<SampleResponse> {
-        val sampleResponse = sampleTableService.get(id)
-
-        return DataResponse.builder<SampleResponse>()
-            .data(sampleResponse)
-            .build()
-    }
+    fun get(@PathVariable id: UUID) = sampleTableService.get(id)
 
     @PutMapping("{id}")
-    @PreAuthorize("hasAuthority('urn:sample:update:v1')")
+    @Secured("SCOPE_urn:sample:update:v1")
     @Operation(summary = "Updates the sample record into the database")
-    fun update(@PathVariable id: UUID, @Valid @RequestBody request: SampleRequest): DataResponse<SampleResponse> {
-        val sampleResponse = sampleTableService.update(id, request)
+    fun update(
+        @PathVariable
+        id: UUID,
 
-        return DataResponse.builder<SampleResponse>()
-            .data(sampleResponse)
-            .build()
-    }
+        @Valid
+        @RequestBody
+        request: SampleRequest
+    ) = sampleTableService.update(id, request)
 
     @DeleteMapping("{id}")
-    @PreAuthorize("hasAuthority('urn:sample:delete:v1')")
+    @Secured("SCOPE_urn:sample:delete:v1")
     @ResponseStatus(NO_CONTENT)
     @Operation(summary = "Removes the sample record from the database")
-    fun delete(@PathVariable id: UUID) {
-        sampleTableService.delete(id)
-    }
+    fun delete(@PathVariable id: UUID) = sampleTableService.delete(id)
 
     @GetMapping(value = ["client"], produces = [TEXT_HTML_VALUE])
-    fun client(): String {
-        return sampleClient.homepage()
-    }
+    fun client() = sampleClient.homepage()
 
     @GetMapping(value = ["timezone"], produces = [TEXT_PLAIN_VALUE])
     fun timezone(): String {
@@ -131,14 +111,10 @@ class SampleRest(private val sampleClient: SampleClient, private val sampleTable
     }
 
     @GetMapping(value = ["locale"], produces = [TEXT_PLAIN_VALUE])
-    fun locale(): String {
-        return locale.toString()
-    }
+    fun locale() = locale.toString()
 
     @GetMapping(value = ["language"], produces = [TEXT_PLAIN_VALUE])
-    fun language(): String {
-        return language
-    }
+    fun language() = language
 
     @GetMapping("timestamp")
     fun timestamp(): Map<String, LocalDateTime> {

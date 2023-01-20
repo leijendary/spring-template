@@ -1,25 +1,30 @@
 package com.leijendary.spring.template.core.config
 
 import com.leijendary.spring.template.core.config.properties.AuthProperties
+import com.leijendary.spring.template.core.filter.TraceFilter
 import org.springframework.context.annotation.Bean
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity
+import org.springframework.context.annotation.Configuration
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.http.SessionCreationPolicy.STATELESS
 import org.springframework.security.web.SecurityFilterChain
+import org.springframework.security.web.context.SecurityContextHolderFilter
 
+@Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
-class SecurityConfiguration(private val authProperties: AuthProperties) {
+@EnableMethodSecurity(securedEnabled = true)
+class SecurityConfiguration(private val authProperties: AuthProperties, private val traceFilter: TraceFilter) {
     @Bean
     fun filterChain(http: HttpSecurity): SecurityFilterChain {
         return http
             .headers()
             .and()
             .csrf().disable()
-            .authorizeRequests()
+            .authorizeHttpRequests()
             .anyRequest().permitAll()
             .and()
+            .addFilterBefore(traceFilter, SecurityContextHolderFilter::class.java)
             .anonymous { it.principal(authProperties.anonymousUser.principal) }
             .httpBasic().disable()
             .formLogin().disable()
@@ -31,6 +36,7 @@ class SecurityConfiguration(private val authProperties: AuthProperties) {
             .accessDeniedHandler { _, _, ex -> throw ex }
             .authenticationEntryPoint { _, _, ex -> throw ex }
             .and()
+            .oauth2ResourceServer { it.jwt() }
             .build()
     }
 }

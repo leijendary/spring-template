@@ -21,17 +21,6 @@ auth:
   system:
     principal: System
 
-cloud:
-  aws:
-    credentials:
-      instanceProfile: false
-      useDefaultAwsCredentialsChain: false
-    stack:
-      auto: false
-    region:
-      auto: false
-      useDefaultAwsRegionChain: false
-
 emission:
   deadline: 5m
 
@@ -82,6 +71,8 @@ spring:
     redis:
       repositories:
         enabled: false
+      host:
+      port:
     web:
       pageable:
         maxPageSize: 100
@@ -94,14 +85,23 @@ spring:
       hibernate:
         jdbc:
           batch_size: 1000
-      javax:
+      jakarta:
         persistence:
           lock:
             timeout: 2000
+          sharedCache:
+            mode: UNSPECIFIED
   messages:
     basename: messages.access, messages.error, messages.validation
   mvc:
     throwExceptionIfNoHandlerFound: true
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuerUri:
+          jwkSetUri:
+          audiences:
   task:
     execution:
       shutdown:
@@ -162,12 +162,13 @@ spring:
         group: \${info.app.name}
       kafka:
         binder:
-          autoAddPartitions: true
+          enableObservation: true
         default:
           consumer:
             enableDlq: true
         streams:
           binder:
+            autoAddPartitions: true
             deserializationExceptionHandler: sendToDlq
             functions:
               sampleCreate:
@@ -198,22 +199,6 @@ spring:
             add:
               type:
                 headers: false
-  redis:
-    host:
-    port:
-  sleuth:
-    messaging:
-      enabled: true
-      kafka:
-        streams:
-          enabled: true
-    traceId128: true
-    otel:
-      config:
-        traceIdRatioBased: 1
-      exporter:
-        jaeger:
-          endpoint:
 
 server:
   error:
@@ -234,12 +219,23 @@ server:
 
 springdoc:
   pathsToMatch: /api/**
+  swaggerUi:
+    disableSwaggerDefaultUrl: true
 
 management:
+  endpoint:
+    health:
+      showDetails: ALWAYS
   endpoints:
     web:
       exposure:
         include: health, prometheus
+  tracing:
+    sampling:
+      probability: 1.0
+  zipkin:
+    tracing:
+      endpoint:
 
 logging:
   level:
@@ -253,3 +249,5 @@ logging:
           elasticsearch:
             support:
               VersionInfo: ERROR
+  pattern:
+    level: '%5p [\${spring.application.name:},%X{traceId:-},%X{spanId:-}]'

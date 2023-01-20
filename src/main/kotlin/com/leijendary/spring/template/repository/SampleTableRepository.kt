@@ -3,19 +3,17 @@ package com.leijendary.spring.template.repository
 import com.leijendary.spring.template.core.repository.SeekPaginationRepository
 import com.leijendary.spring.template.core.repository.SoftDeleteRepository
 import com.leijendary.spring.template.model.SampleTable
-import org.hibernate.jpa.QueryHints.HINT_FETCH_SIZE
-import org.springframework.data.jpa.repository.*
+import jakarta.persistence.LockModeType.WRITE
+import org.springframework.data.jpa.repository.JpaRepository
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor
+import org.springframework.data.jpa.repository.Lock
 import java.util.*
 import java.util.stream.Stream
-import javax.persistence.LockModeType.WRITE
-import javax.persistence.QueryHint
 
 interface SampleTableRepository : JpaRepository<SampleTable, UUID>, JpaSpecificationExecutor<SampleTable>,
     SeekPaginationRepository<SampleTable>, SoftDeleteRepository<SampleTable> {
     @Lock(WRITE)
     fun findLockedById(id: UUID): SampleTable?
 
-    @QueryHints(value = [QueryHint(name = HINT_FETCH_SIZE, value = "1")])
-    @Query("select s from SampleTable s where s.deletedAt is null")
-    fun streamAll(): Stream<SampleTable>
+    fun streamAllByDeletedAtIsNull(): Stream<SampleTable>
 }

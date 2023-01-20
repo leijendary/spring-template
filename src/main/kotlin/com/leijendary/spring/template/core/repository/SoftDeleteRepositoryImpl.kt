@@ -4,8 +4,8 @@ import com.leijendary.spring.template.core.model.SoftDeleteModel
 import com.leijendary.spring.template.core.util.RequestContext.now
 import com.leijendary.spring.template.core.util.RequestContext.userId
 import org.springframework.stereotype.Repository
-import javax.persistence.EntityManager
-import javax.persistence.PersistenceContext
+import jakarta.persistence.EntityManager
+import jakarta.persistence.PersistenceContext
 
 @Repository
 class SoftDeleteRepositoryImpl<T : SoftDeleteModel>(

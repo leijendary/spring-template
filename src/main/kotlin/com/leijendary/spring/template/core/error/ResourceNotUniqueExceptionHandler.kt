@@ -1,6 +1,6 @@
 package com.leijendary.spring.template.core.error
 
-import com.leijendary.spring.template.core.data.ErrorResponse
+import com.leijendary.spring.template.core.data.ErrorData
 import com.leijendary.spring.template.core.exception.ResourceNotUniqueException
 import com.leijendary.spring.template.core.util.RequestContext.locale
 import org.springframework.context.MessageSource
@@ -13,18 +13,15 @@ import org.springframework.web.bind.annotation.RestControllerAdvice
 @RestControllerAdvice
 @Order(3)
 class ResourceNotUniqueExceptionHandler(private val messageSource: MessageSource) {
-
     @ExceptionHandler(ResourceNotUniqueException::class)
     @ResponseStatus(CONFLICT)
-    fun catchResourceNotUnique(exception: ResourceNotUniqueException): ErrorResponse {
+    fun catchResourceNotUnique(exception: ResourceNotUniqueException): List<ErrorData> {
         val source = exception.source
         val code = "validation.alreadyExists"
         val arguments = arrayOf<Any>(source.joinToString(separator = "."), exception.value)
         val message = messageSource.getMessage(code, arguments, locale)
+        val error = ErrorData(source, code, message)
 
-        return ErrorResponse.builder()
-            .addError(source, code, message)
-            .status(CONFLICT)
-            .build()
+        return listOf(error)
     }
 }

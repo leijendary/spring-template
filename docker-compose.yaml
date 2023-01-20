@@ -10,8 +10,8 @@ services:
       - postgres_network
       - redis_network
       - kafka_network
-      - elastic_network
-      - jaeger_network
+      - elasticsearch_network
+      - zipkin_network
     deploy:
       resources:
         reservations:
@@ -31,9 +31,9 @@ networks:
   kafka_network:
     name: kafka_network
     external: true
-  elastic_network:
-    name: elastic_network
+  elasticsearch_network:
+    name: elasticsearch_network
     external: true
-  jaeger_network:
-    name: jaeger_network
+  zipkin_network:
+    name: zipkin_network
     external: true

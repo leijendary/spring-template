@@ -6,7 +6,7 @@ import com.leijendary.spring.template.core.util.SpringContext.Companion.getBean
 import java.lang.reflect.Field
 import kotlin.reflect.KClass
 
-private val mapper: ObjectMapper = getBean(ObjectMapper::class)
+private val mapper = getBean(ObjectMapper::class)
 
 fun <T : Any> Any.toClass(type: KClass<T>): T {
     return mapper.convertValue(this, type.java)

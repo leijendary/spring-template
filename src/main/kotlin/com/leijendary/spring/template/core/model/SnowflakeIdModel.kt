@@ -1,10 +1,10 @@
 package com.leijendary.spring.template.core.model
 
 import com.leijendary.spring.template.core.generator.SnowflakeIdGenerator.Companion.STRATEGY
+import jakarta.persistence.GeneratedValue
+import jakarta.persistence.Id
+import jakarta.persistence.MappedSuperclass
 import org.hibernate.annotations.GenericGenerator
-import javax.persistence.GeneratedValue
-import javax.persistence.Id
-import javax.persistence.MappedSuperclass
 
 @MappedSuperclass
 abstract class SnowflakeIdModel : AppModel() {
