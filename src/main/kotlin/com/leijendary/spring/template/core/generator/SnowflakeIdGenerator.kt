@@ -8,10 +8,8 @@ import java.io.Serializable
 class SnowflakeIdGenerator : IdentifierGenerator {
     companion object {
         const val STRATEGY = "com.leijendary.spring.template.core.generator.SnowflakeIdGenerator"
-        private val WORKER: SnowflakeIdWorker = SnowflakeIdWorker()
+        private val WORKER = SnowflakeIdWorker()
     }
 
-    override fun generate(session: SharedSessionContractImplementor, any: Any): Serializable {
-        return WORKER.nextId()
-    }
+    override fun generate(session: SharedSessionContractImplementor, any: Any): Serializable = WORKER.nextId()
 }
