@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestControllerAdvice
 
+private const val PARENT = "body"
+
 @RestControllerAdvice
 @Order(2)
 class HttpMessageNotReadableExceptionHandler(private val messageSource: MessageSource) {
@@ -21,7 +23,7 @@ class HttpMessageNotReadableExceptionHandler(private val messageSource: MessageS
     fun catchHttpMessageNotReadable(exception: HttpMessageNotReadableException) = errors(exception)
 
     private fun errors(exception: HttpMessageNotReadableException): List<ErrorData> {
-        val source = mutableListOf("body")
+        val source = listOf(PARENT)
         val code = "error.badRequest"
         var message = exception.message ?: ""
         val error: ErrorData
@@ -33,8 +35,8 @@ class HttpMessageNotReadableExceptionHandler(private val messageSource: MessageS
         }
 
         when (val cause = exception.cause) {
-            is InvalidFormatException -> errors(cause)
-            is JsonMappingException -> errors(cause)
+            is InvalidFormatException -> return errors(cause)
+            is JsonMappingException -> return errors(cause)
         }
 
         message = exception.message?.replace("JSON decoding error: ", "") ?: ""
@@ -44,24 +46,38 @@ class HttpMessageNotReadableExceptionHandler(private val messageSource: MessageS
     }
 
     private fun errors(exception: InvalidFormatException): List<ErrorData> {
-        val source = createSource(exception.path)
+        val sources = sources(exception.path)
         val code = "error.body.format.invalid"
-        val arguments = arrayOf(source, exception.value, exception.targetType.simpleName)
-        val message = messageSource.getMessage(code, arguments, locale)
-        val error = ErrorData(source, code, message)
 
-        return listOf(error)
+        return sources.map {
+            val field = it
+                // Remove the parent field source
+                .subList(1, it.size)
+                .joinToString(".")
+            val arguments = arrayOf(field, exception.value, exception.targetType.simpleName)
+            val message = messageSource.getMessage(code, arguments, locale)
+
+            ErrorData(it, code, message)
+        }
     }
 
     private fun errors(exception: JsonMappingException): List<ErrorData> {
-        val source = createSource(exception.path)
-        val message: String = exception.originalMessage
-        val error = ErrorData(source, "error.body.format.invalid", message)
+        val sources = sources(exception.path)
+        val code = "error.body.format.invalid"
+        val message = exception.originalMessage
 
-        return listOf(error)
+        return sources.map { ErrorData(it, code, message) }
     }
 
-    private fun createSource(path: List<Reference>): List<Any> {
-        return listOf("body") + path.map { listOf(it.index, it.fieldName) }
+    private fun sources(path: List<Reference>): List<List<Any>> {
+        return path.map {
+            val source = mutableListOf<Any>(PARENT, it.fieldName)
+
+            if (it.index >= 0) {
+                source.add(1, it.index)
+            }
+
+            source
+        }
     }
 }
