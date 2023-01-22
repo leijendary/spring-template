@@ -20,7 +20,6 @@ configurations {
 }
 
 repositories {
-    maven("https://repo.spring.io/snapshot")
     maven("https://repo.spring.io/milestone")
     mavenCentral()
 }
