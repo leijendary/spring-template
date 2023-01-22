@@ -33,9 +33,10 @@ kapt {
 
 dependencies {
     // Kotlin
-    implementation(kotlin("reflect"))
-    implementation(kotlin("stdlib-jdk8"))
-    testImplementation(kotlin("test"))
+    implementation("org.jetbrains.kotlin:kotlin-reflect")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core")
+    testImplementation("org.jetbrains.kotlin:kotlin-test")
 
     // Spring Boot Starter
     implementation("org.springframework.boot:spring-boot-starter-actuator")
