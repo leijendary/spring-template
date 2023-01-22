@@ -1,5 +1,5 @@
 plugins {
-    id("org.springframework.boot") version "3.0.1"
+    id("org.springframework.boot") version "3.0.2"
     id("io.spring.dependency-management") version "1.1.0"
     id("org.barfuin.gradle.jacocolog") version "2.0.0"
     kotlin("jvm") version "1.7.22"
