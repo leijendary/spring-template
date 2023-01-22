@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test
 
 class ApplicationMainTest {
     @Test
-    fun main_ShouldRun() {
+    fun `Application#main should run`() {
         main(emptyArray())
     }
 }
