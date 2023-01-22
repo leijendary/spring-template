@@ -126,7 +126,7 @@ spring:
       client:
         simple:
           instances:
-            google:
+            sample:
               - uri: https://google.com
     loadbalancer:
       retry:
