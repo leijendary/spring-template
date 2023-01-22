@@ -7,7 +7,7 @@ import jakarta.servlet.http.HttpServletResponse
 import org.springframework.stereotype.Component
 import org.springframework.web.filter.OncePerRequestFilter
 
-const val TRACE_ID_HEADER = "X-Trace-ID"
+const val HEADER_TRACE_ID = "X-Trace-ID"
 
 @Component
 class TraceFilter : OncePerRequestFilter() {
@@ -18,7 +18,7 @@ class TraceFilter : OncePerRequestFilter() {
     ) {
         val traceId = Tracing.get().traceId()
 
-        response.addHeader(TRACE_ID_HEADER, traceId)
+        response.addHeader(HEADER_TRACE_ID, traceId)
 
         filterChain.doFilter(request, response)
     }

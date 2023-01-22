@@ -1,6 +1,6 @@
 package com.leijendary.spring.template.core.repository
 
-import com.leijendary.spring.template.core.data.ROW_ID_FIELD
+import com.leijendary.spring.template.core.data.FIELD_ROW_ID
 import com.leijendary.spring.template.core.data.Seek
 import com.leijendary.spring.template.core.data.SeekToken
 import com.leijendary.spring.template.core.data.Seekable
@@ -111,9 +111,9 @@ class SeekPaginationRepositoryImpl<T : UUIDModel>(
     }
 
     private fun buildSort(seekable: Seekable): Sort {
-        val orders = seekable.sort.filterNot { it.property == ROW_ID_FIELD }
+        val orders = seekable.sort.filterNot { it.property == FIELD_ROW_ID }
         val sort = Sort.by(orders)
-        val fieldSort = Sort.by(seekable.direction, ROW_ID_FIELD)
+        val fieldSort = Sort.by(seekable.direction, FIELD_ROW_ID)
 
         return sort.and(fieldSort)
     }

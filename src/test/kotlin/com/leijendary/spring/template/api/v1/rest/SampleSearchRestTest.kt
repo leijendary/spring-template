@@ -7,7 +7,7 @@ import com.leijendary.spring.template.api.v1.data.SampleTranslationRequest
 import com.leijendary.spring.template.core.extension.AnyUtil.toJson
 import com.leijendary.spring.template.core.extension.scaled
 import com.leijendary.spring.template.core.extension.toClass
-import com.leijendary.spring.template.core.filter.TRACE_ID_HEADER
+import com.leijendary.spring.template.core.filter.HEADER_TRACE_ID
 import org.apache.commons.lang3.RandomStringUtils
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -48,7 +48,7 @@ class SampleSearchRestTest(
 
     @Test
     @WithMockUser(username = "user-for-create", authorities = ["SCOPE_urn:sample:create:v1"])
-    fun `Page - Should return the search page based on the limit and query`() {
+    fun `Page should return the search page based on the limit and query`() {
         val suffix = RandomStringUtils.randomAlphabetic(8)
         val requests = (1..listTotal).map { createRequest(suffix) }
         requests.forEach {
@@ -86,7 +86,7 @@ class SampleSearchRestTest(
                     }
                     .andExpect {
                         status { isOk() }
-                        header { exists(TRACE_ID_HEADER) }
+                        header { exists(HEADER_TRACE_ID) }
                         content { contentType(APPLICATION_JSON) }
 
                         jsonPath("$.content") { isArray() }
@@ -112,7 +112,7 @@ class SampleSearchRestTest(
 
     @Test
     @WithMockUser(username = "user-for-create", authorities = ["SCOPE_urn:sample:create:v1"])
-    fun `Get - Should return the created search record`() {
+    fun `Get should return the created search record`() {
         val suffix = RandomStringUtils.randomAlphabetic(8)
         val request = createRequest(suffix)
         val createResponse = mockMvc
@@ -136,7 +136,7 @@ class SampleSearchRestTest(
                 }
                 .andExpect {
                     status { isOk() }
-                    header { exists(TRACE_ID_HEADER) }
+                    header { exists(HEADER_TRACE_ID) }
                     content { contentType(APPLICATION_JSON) }
 
                     jsonPath("$") { isMap() }
@@ -152,7 +152,7 @@ class SampleSearchRestTest(
         username = "user-for-create-and-delete",
         authorities = ["SCOPE_urn:sample:create:v1", "SCOPE_urn:sample:delete:v1"]
     )
-    fun `Delete - Should return empty then 404 after`() {
+    fun `Delete should return empty then 404 after`() {
         val suffix = RandomStringUtils.randomAlphabetic(8)
         val request = createRequest(suffix)
         val createResponse = mockMvc
@@ -172,7 +172,7 @@ class SampleSearchRestTest(
             .delete(sampleUri)
             .andExpect {
                 status { isNoContent() }
-                header { exists(TRACE_ID_HEADER) }
+                header { exists(HEADER_TRACE_ID) }
 
                 jsonPath("$") { doesNotExist() }
             }
@@ -189,7 +189,7 @@ class SampleSearchRestTest(
             .get(uri)
             .andExpect {
                 status { isNotFound() }
-                header { exists(TRACE_ID_HEADER) }
+                header { exists(HEADER_TRACE_ID) }
 
                 jsonPath("$") { isArray() }
                 jsonPath("$.length()") { value(1) }

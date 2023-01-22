@@ -4,7 +4,7 @@ import com.leijendary.spring.template.core.extension.reflectGet
 import com.leijendary.spring.template.core.model.UUIDModel
 import org.springframework.data.domain.Sort
 
-const val ROW_ID_FIELD = "rowId"
+const val FIELD_ROW_ID = "rowId"
 
 class SeekToken {
     val fields: Map<String, Any?>
@@ -24,14 +24,14 @@ class SeekToken {
         val fieldValueMap = mutableMapOf<String, Any?>()
 
         sort
-            .filter { it.property != ROW_ID_FIELD }
+            .filter { it.property != FIELD_ROW_ID }
             .forEach {
                 val property = it.property
 
                 fieldValueMap[property] = last.reflectGet(property)
             }
 
-        fieldValueMap[ROW_ID_FIELD] = last.rowId
+        fieldValueMap[FIELD_ROW_ID] = last.rowId
 
         return fieldValueMap
     }

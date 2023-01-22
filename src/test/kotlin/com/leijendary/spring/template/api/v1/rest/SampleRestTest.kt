@@ -8,7 +8,7 @@ import com.leijendary.spring.template.core.data.Seek
 import com.leijendary.spring.template.core.extension.AnyUtil.toJson
 import com.leijendary.spring.template.core.extension.scaled
 import com.leijendary.spring.template.core.extension.toClass
-import com.leijendary.spring.template.core.filter.TRACE_ID_HEADER
+import com.leijendary.spring.template.core.filter.HEADER_TRACE_ID
 import org.apache.commons.lang3.RandomStringUtils
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -48,7 +48,7 @@ class SampleRestTest(
         username = "user-for-create-and-list",
         authorities = ["SCOPE_urn:sample:list:v1", "SCOPE_urn:sample:create:v1"]
     )
-    fun `Seek - Should return the list based on the limit and next token`() {
+    fun `Seek should return the list based on the limit and next token`() {
         val suffix = RandomStringUtils.randomAlphabetic(8)
         val requests = (1..listSize).map { createRequest(suffix) }
         requests.forEach {
@@ -60,7 +60,7 @@ class SampleRestTest(
                 }
                 .andExpect {
                     status { isCreated() }
-                    header { exists(TRACE_ID_HEADER) }
+                    header { exists(HEADER_TRACE_ID) }
                     content { contentType(APPLICATION_JSON) }
                 }
                 .andReturn()
@@ -96,7 +96,7 @@ class SampleRestTest(
                 .get(requestUri)
                 .andExpect {
                     status { isOk() }
-                    header { exists(TRACE_ID_HEADER) }
+                    header { exists(HEADER_TRACE_ID) }
                     content { contentType(APPLICATION_JSON) }
 
                     jsonPath("$.content") { isArray() }
@@ -131,7 +131,7 @@ class SampleRestTest(
 
     @Test
     @WithMockUser(username = "user-for-create", authorities = ["SCOPE_urn:sample:create:v1"])
-    fun `Create - Should create multiple and return created records`() {
+    fun `Create should create multiple and return created records`() {
         val suffix = RandomStringUtils.randomAlphabetic(8)
         val request = createRequest(suffix)
 
@@ -142,7 +142,7 @@ class SampleRestTest(
             }
             .andExpect {
                 status { isCreated() }
-                header { exists(TRACE_ID_HEADER) }
+                header { exists(HEADER_TRACE_ID) }
                 content { contentType(APPLICATION_JSON) }
 
                 jsonPath("$") { isNotEmpty() }
@@ -163,7 +163,7 @@ class SampleRestTest(
         username = "user-for-create-and-get",
         authorities = ["SCOPE_urn:sample:create:v1", "SCOPE_urn:sample:get:v1"]
     )
-    fun `Get - Should return the created record`() {
+    fun `Get should return the created record`() {
         val suffix = RandomStringUtils.randomAlphabetic(8)
         val request = createRequest(suffix)
         val createResponse = mockMvc
@@ -184,7 +184,7 @@ class SampleRestTest(
             }
             .andExpect {
                 status { isOk() }
-                header { exists(TRACE_ID_HEADER) }
+                header { exists(HEADER_TRACE_ID) }
                 content { contentType(APPLICATION_JSON) }
 
                 jsonPath("$") { isNotEmpty() }
@@ -205,7 +205,7 @@ class SampleRestTest(
         username = "user-for-create-and-update",
         authorities = ["SCOPE_urn:sample:create:v1", "SCOPE_urn:sample:update:v1"]
     )
-    fun `Update - Should return the updated record`() {
+    fun `Update should return the updated record`() {
         val suffix = RandomStringUtils.randomAlphabetic(8)
         val request = createRequest(suffix)
         val createResponse = mockMvc
@@ -261,7 +261,7 @@ class SampleRestTest(
             }
             .andExpect {
                 status { isOk() }
-                header { exists(TRACE_ID_HEADER) }
+                header { exists(HEADER_TRACE_ID) }
                 content { contentType(APPLICATION_JSON) }
 
                 jsonPath("$") { isNotEmpty() }
@@ -282,7 +282,7 @@ class SampleRestTest(
         username = "user-for-create-delete-and-get",
         authorities = ["SCOPE_urn:sample:create:v1", "SCOPE_urn:sample:delete:v1", "SCOPE_urn:sample:get:v1"]
     )
-    fun `Delete - Should return empty then 404 after`() {
+    fun `Delete should return empty then 404 after`() {
         val suffix = RandomStringUtils.randomAlphabetic(8)
         val request = createRequest(suffix)
         val createResponse = mockMvc
@@ -300,7 +300,7 @@ class SampleRestTest(
             .delete(uri)
             .andExpect {
                 status { isNoContent() }
-                header { exists(TRACE_ID_HEADER) }
+                header { exists(HEADER_TRACE_ID) }
 
                 jsonPath("$") { doesNotExist() }
             }
@@ -314,7 +314,7 @@ class SampleRestTest(
             .get(uri)
             .andExpect {
                 status { isNotFound() }
-                header { exists(TRACE_ID_HEADER) }
+                header { exists(HEADER_TRACE_ID) }
                 content { contentType(APPLICATION_JSON) }
 
                 jsonPath("$") { isArray() }

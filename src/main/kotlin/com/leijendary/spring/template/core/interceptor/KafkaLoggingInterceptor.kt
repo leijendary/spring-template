@@ -1,7 +1,7 @@
 package com.leijendary.spring.template.core.interceptor
 
 import com.leijendary.spring.template.core.extension.logger
-import com.leijendary.spring.template.core.util.TRACE_PARENT_HEADER
+import com.leijendary.spring.template.core.util.HEADER_TRACE_PARENT
 import com.leijendary.spring.template.core.util.Tracing
 import org.apache.kafka.clients.consumer.ConsumerInterceptor
 import org.apache.kafka.clients.consumer.ConsumerRecords
@@ -56,5 +56,5 @@ class KafkaLoggingInterceptor : ProducerInterceptor<String, Any>, ConsumerInterc
 
     override fun close() {}
 
-    private fun traceHeader(headers: Headers) = headers.lastHeader(TRACE_PARENT_HEADER).value().let { String(it) }
+    private fun traceHeader(headers: Headers) = headers.lastHeader(HEADER_TRACE_PARENT).value().let { String(it) }
 }

@@ -8,7 +8,7 @@ import org.slf4j.MDC
 private const val MDC_TRACE_ID = "traceId"
 private const val MDC_SPAN_ID = "spanId"
 
-const val TRACE_PARENT_HEADER = "traceparent"
+const val HEADER_TRACE_PARENT = "traceparent"
 
 private val tracer = getBean(Tracer::class)
 
