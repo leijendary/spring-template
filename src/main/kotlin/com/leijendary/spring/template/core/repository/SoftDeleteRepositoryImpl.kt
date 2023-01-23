@@ -1,6 +1,6 @@
 package com.leijendary.spring.template.core.repository
 
-import com.leijendary.spring.template.core.model.SoftDeleteModel
+import com.leijendary.spring.template.core.entity.SoftDeleteEntity
 import com.leijendary.spring.template.core.util.RequestContext.now
 import com.leijendary.spring.template.core.util.RequestContext.userId
 import org.springframework.stereotype.Repository
@@ -8,7 +8,7 @@ import jakarta.persistence.EntityManager
 import jakarta.persistence.PersistenceContext
 
 @Repository
-class SoftDeleteRepositoryImpl<T : SoftDeleteModel>(
+class SoftDeleteRepositoryImpl<T : SoftDeleteEntity>(
     @PersistenceContext
     private val entityManager: EntityManager
 ) : SoftDeleteRepository<T> {

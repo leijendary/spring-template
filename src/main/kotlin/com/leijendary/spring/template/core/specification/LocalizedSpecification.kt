@@ -1,10 +1,10 @@
 package com.leijendary.spring.template.core.specification
 
-import com.leijendary.spring.template.core.model.LocalizedModel
+import com.leijendary.spring.template.core.entity.LocalizedEntity
 import jakarta.persistence.criteria.*
 import org.springframework.data.jpa.domain.Specification
 
-class LocalizedSpecification<T : LocalizedModel<*>>(val language: String? = null) : Specification<T> {
+class LocalizedSpecification<T : LocalizedEntity<*>>(val language: String? = null) : Specification<T> {
     override fun toPredicate(
         root: Root<T>,
         criteriaQuery: CriteriaQuery<*>,

@@ -1,13 +1,13 @@
 package com.leijendary.spring.template.core.repository
 
-import com.leijendary.spring.template.core.data.FIELD_ROW_ID
-import com.leijendary.spring.template.core.data.Seek
-import com.leijendary.spring.template.core.data.SeekToken
-import com.leijendary.spring.template.core.data.Seekable
+import com.leijendary.spring.template.core.model.FIELD_ROW_ID
+import com.leijendary.spring.template.core.model.Seek
+import com.leijendary.spring.template.core.model.SeekToken
+import com.leijendary.spring.template.core.model.Seekable
 import com.leijendary.spring.template.core.extension.AnyUtil.toJson
 import com.leijendary.spring.template.core.extension.logger
 import com.leijendary.spring.template.core.extension.toClass
-import com.leijendary.spring.template.core.model.UUIDModel
+import com.leijendary.spring.template.core.entity.UUIDEntity
 import com.leijendary.spring.template.core.security.Encryption
 import jakarta.persistence.EntityManager
 import jakarta.persistence.criteria.CriteriaBuilder
@@ -27,7 +27,7 @@ private val encoder = getEncoder()
 private val decoder = getDecoder()
 
 @Repository
-class SeekPaginationRepositoryImpl<T : UUIDModel>(
+class SeekPaginationRepositoryImpl<T : UUIDEntity>(
     private val entityManager: EntityManager,
     private val encryption: Encryption
 ) : SeekPaginationRepository<T> {

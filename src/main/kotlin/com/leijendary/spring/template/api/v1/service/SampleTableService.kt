@@ -1,17 +1,17 @@
 package com.leijendary.spring.template.api.v1.service
 
-import com.leijendary.spring.template.api.v1.data.SampleRequest
-import com.leijendary.spring.template.api.v1.data.SampleResponse
+import com.leijendary.spring.template.api.v1.model.SampleRequest
+import com.leijendary.spring.template.api.v1.model.SampleResponse
 import com.leijendary.spring.template.api.v1.mapper.SampleMapper
 import com.leijendary.spring.template.api.v1.search.SampleSearch
-import com.leijendary.spring.template.core.data.QueryRequest
-import com.leijendary.spring.template.core.data.Seek
-import com.leijendary.spring.template.core.data.Seekable
+import com.leijendary.spring.template.core.model.QueryRequest
+import com.leijendary.spring.template.core.model.Seek
+import com.leijendary.spring.template.core.model.Seekable
 import com.leijendary.spring.template.core.exception.ResourceNotFoundException
-import com.leijendary.spring.template.data.SampleCreateEvent
-import com.leijendary.spring.template.data.SampleDeleteEvent
-import com.leijendary.spring.template.data.SampleUpdateEvent
-import com.leijendary.spring.template.model.SampleTable
+import com.leijendary.spring.template.model.SampleCreateEvent
+import com.leijendary.spring.template.model.SampleDeleteEvent
+import com.leijendary.spring.template.model.SampleUpdateEvent
+import com.leijendary.spring.template.entity.SampleTable
 import com.leijendary.spring.template.repository.SampleTableRepository
 import com.leijendary.spring.template.specification.SampleListSpecification
 import org.springframework.cache.annotation.CacheEvict

@@ -3,7 +3,7 @@ package com.leijendary.spring.template.core.error
 import com.fasterxml.jackson.databind.JsonMappingException
 import com.fasterxml.jackson.databind.JsonMappingException.Reference
 import com.fasterxml.jackson.databind.exc.InvalidFormatException
-import com.leijendary.spring.template.core.data.ErrorData
+import com.leijendary.spring.template.core.model.ErrorModel
 import com.leijendary.spring.template.core.util.RequestContext.locale
 import org.springframework.context.MessageSource
 import org.springframework.core.annotation.Order
@@ -22,14 +22,14 @@ class HttpMessageNotReadableExceptionHandler(private val messageSource: MessageS
     @ResponseStatus(BAD_REQUEST)
     fun catchHttpMessageNotReadable(exception: HttpMessageNotReadableException) = errors(exception)
 
-    private fun errors(exception: HttpMessageNotReadableException): List<ErrorData> {
+    private fun errors(exception: HttpMessageNotReadableException): List<ErrorModel> {
         val source = listOf(PARENT)
         val code = "error.badRequest"
         var message = exception.message ?: ""
-        val error: ErrorData
+        val error: ErrorModel
 
         if (message.startsWith("Required request body is missing")) {
-            error = ErrorData(source, code, message.split(":".toRegex()).toTypedArray()[0])
+            error = ErrorModel(source, code, message.split(":".toRegex()).toTypedArray()[0])
 
             return listOf(error)
         }
@@ -40,12 +40,12 @@ class HttpMessageNotReadableExceptionHandler(private val messageSource: MessageS
         }
 
         message = exception.message?.replace("JSON decoding error: ", "") ?: ""
-        error = ErrorData(source, code, message)
+        error = ErrorModel(source, code, message)
 
         return listOf(error)
     }
 
-    private fun errors(exception: InvalidFormatException): List<ErrorData> {
+    private fun errors(exception: InvalidFormatException): List<ErrorModel> {
         val sources = sources(exception.path)
         val code = "error.body.format.invalid"
 
@@ -57,16 +57,16 @@ class HttpMessageNotReadableExceptionHandler(private val messageSource: MessageS
             val arguments = arrayOf(field, exception.value, exception.targetType.simpleName)
             val message = messageSource.getMessage(code, arguments, locale)
 
-            ErrorData(it, code, message)
+            ErrorModel(it, code, message)
         }
     }
 
-    private fun errors(exception: JsonMappingException): List<ErrorData> {
+    private fun errors(exception: JsonMappingException): List<ErrorModel> {
         val sources = sources(exception.path)
         val code = "error.body.format.invalid"
         val message = exception.originalMessage
 
-        return sources.map { ErrorData(it, code, message) }
+        return sources.map { ErrorModel(it, code, message) }
     }
 
     private fun sources(path: List<Reference>): List<List<Any>> {

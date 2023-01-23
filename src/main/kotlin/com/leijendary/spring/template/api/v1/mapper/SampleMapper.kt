@@ -1,11 +1,11 @@
 package com.leijendary.spring.template.api.v1.mapper
 
-import com.leijendary.spring.template.api.v1.data.SampleMessage
-import com.leijendary.spring.template.api.v1.data.SampleRequest
-import com.leijendary.spring.template.api.v1.data.SampleResponse
-import com.leijendary.spring.template.api.v1.data.SampleSearchResponse
+import com.leijendary.spring.template.api.v1.model.SampleMessage
+import com.leijendary.spring.template.api.v1.model.SampleRequest
+import com.leijendary.spring.template.api.v1.model.SampleResponse
+import com.leijendary.spring.template.api.v1.model.SampleSearchResponse
 import com.leijendary.spring.template.document.SampleDocument
-import com.leijendary.spring.template.model.SampleTable
+import com.leijendary.spring.template.entity.SampleTable
 import org.mapstruct.Mapper
 import org.mapstruct.Mapping
 import org.mapstruct.MappingTarget

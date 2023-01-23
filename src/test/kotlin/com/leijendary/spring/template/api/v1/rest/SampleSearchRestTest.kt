@@ -1,9 +1,9 @@
 package com.leijendary.spring.template.api.v1.rest
 
 import com.leijendary.spring.template.ApplicationTest
-import com.leijendary.spring.template.api.v1.data.SampleRequest
-import com.leijendary.spring.template.api.v1.data.SampleResponse
-import com.leijendary.spring.template.api.v1.data.SampleTranslationRequest
+import com.leijendary.spring.template.api.v1.model.SampleRequest
+import com.leijendary.spring.template.api.v1.model.SampleResponse
+import com.leijendary.spring.template.api.v1.model.SampleTranslationRequest
 import com.leijendary.spring.template.core.extension.AnyUtil.toJson
 import com.leijendary.spring.template.core.extension.scaled
 import com.leijendary.spring.template.core.extension.toClass

@@ -1,11 +1,11 @@
 package com.leijendary.spring.template.api.v1.rest
 
-import com.leijendary.spring.template.api.v1.data.SampleRequest
+import com.leijendary.spring.template.api.v1.model.SampleRequest
 import com.leijendary.spring.template.api.v1.service.SampleTableService
 import com.leijendary.spring.template.client.SampleClient
 import com.leijendary.spring.template.core.controller.SecuredController
-import com.leijendary.spring.template.core.data.QueryRequest
-import com.leijendary.spring.template.core.data.Seekable
+import com.leijendary.spring.template.core.model.QueryRequest
+import com.leijendary.spring.template.core.model.Seekable
 import com.leijendary.spring.template.core.util.RequestContext.language
 import com.leijendary.spring.template.core.util.RequestContext.locale
 import com.leijendary.spring.template.core.util.RequestContext.now

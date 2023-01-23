@@ -1,6 +1,5 @@
 package com.leijendary.spring.template.core.model
 
-import jakarta.persistence.MappedSuperclass
+import java.io.Serializable
 
-@MappedSuperclass
-abstract class LocaleModel(open var language: String, open var ordinal: Int) : AppModel()
+abstract class LocaleModel(open val language: String, open val ordinal: Int) : Serializable

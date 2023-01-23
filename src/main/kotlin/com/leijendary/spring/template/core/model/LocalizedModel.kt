@@ -1,10 +1,12 @@
 package com.leijendary.spring.template.core.model
 
-import com.leijendary.spring.template.core.projection.UUIDProjection
 import com.leijendary.spring.template.core.util.RequestContext.language
+import java.io.Serializable
+import java.util.*
 
-interface LocalizedModel<T : LocaleModel> : UUIDProjection {
-    val translations: Set<T>
+abstract class LocalizedModel<T : LocaleModel> : Serializable {
+    var id: UUID? = null
+    var translations: Set<T> = HashSet()
 
     val translation: T
         get() {

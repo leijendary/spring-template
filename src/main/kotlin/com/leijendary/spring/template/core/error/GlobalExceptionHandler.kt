@@ -1,6 +1,6 @@
 package com.leijendary.spring.template.core.error
 
-import com.leijendary.spring.template.core.data.ErrorData
+import com.leijendary.spring.template.core.model.ErrorModel
 import com.leijendary.spring.template.core.extension.logger
 import com.leijendary.spring.template.core.util.RequestContext.locale
 import com.leijendary.spring.template.core.util.SpringContext.Companion.isProd
@@ -18,7 +18,7 @@ class GlobalExceptionHandler(private val messageSource: MessageSource) {
 
     @ExceptionHandler(Exception::class)
     @ResponseStatus(INTERNAL_SERVER_ERROR)
-    fun catchException(exception: Exception): List<ErrorData> {
+    fun catchException(exception: Exception): List<ErrorModel> {
         log.error("Global Exception", exception)
 
         val code = "error.serverError"
@@ -27,7 +27,7 @@ class GlobalExceptionHandler(private val messageSource: MessageSource) {
         } else {
             exception.message
         }
-        val error = ErrorData(mutableListOf("server", "internal"), code, message)
+        val error = ErrorModel(mutableListOf("server", "internal"), code, message)
 
         return listOf(error)
     }

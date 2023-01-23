@@ -1,6 +1,6 @@
 package com.leijendary.spring.template.core.error
 
-import com.leijendary.spring.template.core.data.ErrorData
+import com.leijendary.spring.template.core.model.ErrorModel
 import com.leijendary.spring.template.core.extension.snakeCaseToCamelCase
 import com.leijendary.spring.template.core.util.RequestContext.locale
 import org.apache.commons.lang3.StringUtils.substringBetween
@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice
 @Order(3)
 class DataIntegrityViolationExceptionHandler(private val messageSource: MessageSource) {
     @ExceptionHandler(DataIntegrityViolationException::class)
-    fun catchDataIntegrityViolation(exception: DataIntegrityViolationException): ResponseEntity<List<ErrorData>> {
+    fun catchDataIntegrityViolation(exception: DataIntegrityViolationException): ResponseEntity<List<ErrorModel>> {
         val (errors, status) = errorPair(exception)
 
         return ResponseEntity
@@ -27,7 +27,7 @@ class DataIntegrityViolationExceptionHandler(private val messageSource: MessageS
             .body(errors)
     }
 
-    private fun errorPair(exception: DataIntegrityViolationException): Pair<List<ErrorData>, HttpStatus> {
+    private fun errorPair(exception: DataIntegrityViolationException): Pair<List<ErrorModel>, HttpStatus> {
         val cause: Throwable? = exception.cause
 
         if (cause is ConstraintViolationException) {
@@ -37,12 +37,12 @@ class DataIntegrityViolationExceptionHandler(private val messageSource: MessageS
         val code = "error.data.integrity"
         val arguments: Array<String> = arrayOf(exception.message ?: "")
         val message = messageSource.getMessage(code, arguments, locale)
-        val error = ErrorData(mutableListOf("data", "entity"), code, message)
+        val error = ErrorModel(mutableListOf("data", "entity"), code, message)
 
         return listOf(error) to INTERNAL_SERVER_ERROR
     }
 
-    private fun constraint(exception: ConstraintViolationException): Pair<List<ErrorData>, HttpStatus> {
+    private fun constraint(exception: ConstraintViolationException): Pair<List<ErrorModel>, HttpStatus> {
         val errorMessage = exception.sqlException.nextException.message!!
         val sql = exception.sql
         val table = sql
@@ -61,7 +61,7 @@ class DataIntegrityViolationExceptionHandler(private val messageSource: MessageS
         val code = "validation.alreadyExists"
         val arguments = arrayOf(field, value)
         val message = messageSource.getMessage(code, arguments, locale)
-        val error = ErrorData(mutableListOf("data", table, field), code, message)
+        val error = ErrorModel(mutableListOf("data", table, field), code, message)
 
         return listOf(error) to CONFLICT
     }

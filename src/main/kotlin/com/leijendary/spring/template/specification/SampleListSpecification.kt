@@ -1,7 +1,7 @@
 package com.leijendary.spring.template.specification
 
 import com.leijendary.spring.template.core.util.Predicate.lowerLike
-import com.leijendary.spring.template.model.SampleTable
+import com.leijendary.spring.template.entity.SampleTable
 import jakarta.persistence.criteria.CriteriaBuilder
 import jakarta.persistence.criteria.CriteriaQuery
 import jakarta.persistence.criteria.Predicate

@@ -2,7 +2,7 @@ package com.leijendary.spring.template.repository
 
 import com.leijendary.spring.template.core.repository.SeekPaginationRepository
 import com.leijendary.spring.template.core.repository.SoftDeleteRepository
-import com.leijendary.spring.template.model.SampleTable
+import com.leijendary.spring.template.entity.SampleTable
 import jakarta.persistence.LockModeType.WRITE
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor

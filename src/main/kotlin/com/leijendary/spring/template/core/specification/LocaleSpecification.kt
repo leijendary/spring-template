@@ -1,13 +1,13 @@
 package com.leijendary.spring.template.core.specification
 
-import com.leijendary.spring.template.core.model.LocaleModel
+import com.leijendary.spring.template.core.entity.LocaleEntity
 import jakarta.persistence.criteria.CriteriaBuilder
 import jakarta.persistence.criteria.CriteriaQuery
 import jakarta.persistence.criteria.Predicate
 import jakarta.persistence.criteria.Root
 import org.springframework.data.jpa.domain.Specification
 
-class LocaleSpecification<T : LocaleModel>(
+class LocaleSpecification<T : LocaleEntity>(
     private val referenceId: Long = 0,
     private val language: String? = null
 ) : Specification<T> {

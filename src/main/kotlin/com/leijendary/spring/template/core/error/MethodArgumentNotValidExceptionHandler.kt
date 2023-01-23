@@ -1,6 +1,6 @@
 package com.leijendary.spring.template.core.error
 
-import com.leijendary.spring.template.core.data.ErrorData
+import com.leijendary.spring.template.core.model.ErrorModel
 import com.leijendary.spring.template.core.util.RequestContext.locale
 import org.springframework.context.MessageSource
 import org.springframework.core.annotation.Order
@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice
 class MethodArgumentNotValidExceptionHandler(private val messageSource: MessageSource) {
     @ExceptionHandler(MethodArgumentNotValidException::class)
     @ResponseStatus(BAD_REQUEST)
-    fun catchMethodArgumentNotValid(exception: MethodArgumentNotValidException): List<ErrorData> {
+    fun catchMethodArgumentNotValid(exception: MethodArgumentNotValidException): List<ErrorModel> {
         return exception.allErrors.map { field: ObjectError ->
             val objectName: String = if (field is FieldError) field.field else field.objectName
             val source: List<String> = listOf("body") + objectName.split(".").map {
@@ -27,7 +27,7 @@ class MethodArgumentNotValidExceptionHandler(private val messageSource: MessageS
             val arguments: Array<Any>? = field.arguments
             val message = code.let { messageSource.getMessage(it, arguments, code, locale) }
 
-            ErrorData(source, code, message)
+            ErrorModel(source, code, message)
         }
     }
 }

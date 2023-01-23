@@ -2,7 +2,7 @@ package com.leijendary.spring.template.api.v1.rest
 
 import com.leijendary.spring.template.api.v1.search.SampleSearch
 import com.leijendary.spring.template.api.v1.service.SampleTableService
-import com.leijendary.spring.template.core.data.QueryRequest
+import com.leijendary.spring.template.core.model.QueryRequest
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.data.domain.Pageable

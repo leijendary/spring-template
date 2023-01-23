@@ -1,6 +1,6 @@
 package com.leijendary.spring.template.message
 
-import com.leijendary.spring.template.api.v1.data.SampleMessage
+import com.leijendary.spring.template.api.v1.model.SampleMessage
 import org.apache.kafka.streams.kstream.KStream
 import org.springframework.context.annotation.Bean
 import org.springframework.stereotype.Component
