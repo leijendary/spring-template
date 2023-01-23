@@ -5,7 +5,6 @@ import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType.IDENTITY
 import jakarta.persistence.Id
 import jakarta.persistence.MappedSuperclass
-import nonapi.io.github.classgraph.json.Id
 
 @MappedSuperclass
 abstract class IdentityEntity : AppEntity(), IdentityProjection {

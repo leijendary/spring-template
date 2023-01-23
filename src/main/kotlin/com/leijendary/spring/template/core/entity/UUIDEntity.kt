@@ -5,7 +5,6 @@ import jakarta.persistence.Column
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.Id
 import jakarta.persistence.MappedSuperclass
-import nonapi.io.github.classgraph.json.Id
 import java.util.*
 import java.util.UUID.randomUUID
 
