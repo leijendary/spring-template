@@ -104,7 +104,8 @@ spring:
           audiences:
   task:
     execution:
-      coreSize: 100
+      pool:
+        coreSize: 100
       shutdown:
         awaitTermination: true
         awaitTerminationPeriod: 60s
