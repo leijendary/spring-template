@@ -106,15 +106,9 @@ spring:
     execution:
       pool:
         coreSize: 100
-      shutdown:
-        awaitTermination: true
-        awaitTerminationPeriod: 60s
     scheduling:
       pool:
         size: 100
-      shutdown:
-        awaitTermination: true
-        awaitTerminationPeriod: 60s
   web:
     resources:
       addMappings: false
