@@ -2,8 +2,9 @@ package com.leijendary.spring.template.event
 
 import com.leijendary.spring.template.api.v1.mapper.SampleMapper
 import com.leijendary.spring.template.api.v1.search.SampleSearch
-import com.leijendary.spring.template.model.SampleCreateEvent
 import com.leijendary.spring.template.message.SampleMessageProducer
+import com.leijendary.spring.template.model.SampleCreateEvent
+import org.springframework.retry.annotation.Retryable
 import org.springframework.scheduling.annotation.Async
 import org.springframework.stereotype.Component
 import org.springframework.transaction.event.TransactionalEventListener
@@ -19,6 +20,7 @@ class SampleCreateEventListener(
 
     @TransactionalEventListener
     @Async
+    @Retryable
     fun handleSampleCreate(sampleCreateEvent: SampleCreateEvent) {
         val sampleTable = sampleCreateEvent.sampleTable
 

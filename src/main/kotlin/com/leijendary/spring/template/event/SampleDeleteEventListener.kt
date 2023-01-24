@@ -2,8 +2,9 @@ package com.leijendary.spring.template.event
 
 import com.leijendary.spring.template.api.v1.mapper.SampleMapper
 import com.leijendary.spring.template.api.v1.search.SampleSearch
-import com.leijendary.spring.template.model.SampleDeleteEvent
 import com.leijendary.spring.template.message.SampleMessageProducer
+import com.leijendary.spring.template.model.SampleDeleteEvent
+import org.springframework.retry.annotation.Retryable
 import org.springframework.scheduling.annotation.Async
 import org.springframework.stereotype.Component
 import org.springframework.transaction.event.TransactionalEventListener
@@ -19,6 +20,7 @@ class SampleDeleteEventListener(
 
     @TransactionalEventListener
     @Async
+    @Retryable
     fun handleSampleDelete(sampleDeleteEvent: SampleDeleteEvent) {
         val sampleTable = sampleDeleteEvent.sampleTable
         val id = sampleTable.id

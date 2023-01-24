@@ -13,6 +13,5 @@ import org.springframework.context.annotation.Configuration
     EmissionProperties::class,
     InfoProperties::class,
     NumberProperties::class,
-    RetryProperties::class
 )
 class PropertiesConfiguration 
