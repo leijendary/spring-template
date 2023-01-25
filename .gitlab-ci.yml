@@ -127,7 +127,7 @@ Build for Production:
   stage: build
   extends: .docker_build
   environment:
-    name: production
+    name: prod
   only:
     - main
 
@@ -182,6 +182,6 @@ Deploy to Production:
   extends: .deploy
   environment:
     # We want to isolate AWS_CLUSTER_NAME and AWS_SERVICE_NAME per environment
-    name: production
+    name: prod
   only:
     - main

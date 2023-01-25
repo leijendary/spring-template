@@ -10,7 +10,7 @@ jobs:
   docker:
     name: Tag Image
     runs-on: ubuntu-latest
-    environment: production
+    environment: prod
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -32,11 +32,11 @@ jobs:
       - name: Log out of AWS ECR
         if: always()
         run: docker logout ${{ steps.ecr.outputs.registry }}
-  deploy-production:
+  deploy:
     name: Fargate
     uses: ./.github/workflows/deploy.yaml
     with:
-      environment: production
+      environment: prod
       image-tag: ${{ github.ref_name }}
     secrets: inherit
     needs: docker
