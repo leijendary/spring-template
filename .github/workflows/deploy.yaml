@@ -33,7 +33,7 @@ jobs:
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
           task-definition: ./.aws/task-definitions/${{ inputs.environment }}.json
-          container-name: ${{ secrets.CONTAINER_NAME }}
+          container-name: ${{ github.event.repository.name }}
           image: ${{ env.REPOSITORY_URL }}:${{ env.IMAGE_TAG }}
       - name: Deploy Amazon ECS task definition
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
