@@ -18,10 +18,10 @@ class SampleUpdateEventListener(
         private val MAPPER: SampleMapper = SampleMapper.INSTANCE
     }
 
-    @TransactionalEventListener
     @Async
     @Retryable
-    fun handleSampleEvent(sampleUpdateEvent: SampleUpdateEvent) {
+    @TransactionalEventListener
+    fun handle(sampleUpdateEvent: SampleUpdateEvent) {
         val sampleTable = sampleUpdateEvent.sampleTable
 
         // Update the object from elasticsearch

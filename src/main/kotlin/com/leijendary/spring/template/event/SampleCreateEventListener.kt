@@ -18,10 +18,10 @@ class SampleCreateEventListener(
         private val MAPPER: SampleMapper = SampleMapper.INSTANCE
     }
 
-    @TransactionalEventListener
     @Async
     @Retryable
-    fun handleSampleCreate(sampleCreateEvent: SampleCreateEvent) {
+    @TransactionalEventListener
+    fun handle(sampleCreateEvent: SampleCreateEvent) {
         val sampleTable = sampleCreateEvent.sampleTable
 
         // Save the object to elasticsearch

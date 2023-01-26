@@ -18,10 +18,10 @@ class SampleDeleteEventListener(
         private val MAPPER: SampleMapper = SampleMapper.INSTANCE
     }
 
-    @TransactionalEventListener
     @Async
     @Retryable
-    fun handleSampleDelete(sampleDeleteEvent: SampleDeleteEvent) {
+    @TransactionalEventListener
+    fun handle(sampleDeleteEvent: SampleDeleteEvent) {
         val sampleTable = sampleDeleteEvent.sampleTable
         val id = sampleTable.id
 
