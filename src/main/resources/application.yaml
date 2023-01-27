@@ -215,7 +215,7 @@ management:
   endpoints:
     web:
       exposure:
-        include: health, prometheus
+        include: '*'
   tracing:
     sampling:
       probability: 1.0
