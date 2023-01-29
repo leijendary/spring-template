@@ -6,7 +6,6 @@ import com.leijendary.spring.template.core.message.MessageProducer
 import org.springframework.context.annotation.Bean
 import org.springframework.messaging.Message
 import org.springframework.stereotype.Component
-import reactor.core.publisher.Flux
 import reactor.core.publisher.Sinks.many
 import java.util.function.Supplier
 
@@ -17,25 +16,13 @@ class SampleMessageProducer : MessageProducer<SampleMessage>() {
     private val deleteBuffer = many().multicast().onBackpressureBuffer<Message<SampleMessage>>()
 
     @Bean
-    fun sampleCreate(): Supplier<Flux<Message<SampleMessage>>> {
-        return Supplier<Flux<Message<SampleMessage>>> {
-            createBuffer.asFlux()
-        }
-    }
+    fun sampleCreate() = Supplier { createBuffer.asFlux() }
 
     @Bean
-    fun sampleUpdate(): Supplier<Flux<Message<SampleMessage>>> {
-        return Supplier<Flux<Message<SampleMessage>>> {
-            updateBuffer.asFlux()
-        }
-    }
+    fun sampleUpdate() = Supplier { updateBuffer.asFlux() }
 
     @Bean
-    fun sampleDelete(): Supplier<Flux<Message<SampleMessage>>> {
-        return Supplier<Flux<Message<SampleMessage>>> {
-            deleteBuffer.asFlux()
-        }
-    }
+    fun sampleDelete() = Supplier { deleteBuffer.asFlux() }
 
     fun create(sampleMessage: SampleMessage) {
         val message = message(sampleMessage)
