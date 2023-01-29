@@ -7,6 +7,7 @@ import com.leijendary.spring.template.model.SampleDeleteEvent
 import org.springframework.retry.annotation.Retryable
 import org.springframework.scheduling.annotation.Async
 import org.springframework.stereotype.Component
+import org.springframework.transaction.event.TransactionPhase.AFTER_COMPLETION
 import org.springframework.transaction.event.TransactionalEventListener
 
 @Component
@@ -20,7 +21,7 @@ class SampleDeleteEventListener(
 
     @Async
     @Retryable
-    @TransactionalEventListener
+    @TransactionalEventListener(phase = AFTER_COMPLETION)
     fun handle(sampleDeleteEvent: SampleDeleteEvent) {
         val sampleTable = sampleDeleteEvent.sampleTable
         val id = sampleTable.id

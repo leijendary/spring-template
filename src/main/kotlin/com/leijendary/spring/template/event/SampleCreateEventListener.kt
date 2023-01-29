@@ -7,6 +7,7 @@ import com.leijendary.spring.template.model.SampleCreateEvent
 import org.springframework.retry.annotation.Retryable
 import org.springframework.scheduling.annotation.Async
 import org.springframework.stereotype.Component
+import org.springframework.transaction.event.TransactionPhase.AFTER_COMPLETION
 import org.springframework.transaction.event.TransactionalEventListener
 
 @Component
@@ -20,7 +21,7 @@ class SampleCreateEventListener(
 
     @Async
     @Retryable
-    @TransactionalEventListener
+    @TransactionalEventListener(phase = AFTER_COMPLETION)
     fun handle(sampleCreateEvent: SampleCreateEvent) {
         val sampleTable = sampleCreateEvent.sampleTable
 
