@@ -18,9 +18,11 @@ class JpaConfiguration {
     @Bean
     fun auditorProvider(): AuditorAware<String> {
         return AuditorAware {
-            val authentication = SecurityContextHolder.getContext().authentication
-
-            ofNullable(authentication?.name)
+            SecurityContextHolder
+                .getContext()
+                .let {
+                    ofNullable(it.authentication?.name)
+                }
         }
     }
 
