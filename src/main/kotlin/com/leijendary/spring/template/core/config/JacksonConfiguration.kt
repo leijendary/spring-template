@@ -7,7 +7,5 @@ import org.springframework.context.annotation.Configuration
 @Configuration
 class JacksonConfiguration {
     @Bean
-    fun javaTimeModule(): JavaTimeModule {
-        return JavaTimeModule()
-    }
+    fun javaTimeModule() = JavaTimeModule()
 }
