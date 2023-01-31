@@ -29,26 +29,26 @@ spec:
               scheme: HTTPS
               path: /actuator/health
               port: 443
-            initialDelaySeconds: 200
-            timeoutSeconds: 5
-            periodSeconds: 15
+            initialDelaySeconds: 20
+            timeoutSeconds: 15
+            periodSeconds: 30
           livenessProbe:
             httpGet:
               scheme: HTTPS
               path: /actuator/health
               port: 443
-            initialDelaySeconds: 300
-            timeoutSeconds: 5
-            periodSeconds: 15
+            initialDelaySeconds: 30
+            timeoutSeconds: 15
+            periodSeconds: 30
             failureThreshold: 3
             successThreshold: 1
           resources:
             requests:
-              memory: 512M
-              cpu: 0.25
+              memory: 1G
+              cpu: 0.5
             limits:
-              memory: 512M
-              cpu: 0.25
+              memory: 1G
+              cpu: 0.5
 
 ---
 apiVersion: v1
