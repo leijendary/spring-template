@@ -56,7 +56,6 @@ class SampleRestTest(
                 .post(url) {
                     contentType = APPLICATION_JSON
                     content = it.toJson()
-
                 }
                 .andExpect {
                     status { isCreated() }
