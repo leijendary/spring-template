@@ -1,1 +1,0 @@
-Running ${info.app.name} v${info.app.version} on Spring Boot v${spring-boot.version}
