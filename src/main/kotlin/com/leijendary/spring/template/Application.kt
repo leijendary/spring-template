@@ -1,7 +1,5 @@
 package com.leijendary.spring.template
 
-import com.leijendary.spring.template.core.config.properties.InfoProperties
-import com.leijendary.spring.template.core.util.SpringContext.Companion.getBean
 import org.springframework.boot.SpringBootVersion
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration
@@ -14,8 +12,6 @@ import org.springframework.core.env.get
 import org.springframework.kafka.annotation.EnableKafka
 import org.springframework.retry.annotation.EnableRetry
 import org.springframework.scheduling.annotation.EnableAsync
-import java.awt.SystemColor.info
-import javax.swing.Spring
 
 @EnableAsync
 @EnableCaching
@@ -38,7 +34,7 @@ fun main(args: Array<String>) {
             val version = environment["info.app.version"]
             val springVersion = SpringBootVersion.getVersion()
 
-            out.println("Running $name v$version on Spring Boot v$springVersion")
+            out.print("Running $name v$version on Spring Boot v$springVersion")
         }
     }
 }
