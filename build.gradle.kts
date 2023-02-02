@@ -109,8 +109,8 @@ dependencies {
 
 dependencyManagement {
     imports {
-        mavenBom("io.awspring.cloud:spring-cloud-aws-dependencies:3.0.0-M3")
         mavenBom("org.springframework.cloud:spring-cloud-dependencies:2022.0.0")
+        mavenBom("io.awspring.cloud:spring-cloud-aws-dependencies:3.0.0-M3")
     }
 }
 
