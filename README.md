@@ -16,12 +16,12 @@
 - Spring Cloud AWS S3
 - Spring Cloud LoadBalancer
 - Spring Cloud OpenFeign
-- Spring Cloud Stream Binder Kafka Streams
 - Spring Configuration Processor
 - Spring Data Elasticsearch
 - Spring Data JPA
 - Spring Data Redis
 - Spring Devtools
+- Spring Kafka
 - Spring OAuth2 Resource Server
 - Spring Retry
 - Spring Validation
