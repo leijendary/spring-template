@@ -4,6 +4,8 @@ import com.leijendary.spring.template.api.v1.mapper.SampleMapper
 import com.leijendary.spring.template.api.v1.search.SampleSearch
 import com.leijendary.spring.template.message.SampleMessageProducer
 import com.leijendary.spring.template.model.SampleDeleteEvent
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import org.springframework.retry.annotation.Retryable
 import org.springframework.stereotype.Component
 import org.springframework.transaction.event.TransactionPhase.AFTER_COMPLETION
@@ -20,17 +22,21 @@ class SampleDeleteEventListener(
 
     @Retryable
     @TransactionalEventListener(phase = AFTER_COMPLETION)
-    fun handle(sampleDeleteEvent: SampleDeleteEvent) {
+    fun handle(sampleDeleteEvent: SampleDeleteEvent) = runBlocking {
         val sampleTable = sampleDeleteEvent.sampleTable
         val id = sampleTable.id
 
-        // Delete the object from elasticsearch
-        sampleSearch.delete(id)
+        launch {
+            // Delete the object from elasticsearch
+            sampleSearch.delete(id)
+        }
 
-        // Create a message object
-        val sampleMessage = MAPPER.toMessage(sampleTable)
+        launch {
+            // Create a message object
+            val sampleMessage = MAPPER.toMessage(sampleTable)
 
-        // Send the event object to kafka
-        sampleMessageProducer.delete(sampleMessage)
+            // Send the event object to kafka
+            sampleMessageProducer.delete(sampleMessage)
+        }
     }
 }

@@ -4,6 +4,8 @@ import com.leijendary.spring.template.api.v1.mapper.SampleMapper
 import com.leijendary.spring.template.api.v1.search.SampleSearch
 import com.leijendary.spring.template.message.SampleMessageProducer
 import com.leijendary.spring.template.model.SampleUpdateEvent
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import org.springframework.retry.annotation.Retryable
 import org.springframework.stereotype.Component
 import org.springframework.transaction.event.TransactionPhase.AFTER_COMPLETION
@@ -20,16 +22,20 @@ class SampleUpdateEventListener(
 
     @Retryable
     @TransactionalEventListener(phase = AFTER_COMPLETION)
-    fun handle(sampleUpdateEvent: SampleUpdateEvent) {
+    fun handle(sampleUpdateEvent: SampleUpdateEvent) = runBlocking {
         val sampleTable = sampleUpdateEvent.sampleTable
 
-        // Update the object from elasticsearch
-        sampleSearch.update(sampleTable)
+        launch {
+            // Update the object from elasticsearch
+            sampleSearch.update(sampleTable)
+        }
 
-        // Create a message object
-        val sampleMessage = MAPPER.toMessage(sampleTable)
+        launch {
+            // Create a message object
+            val sampleMessage = MAPPER.toMessage(sampleTable)
 
-        // Send the event object to kafka
-        sampleMessageProducer.update(sampleMessage)
+            // Send the event object to kafka
+            sampleMessageProducer.update(sampleMessage)
+        }
     }
 }
