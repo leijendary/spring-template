@@ -10,7 +10,6 @@ import org.springframework.context.annotation.Configuration
     AwsS3Properties::class,
     DataSourcePrimaryProperties::class,
     DataSourceReadonlyProperties::class,
-    EmissionProperties::class,
     InfoProperties::class,
     NumberProperties::class,
 )

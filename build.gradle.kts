@@ -62,14 +62,11 @@ dependencies {
     implementation("org.springframework.cloud:spring-cloud-starter-loadbalancer")
     implementation("org.springframework.cloud:spring-cloud-starter-openfeign")
 
-    // Spring Cloud Stream
-    implementation("org.springframework.cloud:spring-cloud-stream")
-    implementation("org.springframework.cloud:spring-cloud-stream-binder-kafka")
-    implementation("org.springframework.cloud:spring-cloud-stream-binder-kafka-streams")
+    // Spring Cloud Function
+    implementation("org.springframework.cloud:spring-cloud-function-context")
 
-    // Kafka
+    // Spring Kafka
     implementation("org.springframework.kafka:spring-kafka")
-    implementation("org.apache.kafka:kafka-streams")
     testImplementation("org.springframework.kafka:spring-kafka-test")
 
     // Jackson

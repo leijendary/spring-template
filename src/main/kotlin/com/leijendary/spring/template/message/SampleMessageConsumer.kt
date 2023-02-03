@@ -1,25 +1,19 @@
 package com.leijendary.spring.template.message
 
-import com.leijendary.spring.template.api.v1.model.SampleMessage
-import org.apache.kafka.streams.kstream.KStream
-import org.springframework.context.annotation.Bean
+import org.springframework.kafka.annotation.KafkaListener
 import org.springframework.stereotype.Component
-import java.util.function.Consumer
 
 @Component
 class SampleMessageConsumer {
-    @Bean
-    fun sampleCreated(): Consumer<KStream<String, SampleMessage>> {
-        return Consumer { }
+    @KafkaListener(topics = [TOPIC_SAMPLE_CREATE])
+    fun created(json: String) {
     }
 
-    @Bean
-    fun sampleUpdated(): Consumer<KStream<String, SampleMessage>> {
-        return Consumer { }
+    @KafkaListener(topics = [TOPIC_SAMPLE_UPDATE])
+    fun updated(json: String) {
     }
 
-    @Bean
-    fun sampleDeleted(): Consumer<KStream<String, SampleMessage>> {
-        return Consumer { }
+    @KafkaListener(topics = [TOPIC_SAMPLE_DELETE])
+    fun deleted(json: String) {
     }
 }

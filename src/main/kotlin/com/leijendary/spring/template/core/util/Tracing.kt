@@ -5,10 +5,10 @@ import io.micrometer.tracing.TraceContext
 import io.micrometer.tracing.Tracer
 import org.slf4j.MDC
 
+const val HEADER_TRACE_PARENT = "traceparent"
+
 private const val MDC_TRACE_ID = "traceId"
 private const val MDC_SPAN_ID = "spanId"
-
-const val HEADER_TRACE_PARENT = "traceparent"
 
 private val tracer = getBean(Tracer::class)
 

@@ -1,44 +1,25 @@
 package com.leijendary.spring.template.message
 
 import com.leijendary.spring.template.api.v1.model.SampleMessage
-import com.leijendary.spring.template.core.extension.emit
-import com.leijendary.spring.template.core.util.Messaging
-import org.springframework.context.annotation.Bean
-import org.springframework.messaging.Message
+import com.leijendary.spring.template.core.extension.AnyUtil.toJson
+import org.springframework.kafka.core.KafkaTemplate
 import org.springframework.stereotype.Component
-import reactor.core.publisher.Sinks.many
-import java.util.function.Supplier
+
+const val TOPIC_SAMPLE_CREATE = "leijendary.sample.create"
+const val TOPIC_SAMPLE_UPDATE = "leijendary.sample.update"
+const val TOPIC_SAMPLE_DELETE = "leijendary.sample.delete"
 
 @Component
-class SampleMessageProducer {
-    private val createBuffer = many().multicast().onBackpressureBuffer<Message<SampleMessage>>()
-    private val updateBuffer = many().multicast().onBackpressureBuffer<Message<SampleMessage>>()
-    private val deleteBuffer = many().multicast().onBackpressureBuffer<Message<SampleMessage>>()
-
-    @Bean
-    fun sampleCreate() = Supplier { createBuffer.asFlux() }
-
-    @Bean
-    fun sampleUpdate() = Supplier { updateBuffer.asFlux() }
-
-    @Bean
-    fun sampleDelete() = Supplier { deleteBuffer.asFlux() }
-
+class SampleMessageProducer(private val kafkaTemplate: KafkaTemplate<String, String>) {
     fun create(sampleMessage: SampleMessage) {
-        val message = Messaging.kafka(sampleMessage)
-
-        createBuffer.emit(message)
+        kafkaTemplate.send(TOPIC_SAMPLE_CREATE, sampleMessage.toJson())
     }
 
     fun update(sampleMessage: SampleMessage) {
-        val message = Messaging.kafka(sampleMessage)
-
-        updateBuffer.emit(message)
+        kafkaTemplate.send(TOPIC_SAMPLE_UPDATE, sampleMessage.toJson())
     }
 
     fun delete(sampleMessage: SampleMessage) {
-        val message = Messaging.kafka(sampleMessage)
-
-        deleteBuffer.emit(message)
+        kafkaTemplate.send(TOPIC_SAMPLE_DELETE, sampleMessage.toJson())
     }
 }

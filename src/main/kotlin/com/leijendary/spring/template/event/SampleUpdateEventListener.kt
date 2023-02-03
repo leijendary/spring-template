@@ -5,7 +5,6 @@ import com.leijendary.spring.template.api.v1.search.SampleSearch
 import com.leijendary.spring.template.message.SampleMessageProducer
 import com.leijendary.spring.template.model.SampleUpdateEvent
 import org.springframework.retry.annotation.Retryable
-import org.springframework.scheduling.annotation.Async
 import org.springframework.stereotype.Component
 import org.springframework.transaction.event.TransactionPhase.AFTER_COMPLETION
 import org.springframework.transaction.event.TransactionalEventListener
@@ -19,7 +18,6 @@ class SampleUpdateEventListener(
         private val MAPPER: SampleMapper = SampleMapper.INSTANCE
     }
 
-    @Async
     @Retryable
     @TransactionalEventListener(phase = AFTER_COMPLETION)
     fun handle(sampleUpdateEvent: SampleUpdateEvent) {

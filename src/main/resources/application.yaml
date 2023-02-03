@@ -21,9 +21,6 @@ auth:
   system:
     principal: System
 
-emission:
-  deadline: 5m
-
 encrypt:
   key:
   salt:
@@ -128,63 +125,14 @@ spring:
     serviceRegistry:
       autoRegistration:
         enabled: false
-    function:
-      definition: sampleCreate;sampleUpdate;sampleDelete;sampleCreated;sampleUpdated;sampleDeleted
-    stream:
-      bindings:
-        sampleCreate-out-0:
-          destination: \${info.app.organization}.sample.create
-        sampleCreated-in-0:
-          destination: \${info.app.organization}.sample.create
-        sampleUpdate-out-0:
-          destination: \${info.app.organization}.sample.update
-        sampleUpdated-in-0:
-          destination: \${info.app.organization}.sample.update
-        sampleDelete-out-0:
-          destination: \${info.app.organization}.sample.delete
-        sampleDeleted-in-0:
-          destination: \${info.app.organization}.sample.delete
-      default:
-        group: \${info.app.name}
-      kafka:
-        binder:
-          enableObservation: true
-        default:
-          consumer:
-            enableDlq: true
-        streams:
-          binder:
-            autoAddPartitions: true
-            deserializationExceptionHandler: sendToDlq
-            functions:
-              sampleCreate:
-                applicationId: \${info.app.name}.\${spring.cloud.stream.bindings.sampleCreate-out-0.destination}
-              sampleCreated:
-                applicationId: \${info.app.name}.\${spring.cloud.stream.bindings.sampleCreated-in-0.destination}
-              sampleUpdate:
-                applicationId: \${info.app.name}.\${spring.cloud.stream.bindings.sampleUpdate-out-0.destination}
-              sampleUpdated:
-                applicationId: \${info.app.name}.\${spring.cloud.stream.bindings.sampleUpdated-in-0.destination}
-              sampleDelete:
-                applicationId: \${info.app.name}.\${spring.cloud.stream.bindings.sampleDelete-out-0.destination}
-              sampleDeleted:
-                applicationId: \${info.app.name}.\${spring.cloud.stream.bindings.sampleDeleted-in-0.destination}
   elasticsearch:
     uris:
     username:
     password:
   kafka:
     bootstrapServers:
-    properties:
-      interceptor:
-        classes: com.leijendary.spring.template.core.interceptor.KafkaLoggingInterceptor
-    producer:
-      properties:
-        spring:
-          json:
-            add:
-              type:
-                headers: false
+    consumer:
+      groupId: \${info.app.name}
 
 server:
   error:

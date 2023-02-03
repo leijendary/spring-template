@@ -11,9 +11,7 @@ import org.apache.kafka.clients.producer.ProducerRecord
 import org.apache.kafka.clients.producer.RecordMetadata
 import org.apache.kafka.common.TopicPartition
 import org.apache.kafka.common.header.Headers
-import org.springframework.stereotype.Component
 
-@Component
 class KafkaLoggingInterceptor : ProducerInterceptor<String, Any>, ConsumerInterceptor<String, Any> {
     private val log = logger()
 
@@ -21,12 +19,9 @@ class KafkaLoggingInterceptor : ProducerInterceptor<String, Any>, ConsumerInterc
         val topic = record.topic()
         val partition = record.partition()
         val key = record.key()
-        val payload = String(record.value() as ByteArray)
-        val traceParent = traceHeader(record.headers())
+        val payload = record.value()
 
-        Tracing.log(traceParent) {
-            log.info("Sent to topic '$topic' on partition '$partition' with key '$key' and payload '$payload'")
-        }
+        log.info("Sent to topic '$topic' on partition '$partition' with key '$key' and payload '$payload'")
 
         return record
     }
@@ -36,7 +31,7 @@ class KafkaLoggingInterceptor : ProducerInterceptor<String, Any>, ConsumerInterc
             val topic = it.topic()
             val partition = it.partition()
             val key = it.key()
-            val payload = String(it.value() as ByteArray)
+            val payload = it.value()
             val traceParent = traceHeader(it.headers())
             val text = "Received from topic '$topic' on partition '$partition' with key '$key' and payload '$payload'"
 
