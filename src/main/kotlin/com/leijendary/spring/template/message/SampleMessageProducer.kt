@@ -25,19 +25,19 @@ class SampleMessageProducer {
     fun sampleDelete() = Supplier { deleteBuffer.asFlux() }
 
     fun create(sampleMessage: SampleMessage) {
-        val message = Messaging.create(sampleMessage)
+        val message = Messaging.kafka(sampleMessage)
 
         createBuffer.emit(message)
     }
 
     fun update(sampleMessage: SampleMessage) {
-        val message = Messaging.create(sampleMessage)
+        val message = Messaging.kafka(sampleMessage)
 
         updateBuffer.emit(message)
     }
 
     fun delete(sampleMessage: SampleMessage) {
-        val message = Messaging.create(sampleMessage)
+        val message = Messaging.kafka(sampleMessage)
 
         deleteBuffer.emit(message)
     }
