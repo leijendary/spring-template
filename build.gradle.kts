@@ -50,9 +50,6 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("org.springframework.boot:spring-boot-starter-web")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
-
-    // Spring Security
-    implementation("org.springframework.security:spring-security-oauth2-jose")
     testImplementation("org.springframework.security:spring-security-test")
 
     // Spring Retry
