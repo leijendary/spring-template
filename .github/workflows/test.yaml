@@ -23,37 +23,3 @@ jobs:
           SPRING_CLOUD_AWS_CREDENTIALS_SECRET_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           SPRING_CLOUD_AWS_REGION_INSTANCE_PROFILE: false
           SPRING_CLOUD_AWS_REGION_STATIC: ${{ secrets.AWS_REGION }}
-    # TODO: remove these and use test containers. https://testcontainers.org
-    services:
-      postgres:
-        image: postgres:14-alpine
-        ports:
-          - 5432:5432
-        env:
-          POSTGRES_PASSWORD: 12345678
-          POSTGRES_DB: spring_template
-      redis:
-        image: redis:6-alpine
-        ports:
-          - 6379:6379
-      elasticsearch:
-        image: docker.elastic.co/elasticsearch/elasticsearch:8.5.1
-        ports:
-          - 9200:9200
-          - 9300:9300
-        env:
-          discovery.type: single-node
-          bootstrap.memory_lock: true
-          ES_JAVA_OPTS: -Xms128m -Xmx256m
-      kafka:
-        image: jleijendekker/kafka:1.0.0
-        ports:
-          - 9092:9092
-          - 9093:9093
-          - 19092:19092
-      zipkin:
-        image: openzipkin/zipkin:2
-        ports:
-          - 9411:9411
-        env:
-          ES_HOSTS: http://localhost:9200
