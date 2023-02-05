@@ -23,6 +23,7 @@ jobs:
           SPRING_CLOUD_AWS_CREDENTIALS_SECRET_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           SPRING_CLOUD_AWS_REGION_INSTANCE_PROFILE: false
           SPRING_CLOUD_AWS_REGION_STATIC: ${{ secrets.AWS_REGION }}
+    # TODO: remove these and use test containers. https://testcontainers.org
     services:
       postgres:
         image: postgres:14-alpine

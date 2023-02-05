@@ -106,6 +106,11 @@ dependencies {
     implementation("io.zipkin.reporter2:zipkin-reporter-brave")
     implementation("io.github.openfeign:feign-micrometer")
     implementation("net.ttddyy.observation:datasource-micrometer-spring-boot:1.0.1")
+
+    // Test Containers
+    implementation(platform("org.testcontainers:testcontainers-bom:1.17.6"))
+    implementation("org.testcontainers:kafka")
+    implementation("org.testcontainers:postgresql")
 }
 
 dependencyManagement {
