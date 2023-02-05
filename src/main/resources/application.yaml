@@ -50,7 +50,7 @@ spring:
       jdbcUrl:
       username:
       password:
-      maximumPoolSize: 5
+      maximumPoolSize: 10
   data:
     jdbc:
       repositories:

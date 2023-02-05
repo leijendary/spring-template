@@ -18,7 +18,6 @@ configurations {
         extendsFrom(configurations.annotationProcessor.get())
     }
     testCompileOnly {
-        exclude(group = "junit", module = "junit")
         exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
     }
 }
@@ -98,7 +97,6 @@ dependencies {
     kapt("org.springframework.boot:spring-boot-configuration-processor")
 
     // Tracing
-    implementation(platform("io.micrometer:micrometer-tracing-bom:1.0.1"))
     implementation("com.github.loki4j:loki-logback-appender:1.4.0-m1")
     implementation("io.micrometer:micrometer-observation")
     implementation("io.micrometer:micrometer-tracing-bridge-brave")
@@ -108,15 +106,18 @@ dependencies {
     implementation("net.ttddyy.observation:datasource-micrometer-spring-boot:1.0.1")
 
     // Test Containers
-    implementation(platform("org.testcontainers:testcontainers-bom:1.17.6"))
-    implementation("org.testcontainers:kafka")
-    implementation("org.testcontainers:postgresql")
+    testImplementation("org.testcontainers:junit-jupiter")
+    testImplementation("org.testcontainers:elasticsearch")
+    testImplementation("org.testcontainers:kafka")
+    testImplementation("org.testcontainers:postgresql")
 }
 
 dependencyManagement {
     imports {
         mavenBom("org.springframework.cloud:spring-cloud-dependencies:2022.0.1")
         mavenBom("io.awspring.cloud:spring-cloud-aws-dependencies:3.0.0-RC1")
+        mavenBom("io.micrometer:micrometer-tracing-bom:1.0.1")
+        mavenBom("org.testcontainers:testcontainers-bom:1.17.6")
     }
 }
 

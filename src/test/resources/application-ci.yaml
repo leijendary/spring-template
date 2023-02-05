@@ -5,21 +5,9 @@ encrypt:
 spring:
   datasource:
     primary:
-      jdbcUrl: jdbc:postgresql://localhost:5432/spring_template
-      username: postgres
-      password: 12345678
+      maximumPoolSize: 5
     readonly:
-      jdbcUrl: jdbc:postgresql://localhost:5432/spring_template
-      username: postgres
-      password: 12345678
-  data:
-    redis:
-      host: localhost
-      port: 6379
-  elasticsearch:
-    uris: http://localhost:9200
-  kafka:
-    bootstrapServers: localhost:9092
+      maximumPoolSize: 1
   security:
     oauth2:
       resourceserver:
@@ -27,8 +15,3 @@ spring:
           issuerUri: https://leijendary.eu.auth0.com/
           jwkSetUri: https://leijendary.eu.auth0.com/.well-known/jwks.json
           audiences: http://localhost:8000
-
-management:
-  zipkin:
-    tracing:
-      endpoint: http://localhost:9411/api/v2/spans

@@ -1,15 +1,26 @@
 package com.leijendary.spring.template
 
+import com.leijendary.spring.template.container.*
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.data.domain.Sort
+import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.MockMvcResultMatchersDsl
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@ContextConfiguration(
+    initializers = [
+        ElasticsearchContainerTest.Initializer::class,
+        KafkaContainerTest.Initializer::class,
+        PostgresContainerTest.Initializer::class,
+        RedisContainerTest.Initializer::class,
+        ZipkinContainerTest.Initializer::class,
+    ]
+)
 class ApplicationTest {
     @Autowired
     protected lateinit var mockMvc: MockMvc
