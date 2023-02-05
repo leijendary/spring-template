@@ -17,7 +17,7 @@ jobs:
         with:
           arguments: test --info
         env:
-          SPRING_PROFILES_ACTIVE: ci,aws
+          SPRING_PROFILES_ACTIVE: ci
           SPRING_CLOUD_AWS_CREDENTIALS_INSTANCE_PROFILE: false
           SPRING_CLOUD_AWS_CREDENTIALS_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY_ID }}
           SPRING_CLOUD_AWS_CREDENTIALS_SECRET_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}

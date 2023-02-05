@@ -4,11 +4,11 @@ metadata:
   name: spring-template-config
   namespace: template
 data:
+  SPRING_PROFILES_ACTIVE: dev
   SPRING_DATASOURCE_PRIMARY_JDBC_URL: "jdbc:postgresql://postgres-service.database.svc.cluster.local:5432/spring_template"
   SPRING_DATASOURCE_PRIMARY_USERNAME: postgres
   SPRING_DATASOURCE_READONLY_JDBC_URL: "jdbc:postgresql://postgres-service.database.svc.cluster.local:5432/spring_template"
   SPRING_DATASOURCE_READONLY_USERNAME: postgres
-  SPRING_PROFILES_ACTIVE: dev,aws
   SPRING_CLOUD_AWS_CREDENTIALS_INSTANCE_PROFILE: "false"
   SPRING_CLOUD_AWS_REGION_INSTANCE_PROFILE: "false"
   SPRING_CLOUD_AWS_REGION_STATIC: eu-central-1

@@ -2,7 +2,6 @@ package com.leijendary.spring.template.core.storage
 
 import com.leijendary.spring.template.core.config.properties.AwsS3Properties
 import jakarta.servlet.http.HttpServletResponse
-import org.springframework.context.annotation.Profile
 import org.springframework.stereotype.Service
 import software.amazon.awssdk.core.ResponseInputStream
 import software.amazon.awssdk.core.sync.RequestBody
@@ -10,7 +9,6 @@ import software.amazon.awssdk.services.s3.S3Client
 import software.amazon.awssdk.services.s3.model.*
 import java.io.File
 
-@Profile("aws")
 @Service
 class S3Storage(awsS3Properties: AwsS3Properties, private val s3Client: S3Client) {
     private val bucketName = awsS3Properties.bucketName

@@ -1,9 +1,0 @@
-spring:
-  cloud:
-    aws:
-      credentials:
-        instanceProfile: true
-      region:
-        instanceProfile: true
-      s3:
-        bucketName: leijendary
