@@ -1,4 +1,4 @@
-package com.leijendary.spring.template
+package com.leijendary.spring.template.helper
 
 import org.junit.jupiter.api.Test
 import org.springframework.security.crypto.keygen.KeyGenerators

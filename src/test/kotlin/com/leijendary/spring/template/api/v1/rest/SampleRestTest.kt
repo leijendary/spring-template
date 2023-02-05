@@ -9,9 +9,11 @@ import com.leijendary.spring.template.core.extension.scaled
 import com.leijendary.spring.template.core.extension.toClass
 import com.leijendary.spring.template.core.filter.HEADER_TRACE_ID
 import com.leijendary.spring.template.core.model.Seek
+import com.leijendary.spring.template.helper.AssertionHelper.assertSeek
 import org.apache.commons.lang3.RandomStringUtils
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.context.MessageSource
 import org.springframework.data.domain.Sort
 import org.springframework.data.domain.Sort.Direction
@@ -29,6 +31,7 @@ import java.util.Locale.getDefault
 import kotlin.math.abs
 import kotlin.math.ceil
 
+@AutoConfigureMockMvc
 class SampleRestTest : ApplicationTest() {
     private val url = "/api/v1/samples"
     private val random = SecureRandom()
@@ -39,6 +42,9 @@ class SampleRestTest : ApplicationTest() {
     private val detailMemberSize = 10
     private val listMemberSize = 10
     private val translationMemberSize = 4
+
+    @Autowired
+    private lateinit var mockMvc: MockMvc
 
     @Autowired
     private lateinit var messageSource: MessageSource

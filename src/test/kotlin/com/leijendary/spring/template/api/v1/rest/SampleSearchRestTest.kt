@@ -8,19 +8,18 @@ import com.leijendary.spring.template.core.extension.AnyUtil.toJson
 import com.leijendary.spring.template.core.extension.scaled
 import com.leijendary.spring.template.core.extension.toClass
 import com.leijendary.spring.template.core.filter.HEADER_TRACE_ID
+import com.leijendary.spring.template.helper.AssertionHelper.assertPage
 import org.apache.commons.lang3.RandomStringUtils
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.context.MessageSource
 import org.springframework.data.domain.Sort
 import org.springframework.data.domain.Sort.Direction
 import org.springframework.http.HttpHeaders.ACCEPT_LANGUAGE
 import org.springframework.http.MediaType.APPLICATION_JSON
 import org.springframework.security.test.context.support.WithMockUser
-import org.springframework.test.web.servlet.MockMvcResultMatchersDsl
-import org.springframework.test.web.servlet.delete
-import org.springframework.test.web.servlet.get
-import org.springframework.test.web.servlet.post
+import org.springframework.test.web.servlet.*
 import java.lang.Thread.sleep
 import java.math.BigDecimal
 import java.security.SecureRandom
@@ -31,6 +30,7 @@ import java.util.Locale.getDefault
 import kotlin.math.abs
 import kotlin.math.ceil
 
+@AutoConfigureMockMvc
 class SampleSearchRestTest : ApplicationTest() {
     private val sampleUrl = "/api/v1/samples"
     private val url = "/api/v1/samples/search"
@@ -42,6 +42,9 @@ class SampleSearchRestTest : ApplicationTest() {
     private val listSize = 10
     private val detailMemberSize = 7
     private val listMemberSize = 7
+
+    @Autowired
+    private lateinit var mockMvc: MockMvc
 
     @Autowired
     private lateinit var messageSource: MessageSource
