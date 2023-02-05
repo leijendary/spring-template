@@ -23,6 +23,8 @@ import org.springframework.transaction.annotation.Transactional
 import java.util.*
 import java.util.concurrent.atomic.AtomicInteger
 
+private const val CACHE_NAME = "sample:v1"
+
 @Service
 class SampleTableService(
     private val applicationEventPublisher: ApplicationEventPublisher,
@@ -30,7 +32,6 @@ class SampleTableService(
     private val sampleTableRepository: SampleTableRepository,
 ) {
     companion object {
-        private const val CACHE_NAME = "sample:v1"
         private val MAPPER = SampleMapper.INSTANCE
         private val SOURCE = listOf("data", "SampleTable", "id")
     }
@@ -58,7 +59,8 @@ class SampleTableService(
     @Cacheable(value = [CACHE_NAME], key = "#id")
     @Transactional(readOnly = true)
     fun get(id: UUID): SampleResponse {
-        return sampleTableRepository.findById(id)
+        return sampleTableRepository
+            .findById(id)
             .map { MAPPER.toResponse(it) }
             .orElseThrow { ResourceNotFoundException(SOURCE, id) }
     }
@@ -84,8 +86,7 @@ class SampleTableService(
     @CacheEvict(value = [CACHE_NAME], key = "#id")
     @Transactional
     fun delete(id: UUID) {
-        val sampleTable = sampleTableRepository.findLockedById(id)
-            ?: throw ResourceNotFoundException(SOURCE, id)
+        val sampleTable = sampleTableRepository.findLockedById(id) ?: throw ResourceNotFoundException(SOURCE, id)
 
         sampleTableRepository.softDelete(sampleTable)
 

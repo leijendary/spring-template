@@ -12,7 +12,7 @@ import org.apache.kafka.clients.producer.RecordMetadata
 import org.apache.kafka.common.TopicPartition
 import org.apache.kafka.common.header.Headers
 
-class KafkaLoggingInterceptor : ProducerInterceptor<String, Any>, ConsumerInterceptor<String, Any> {
+class KafkaInterceptor : ProducerInterceptor<String, Any>, ConsumerInterceptor<String, Any> {
     private val log = logger()
 
     override fun onSend(record: ProducerRecord<String, Any>): ProducerRecord<String, Any> {

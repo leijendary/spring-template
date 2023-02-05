@@ -1,6 +1,6 @@
 package com.leijendary.spring.template.core.config
 
-import com.leijendary.spring.template.core.interceptor.KafkaLoggingInterceptor
+import com.leijendary.spring.template.core.interceptor.KafkaInterceptor
 import org.apache.kafka.clients.consumer.ConsumerConfig
 import org.apache.kafka.clients.producer.ProducerConfig
 import org.apache.kafka.common.TopicPartition
@@ -25,7 +25,7 @@ class KafkaConfiguration(private val kafkaProperties: KafkaProperties) {
             ConsumerConfig.GROUP_ID_CONFIG to kafkaProperties.consumer.groupId,
             ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG to StringDeserializer::class.java.name,
             ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG to StringDeserializer::class.java.name,
-            ConsumerConfig.INTERCEPTOR_CLASSES_CONFIG to KafkaLoggingInterceptor::class.java.name,
+            ConsumerConfig.INTERCEPTOR_CLASSES_CONFIG to KafkaInterceptor::class.java.name,
         )
 
         return DefaultKafkaConsumerFactory(config)
@@ -37,7 +37,7 @@ class KafkaConfiguration(private val kafkaProperties: KafkaProperties) {
             ProducerConfig.BOOTSTRAP_SERVERS_CONFIG to kafkaProperties.bootstrapServers,
             ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG to StringSerializer::class.java.name,
             ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG to StringSerializer::class.java.name,
-            ProducerConfig.INTERCEPTOR_CLASSES_CONFIG to KafkaLoggingInterceptor::class.java.name,
+            ProducerConfig.INTERCEPTOR_CLASSES_CONFIG to KafkaInterceptor::class.java.name,
         )
 
         return DefaultKafkaProducerFactory(config)
@@ -62,10 +62,10 @@ class KafkaConfiguration(private val kafkaProperties: KafkaProperties) {
 
     @Bean
     fun kafkaTemplate(producerFactory: ProducerFactory<String, String>): KafkaTemplate<String, String> {
-        val kafkaTemplate = KafkaTemplate(producerFactory)
-        kafkaTemplate.setMicrometerEnabled(true)
-        kafkaTemplate.setObservationEnabled(true)
-
-        return kafkaTemplate
+        return KafkaTemplate(producerFactory).apply {
+            setMicrometerEnabled(true)
+            setObservationEnabled(true)
+            transactionIdPrefix
+        }
     }
 }
