@@ -31,10 +31,7 @@ import java.util.Locale.getDefault
 import kotlin.math.abs
 import kotlin.math.ceil
 
-class SampleSearchRestTest(
-    @Autowired
-    private val messageSource: MessageSource
-) : ApplicationTest() {
+class SampleSearchRestTest : ApplicationTest() {
     private val sampleUrl = "/api/v1/samples"
     private val url = "/api/v1/samples/search"
     private val random = SecureRandom()
@@ -45,6 +42,9 @@ class SampleSearchRestTest(
     private val listSize = 10
     private val detailMemberSize = 7
     private val listMemberSize = 7
+
+    @Autowired
+    private lateinit var messageSource: MessageSource
 
     @Test
     @WithMockUser(username = "user-for-create", authorities = ["SCOPE_urn:sample:create:v1"])

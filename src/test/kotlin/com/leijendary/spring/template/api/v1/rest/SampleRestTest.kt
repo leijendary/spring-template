@@ -4,11 +4,11 @@ import com.leijendary.spring.template.ApplicationTest
 import com.leijendary.spring.template.api.v1.model.SampleRequest
 import com.leijendary.spring.template.api.v1.model.SampleResponse
 import com.leijendary.spring.template.api.v1.model.SampleTranslationRequest
-import com.leijendary.spring.template.core.model.Seek
 import com.leijendary.spring.template.core.extension.AnyUtil.toJson
 import com.leijendary.spring.template.core.extension.scaled
 import com.leijendary.spring.template.core.extension.toClass
 import com.leijendary.spring.template.core.filter.HEADER_TRACE_ID
+import com.leijendary.spring.template.core.model.Seek
 import org.apache.commons.lang3.RandomStringUtils
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -29,10 +29,7 @@ import java.util.Locale.getDefault
 import kotlin.math.abs
 import kotlin.math.ceil
 
-class SampleRestTest(
-    @Autowired
-    private val messageSource: MessageSource
-) : ApplicationTest() {
+class SampleRestTest : ApplicationTest() {
     private val url = "/api/v1/samples"
     private val random = SecureRandom()
     private val symbols = DecimalFormatSymbols(Locale.US)
@@ -42,6 +39,9 @@ class SampleRestTest(
     private val detailMemberSize = 10
     private val listMemberSize = 10
     private val translationMemberSize = 4
+
+    @Autowired
+    private lateinit var messageSource: MessageSource
 
     @Test
     @WithMockUser(
