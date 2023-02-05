@@ -133,6 +133,10 @@ spring:
     bootstrapServers:
     consumer:
       groupId: \${info.app.name}
+    topic:
+      sampleCreate: \${info.app.organization}.sample.create
+      sampleUpdate: \${info.app.organization}.sample.update
+      sampleDelete: \${info.app.organization}.sample.delete
 
 server:
   error:

@@ -4,7 +4,7 @@ import io.swagger.v3.oas.models.info.Contact
 import io.swagger.v3.oas.models.info.License
 import org.springframework.boot.context.properties.ConfigurationProperties
 
-@ConfigurationProperties(prefix = "info")
+@ConfigurationProperties("info")
 class InfoProperties {
     var app: App = App()
     var api: Api = Api()

@@ -5,15 +5,15 @@ import org.springframework.stereotype.Component
 
 @Component
 class SampleMessageConsumer {
-    @KafkaListener(topics = [TOPIC_SAMPLE_CREATE])
+    @KafkaListener(topics = ["\${spring.kafka.topic.sampleCreate}"])
     fun created(json: String) {
     }
 
-    @KafkaListener(topics = [TOPIC_SAMPLE_UPDATE])
+    @KafkaListener(topics = ["\${spring.kafka.topic.sampleUpdate}"])
     fun updated(json: String) {
     }
 
-    @KafkaListener(topics = [TOPIC_SAMPLE_DELETE])
+    @KafkaListener(topics = ["\${spring.kafka.topic.sampleDelete}"])
     fun deleted(json: String) {
     }
 }

@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Configuration
     DataSourcePrimaryProperties::class,
     DataSourceReadonlyProperties::class,
     InfoProperties::class,
+    KafkaTopicProperties::class,
     NumberProperties::class,
 )
 class PropertiesConfiguration 
