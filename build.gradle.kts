@@ -19,6 +19,7 @@ configurations {
     }
     testCompileOnly {
         exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
+        exclude(module = "mockito-core")
     }
 }
 
@@ -104,6 +105,9 @@ dependencies {
     implementation("io.zipkin.reporter2:zipkin-reporter-brave")
     implementation("io.github.openfeign:feign-micrometer")
     implementation("net.ttddyy.observation:datasource-micrometer-spring-boot:1.0.1")
+
+    // Test
+    testImplementation("com.ninja-squad:springmockk:4.0.0")
 
     // Test Containers
     testImplementation("org.testcontainers:junit-jupiter")

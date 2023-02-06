@@ -1,5 +1,6 @@
 package com.leijendary.spring.template.api.v1.rest
 
+import com.leijendary.spring.template.ApplicationTest
 import com.leijendary.spring.template.api.v1.model.SampleRequest
 import com.leijendary.spring.template.api.v1.model.SampleResponse
 import com.leijendary.spring.template.api.v1.model.SampleTranslationRequest
@@ -12,7 +13,6 @@ import com.leijendary.spring.template.helper.AssertionHelper.assertSeek
 import org.apache.commons.lang3.RandomStringUtils
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.context.MessageSource
 import org.springframework.data.domain.Sort
 import org.springframework.data.domain.Sort.Direction
@@ -30,8 +30,7 @@ import java.util.Locale.getDefault
 import kotlin.math.abs
 import kotlin.math.ceil
 
-@WebMvcTest(SampleRest::class)
-class SampleRestTest {
+class SampleRestIntegrationTest : ApplicationTest() {
     private val url = "/api/v1/samples"
     private val random = SecureRandom()
     private val symbols = DecimalFormatSymbols(Locale.US)
