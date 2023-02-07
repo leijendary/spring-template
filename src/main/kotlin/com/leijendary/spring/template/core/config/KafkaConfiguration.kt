@@ -65,7 +65,6 @@ class KafkaConfiguration(private val kafkaProperties: KafkaProperties) {
         return KafkaTemplate(producerFactory).apply {
             setMicrometerEnabled(true)
             setObservationEnabled(true)
-            transactionIdPrefix
         }
     }
 }
