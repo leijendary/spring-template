@@ -21,5 +21,5 @@ ENV JAVA_TOOL_OPTIONS "-XX:MaxRAMPercentage=80.0 \
     -Dcom.sun.management.jmxremote.local.only=false \
     -Dcom.sun.management.jmxremote.port=1099 \
     -Dcom.sun.management.jmxremote.rmi.port=1099 \
-    -Djava.rmi.server.hostname=127.0.0.1"
+    -Djava.rmi.server.hostname=0.0.0.0"
 ENTRYPOINT ["java", "-cp", "app:app/lib/*", "com.leijendary.spring.template.ApplicationKt"]
