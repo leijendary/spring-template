@@ -16,9 +16,10 @@ spec:
     spec:
       containers:
         - name: spring-template
-          image: spring-template:1.0.0
+          image: jleijendekker/spring-template:1.0.0
           ports:
             - containerPort: 443
+            - containerPort: 9875
           envFrom:
             - configMapRef:
                 name: spring-template-config
@@ -66,3 +67,8 @@ spec:
       port: 443
       targetPort: 443
       nodePort: 30443
+    - name: jmx
+      protocol: TCP
+      port: 9875
+      targetPort: 9875
+      nodePort: 30875
