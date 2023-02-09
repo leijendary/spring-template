@@ -5,29 +5,28 @@ import com.leijendary.spring.template.api.v1.model.SampleRequest
 import com.leijendary.spring.template.api.v1.model.SampleResponse
 import com.leijendary.spring.template.api.v1.search.SampleSearch
 import com.leijendary.spring.template.core.exception.ResourceNotFoundException
+import com.leijendary.spring.template.core.extension.afterCommit
 import com.leijendary.spring.template.core.model.QueryRequest
 import com.leijendary.spring.template.core.model.Seek
 import com.leijendary.spring.template.core.model.Seekable
 import com.leijendary.spring.template.entity.SampleTable
-import com.leijendary.spring.template.model.SampleCreateEvent
-import com.leijendary.spring.template.model.SampleDeleteEvent
-import com.leijendary.spring.template.model.SampleUpdateEvent
+import com.leijendary.spring.template.event.SampleTableEvent
 import com.leijendary.spring.template.repository.SampleTableRepository
 import com.leijendary.spring.template.specification.SampleListSpecification
 import org.springframework.cache.annotation.CacheEvict
 import org.springframework.cache.annotation.CachePut
 import org.springframework.cache.annotation.Cacheable
-import org.springframework.context.ApplicationEventPublisher
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.util.*
 import java.util.concurrent.atomic.AtomicInteger
 
+
 private const val CACHE_NAME = "sample:v1"
 
 @Service
 class SampleTableService(
-    private val applicationEventPublisher: ApplicationEventPublisher,
+    private val sampleTableEvent: SampleTableEvent,
     private val sampleSearch: SampleSearch,
     private val sampleTableRepository: SampleTableRepository,
 ) {
@@ -49,9 +48,10 @@ class SampleTableService(
     @Transactional
     fun create(sampleRequest: SampleRequest): SampleResponse {
         val sampleTable = MAPPER.toEntity(sampleRequest).let { sampleTableRepository.save(it) }
-        val event = SampleCreateEvent(sampleTable)
 
-        applicationEventPublisher.publishEvent(event)
+        afterCommit {
+            sampleTableEvent.create(sampleTable)
+        }
 
         return MAPPER.toResponse(sampleTable)
     }
@@ -76,9 +76,10 @@ class SampleTableService(
                 sampleTableRepository.save(it)
             }
             ?: throw ResourceNotFoundException(SOURCE, id)
-        val event = SampleUpdateEvent(sampleTable)
 
-        applicationEventPublisher.publishEvent(event)
+        afterCommit {
+            sampleTableEvent.update(sampleTable)
+        }
 
         return MAPPER.toResponse(sampleTable)
     }
@@ -90,9 +91,9 @@ class SampleTableService(
 
         sampleTableRepository.softDelete(sampleTable)
 
-        val event = SampleDeleteEvent(sampleTable)
-
-        applicationEventPublisher.publishEvent(event)
+        afterCommit {
+            sampleTableEvent.delete(sampleTable)
+        }
     }
 
     @Transactional(readOnly = true)
