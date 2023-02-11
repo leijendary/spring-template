@@ -1,7 +1,7 @@
 package com.leijendary.spring.template.core.model
 
-import com.leijendary.spring.template.core.extension.reflectGet
 import com.leijendary.spring.template.core.entity.UUIDEntity
+import com.leijendary.spring.template.core.extension.reflectGet
 import org.springframework.data.domain.Sort
 
 const val FIELD_ROW_ID = "rowId"

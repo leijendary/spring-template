@@ -1,11 +1,11 @@
 package com.leijendary.spring.template.api.v1.search
 
-import com.leijendary.spring.template.api.v1.model.SampleSearchResponse
 import com.leijendary.spring.template.api.v1.mapper.SampleMapper
-import com.leijendary.spring.template.core.model.QueryRequest
+import com.leijendary.spring.template.api.v1.model.SampleSearchResponse
 import com.leijendary.spring.template.core.exception.ResourceNotFoundException
 import com.leijendary.spring.template.core.extension.shouldMatch
 import com.leijendary.spring.template.core.extension.sortBuilder
+import com.leijendary.spring.template.core.model.QueryRequest
 import com.leijendary.spring.template.document.SampleDocument
 import com.leijendary.spring.template.entity.SampleTable
 import com.leijendary.spring.template.repository.SampleSearchRepository

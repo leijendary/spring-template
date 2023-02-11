@@ -12,7 +12,7 @@ import java.util.*
 
 @EntityListeners(AuditingEntityListener::class)
 @MappedSuperclass
-abstract class AuditingUUIDEntity : UUIDEntity() {
+open class AuditingUUIDEntity : UUIDEntity() {
     @Version
     var version = 0
 

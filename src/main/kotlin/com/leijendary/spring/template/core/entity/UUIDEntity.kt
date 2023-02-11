@@ -9,7 +9,7 @@ import java.util.*
 import java.util.UUID.randomUUID
 
 @MappedSuperclass
-abstract class UUIDEntity : UUIDProjection {
+open class UUIDEntity : UUIDProjection {
     @Id
     @GeneratedValue
     @Column(updatable = false)

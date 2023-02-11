@@ -7,7 +7,7 @@ import jakarta.persistence.MappedSuperclass
 import org.hibernate.annotations.GenericGenerator
 
 @MappedSuperclass
-abstract class SnowflakeIdEntity : AppEntity() {
+open class SnowflakeIdEntity : AppEntity() {
     companion object {
         protected const val GENERATOR_SNOWFLAKE = "snowflake"
     }

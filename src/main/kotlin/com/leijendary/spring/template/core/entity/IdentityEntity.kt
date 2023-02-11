@@ -7,7 +7,7 @@ import jakarta.persistence.Id
 import jakarta.persistence.MappedSuperclass
 
 @MappedSuperclass
-abstract class IdentityEntity : AppEntity(), IdentityProjection {
+open class IdentityEntity : AppEntity(), IdentityProjection {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     override var id: Long = 0

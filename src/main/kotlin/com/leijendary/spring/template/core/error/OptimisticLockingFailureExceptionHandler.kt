@@ -1,7 +1,7 @@
 package com.leijendary.spring.template.core.error
 
-import com.leijendary.spring.template.core.model.ErrorModel
 import com.leijendary.spring.template.core.extension.snakeCaseToCamelCase
+import com.leijendary.spring.template.core.model.ErrorModel
 import com.leijendary.spring.template.core.util.RequestContext.locale
 import org.springframework.context.MessageSource
 import org.springframework.core.annotation.Order

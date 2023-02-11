@@ -1,7 +1,7 @@
 package com.leijendary.spring.template.core.error
 
-import com.leijendary.spring.template.core.model.ErrorModel
 import com.leijendary.spring.template.core.extension.snakeCaseToCamelCase
+import com.leijendary.spring.template.core.model.ErrorModel
 import com.leijendary.spring.template.core.util.RequestContext.locale
 import org.apache.commons.lang3.StringUtils.substringBetween
 import org.hibernate.exception.ConstraintViolationException

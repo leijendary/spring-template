@@ -4,7 +4,7 @@ import org.springframework.data.elasticsearch.annotations.Field
 import org.springframework.data.elasticsearch.annotations.FieldType.Integer
 import org.springframework.data.elasticsearch.annotations.FieldType.Keyword
 
-abstract class LocaleDocument(
+open class LocaleDocument(
     @Field(type = Keyword)
     var language: String? = null,
 
