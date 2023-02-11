@@ -8,10 +8,3 @@ spring:
       maximumPoolSize: 5
     readonly:
       maximumPoolSize: 1
-  security:
-    oauth2:
-      resourceserver:
-        jwt:
-          issuerUri: https://leijendary.eu.auth0.com/
-          jwkSetUri: https://leijendary.eu.auth0.com/.well-known/jwks.json
-          audiences: http://localhost:8000

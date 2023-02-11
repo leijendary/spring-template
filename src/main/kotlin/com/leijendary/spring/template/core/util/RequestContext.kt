@@ -1,15 +1,19 @@
 package com.leijendary.spring.template.core.util
 
+import com.leijendary.spring.template.core.config.HEADER_USER_ID
+import com.leijendary.spring.template.core.config.properties.AuthProperties
+import com.leijendary.spring.template.core.util.SpringContext.Companion.getBean
 import jakarta.servlet.http.HttpServletRequest
 import org.springframework.context.i18n.LocaleContextHolder.getLocale
 import org.springframework.context.i18n.LocaleContextHolder.getTimeZone
-import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.web.context.request.RequestContextHolder.getRequestAttributes
 import org.springframework.web.context.request.ServletRequestAttributes
 import java.net.URI
 import java.time.OffsetDateTime
 import java.time.ZoneId
 import java.util.*
+
+private val authProperties = getBean(AuthProperties::class)
 
 object RequestContext {
     val currentRequest: HttpServletRequest?
@@ -20,7 +24,11 @@ object RequestContext {
         }
 
     val userId: String
-        get() = SecurityContextHolder.getContext().authentication.name
+        get() {
+            return currentRequest
+                ?.getHeader(HEADER_USER_ID)
+                ?: authProperties.system.principal
+        }
 
     val uri: URI?
         get() {

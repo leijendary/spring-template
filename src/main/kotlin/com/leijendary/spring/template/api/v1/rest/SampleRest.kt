@@ -18,7 +18,6 @@ import org.springframework.http.HttpStatus.CREATED
 import org.springframework.http.HttpStatus.NO_CONTENT
 import org.springframework.http.MediaType.TEXT_HTML_VALUE
 import org.springframework.http.MediaType.TEXT_PLAIN_VALUE
-import org.springframework.security.access.annotation.Secured
 import org.springframework.web.bind.annotation.*
 import java.time.OffsetDateTime
 import java.time.ZoneId
@@ -58,12 +57,10 @@ class SampleRest(
      * recommended that the request parameters contains [Seekable]
      */
     @GetMapping
-    @Secured("SCOPE_urn:sample:list:v1")
     @Operation(summary = "Sample implementation of swagger in a api")
     fun seek(queryRequest: QueryRequest, seekable: Seekable) = sampleTableService.seek(queryRequest, seekable)
 
     @PostMapping
-    @Secured("SCOPE_urn:sample:create:v1")
     @ResponseStatus(CREATED)
     @Operation(summary = "Saves a sample record into the database")
     fun create(
@@ -75,12 +72,10 @@ class SampleRest(
     ) = sampleTableService.create(request)
 
     @GetMapping("{id}")
-    @Secured("SCOPE_urn:sample:get:v1")
     @Operation(summary = "Retrieves the sample record from the database")
     fun get(@PathVariable id: UUID) = sampleTableService.get(id)
 
     @PutMapping("{id}")
-    @Secured("SCOPE_urn:sample:update:v1")
     @Operation(summary = "Updates the sample record into the database")
     fun update(
         @PathVariable
@@ -92,7 +87,6 @@ class SampleRest(
     ) = sampleTableService.update(id, request)
 
     @DeleteMapping("{id}")
-    @Secured("SCOPE_urn:sample:delete:v1")
     @ResponseStatus(NO_CONTENT)
     @Operation(summary = "Removes the sample record from the database")
     fun delete(@PathVariable id: UUID) = sampleTableService.delete(id)

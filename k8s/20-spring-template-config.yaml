@@ -17,8 +17,5 @@ data:
   SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka-service.kafka.svc.cluster.local:9092
   SPRING_DATA_REDIS_HOST: redis-service.cache.svc.cluster.local
   SPRING_DATA_REDIS_PORT: "6379"
-  SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI: https://leijendary.eu.auth0.com/
-  SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK_SET_URI: https://leijendary.eu.auth0.com/.well-known/jwks.json
-  SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_AUDIENCES: http://localhost:8000
   AWS_EC2_METADATA_DISABLED: "true"
   MANAGEMENT_ZIPKIN_TRACING_ENDPOINT: http://zipkin-service.monitoring.svc.cluster.local:9411/api/v2/spans

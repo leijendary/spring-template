@@ -17,7 +17,6 @@ import org.springframework.context.MessageSource
 import org.springframework.data.domain.Sort
 import org.springframework.data.domain.Sort.Direction
 import org.springframework.http.MediaType.APPLICATION_JSON
-import org.springframework.security.test.context.support.WithMockUser
 import org.springframework.test.web.servlet.*
 import org.springframework.web.util.UriComponentsBuilder
 import java.lang.Thread.sleep
@@ -48,10 +47,6 @@ class SampleRestIntegrationTest : ApplicationTest() {
     private lateinit var messageSource: MessageSource
 
     @Test
-    @WithMockUser(
-        username = "user-for-create-and-list",
-        authorities = ["SCOPE_urn:sample:list:v1", "SCOPE_urn:sample:create:v1"]
-    )
     fun `Seek should return the list based on the limit and next token`() {
         val suffix = RandomStringUtils.randomAlphabetic(8)
         val requests = (1..listSize).map { createRequest(suffix) }
@@ -133,7 +128,6 @@ class SampleRestIntegrationTest : ApplicationTest() {
     }
 
     @Test
-    @WithMockUser(username = "user-for-create", authorities = ["SCOPE_urn:sample:create:v1"])
     fun `Create should create multiple and return created records`() {
         val suffix = RandomStringUtils.randomAlphabetic(8)
         val request = createRequest(suffix)
@@ -162,10 +156,6 @@ class SampleRestIntegrationTest : ApplicationTest() {
     }
 
     @Test
-    @WithMockUser(
-        username = "user-for-create-and-get",
-        authorities = ["SCOPE_urn:sample:create:v1", "SCOPE_urn:sample:get:v1"]
-    )
     fun `Get should return the created record`() {
         val suffix = RandomStringUtils.randomAlphabetic(8)
         val request = createRequest(suffix)
@@ -204,10 +194,6 @@ class SampleRestIntegrationTest : ApplicationTest() {
     }
 
     @Test
-    @WithMockUser(
-        username = "user-for-create-and-update",
-        authorities = ["SCOPE_urn:sample:create:v1", "SCOPE_urn:sample:update:v1"]
-    )
     fun `Update should return the updated record`() {
         val suffix = RandomStringUtils.randomAlphabetic(8)
         val request = createRequest(suffix)
@@ -281,10 +267,6 @@ class SampleRestIntegrationTest : ApplicationTest() {
     }
 
     @Test
-    @WithMockUser(
-        username = "user-for-create-delete-and-get",
-        authorities = ["SCOPE_urn:sample:create:v1", "SCOPE_urn:sample:delete:v1", "SCOPE_urn:sample:get:v1"]
-    )
     fun `Delete should return empty then 404 after`() {
         val suffix = RandomStringUtils.randomAlphabetic(8)
         val request = createRequest(suffix)

@@ -49,13 +49,11 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-elasticsearch")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-data-redis")
-    implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
     implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("org.springframework.boot:spring-boot-starter-web")
 
     // Spring Test
     testImplementation("org.springframework.boot:spring-boot-starter-test")
-    testImplementation("org.springframework.security:spring-security-test")
 
     // Spring Retry
     implementation("org.springframework.retry:spring-retry")
@@ -118,9 +116,9 @@ dependencies {
 
 dependencyManagement {
     imports {
-        mavenBom("org.springframework.cloud:spring-cloud-dependencies:2022.0.1")
         mavenBom("io.awspring.cloud:spring-cloud-aws-dependencies:3.0.0-RC1")
         mavenBom("io.micrometer:micrometer-tracing-bom:1.0.1")
+        mavenBom("org.springframework.cloud:spring-cloud-dependencies:2022.0.1")
         mavenBom("org.testcontainers:testcontainers-bom:1.17.6")
     }
 }

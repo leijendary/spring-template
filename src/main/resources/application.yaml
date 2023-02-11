@@ -16,8 +16,6 @@ info:
       url: https://leijendary.com
 
 auth:
-  anonymousUser:
-    principal: Anonymous User
   system:
     principal: System
 
@@ -87,13 +85,6 @@ spring:
     basename: messages.access, messages.error, messages.validation
   mvc:
     throwExceptionIfNoHandlerFound: true
-  security:
-    oauth2:
-      resourceserver:
-        jwt:
-          issuerUri:
-          jwkSetUri:
-          audiences:
   task:
     execution:
       pool:

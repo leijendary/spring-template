@@ -17,7 +17,6 @@ import org.springframework.data.domain.Sort
 import org.springframework.data.domain.Sort.Direction
 import org.springframework.http.HttpHeaders.ACCEPT_LANGUAGE
 import org.springframework.http.MediaType.APPLICATION_JSON
-import org.springframework.security.test.context.support.WithMockUser
 import org.springframework.test.web.servlet.*
 import java.lang.Thread.sleep
 import java.math.BigDecimal
@@ -48,7 +47,6 @@ class SampleSearchRestIntegrationTest : ApplicationTest() {
     private lateinit var messageSource: MessageSource
 
     @Test
-    @WithMockUser(username = "user-for-create", authorities = ["SCOPE_urn:sample:create:v1"])
     fun `Page should return the search page based on the limit and query`() {
         val suffix = RandomStringUtils.randomAlphabetic(8)
         val requests = (1..listTotal).map { createRequest(suffix) }
@@ -112,7 +110,6 @@ class SampleSearchRestIntegrationTest : ApplicationTest() {
     }
 
     @Test
-    @WithMockUser(username = "user-for-create", authorities = ["SCOPE_urn:sample:create:v1"])
     fun `Get should return the created search record`() {
         val suffix = RandomStringUtils.randomAlphabetic(8)
         val request = createRequest(suffix)
@@ -149,10 +146,6 @@ class SampleSearchRestIntegrationTest : ApplicationTest() {
     }
 
     @Test
-    @WithMockUser(
-        username = "user-for-create-and-delete",
-        authorities = ["SCOPE_urn:sample:create:v1", "SCOPE_urn:sample:delete:v1"]
-    )
     fun `Delete should return empty then 404 after`() {
         val suffix = RandomStringUtils.randomAlphabetic(8)
         val request = createRequest(suffix)
