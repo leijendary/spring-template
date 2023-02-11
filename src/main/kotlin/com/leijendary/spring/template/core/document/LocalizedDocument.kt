@@ -10,7 +10,7 @@ open class LocalizedDocument<T : LocaleDocument> {
 
     val translation: T
         get() {
-            val language: String = language
+            val language = language
             val sorted = translations.sortedBy { it.ordinal }
 
             return sorted.firstOrNull { it.language == language } ?: sorted.first()
