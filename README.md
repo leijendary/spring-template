@@ -22,7 +22,6 @@
 - Spring Data Redis
 - Spring Devtools
 - Spring Kafka
-- Spring OAuth2 Resource Server
 - Spring Retry
 - Spring Validation
 - Spring Web
