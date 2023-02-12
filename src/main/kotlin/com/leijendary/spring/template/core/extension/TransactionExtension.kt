@@ -1,10 +1,10 @@
 package com.leijendary.spring.template.core.extension
 
 import com.leijendary.spring.template.core.util.SpringContext.Companion.getBean
-import org.springframework.orm.jpa.JpaTransactionManager
+import org.springframework.transaction.PlatformTransactionManager
 import org.springframework.transaction.support.TransactionTemplate
 
-private val transactionManager = getBean(JpaTransactionManager::class)
+private val transactionManager = getBean(PlatformTransactionManager::class)
 
 /**
  * Use this function if you don't want your whole method to run under a single transaction.
