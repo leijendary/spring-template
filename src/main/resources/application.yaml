@@ -82,7 +82,7 @@ spring:
           sharedCache:
             mode: UNSPECIFIED
   messages:
-    basename: messages.access, messages.error, messages.validation
+    basename: messages.error, messages.validation
   mvc:
     throwExceptionIfNoHandlerFound: true
   task:

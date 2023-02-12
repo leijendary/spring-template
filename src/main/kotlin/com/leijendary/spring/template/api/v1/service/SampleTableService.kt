@@ -5,7 +5,7 @@ import com.leijendary.spring.template.api.v1.model.SampleRequest
 import com.leijendary.spring.template.api.v1.model.SampleResponse
 import com.leijendary.spring.template.api.v1.search.SampleSearch
 import com.leijendary.spring.template.core.exception.ResourceNotFoundException
-import com.leijendary.spring.template.core.extension.afterCommit
+import com.leijendary.spring.template.core.extension.transactional
 import com.leijendary.spring.template.core.model.QueryRequest
 import com.leijendary.spring.template.core.model.Seek
 import com.leijendary.spring.template.core.model.Seekable
@@ -33,67 +33,74 @@ class SampleTableService(
         private val SOURCE = listOf("data", "SampleTable", "id")
     }
 
-    @Transactional(readOnly = true)
     fun seek(queryRequest: QueryRequest, seekable: Seekable): Seek<SampleResponse> {
         val specification = SampleListSpecification(queryRequest.query)
 
-        return sampleTableRepository
-            .findAll(SampleTable::class, specification, seekable)
-            .map { MAPPER.toResponse(it) }
+        return transactional(readOnly = true) {
+            sampleTableRepository
+                .findAll(SampleTable::class, specification, seekable)
+                .map { MAPPER.toResponse(it) }
+        }
     }
 
     @CachePut(value = [CACHE_NAME], key = "#result.id")
-    @Transactional
     fun create(sampleRequest: SampleRequest): SampleResponse {
-        val sampleTable = MAPPER.toEntity(sampleRequest).let { sampleTableRepository.save(it) }
-
-        afterCommit {
-            sampleTableEvent.create(sampleTable)
+        val sampleTable = transactional {
+            MAPPER
+                .toEntity(sampleRequest)
+                .let {
+                    sampleTableRepository.save(it)
+                }
         }
+
+        sampleTableEvent.create(sampleTable)
 
         return MAPPER.toResponse(sampleTable)
     }
 
     @Cacheable(value = [CACHE_NAME], key = "#id")
-    @Transactional(readOnly = true)
     fun get(id: UUID): SampleResponse {
-        return sampleTableRepository
-            .findById(id)
-            .map { MAPPER.toResponse(it) }
-            .orElseThrow { ResourceNotFoundException(SOURCE, id) }
-    }
-
-    @CachePut(value = [CACHE_NAME], key = "#result.id")
-    @Transactional
-    fun update(id: UUID, sampleRequest: SampleRequest): SampleResponse {
-        val sampleTable = sampleTableRepository
-            .findLockedById(id)
-            ?.let {
-                MAPPER.update(sampleRequest, it)
-
-                sampleTableRepository.save(it)
-            }
-            ?: throw ResourceNotFoundException(SOURCE, id)
-
-        afterCommit {
-            sampleTableEvent.update(sampleTable)
+        val sampleTable = transactional(readOnly = true) {
+            sampleTableRepository
+                .findById(id)
+                .orElseThrow { ResourceNotFoundException(SOURCE, id) }
         }
 
         return MAPPER.toResponse(sampleTable)
     }
 
-    @CacheEvict(value = [CACHE_NAME], key = "#id")
-    @Transactional
-    fun delete(id: UUID) {
-        val sampleTable = sampleTableRepository
-            .findLockedById(id)
-            ?: throw ResourceNotFoundException(SOURCE, id)
+    @CachePut(value = [CACHE_NAME], key = "#result.id")
+    fun update(id: UUID, sampleRequest: SampleRequest): SampleResponse {
+        val sampleTable = transactional {
+            sampleTableRepository
+                .findLockedById(id)
+                ?.let {
+                    MAPPER.update(sampleRequest, it)
 
-        sampleTableRepository.softDelete(sampleTable)
-
-        afterCommit {
-            sampleTableEvent.delete(sampleTable)
+                    sampleTableRepository.save(it)
+                }
+                ?: throw ResourceNotFoundException(SOURCE, id)
         }
+
+        sampleTableEvent.update(sampleTable)
+
+        return MAPPER.toResponse(sampleTable)
+    }
+
+    @CacheEvict(value = [CACHE_NAME], key = "#id")
+    fun delete(id: UUID) {
+        val sampleTable = transactional {
+            sampleTableRepository
+                .findLockedById(id)
+                ?.let {
+                    sampleTableRepository.softDelete(it)
+
+                    it
+                }
+                ?: throw ResourceNotFoundException(SOURCE, id)
+        }
+
+        sampleTableEvent.delete(sampleTable)
     }
 
     @Transactional(readOnly = true)

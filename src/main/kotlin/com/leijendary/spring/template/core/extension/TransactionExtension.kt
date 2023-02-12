@@ -1,13 +1,21 @@
 package com.leijendary.spring.template.core.extension
 
-import kotlinx.coroutines.runBlocking
-import org.springframework.transaction.support.TransactionSynchronization
-import org.springframework.transaction.support.TransactionSynchronizationManager.registerSynchronization
+import com.leijendary.spring.template.core.util.SpringContext.Companion.getBean
+import org.springframework.orm.jpa.JpaTransactionManager
+import org.springframework.transaction.support.TransactionTemplate
 
-inline fun afterCommit(crossinline function: suspend () -> Unit) {
-    registerSynchronization(object : TransactionSynchronization {
-        override fun afterCommit() = runBlocking {
-            function()
+private val transactionManager = getBean(JpaTransactionManager::class)
+
+/**
+ * Use this function if you don't want your whole method to run under a single transaction.
+ * This is faster as there could be other functions/methods running under the same
+ * transaction but does not necessarily need to run in a transaction.
+ */
+fun <T> transactional(readOnly: Boolean = false, function: () -> T): T {
+    val template = TransactionTemplate(transactionManager)
+        .apply {
+            isReadOnly = readOnly
         }
-    })
+
+    return template.execute { function() }!!
 }
