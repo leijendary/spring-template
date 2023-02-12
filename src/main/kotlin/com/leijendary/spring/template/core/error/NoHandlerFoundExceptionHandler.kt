@@ -17,7 +17,7 @@ class NoHandlerFoundExceptionHandler(private val messageSource: MessageSource) {
     @ResponseStatus(NOT_FOUND)
     fun catchNoHandlerFound(exception: NoHandlerFoundException): List<ErrorModel> {
         val code = "error.mapping.notFound"
-        val arguments: Array<String?> = arrayOf(exception.message)
+        val arguments = arrayOf(exception.message)
         val message = messageSource.getMessage(code, arguments, locale)
         val error = ErrorModel(mutableListOf("request", "path"), code, message)
 

@@ -6,7 +6,6 @@ import org.springframework.context.MessageSource
 import org.springframework.core.annotation.Order
 import org.springframework.http.HttpStatus.BAD_REQUEST
 import org.springframework.validation.FieldError
-import org.springframework.validation.ObjectError
 import org.springframework.web.bind.MethodArgumentNotValidException
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.ResponseStatus
@@ -18,13 +17,13 @@ class MethodArgumentNotValidExceptionHandler(private val messageSource: MessageS
     @ExceptionHandler(MethodArgumentNotValidException::class)
     @ResponseStatus(BAD_REQUEST)
     fun catchMethodArgumentNotValid(exception: MethodArgumentNotValidException): List<ErrorModel> {
-        return exception.allErrors.map { field: ObjectError ->
-            val objectName: String = if (field is FieldError) field.field else field.objectName
-            val source: List<String> = listOf("body") + objectName.split(".").map {
+        return exception.allErrors.map { field ->
+            val objectName = if (field is FieldError) field.field else field.objectName
+            val source = listOf("body") + objectName.split(".").map {
                 it.replace("[]", "")
             }
-            val code: String = field.defaultMessage ?: ""
-            val arguments: Array<Any>? = field.arguments
+            val code = field.defaultMessage ?: ""
+            val arguments = field.arguments
             val message = code.let { messageSource.getMessage(it, arguments, code, locale) }
 
             ErrorModel(source, code, message)

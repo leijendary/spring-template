@@ -35,7 +35,7 @@ class DataIntegrityViolationExceptionHandler(private val messageSource: MessageS
         }
 
         val code = "error.data.integrity"
-        val arguments: Array<String> = arrayOf(exception.message ?: "")
+        val arguments = arrayOf(exception.message ?: "")
         val message = messageSource.getMessage(code, arguments, locale)
         val error = ErrorModel(mutableListOf("data", "entity"), code, message)
 
