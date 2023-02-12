@@ -69,10 +69,6 @@ dependencies {
     implementation("org.springframework.kafka:spring-kafka")
     testImplementation("org.springframework.kafka:spring-kafka-test")
 
-    // Jackson
-    implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
-
     // Cache
     implementation("com.github.ben-manes.caffeine:caffeine")
 
