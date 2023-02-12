@@ -6,19 +6,20 @@ import org.springframework.context.ConfigurableApplicationContext
 import org.testcontainers.containers.GenericContainer
 import org.testcontainers.utility.DockerImageName
 
-class ZipkinContainerTest {
+class JaegerContainerTest {
     companion object {
-        private val image = DockerImageName.parse("openzipkin/zipkin-slim:2")
-        private val zipkin = GenericContainer(image).apply {
+        private val image = DockerImageName.parse("jaegertracing/jaeger-collector:1")
+        private val jaeger = GenericContainer(image).apply {
+            addEnv("COLLECTOR_ZIPKIN_HTTP_PORT", "9411")
             withExposedPorts(9411)
         }
     }
 
     internal class Initializer : ApplicationContextInitializer<ConfigurableApplicationContext> {
         override fun initialize(applicationContext: ConfigurableApplicationContext) {
-            zipkin.start()
+            jaeger.start()
 
-            val endpoint = "${zipkin.host}:${zipkin.firstMappedPort}/api/v2/spans"
+            val endpoint = "${jaeger.host}:${jaeger.firstMappedPort}/api/v2/spans"
             val properties = arrayOf("management.zipkin.tracing.endpoint=$endpoint")
 
             TestPropertyValues

@@ -18,4 +18,4 @@ data:
   SPRING_DATA_REDIS_HOST: redis-service.cache.svc.cluster.local
   SPRING_DATA_REDIS_PORT: "6379"
   AWS_EC2_METADATA_DISABLED: "true"
-  MANAGEMENT_ZIPKIN_TRACING_ENDPOINT: http://zipkin-service.monitoring.svc.cluster.local:9411/api/v2/spans
+  MANAGEMENT_ZIPKIN_TRACING_ENDPOINT: http://jaeger-service.monitoring.svc.cluster.local:9411/api/v2/spans
