@@ -1,5 +1,7 @@
 package com.leijendary.spring.template.core.entity
 
+import com.leijendary.spring.template.core.projection.CreatedProjection
+import com.leijendary.spring.template.core.projection.LastModifiedProjection
 import com.leijendary.spring.template.core.util.RequestContext.now
 import jakarta.persistence.*
 import org.springframework.data.annotation.CreatedBy
@@ -12,19 +14,19 @@ import java.util.*
 
 @EntityListeners(AuditingEntityListener::class)
 @MappedSuperclass
-open class AuditingUUIDEntity : UUIDEntity() {
+open class AuditingUUIDEntity : UUIDEntity(), CreatedProjection, LastModifiedProjection {
     @Version
     var version = 0
 
     @CreatedDate
-    var createdAt: OffsetDateTime = now
+    override var createdAt: OffsetDateTime = now
 
     @CreatedBy
-    var createdBy: String = ""
+    override var createdBy: String = ""
 
     @LastModifiedDate
-    var lastModifiedAt: OffsetDateTime = now
+    override var lastModifiedAt: OffsetDateTime = now
 
     @LastModifiedBy
-    var lastModifiedBy: String = ""
+    override var lastModifiedBy: String = ""
 }

@@ -1,10 +1,11 @@
 package com.leijendary.spring.template.core.entity
 
+import com.leijendary.spring.template.core.projection.LocalizedProjection
 import com.leijendary.spring.template.core.projection.UUIDProjection
 import com.leijendary.spring.template.core.util.RequestContext.language
 
-interface LocalizedEntity<T : LocaleEntity> : UUIDProjection {
-    val translations: Set<T>
+interface LocalizedEntity<T : LocaleEntity> : UUIDProjection, LocalizedProjection<T> {
+    override val translations: Set<T>
 
     val translation: T
         get() {
