@@ -10,11 +10,11 @@ enum class DataSourceType {
     READ_ONLY
 }
 
-class TransactionRoutingDataSource(primary: DataSource, readOnly: DataSource) : AbstractRoutingDataSource() {
+class TransactionRoutingDataSource(primary: DataSource, readonly: DataSource) : AbstractRoutingDataSource() {
     init {
         val dataSource = mutableMapOf<Any, Any>(
             READ_WRITE to primary,
-            READ_ONLY to readOnly
+            READ_ONLY to readonly
         )
 
         this.setTargetDataSources(dataSource)

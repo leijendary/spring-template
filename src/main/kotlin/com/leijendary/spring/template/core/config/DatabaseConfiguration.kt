@@ -29,9 +29,9 @@ class DatabaseConfiguration(
     @Bean
     fun routingDataSource(): DataSource {
         val primary = HikariDataSource(primaryProperties)
-        val readOnly = HikariDataSource(readonlyProperties)
+        val readonly = HikariDataSource(readonlyProperties)
 
-        return TransactionRoutingDataSource(primary, readOnly)
+        return TransactionRoutingDataSource(primary, readonly)
     }
 
     @Bean
