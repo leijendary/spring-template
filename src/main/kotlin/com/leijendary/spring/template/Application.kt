@@ -9,9 +9,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient
 import org.springframework.cloud.openfeign.EnableFeignClients
 import org.springframework.core.env.get
 import org.springframework.retry.annotation.EnableRetry
-import org.springframework.scheduling.annotation.EnableAsync
 
-@EnableAsync
 @EnableCaching
 @EnableDiscoveryClient
 @EnableFeignClients

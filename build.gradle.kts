@@ -2,16 +2,16 @@ plugins {
     id("org.springframework.boot") version "3.0.2"
     id("io.spring.dependency-management") version "1.1.0"
     id("org.barfuin.gradle.jacocolog") version "2.0.0"
-    kotlin("jvm") version "1.7.22"
-    kotlin("kapt") version "1.7.22"
-    kotlin("plugin.spring") version "1.7.22"
-    kotlin("plugin.jpa") version "1.7.22"
+    kotlin("jvm") version "1.8.10"
+    kotlin("kapt") version "1.8.10"
+    kotlin("plugin.spring") version "1.8.10"
+    kotlin("plugin.jpa") version "1.8.10"
 }
 
 group = "com.leijendary.spring"
 version = "1.0.0"
 description = "Spring Boot Template for the Microservice Architecture or general purpose"
-java.sourceCompatibility = JavaVersion.VERSION_17
+java.sourceCompatibility = JavaVersion.VERSION_19
 
 configurations {
     compileOnly {
@@ -120,10 +120,14 @@ dependencyManagement {
 }
 
 tasks.compileKotlin {
-    kotlinOptions {
-        freeCompilerArgs = listOf("-Xjsr305=strict", "-Xjvm-default=all")
-        jvmTarget = "17"
+    kotlinOptions.apply {
+        freeCompilerArgs = listOf("-Xjsr305=strict", "-Xjvm-default=all", "-Xjvm-enable-preview")
+        jvmTarget = "19"
     }
+}
+
+tasks.compileJava {
+    options.compilerArgs.add("--enable-preview")
 }
 
 tasks.bootJar {
@@ -135,7 +139,7 @@ tasks.jar {
 }
 
 tasks.test {
-    jvmArgs = listOf("-XX:+AllowRedefinitionToAddDeleteMethods")
+    jvmArgs = listOf("-XX:+AllowRedefinitionToAddDeleteMethods", "--enable-preview")
     useJUnitPlatform()
     finalizedBy(tasks.jacocoTestReport)
 }

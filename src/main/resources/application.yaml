@@ -85,13 +85,6 @@ spring:
     basename: messages.error, messages.validation
   mvc:
     throwExceptionIfNoHandlerFound: true
-  task:
-    execution:
-      pool:
-        coreSize: 100
-    scheduling:
-      pool:
-        size: 100
   web:
     resources:
       addMappings: false
@@ -151,9 +144,6 @@ server:
     keyStoreType: PKCS12
     keyStore: classpath:ssl/keystore.p12
     keyStorePassword: spring-boot
-  tomcat:
-    threads:
-      max: 1000
 
 springdoc:
   pathsToMatch: /api/**

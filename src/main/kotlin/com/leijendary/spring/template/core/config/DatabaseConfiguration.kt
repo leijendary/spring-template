@@ -14,7 +14,6 @@ import org.springframework.orm.jpa.JpaTransactionManager
 import org.springframework.transaction.PlatformTransactionManager
 import javax.sql.DataSource
 
-
 @Configuration
 class DatabaseConfiguration(
     private val primaryProperties: DataSourcePrimaryProperties,
