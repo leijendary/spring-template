@@ -29,7 +29,6 @@
 - Caffeine
 - Docker
 - JUnit
-- Jackson
 - Kubernetes
 - Liquibase
 - MapStruct
