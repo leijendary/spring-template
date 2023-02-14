@@ -42,7 +42,7 @@ databaseChangeLog:
                     nullable: false
               - column:
                   name: created_at
-                  type: timestamp
+                  type: timestamp with time zone
                   constraints:
                     nullable: false
                   defaultValueDate: current_timestamp
@@ -53,7 +53,7 @@ databaseChangeLog:
                     nullable: false
               - column:
                   name: last_modified_at
-                  type: timestamp
+                  type: timestamp with time zone
                   constraints:
                     nullable: false
                   defaultValueDate: current_timestamp
@@ -64,7 +64,7 @@ databaseChangeLog:
                     nullable: false
               - column:
                   name: deleted_at
-                  type: timestamp
+                  type: timestamp with time zone
               - column:
                   name: deleted_by
                   type: text
