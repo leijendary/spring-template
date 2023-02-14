@@ -66,7 +66,7 @@ stages:
 # Test the Merge Request
 Test Merge Request:
   stage: test
-  image: gradle:7-jdk17
+  image: gradle:7-jdk19
   cache:
     <<: *global_cache
     key: merge_requests
@@ -82,7 +82,7 @@ Test Merge Request:
 # Per-Branch test
 Test:
   stage: test
-  image: gradle:7-jdk17
+  image: gradle:7-jdk19
   script:
     - echo "Running tests..."
     - SPRING_PROFILES_ACTIVE=ci gradle test --info
