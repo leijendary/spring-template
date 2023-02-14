@@ -112,7 +112,7 @@ databaseChangeLog:
             validate: true
   - changeSet:
       id: sample-table-translations-to-sample-table-foreign-key
-      author: Leijendary
+      author: Leijendekker
       changes:
         - addForeignKeyConstraint:
             baseColumnNames: id
