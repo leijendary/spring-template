@@ -18,9 +18,9 @@ private val authProperties = getBean(AuthProperties::class)
 object RequestContext {
     val currentRequest: HttpServletRequest?
         get() {
-            val attributes = getRequestAttributes()
+            val attributes = getRequestAttributes() as? ServletRequestAttributes
 
-            return if (attributes is ServletRequestAttributes) attributes.request else null
+            return attributes?.request
         }
 
     val userId: String
