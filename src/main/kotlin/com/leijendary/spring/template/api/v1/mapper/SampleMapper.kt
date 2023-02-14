@@ -26,6 +26,8 @@ interface SampleMapper {
     )
     fun toEntity(sampleRequest: SampleRequest): SampleTable
 
+    fun toEntity(sampleMessage: SampleMessage): SampleTable
+
     @Mappings(
         Mapping(source = "translation.name", target = "name"),
         Mapping(source = "translation.description", target = "description")
