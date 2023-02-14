@@ -29,9 +29,9 @@ class SampleSearch(
 
     fun page(queryRequest: QueryRequest, pageable: Pageable): Page<SampleSearchResponse> {
         val query = queryRequest.query
-        val searchBuilder = NativeQueryBuilder()
-        // Add the pagination to the search builder
-        searchBuilder.withPageable(pageable)
+        val searchBuilder = NativeQueryBuilder().apply {
+            withPageable(pageable)
+        }
 
         if (!query.isNullOrEmpty()) {
             // Add the query for the actual search

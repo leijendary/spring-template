@@ -28,7 +28,7 @@ class DataIntegrityViolationExceptionHandler(private val messageSource: MessageS
     }
 
     private fun errorPair(exception: DataIntegrityViolationException): Pair<List<ErrorModel>, HttpStatus> {
-        val cause: Throwable? = exception.cause
+        val cause = exception.cause
 
         if (cause is ConstraintViolationException) {
             return constraint(cause)
