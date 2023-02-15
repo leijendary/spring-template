@@ -3,7 +3,6 @@ package com.leijendary.spring.template.api.v1.rest
 import com.leijendary.spring.template.api.v1.model.SampleRequest
 import com.leijendary.spring.template.api.v1.service.SampleTableService
 import com.leijendary.spring.template.client.SampleClient
-import com.leijendary.spring.template.core.controller.SecuredController
 import com.leijendary.spring.template.core.model.QueryRequest
 import com.leijendary.spring.template.core.model.Seekable
 import com.leijendary.spring.template.core.util.RequestContext.language
@@ -44,11 +43,7 @@ import java.util.*
 @RestController
 @RequestMapping("/api/v1/samples")
 @Tag(name = "Sample")
-class SampleRest(
-    private val sampleClient: SampleClient,
-    private val sampleTableService: SampleTableService
-) : SecuredController() {
-
+class SampleRest(private val sampleClient: SampleClient, private val sampleTableService: SampleTableService) {
     /**
      * This is a sample RequestMapping (Only GET method, that is why I used
      * [GetMapping])
