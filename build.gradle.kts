@@ -62,8 +62,8 @@ dependencies {
     implementation("org.springframework.cloud:spring-cloud-starter-loadbalancer")
     implementation("org.springframework.cloud:spring-cloud-starter-openfeign")
 
-    // Spring Cloud Function
-    implementation("org.springframework.cloud:spring-cloud-function-context")
+    // Spring Cloud
+    implementation("org.springframework.cloud:spring-cloud-context")
 
     // Spring Kafka
     implementation("org.springframework.kafka:spring-kafka")
@@ -121,7 +121,7 @@ dependencyManagement {
 
 tasks {
     compileKotlin {
-        kotlinOptions.apply {
+        kotlinOptions {
             freeCompilerArgs = listOf("-Xjsr305=strict", "-Xjvm-default=all", "-Xjvm-enable-preview")
             jvmTarget = "19"
         }
