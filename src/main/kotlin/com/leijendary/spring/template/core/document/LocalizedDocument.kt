@@ -6,7 +6,7 @@ import org.springframework.data.elasticsearch.annotations.FieldType.Nested
 
 open class LocalizedDocument<T : LocaleDocument> {
     @Field(type = Nested, includeInParent = true)
-    var translations: Set<T> = HashSet()
+    var translations = HashSet<T>()
 
     val translation: T
         get() {

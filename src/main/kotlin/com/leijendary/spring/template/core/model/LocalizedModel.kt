@@ -6,7 +6,7 @@ import java.util.*
 
 open class LocalizedModel<T : LocaleModel> : Serializable {
     var id: UUID? = null
-    var translations: Set<T> = HashSet()
+    var translations = HashSet<T>()
 
     val translation: T
         get() {
