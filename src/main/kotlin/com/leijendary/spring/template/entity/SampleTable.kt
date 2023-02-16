@@ -14,7 +14,7 @@ import java.time.OffsetDateTime
 @Where(clause = "deleted_at is null")
 class SampleTable : AuditingUUIDEntity(), LocalizedEntity<SampleTableTranslation>, SoftDeleteEntity {
     @Column(name = "column_1")
-    var column1: String = ""
+    var column1 = ""
 
     @Column(name = "column_2")
     var column2 = 0L
