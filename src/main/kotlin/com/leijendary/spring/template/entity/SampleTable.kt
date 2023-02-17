@@ -23,7 +23,7 @@ class SampleTable : AuditingUUIDEntity(), LocalizedEntity<SampleTableTranslation
 
     @ElementCollection(fetch = EAGER)
     @CollectionTable(name = "sample_table_translation", joinColumns = [JoinColumn(name = "id")])
-    override val translations = HashSet<SampleTableTranslation>()
+    override val translations: Set<SampleTableTranslation> = HashSet()
 
     override var deletedAt: OffsetDateTime? = null
     override var deletedBy: String? = null
