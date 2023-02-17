@@ -1,6 +1,7 @@
 package com.leijendary.spring.template.api.v1.rest
 
 import com.leijendary.spring.template.api.v1.model.SampleRequest
+import com.leijendary.spring.template.api.v1.model.SampleResponse
 import com.leijendary.spring.template.api.v1.service.SampleTableService
 import com.leijendary.spring.template.client.SampleClient
 import com.leijendary.spring.template.core.model.QueryRequest
@@ -11,7 +12,6 @@ import com.leijendary.spring.template.core.util.RequestContext.now
 import com.leijendary.spring.template.core.util.RequestContext.timeZone
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
-import jakarta.servlet.http.HttpServletResponse
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus.CREATED
 import org.springframework.http.HttpStatus.NO_CONTENT
@@ -58,13 +58,7 @@ class SampleRest(private val sampleClient: SampleClient, private val sampleTable
     @PostMapping
     @ResponseStatus(CREATED)
     @Operation(summary = "Saves a sample record into the database")
-    fun create(
-        @Valid
-        @RequestBody
-        request: SampleRequest,
-
-        httpServletResponse: HttpServletResponse
-    ) = sampleTableService.create(request)
+    fun create(@Valid @RequestBody request: SampleRequest) = sampleTableService.create(request)
 
     @GetMapping("{id}")
     @Operation(summary = "Retrieves the sample record from the database")
@@ -72,14 +66,9 @@ class SampleRest(private val sampleClient: SampleClient, private val sampleTable
 
     @PutMapping("{id}")
     @Operation(summary = "Updates the sample record into the database")
-    fun update(
-        @PathVariable
-        id: UUID,
-
-        @Valid
-        @RequestBody
-        request: SampleRequest
-    ) = sampleTableService.update(id, request)
+    fun update(@PathVariable id: UUID, @Valid @RequestBody request: SampleRequest): SampleResponse {
+        return sampleTableService.update(id, request)
+    }
 
     @DeleteMapping("{id}")
     @ResponseStatus(NO_CONTENT)
