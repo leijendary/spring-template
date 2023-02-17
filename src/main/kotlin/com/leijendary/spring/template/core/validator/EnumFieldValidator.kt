@@ -16,6 +16,9 @@ class EnumFieldValidator : ConstraintValidator<EnumField, String?> {
     }
 
     override fun isValid(value: String?, context: ConstraintValidatorContext): Boolean {
-        return if (value == null) true else values.contains(value.uppercase())
+        return value
+            ?.uppercase()
+            ?.let { values.contains(it) }
+            ?: true
     }
 }
