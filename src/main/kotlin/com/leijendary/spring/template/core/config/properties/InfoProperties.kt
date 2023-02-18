@@ -6,8 +6,8 @@ import org.springframework.boot.context.properties.ConfigurationProperties
 
 @ConfigurationProperties("info")
 class InfoProperties {
-    var app: App = App()
-    var api: Api = Api()
+    var app = App()
+    var api = Api()
 
     class App {
         var organization: String = ""
