@@ -16,8 +16,8 @@ class Encryption(private val keyProperties: KeyProperties) {
     }
 
     private fun encryptor(): TextEncryptor {
-        val key: String = keyProperties.key
-        val salt: String = keyProperties.salt
+        val key = keyProperties.key
+        val salt = keyProperties.salt
 
         return delux(key, salt)
     }
