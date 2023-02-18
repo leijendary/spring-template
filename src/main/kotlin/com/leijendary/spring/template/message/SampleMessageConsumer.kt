@@ -32,7 +32,7 @@ class SampleMessageConsumer(private val sampleSearch: SampleSearch) {
     fun deleted(json: String) {
         val sampleTable = toEntity(json)
 
-        sampleSearch.delete(sampleTable.id)
+        sampleSearch.delete(sampleTable.id!!)
     }
 
     private fun toEntity(json: String): SampleTable {

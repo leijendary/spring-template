@@ -64,14 +64,16 @@ class SampleSearch(
     }
 
     fun get(id: UUID): SampleSearchResponse {
-        return serviceSearchRepository.findById(id)
+        return serviceSearchRepository
+            .findById(id)
             .map { MAPPER.toSearchResponse(it) }
             .orElseThrow { ResourceNotFoundException(SOURCE, id) }
     }
 
     fun update(sampleTable: SampleTable) {
-        val id = sampleTable.id
-        val document = serviceSearchRepository.findById(id)
+        val id = sampleTable.id!!
+        val document = serviceSearchRepository
+            .findById(id)
             .orElseThrow { ResourceNotFoundException(SOURCE, id) }
 
         MAPPER.update(sampleTable, document)
@@ -80,7 +82,8 @@ class SampleSearch(
     }
 
     fun delete(id: UUID) {
-        val document = serviceSearchRepository.findById(id)
+        val document = serviceSearchRepository
+            .findById(id)
             .orElseThrow { ResourceNotFoundException(SOURCE, id) }
 
         serviceSearchRepository.delete(document)

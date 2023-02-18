@@ -74,12 +74,12 @@ class SampleTableService(
         val sampleTable = transactional {
             sampleTableRepository
                 .findLockedById(id)
-                ?.let {
+                .orElseThrow { ResourceNotFoundException(SOURCE, id) }
+                .let {
                     MAPPER.update(sampleRequest, it)
 
                     sampleTableRepository.save(it)
                 }
-                ?: throw ResourceNotFoundException(SOURCE, id)
         }
 
         sampleTableEvent.update(sampleTable)
@@ -92,12 +92,12 @@ class SampleTableService(
         val sampleTable = transactional {
             sampleTableRepository
                 .findLockedById(id)
-                ?.let {
+                .orElseThrow { ResourceNotFoundException(SOURCE, id) }
+                .let {
                     sampleTableRepository.softDelete(it)
 
                     it
                 }
-                ?: throw ResourceNotFoundException(SOURCE, id)
         }
 
         sampleTableEvent.delete(sampleTable)
