@@ -76,8 +76,8 @@ dependencies {
     implementation("io.awspring.cloud:spring-cloud-aws-starter-s3")
 
     // Database
+    implementation("org.postgresql:postgresql")
     implementation("org.liquibase:liquibase-core")
-    runtimeOnly("org.postgresql:postgresql")
 
     // OpenAPI
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2")

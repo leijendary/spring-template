@@ -3,8 +3,8 @@ package com.leijendary.spring.template.core.error
 import com.leijendary.spring.template.core.extension.snakeCaseToCamelCase
 import com.leijendary.spring.template.core.model.ErrorModel
 import com.leijendary.spring.template.core.util.RequestContext.locale
-import org.apache.commons.lang3.StringUtils.substringBetween
 import org.hibernate.exception.ConstraintViolationException
+import org.postgresql.util.PSQLException
 import org.springframework.context.MessageSource
 import org.springframework.core.annotation.Order
 import org.springframework.dao.DataIntegrityViolationException
@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.RestControllerAdvice
+import java.sql.BatchUpdateException
 
 @RestControllerAdvice
 @Order(3)
@@ -43,21 +44,21 @@ class DataIntegrityViolationExceptionHandler(private val messageSource: MessageS
     }
 
     private fun constraint(exception: ConstraintViolationException): Pair<List<ErrorModel>, HttpStatus> {
-        val errorMessage = exception.sqlException.nextException.message!!
-        val sql = exception.sql
-        val table = sql
-            .let {
-                substringBetween(it, "insert into ", " (")
-                    ?: substringBetween(it, "update ", " set ")
-            }
-            .snakeCaseToCamelCase(true)
-        val field = errorMessage
+        val sqlException = when (exception.sqlException) {
+            is BatchUpdateException -> exception.sqlException.nextException
+            else -> exception.sqlException
+        } as PSQLException
+        val errorMessage = sqlException.serverErrorMessage!!
+        val table = errorMessage.table!!.snakeCaseToCamelCase(true)
+        val detail = errorMessage.detail!!
+        val column = errorMessage.column ?: detail
             .substringAfter("Key (")
+            .substringBefore("))=")
             .substringBefore(")=")
             .substringAfter("(")
             .substringBefore("::")
-            .snakeCaseToCamelCase()
-        val value = errorMessage.substringAfter("=(").substringBefore(") ")
+        val field = column.snakeCaseToCamelCase()
+        val value = detail.substringAfter("=(").substringBefore(") ")
         val code = "validation.alreadyExists"
         val arguments = arrayOf(field, value)
         val message = messageSource.getMessage(code, arguments, locale)

@@ -1,5 +1,5 @@
 package com.leijendary.spring.template.core.projection
 
 interface LocalizedProjection<T : LocaleProjection> : UUIDProjection {
-    val translations: Set<T>
+    val translations: MutableSet<T>
 }

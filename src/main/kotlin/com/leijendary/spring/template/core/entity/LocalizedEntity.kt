@@ -5,7 +5,7 @@ import com.leijendary.spring.template.core.projection.UUIDProjection
 import com.leijendary.spring.template.core.util.RequestContext.language
 
 interface LocalizedEntity<T : LocaleEntity> : UUIDProjection, LocalizedProjection<T> {
-    override val translations: Set<T>
+    override val translations: MutableSet<T>
 
     val translation: T
         get() {
