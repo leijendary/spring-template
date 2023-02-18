@@ -14,7 +14,7 @@ class LocalizedSpecification<T : LocalizedEntity<*>>(val language: String? = nul
 
         // If there is no language filter, return all based on the reference ID predicate
         if (language.isNullOrBlank()) {
-            return criteriaBuilder.and()
+            return null
         }
 
         // ID path for reference ID

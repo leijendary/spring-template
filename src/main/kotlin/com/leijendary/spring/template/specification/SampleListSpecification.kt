@@ -1,6 +1,6 @@
 package com.leijendary.spring.template.specification
 
-import com.leijendary.spring.template.core.util.Predicate.lowerLike
+import com.leijendary.spring.template.core.extension.lowerLike
 import com.leijendary.spring.template.entity.SampleTable
 import jakarta.persistence.criteria.CriteriaBuilder
 import jakarta.persistence.criteria.CriteriaQuery
@@ -13,9 +13,9 @@ class SampleListSpecification(private val query: String? = null) : Specification
         root: Root<SampleTable>,
         criteriaQuery: CriteriaQuery<*>,
         criteriaBuilder: CriteriaBuilder
-    ): Predicate {
+    ): Predicate? {
         if (query.isNullOrBlank()) {
-            return criteriaBuilder.and()
+            return null
         }
 
         // Column 1 filtering
