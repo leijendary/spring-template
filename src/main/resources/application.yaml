@@ -73,6 +73,7 @@ spring:
     openInView: false
     properties:
       hibernate:
+        globally_quoted_identifiers: true
         jdbc:
           batch_size: 1000
       jakarta:
