@@ -9,8 +9,7 @@ import org.springframework.context.MessageSource
 import org.springframework.core.annotation.Order
 import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.http.HttpStatus
-import org.springframework.http.HttpStatus.CONFLICT
-import org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR
+import org.springframework.http.HttpStatus.*
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.RestControllerAdvice
@@ -59,11 +58,15 @@ class DataIntegrityViolationExceptionHandler(private val messageSource: MessageS
             .substringBefore("::")
         val field = column.snakeCaseToCamelCase()
         val value = detail.substringAfter("=(").substringBefore(") ")
-        val code = "validation.alreadyExists"
+        val (code, status) = when (sqlException.sqlState) {
+            "23505" -> "validation.alreadyExists" to CONFLICT
+            "23503" -> "error.resource.notFound" to NOT_FOUND
+            else -> "error.data.integrity" to BAD_REQUEST
+        }
         val arguments = arrayOf(field, value)
         val message = messageSource.getMessage(code, arguments, locale)
         val error = ErrorModel(mutableListOf("data", table, field), code, message)
 
-        return listOf(error) to CONFLICT
+        return listOf(error) to status
     }
 }
