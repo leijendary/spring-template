@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice
 @Order(3)
 class StatusExceptionHandler(private val messageSource: MessageSource) {
     @ExceptionHandler(StatusException::class)
-    fun catchStatusException(exception: StatusException): ResponseEntity<List<ErrorModel>> {
+    fun catchStatus(exception: StatusException): ResponseEntity<List<ErrorModel>> {
         val source = exception.source
         val code = exception.code
         val arguments = exception.arguments
