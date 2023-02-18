@@ -6,7 +6,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties
 class AuthProperties {
     var system = System()
 
-    class System {
+    inner class System {
         var principal: String = ""
     }
 }
