@@ -32,6 +32,9 @@ kapt {
         arg("mapstruct.defaultComponentModel", "spring")
         arg("mapstruct.unmappedTargetPolicy", "IGNORE")
     }
+    javacOptions {
+        option("--enable-preview")
+    }
 }
 
 dependencies {
