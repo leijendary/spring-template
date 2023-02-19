@@ -14,6 +14,7 @@ import org.springframework.data.domain.PageImpl
 import org.springframework.data.domain.Pageable
 import org.springframework.data.elasticsearch.client.elc.ElasticsearchTemplate
 import org.springframework.data.elasticsearch.client.elc.NativeQueryBuilder
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import java.util.*
 
@@ -65,16 +66,16 @@ class SampleSearch(
 
     fun get(id: UUID): SampleSearchResponse {
         return serviceSearchRepository
-            .findById(id)
-            .map { MAPPER.toSearchResponse(it) }
-            .orElseThrow { ResourceNotFoundException(SOURCE, id) }
+            .findByIdOrNull(id)
+            ?.let { MAPPER.toSearchResponse(it) }
+            ?: throw ResourceNotFoundException(SOURCE, id)
     }
 
     fun update(sampleTable: SampleTable) {
         val id = sampleTable.id!!
         val document = serviceSearchRepository
-            .findById(id)
-            .orElseThrow { ResourceNotFoundException(SOURCE, id) }
+            .findByIdOrNull(id)
+            ?: throw ResourceNotFoundException(SOURCE, id)
 
         MAPPER.update(sampleTable, document)
 
@@ -83,8 +84,8 @@ class SampleSearch(
 
     fun delete(id: UUID) {
         val document = serviceSearchRepository
-            .findById(id)
-            .orElseThrow { ResourceNotFoundException(SOURCE, id) }
+            .findByIdOrNull(id)
+            ?: throw ResourceNotFoundException(SOURCE, id)
 
         serviceSearchRepository.delete(document)
     }

@@ -40,7 +40,7 @@ class SampleTableService(
             sampleTableRepository
                 .findAll(SampleTable::class, specification, seekable)
                 .map { MAPPER.toResponse(it) }
-        }
+        }!!
     }
 
     @CachePut(value = [CACHE_NAME], key = "#result.id")
@@ -51,7 +51,7 @@ class SampleTableService(
                 .let {
                     sampleTableRepository.save(it)
                 }
-        }
+        }!!
 
         sampleTableEvent.create(sampleTable)
 
@@ -62,9 +62,9 @@ class SampleTableService(
     fun get(id: UUID): SampleResponse {
         val sampleTable = transactional(readOnly = true) {
             sampleTableRepository
-                .findById(id)
-                .orElseThrow { ResourceNotFoundException(SOURCE, id) }
-        }
+                .findLockedById(id)
+                ?: throw ResourceNotFoundException(SOURCE, id)
+        }!!
 
         return MAPPER.toResponse(sampleTable)
     }
@@ -74,13 +74,13 @@ class SampleTableService(
         val sampleTable = transactional {
             sampleTableRepository
                 .findLockedById(id)
-                .orElseThrow { ResourceNotFoundException(SOURCE, id) }
-                .let {
+                ?.let {
                     MAPPER.update(sampleRequest, it)
 
                     sampleTableRepository.save(it)
                 }
-        }
+                ?: throw ResourceNotFoundException(SOURCE, id)
+        }!!
 
         sampleTableEvent.update(sampleTable)
 
@@ -92,13 +92,13 @@ class SampleTableService(
         val sampleTable = transactional {
             sampleTableRepository
                 .findLockedById(id)
-                .orElseThrow { ResourceNotFoundException(SOURCE, id) }
-                .let {
+                ?.let {
                     sampleTableRepository.softDelete(it)
 
                     it
                 }
-        }
+                ?: throw ResourceNotFoundException(SOURCE, id)
+        }!!
 
         sampleTableEvent.delete(sampleTable)
     }

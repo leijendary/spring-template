@@ -11,11 +11,10 @@ private val transactionManager = getBean(PlatformTransactionManager::class)
  * This is faster as there could be other functions/methods running under the same
  * transaction but does not necessarily need to run in a transaction.
  */
-fun <T> transactional(readOnly: Boolean = false, function: () -> T): T {
-    val template = TransactionTemplate(transactionManager)
-        .apply {
-            isReadOnly = readOnly
-        }
+fun <T> transactional(readOnly: Boolean = false, function: () -> T?): T? {
+    val template = TransactionTemplate(transactionManager).apply {
+        isReadOnly = readOnly
+    }
 
-    return template.execute { function() }!!
+    return template.execute { function() }
 }

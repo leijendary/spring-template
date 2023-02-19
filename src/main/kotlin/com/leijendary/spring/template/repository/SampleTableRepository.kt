@@ -13,7 +13,7 @@ import java.util.stream.Stream
 interface SampleTableRepository : JpaRepository<SampleTable, UUID>, JpaSpecificationExecutor<SampleTable>,
     SeekPaginationRepository<SampleTable>, SoftDeleteRepository<SampleTable> {
     @Lock(WRITE)
-    fun findLockedById(id: UUID): Optional<SampleTable>
+    fun findLockedById(id: UUID): SampleTable?
 
     fun streamAllByDeletedAtIsNull(): Stream<SampleTable>
 }
