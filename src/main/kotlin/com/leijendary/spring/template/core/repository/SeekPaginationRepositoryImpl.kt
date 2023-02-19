@@ -10,7 +10,6 @@ import com.leijendary.spring.template.core.model.SeekToken
 import com.leijendary.spring.template.core.model.Seekable
 import com.leijendary.spring.template.core.security.Encryption
 import jakarta.persistence.EntityManager
-import jakarta.persistence.criteria.CriteriaBuilder
 import jakarta.persistence.criteria.Expression
 import org.springframework.data.domain.Sort
 import org.springframework.data.jpa.domain.Specification
@@ -32,7 +31,7 @@ class SeekPaginationRepositoryImpl<T : UUIDEntity>(
     private val encryption: Encryption
 ) : SeekPaginationRepository<T> {
     private val log = logger()
-    private val criteriaBuilder: CriteriaBuilder = entityManager.criteriaBuilder
+    private val criteriaBuilder = entityManager.criteriaBuilder
 
     override fun findAll(entity: KClass<T>, seekable: Seekable): Seek<T> {
         return findAll(entity, null, seekable)

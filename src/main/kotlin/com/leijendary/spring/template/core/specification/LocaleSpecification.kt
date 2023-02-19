@@ -15,7 +15,7 @@ class LocaleSpecification<T : LocaleEntity>(
         root: Root<T>,
         criteriaQuery: CriteriaQuery<*>,
         criteriaBuilder: CriteriaBuilder
-    ): Predicate? {
+    ): Predicate {
         val referenceId = referenceId(root, criteriaBuilder)
         val predicates = mutableListOf(referenceId)
 

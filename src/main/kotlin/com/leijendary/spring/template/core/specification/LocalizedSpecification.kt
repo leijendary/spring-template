@@ -9,12 +9,12 @@ class LocalizedSpecification<T : LocalizedEntity<*>>(val language: String? = nul
         root: Root<T>,
         criteriaQuery: CriteriaQuery<*>,
         criteriaBuilder: CriteriaBuilder
-    ): Predicate? {
+    ): Predicate {
         val predicates = ArrayList<Predicate>()
 
         // If there is no language filter, return all based on the reference ID predicate
         if (language.isNullOrBlank()) {
-            return null
+            return criteriaBuilder.and()
         }
 
         // ID path for reference ID

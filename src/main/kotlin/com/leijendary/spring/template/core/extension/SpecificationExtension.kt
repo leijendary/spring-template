@@ -18,7 +18,7 @@ fun lowerEqual(value: String, path: Path<String>, criteriaBuilder: CriteriaBuild
     return criteriaBuilder.equal(lowerPath, lowerValue)
 }
 
-fun ruleOut(path: Path<String>, filters: List<String>, builder: CriteriaBuilder): Predicate? {
+fun ruleOut(path: Path<String>, filters: List<String>, builder: CriteriaBuilder): Predicate {
     val includes = filters
         .stream()
         .filter { s -> !s.startsWith("!") }
@@ -44,14 +44,10 @@ fun ruleOut(path: Path<String>, filters: List<String>, builder: CriteriaBuilder)
         predicates.add(notIn)
     }
 
-    return if (predicates.isEmpty()) {
-        null
-    } else {
-        builder.and(*predicates.toTypedArray())
-    }
+    return builder.and(*predicates.toTypedArray())
 }
 
-fun textSearch(path: Path<*>, query: String, builder: CriteriaBuilder): Predicate? {
+fun textSearch(path: Path<*>, query: String, builder: CriteriaBuilder): Predicate {
     val filter = query.split(" ").joinToString(" | ")
     val tsQuery = builder.function("to_tsquery", String::class.java, builder.literal(filter))
     val tsRank = builder

@@ -13,9 +13,9 @@ class SampleListSpecification(private val query: String? = null) : Specification
         root: Root<SampleTable>,
         criteriaQuery: CriteriaQuery<*>,
         criteriaBuilder: CriteriaBuilder
-    ): Predicate? {
+    ): Predicate {
         if (query.isNullOrBlank()) {
-            return null
+            return criteriaBuilder.and()
         }
 
         // Column 1 filtering
