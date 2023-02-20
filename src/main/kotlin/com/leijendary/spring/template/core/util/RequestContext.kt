@@ -23,12 +23,11 @@ object RequestContext {
             return attributes?.request
         }
 
+    val userIdOrNull: String?
+        get() = currentRequest?.getHeader(HEADER_USER_ID)
+
     val userId: String
-        get() {
-            return currentRequest
-                ?.getHeader(HEADER_USER_ID)
-                ?: authProperties.system.principal
-        }
+        get() = userIdOrNull ?: authProperties.system.principal
 
     val uri: URI?
         get() {
