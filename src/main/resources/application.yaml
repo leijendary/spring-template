@@ -101,6 +101,7 @@ spring:
         instanceProfile: true
       s3:
         bucketName: leijendary
+        signatureDuration: 30m
     discovery:
       client:
         simple:

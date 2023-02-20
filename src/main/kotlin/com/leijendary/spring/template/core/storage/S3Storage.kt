@@ -14,12 +14,10 @@ import java.io.File
 
 @Service
 class S3Storage(
-    awsS3Properties: AwsS3Properties,
+    private val awsS3Properties: AwsS3Properties,
     private val s3Client: S3Client,
     private val s3Presigner: S3Presigner
 ) {
-    private val bucketName = awsS3Properties.bucketName
-
     enum class Request {
         GET,
         PUT
@@ -33,12 +31,13 @@ class S3Storage(
     fun signGet(key: String): String {
         val request = GetObjectRequest
             .builder()
-            .bucket(bucketName)
+            .bucket(awsS3Properties.bucketName)
             .key(key)
             .build()
         val signRequest = GetObjectPresignRequest
             .builder()
             .getObjectRequest(request)
+            .signatureDuration(awsS3Properties.signatureDuration)
             .build()
 
         return s3Presigner
@@ -50,12 +49,13 @@ class S3Storage(
     fun signPut(key: String): String {
         val request = PutObjectRequest
             .builder()
-            .bucket(bucketName)
+            .bucket(awsS3Properties.bucketName)
             .key(key)
             .build()
         val signRequest = PutObjectPresignRequest
             .builder()
             .putObjectRequest(request)
+            .signatureDuration(awsS3Properties.signatureDuration)
             .build()
 
         return s3Presigner
@@ -72,7 +72,7 @@ class S3Storage(
 
     fun stream(key: String): ResponseInputStream<GetObjectResponse> {
         val request = GetObjectRequest.builder()
-            .bucket(bucketName)
+            .bucket(awsS3Properties.bucketName)
             .key(key)
             .build()
 
@@ -81,7 +81,7 @@ class S3Storage(
 
     fun put(key: String, file: File): PutObjectResponse {
         val request = PutObjectRequest.builder()
-            .bucket(bucketName)
+            .bucket(awsS3Properties.bucketName)
             .key(key)
             .build()
         val body = RequestBody.fromFile(file)
@@ -102,7 +102,7 @@ class S3Storage(
 
     fun delete(key: String): DeleteObjectResponse {
         val request = DeleteObjectRequest.builder()
-            .bucket(bucketName)
+            .bucket(awsS3Properties.bucketName)
             .key(key)
             .build()
 
@@ -112,7 +112,7 @@ class S3Storage(
     fun deleteAll(keys: List<String>): DeleteObjectsResponse {
         val ids = keys.map { key -> ObjectIdentifier.builder().key(key).build() }
         val request = DeleteObjectsRequest.builder()
-            .bucket(bucketName)
+            .bucket(awsS3Properties.bucketName)
             .delete {
                 it.objects(ids).build()
             }
