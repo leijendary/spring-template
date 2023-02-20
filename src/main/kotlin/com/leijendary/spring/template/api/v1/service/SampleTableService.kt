@@ -4,7 +4,6 @@ import com.leijendary.spring.template.api.v1.mapper.SampleMapper
 import com.leijendary.spring.template.api.v1.model.SampleRequest
 import com.leijendary.spring.template.api.v1.model.SampleResponse
 import com.leijendary.spring.template.api.v1.search.SampleSearch
-import com.leijendary.spring.template.core.exception.ResourceNotFoundException
 import com.leijendary.spring.template.core.extension.transactional
 import com.leijendary.spring.template.core.model.QueryRequest
 import com.leijendary.spring.template.core.model.Seek
@@ -30,7 +29,6 @@ class SampleTableService(
     companion object {
         private const val CACHE_NAME = "sample:v1"
         private val MAPPER = SampleMapper.INSTANCE
-        private val SOURCE = listOf("data", "SampleTable", "id")
     }
 
     fun seek(queryRequest: QueryRequest, seekable: Seekable): Seek<SampleResponse> {
@@ -61,9 +59,7 @@ class SampleTableService(
     @Cacheable(value = [CACHE_NAME], key = "#id")
     fun get(id: UUID): SampleResponse {
         val sampleTable = transactional(readOnly = true) {
-            sampleTableRepository
-                .findLockedById(id)
-                ?: throw ResourceNotFoundException(SOURCE, id)
+            sampleTableRepository.findLockedByIdOrThrow(id)
         }!!
 
         return MAPPER.toResponse(sampleTable)
@@ -73,13 +69,12 @@ class SampleTableService(
     fun update(id: UUID, sampleRequest: SampleRequest): SampleResponse {
         val sampleTable = transactional {
             sampleTableRepository
-                .findLockedById(id)
-                ?.let {
+                .findLockedByIdOrThrow(id)
+                .let {
                     MAPPER.update(sampleRequest, it)
 
                     sampleTableRepository.save(it)
                 }
-                ?: throw ResourceNotFoundException(SOURCE, id)
         }!!
 
         sampleTableEvent.update(sampleTable)
@@ -91,13 +86,12 @@ class SampleTableService(
     fun delete(id: UUID) {
         val sampleTable = transactional {
             sampleTableRepository
-                .findLockedById(id)
-                ?.let {
+                .findLockedByIdOrThrow(id)
+                .let {
                     sampleTableRepository.softDelete(it)
 
                     it
                 }
-                ?: throw ResourceNotFoundException(SOURCE, id)
         }!!
 
         sampleTableEvent.delete(sampleTable)

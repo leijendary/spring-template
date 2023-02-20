@@ -2,7 +2,6 @@ package com.leijendary.spring.template.api.v1.search
 
 import com.leijendary.spring.template.api.v1.mapper.SampleMapper
 import com.leijendary.spring.template.api.v1.model.SampleSearchResponse
-import com.leijendary.spring.template.core.exception.ResourceNotFoundException
 import com.leijendary.spring.template.core.extension.shouldMatch
 import com.leijendary.spring.template.core.extension.sortBuilder
 import com.leijendary.spring.template.core.model.QueryRequest
@@ -14,7 +13,6 @@ import org.springframework.data.domain.PageImpl
 import org.springframework.data.domain.Pageable
 import org.springframework.data.elasticsearch.client.elc.ElasticsearchTemplate
 import org.springframework.data.elasticsearch.client.elc.NativeQueryBuilder
-import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import java.util.*
 
@@ -25,7 +23,6 @@ class SampleSearch(
 ) {
     companion object {
         private val MAPPER = SampleMapper.INSTANCE
-        private val SOURCE = listOf("search", "SampleSearch", "id")
     }
 
     fun page(queryRequest: QueryRequest, pageable: Pageable): Page<SampleSearchResponse> {
@@ -66,16 +63,13 @@ class SampleSearch(
 
     fun get(id: UUID): SampleSearchResponse {
         return serviceSearchRepository
-            .findByIdOrNull(id)
-            ?.let { MAPPER.toSearchResponse(it) }
-            ?: throw ResourceNotFoundException(SOURCE, id)
+            .findByIdOrThrow(id)
+            .let { MAPPER.toSearchResponse(it) }
     }
 
     fun update(sampleTable: SampleTable) {
         val id = sampleTable.id!!
-        val document = serviceSearchRepository
-            .findByIdOrNull(id)
-            ?: throw ResourceNotFoundException(SOURCE, id)
+        val document = serviceSearchRepository.findByIdOrThrow(id)
 
         MAPPER.update(sampleTable, document)
 
@@ -83,9 +77,7 @@ class SampleSearch(
     }
 
     fun delete(id: UUID) {
-        val document = serviceSearchRepository
-            .findByIdOrNull(id)
-            ?: throw ResourceNotFoundException(SOURCE, id)
+        val document = serviceSearchRepository.findByIdOrThrow(id)
 
         serviceSearchRepository.delete(document)
     }
