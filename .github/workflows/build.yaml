@@ -15,12 +15,12 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ secrets.AWS_REGION }}
+          aws-region: ${{ vars.AWS_REGION }}
       - id: login-ecr
         name: Login to ECR
         uses: aws-actions/amazon-ecr-login@v1
       - name: Build and push
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v4
         env:
           REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           REPOSITORY: ${{ github.event.repository.name }}
@@ -31,8 +31,7 @@ jobs:
           platforms: linux/arm64
           build-args: BUILDKIT_INLINE_CACHE=1
           cache-from: $REGISTRY/$REPOSITORY:latest
-          tags: $REGISTRY/$REPOSITORY:$IMAGE_TAG,$REGISTRY/$REPOSITORY:latest
+          tags: |
+            $REGISTRY/$REPOSITORY:$IMAGE_TAG
+            $REGISTRY/$REPOSITORY:latest
           push: true
-      - name: Log out of AWS ECR
-        if: always()
-        run: docker logout ${{ steps.ecr.outputs.registry }}
