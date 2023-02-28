@@ -26,7 +26,11 @@ export class AuroraDatabase {
     console.log("cluster", cluster);
     console.log("credential", credential);
 
-    console.log("cluster.json", JSON.stringify(cluster));
+    this.username = Secret.fromSecretsManager(credential, "username");
+    this.password = Secret.fromSecretsManager(credential, "password");
+
+    console.log("username", this.username);
+    console.log("password", this.password);
 
     const endpoint = cluster.clusterEndpoint;
     const readEndpoint = cluster.clusterReadEndpoint;
