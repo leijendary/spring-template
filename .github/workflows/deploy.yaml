@@ -9,10 +9,6 @@ on:
         type: string
         default: ${{ github.sha }}
 
-env:
-  REPOSITORY_URL: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ github.event.repository.name }}
-  IMAGE_TAG: ${{ inputs.image-tag }}
-
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -29,17 +25,18 @@ jobs:
       - id: login-ecr
         name: Login to ECR
         uses: aws-actions/amazon-ecr-login@v1
-      - name: Update Task Definition
-        id: task-definition
-        uses: aws-actions/amazon-ecs-render-task-definition@v1
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
         with:
-          task-definition: ./.aws/task-definitions/${{ inputs.environment }}.json
-          container-name: ${{ github.event.repository.name }}
-          image: ${{ env.REPOSITORY_URL }}:${{ env.IMAGE_TAG }}
-      - name: Deploy Amazon ECS task definition
-        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
-        with:
-          task-definition: ${{ steps.task-definition.outputs.task-definition }}
-          service: ${{ secrets.ECS_SERVICE }}
-          cluster: ${{ secrets.ECS_CLUSTER }}-${{ inputs.environment }}
-          wait-for-service-stability: true
+          node-version: "18.x"
+      - name: Deploy AWS CDK
+        env:
+          ENVIRONMENT: ${{ inputs.environment }}
+          STACK_ID: ${{ vars.STACK_ID }}
+          STACK_NAME: ${{ github.event.repository.name }}
+          VPC_ID: ${{ vars.VPC_ID }}
+          IMAGE_TAG: ${{ inputs.image-tag }}
+        working-directory: ./aws
+        run: |
+          npm ci
+          npm run cdk deploy -- --require-approval never

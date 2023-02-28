@@ -7,10 +7,14 @@ jobs:
   test:
     name: JUnit
     uses: ./.github/workflows/test.yaml
+    with:
+      environment: prod
     secrets: inherit
   build:
-    name: Docker Image
+    name: Docker
     uses: ./.github/workflows/build.yaml
+    with:
+      environment: prod
     secrets: inherit
     needs: test
   deploy:

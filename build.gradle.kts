@@ -1,7 +1,7 @@
 plugins {
     id("org.springframework.boot") version "3.0.2"
     id("io.spring.dependency-management") version "1.1.0"
-    id("org.barfuin.gradle.jacocolog") version "2.0.0"
+    id("org.barfuin.gradle.jacocolog") version "3.1.0"
     kotlin("jvm") version "1.8.10"
     kotlin("kapt") version "1.8.10"
     kotlin("plugin.spring") version "1.8.10"
@@ -143,7 +143,7 @@ tasks {
     }
 
     test {
-        jvmArgs = listOf("-XX:+AllowRedefinitionToAddDeleteMethods", "--enable-preview")
+        jvmArgs = listOf("--enable-preview")
         useJUnitPlatform()
         finalizedBy(jacocoTestReport)
     }

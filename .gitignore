@@ -46,3 +46,6 @@ out/
 
 ### jenv ###
 .java-version
+
+### CDK ###
+!aws/bin/
