@@ -7,15 +7,14 @@ import {
   LogDriver,
   OperatingSystemFamily,
   Protocol,
-  Secret,
   TaskDefinition,
   TaskDefinitionProps,
 } from "aws-cdk-lib/aws-ecs";
 import { PolicyDocument, PolicyStatement, Role, ServicePrincipal } from "aws-cdk-lib/aws-iam";
 import { LogGroup, RetentionDays } from "aws-cdk-lib/aws-logs";
-import { DatabaseSecret, ServerlessCluster } from "aws-cdk-lib/aws-rds";
 import { Construct } from "constructs";
 import env, { isProd } from "../env";
+import { AuroraDatabase } from "./database";
 
 type TaskDefinitionConstructProps = {
   repositoryArn: string;
@@ -59,23 +58,7 @@ export class TaskDefinitionConstruct extends TaskDefinition {
   }
 
   private container(scope: Construct, image: ContainerImage, logGroup: LogGroup) {
-    const database = ServerlessCluster.fromServerlessClusterAttributes(scope, `${id}AuroraCluster`, {
-      clusterIdentifier: `api-${environment}`,
-    });
-    const credential = DatabaseSecret.fromSecretNameV2(
-      scope,
-      `${id}AuroraSecret-${environment}`,
-      `${environment}/aurora/api`
-    );
-
-    console.log("database", database);
-
-    const endpoint = database.clusterEndpoint;
-    const readEndpoint = database.clusterReadEndpoint;
-    const primaryUrl = `jdbc:postgresql://${endpoint.socketAddress}/${env.database}`;
-    const readonlyUrl = `jdbc:postgresql://${readEndpoint.socketAddress}/${env.database}`;
-    const username = Secret.fromSecretsManager(credential, "username");
-    const password = Secret.fromSecretsManager(credential, "password");
+    const { primaryUrl, readonlyUrl, username, password } = new AuroraDatabase(scope);
 
     this.addContainer(`${id}Container-${environment}`, {
       containerName: name,
