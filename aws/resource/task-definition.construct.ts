@@ -67,10 +67,13 @@ export class TaskDefinitionConstruct extends TaskDefinition {
       `${id}AuroraSecret-${environment}`,
       `${environment}/aurora/api`
     );
+
+    console.log("database", database);
+
     const endpoint = database.clusterEndpoint;
     const readEndpoint = database.clusterReadEndpoint;
-    const primaryUrl = `jdbc:postgresql://${endpoint.hostname}:${endpoint.port}/${env.database}`;
-    const readonlyUrl = `jdbc:postgresql://${readEndpoint.hostname}:${readEndpoint.port}/${env.database}`;
+    const primaryUrl = `jdbc:postgresql://${endpoint.socketAddress}/${env.database}`;
+    const readonlyUrl = `jdbc:postgresql://${readEndpoint.socketAddress}/${env.database}`;
     const username = Secret.fromSecretsManager(credential, "username");
     const password = Secret.fromSecretsManager(credential, "password");
 
