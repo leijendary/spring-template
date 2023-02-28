@@ -13,7 +13,7 @@ import {
 } from "aws-cdk-lib/aws-ecs";
 import { PolicyDocument, PolicyStatement, Role, ServicePrincipal } from "aws-cdk-lib/aws-iam";
 import { LogGroup, RetentionDays } from "aws-cdk-lib/aws-logs";
-import { DatabaseCluster, DatabaseSecret } from "aws-cdk-lib/aws-rds";
+import { DatabaseSecret, ServerlessCluster } from "aws-cdk-lib/aws-rds";
 import { Construct } from "constructs";
 import env, { isProd } from "../env";
 
@@ -59,7 +59,7 @@ export class TaskDefinitionConstruct extends TaskDefinition {
   }
 
   private container(scope: Construct, image: ContainerImage, logGroup: LogGroup) {
-    const database = DatabaseCluster.fromDatabaseClusterAttributes(scope, `${id}AuroraCluster`, {
+    const database = ServerlessCluster.fromServerlessClusterAttributes(scope, `${id}AuroraCluster`, {
       clusterIdentifier: `api-${environment}`,
     });
     const credential = DatabaseSecret.fromSecretNameV2(
