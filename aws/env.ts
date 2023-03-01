@@ -12,11 +12,6 @@ export default {
   },
   vpcId: process.env.VPC_ID!!,
   imageTag: process.env.IMAGE_TAG!!,
-  database: {
-    name: "spring_template",
-    clusterEndpoint: process.env.DATABASE_CLUSTER_ENDPOINT!!,
-    readerEndpoint: process.env.DATABASE_READER_ENDPOINT!!,
-  },
   namespace: {
     arn: process.env.NAMESPACE_ARN!!,
     id: process.env.NAMESPACE_ID!!,

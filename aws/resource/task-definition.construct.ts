@@ -7,14 +7,15 @@ import {
   LogDriver,
   OperatingSystemFamily,
   Protocol,
+  Secret,
   TaskDefinition,
   TaskDefinitionProps,
 } from "aws-cdk-lib/aws-ecs";
 import { PolicyDocument, PolicyStatement, Role, ServicePrincipal } from "aws-cdk-lib/aws-iam";
 import { LogGroup, RetentionDays } from "aws-cdk-lib/aws-logs";
+import { DatabaseSecret } from "aws-cdk-lib/aws-rds";
 import { Construct } from "constructs";
 import env, { isProd } from "../env";
-import { AuroraDatabase } from "./database";
 
 type TaskDefinitionConstructProps = {
   repositoryArn: string;
@@ -32,8 +33,8 @@ export class TaskDefinitionConstruct extends TaskDefinition {
     const { repositoryArn } = props;
     const memoryMiB = isProd() ? "2 GB" : "0.5 GB";
     const cpu = isProd() ? "1 vCPU" : "0.25 vCPU";
-    const repository = Repository.fromRepositoryArn(scope, `${id}Repository-${environment}`, repositoryArn);
-    const image = ContainerImage.fromEcrRepository(repository, imageTag);
+    const repository = getRepository(scope, repositoryArn);
+    const image = getImage(repository);
     const logGroup = createLogGroup(scope);
     const taskRole = createTaskRole(scope);
     const executionRole = createExecutionRole(scope, logGroup, repository);
@@ -57,7 +58,7 @@ export class TaskDefinitionConstruct extends TaskDefinition {
   }
 
   private container(scope: Construct, image: ContainerImage, logGroup: LogGroup) {
-    const { primaryUrl, readonlyUrl, username, password } = new AuroraDatabase(scope);
+    const { username, password } = getAuroraCredentials(scope);
 
     this.addContainer(`${id}Container-${environment}`, {
       containerName: name,
@@ -78,8 +79,6 @@ export class TaskDefinitionConstruct extends TaskDefinition {
       },
       environment: {
         SPRING_PROFILES_ACTIVE: environment,
-        SPRING_DATASOURCE_PRIMARY_JDBC_URL: primaryUrl,
-        SPRING_DATASOURCE_READONLY_JDBC_URL: readonlyUrl,
       },
       secrets: {
         SPRING_DATASOURCE_PRIMARY_USERNAME: username,
@@ -140,4 +139,28 @@ const createExecutionRole = (scope: Construct, logGroup: LogGroup, repository: I
       }),
     },
   });
+};
+
+const getRepository = (scope: Construct, repositoryArn: string) => {
+  return Repository.fromRepositoryArn(scope, `${id}Repository-${environment}`, repositoryArn);
+};
+
+const getImage = (repository: IRepository) => {
+  return ContainerImage.fromEcrRepository(repository, imageTag);
+};
+
+const getAuroraCredentials = (scope: Construct) => {
+  const credential = DatabaseSecret.fromSecretNameV2(
+    scope,
+    `${id}AuroraSecret-${environment}`,
+    `api-aurora-${environment}`
+  );
+
+  const username = Secret.fromSecretsManager(credential, "username");
+  const password = Secret.fromSecretsManager(credential, "password");
+
+  return {
+    username,
+    password,
+  };
 };
