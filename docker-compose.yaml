@@ -12,6 +12,8 @@ services:
       - kafka_network
       - elasticsearch_network
       - jaeger_network
+    healthcheck:
+      test: [ "CMD-SHELL", "wget -qO- --no-check-certificate https://localhost/actuator/health || exit 1" ]
     deploy:
       resources:
         reservations:
