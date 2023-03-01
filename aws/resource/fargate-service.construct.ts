@@ -1,7 +1,7 @@
 import { Duration } from "aws-cdk-lib";
 import { ISecurityGroup, IVpc, SecurityGroup, SubnetType, Vpc } from "aws-cdk-lib/aws-ec2";
 import { Cluster, FargateService, FargateServiceProps, TaskDefinition } from "aws-cdk-lib/aws-ecs";
-import { INamespace, PrivateDnsNamespace } from "aws-cdk-lib/aws-servicediscovery";
+import { DnsRecordType, INamespace, PrivateDnsNamespace } from "aws-cdk-lib/aws-servicediscovery";
 import { Construct } from "constructs";
 import env from "../env";
 import { isProd } from "./../env";
@@ -40,6 +40,7 @@ export class FargateServiceConstruct extends FargateService {
       },
       cloudMapOptions: {
         name,
+        dnsRecordType: DnsRecordType.SRV,
       },
       ...rest,
     };
