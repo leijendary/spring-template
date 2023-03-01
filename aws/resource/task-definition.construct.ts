@@ -22,8 +22,7 @@ type TaskDefinitionConstructProps = {
 
 const environment = env.environment;
 const imageTag = env.imageTag;
-const id = env.stackId;
-const name = env.stackName;
+const { id, name } = env.stack;
 const family = `${name}-${environment}`;
 const assumedBy = new ServicePrincipal("ecs-tasks.amazonaws.com");
 const logPrefix = "/ecs/fargate";
@@ -74,7 +73,11 @@ export class TaskDefinitionConstruct extends TaskDefinition {
           protocol: Protocol.TCP,
         },
       ],
+      healthCheck: {
+        command: ["CMD-SHELL", "wget -qO- --no-check-certificate https://localhost/actuator/health || exit 1"],
+      },
       environment: {
+        SPRING_PROFILES_ACTIVE: environment,
         SPRING_DATASOURCE_PRIMARY_JDBC_URL: primaryUrl,
         SPRING_DATASOURCE_READONLY_JDBC_URL: readonlyUrl,
       },

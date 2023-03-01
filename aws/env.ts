@@ -6,9 +6,20 @@ export default {
   account: process.env.CDK_DEFAULT_ACCOUNT!!,
   region: process.env.CDK_DEFAULT_REGION!!,
   environment,
-  stackId: process.env.STACK_ID!!,
-  stackName: process.env.STACK_NAME!!,
+  stack: {
+    id: process.env.STACK_ID!!,
+    name: process.env.STACK_NAME!!,
+  },
   vpcId: process.env.VPC_ID!!,
   imageTag: process.env.IMAGE_TAG!!,
-  database: "spring_template",
+  database: {
+    name: "spring_template",
+    clusterEndpoint: process.env.DATABASE_CLUSTER_ENDPOINT!!,
+    readerEndpoint: process.env.DATABASE_READER_ENDPOINT!!,
+  },
+  namespace: {
+    arn: process.env.NAMESPACE_ARN!!,
+    id: process.env.NAMESPACE_ID!!,
+    name: process.env.NAMESPACE_NAME!!,
+  },
 };

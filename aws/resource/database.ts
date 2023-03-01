@@ -4,8 +4,8 @@ import { Construct } from "constructs";
 import env from "../env";
 
 const environment = env.environment;
-const id = env.stackId;
-const database = env.database;
+const { id } = env.stack;
+const { name, clusterEndpoint, readerEndpoint } = env.database;
 
 export class AuroraDatabase {
   primaryUrl: string;
@@ -16,27 +16,21 @@ export class AuroraDatabase {
   constructor(scope: Construct) {
     const cluster = ServerlessCluster.fromServerlessClusterAttributes(scope, `${id}AuroraCluster`, {
       clusterIdentifier: `api-${environment}`,
+      clusterEndpointAddress: clusterEndpoint,
+      readerEndpointAddress: readerEndpoint,
+      port: 5432,
     });
     const credential = DatabaseSecret.fromSecretNameV2(
       scope,
       `${id}AuroraSecret-${environment}`,
-      `${environment}/aurora/api`
+      `api-aurora-${environment}`
     );
-
-    console.log("cluster", cluster);
-    console.log("credential", credential);
-
-    this.username = Secret.fromSecretsManager(credential, "username");
-    this.password = Secret.fromSecretsManager(credential, "password");
-
-    console.log("username", this.username);
-    console.log("password", this.password);
 
     const endpoint = cluster.clusterEndpoint;
     const readEndpoint = cluster.clusterReadEndpoint;
 
-    this.primaryUrl = `jdbc:postgresql://${endpoint.socketAddress}/${database}`;
-    this.readonlyUrl = `jdbc:postgresql://${readEndpoint.socketAddress}/${database}`;
+    this.primaryUrl = `jdbc:postgresql://${endpoint.socketAddress}/${name}`;
+    this.readonlyUrl = `jdbc:postgresql://${readEndpoint.socketAddress}/${name}`;
     this.username = Secret.fromSecretsManager(credential, "username");
     this.password = Secret.fromSecretsManager(credential, "password");
   }

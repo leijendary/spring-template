@@ -1,6 +1,7 @@
 import { Duration } from "aws-cdk-lib";
-import { SecurityGroup, Vpc } from "aws-cdk-lib/aws-ec2";
+import { ISecurityGroup, IVpc, SecurityGroup, SubnetType, Vpc } from "aws-cdk-lib/aws-ec2";
 import { Cluster, FargateService, FargateServiceProps, TaskDefinition } from "aws-cdk-lib/aws-ecs";
+import { INamespace, PrivateDnsNamespace } from "aws-cdk-lib/aws-servicediscovery";
 import { Construct } from "constructs";
 import env from "../env";
 import { isProd } from "./../env";
@@ -12,29 +13,20 @@ type FargateServiceConstructProps = {
 };
 
 const environment = env.environment;
-const id = env.stackId;
-const name = env.stackName;
+const { id, name } = env.stack;
+const { arn: namespaceArn, id: namespaceId, name: namespaceName } = env.namespace;
 
 export class FargateServiceConstruct extends FargateService {
   constructor(scope: Construct, props: FargateServiceConstructProps) {
     const { vpcId, clusterArn, taskDefinition, ...rest } = props;
-    const vpc = Vpc.fromLookup(scope, `${id}Vpc-${environment}`, {
-      vpcId,
-    });
-    const securityGroup = SecurityGroup.fromLookupByName(
-      scope,
-      `${id}SecurityGroup-${environment}`,
-      `api-${environment}`,
-      vpc
-    );
-    const cluster = Cluster.fromClusterAttributes(scope, `${id}Cluster-${environment}`, {
-      clusterName: `api-cluster-${environment}`,
-      clusterArn,
-      vpc,
-      securityGroups: [securityGroup],
-    });
+    const vpc = getVpc(scope, vpcId);
+    const securityGroup = getSecurityGroup(scope, vpc);
+    const namespace = getNamespace(scope);
+    const cluster = getCluster(scope, clusterArn, vpc, securityGroup, namespace);
     const config: FargateServiceProps = {
-      ...rest,
+      vpcSubnets: {
+        subnetType: SubnetType.PRIVATE_WITH_EGRESS,
+      },
       cluster,
       serviceName: name,
       securityGroups: [securityGroup],
@@ -47,8 +39,9 @@ export class FargateServiceConstruct extends FargateService {
         rollback: true,
       },
       cloudMapOptions: {
-        name
+        name,
       },
+      ...rest,
     };
 
     super(scope, `${id}Service-${environment}`, config);
@@ -71,3 +64,37 @@ export class FargateServiceConstruct extends FargateService {
     });
   }
 }
+
+const getVpc = (scope: Construct, vpcId: string) => {
+  return Vpc.fromLookup(scope, `${id}Vpc-${environment}`, {
+    vpcId,
+  });
+};
+
+const getSecurityGroup = (scope: Construct, vpc: IVpc) => {
+  return SecurityGroup.fromLookupByName(scope, `${id}SecurityGroup-${environment}`, `api-${environment}`, vpc);
+};
+
+const getNamespace = (scope: Construct) => {
+  return PrivateDnsNamespace.fromPrivateDnsNamespaceAttributes(scope, `${id}Namespace-${environment}`, {
+    namespaceArn,
+    namespaceId,
+    namespaceName,
+  });
+};
+
+const getCluster = (
+  scope: Construct,
+  clusterArn: string,
+  vpc: IVpc,
+  securityGroup: ISecurityGroup,
+  namespace: INamespace
+) => {
+  return Cluster.fromClusterAttributes(scope, `${id}Cluster-${environment}`, {
+    clusterName: `api-cluster-${environment}`,
+    clusterArn,
+    vpc,
+    securityGroups: [securityGroup],
+    defaultCloudMapNamespace: namespace,
+  });
+};
