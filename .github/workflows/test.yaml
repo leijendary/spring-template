@@ -10,9 +10,6 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     environment: ${{ inputs.environment }}
-    permissions:
-      id-token: write
-      contents: read
     steps:
       - name: Setup graalvm
         uses: graalvm/setup-graalvm@v1
