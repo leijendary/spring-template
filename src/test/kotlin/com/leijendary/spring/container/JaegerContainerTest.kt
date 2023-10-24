@@ -9,10 +9,10 @@ import org.testcontainers.utility.DockerImageName
 class JaegerContainerTest {
     companion object {
         private val image = DockerImageName.parse("jaegertracing/all-in-one:1")
-        private val jaeger = GenericContainer(image).apply {
-            addEnv("COLLECTOR_OTLP_ENABLED", "true")
-            withExposedPorts(4318)
-        }
+        private val jaeger = GenericContainer(image)
+            .withEnv("COLLECTOR_OTLP_ENABLED", "true")
+            .withExposedPorts(4318)
+            .withReuse(true)
     }
 
     internal class Initializer : ApplicationContextInitializer<ConfigurableApplicationContext> {

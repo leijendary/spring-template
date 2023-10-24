@@ -10,6 +10,7 @@ class PostgresContainerTest {
     companion object {
         private val image = DockerImageName.parse("postgres:15-alpine")
         private val postgres = PostgreSQLContainer(image)
+            .withReuse(true)
     }
 
     internal class Initializer : ApplicationContextInitializer<ConfigurableApplicationContext> {
