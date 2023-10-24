@@ -86,20 +86,17 @@ dependencies {
     // OpenAPI
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0")
 
-    // Tracing
-    implementation("com.github.loki4j:loki-logback-appender:1.4.2")
-    implementation("io.github.openfeign:feign-micrometer")
-    implementation("io.micrometer:micrometer-registry-prometheus")
-    implementation("io.micrometer:micrometer-tracing-bridge-otel")
-    implementation("io.opentelemetry:opentelemetry-exporter-otlp")
-    implementation("net.ttddyy.observation:datasource-micrometer-spring-boot:1.0.2")
+    // Test Containers
+    testImplementation("org.testcontainers:junit-jupiter")
+    testImplementation("org.testcontainers:elasticsearch")
+    testImplementation("org.testcontainers:kafka")
+    testImplementation("org.testcontainers:postgresql")
 }
 
 dependencyManagement {
     imports {
         mavenBom("io.awspring.cloud:spring-cloud-aws-dependencies:3.0.2")
-        mavenBom("io.micrometer:micrometer-tracing-bom:1.1.6")
-        mavenBom("org.springframework.cloud:spring-cloud-dependencies:2022.0.4")
+        mavenBom("org.springframework.cloud:spring-cloud-dependencies:2023.0.0-SNAPSHOT")
         mavenBom("org.testcontainers:testcontainers-bom:1.19.1")
         mavenBom("software.amazon.awssdk:bom:2.21.5")
     }
