@@ -97,6 +97,9 @@ dependencies {
     implementation("io.awspring.cloud:spring-cloud-aws-starter-s3")
     implementation("software.amazon.awssdk:cloudfront")
 
+    // Cache
+    implementation("com.github.ben-manes.caffeine:caffeine")
+
     // Database
     implementation("org.postgresql:postgresql")
     implementation("org.liquibase:liquibase-core")
