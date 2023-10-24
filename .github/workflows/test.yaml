@@ -11,6 +11,8 @@ jobs:
     timeout-minutes: 10
     environment: ${{ inputs.environment }}
     steps:
+      - name: Checkout
+        uses: actions/checkout@v3
       - name: Setup graalvm
         uses: graalvm/setup-graalvm@v1
         with:
@@ -19,8 +21,6 @@ jobs:
           java-version: 21
       - name: Setup gradle
         uses: gradle/gradle-build-action@v2
-      - name: Checkout
-        uses: actions/checkout@v3
       - name: Execute gradle test
         run: ./gradlew test -i
         env:
