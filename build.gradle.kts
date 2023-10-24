@@ -83,6 +83,14 @@ dependencies {
     annotationProcessor("org.mapstruct:mapstruct-processor:1.5.5.Final")
     testImplementation("org.mapstruct:mapstruct-processor:1.5.5.Final")
 
+    // Observability
+    implementation("com.github.loki4j:loki-logback-appender:1.4.1")
+    implementation("io.github.openfeign:feign-micrometer")
+    runtimeOnly("io.micrometer:micrometer-registry-prometheus")
+    implementation("io.micrometer:micrometer-tracing-bridge-brave")
+    implementation("io.opentelemetry:opentelemetry-exporter-otlp")
+    implementation("net.ttddyy.observation:datasource-micrometer-spring-boot:1.0.2")
+
     // OpenAPI
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0")
 

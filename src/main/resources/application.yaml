@@ -4,3 +4,8 @@ spring:
   threads:
     virtual:
       enabled: true
+
+springdoc:
+  pathsToMatch: /api/**
+  swaggerUi:
+    disableSwaggerDefaultUrl: true
