@@ -1,10 +1,36 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
+import org.openapitools.generator.gradle.plugin.tasks.GenerateTask
+
+val openApiTasks = File("$rootDir/src/main/resources/specs").listFiles()?.map {
+    val name = it.name.replace(".yaml", "")
+
+    tasks.register("openApi-$name", GenerateTask::class.java) {
+        generatorName.set("kotlin-spring")
+        inputSpec.set(it.path)
+        outputDir.set("$rootDir/build/generated")
+        modelPackage.set("$name.model")
+        generateModelDocumentation.set(false)
+        generateModelTests.set(false)
+        additionalProperties.set(mapOf("removeEnumValuePrefix" to "false"))
+        configOptions.set(
+            mapOf(
+                "documentationProvider" to "none",
+                "enumPropertyNaming" to "UPPERCASE",
+                "openApiNullable" to "false",
+                "useBeanValidation" to "false",
+                "useSpringBoot3" to "true"
+            )
+        )
+        globalProperties.set(mapOf("models" to ""))
+    }
+}
 
 plugins {
     id("org.springframework.boot") version "3.2.0-SNAPSHOT"
     id("io.spring.dependency-management") version "1.1.3"
     id("org.graalvm.buildtools.native") version "0.9.27"
+    id("org.openapi.generator") version "7.0.1"
     kotlin("jvm") version "1.9.20-RC"
     kotlin("plugin.spring") version "1.9.20-RC"
 }
@@ -83,16 +109,8 @@ dependencies {
     annotationProcessor("org.mapstruct:mapstruct-processor:1.5.5.Final")
     testImplementation("org.mapstruct:mapstruct-processor:1.5.5.Final")
 
-    // Observability
-    implementation("com.github.loki4j:loki-logback-appender:1.4.1")
-    implementation("io.github.openfeign:feign-micrometer")
-    runtimeOnly("io.micrometer:micrometer-registry-prometheus")
-    implementation("io.micrometer:micrometer-tracing-bridge-brave")
-    implementation("io.opentelemetry:opentelemetry-exporter-otlp")
-    implementation("net.ttddyy.observation:datasource-micrometer-spring-boot:1.0.2")
-
     // OpenAPI
-    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0")
+    runtimeOnly("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0")
 
     // Test Containers
     testImplementation("org.testcontainers:junit-jupiter")
@@ -119,6 +137,10 @@ sourceSets {
 }
 
 tasks {
+    compileKotlin {
+        openApiTasks?.let(dependsOn::addAll)
+    }
+
     test {
         useJUnitPlatform()
     }
