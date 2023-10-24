@@ -12,7 +12,6 @@ class JaegerContainerTest {
         private val jaeger = GenericContainer(image)
             .withEnv("COLLECTOR_OTLP_ENABLED", "true")
             .withExposedPorts(4318)
-            .withReuse(true)
     }
 
     internal class Initializer : ApplicationContextInitializer<ConfigurableApplicationContext> {

@@ -9,9 +9,7 @@ import org.testcontainers.utility.DockerImageName
 class RedisContainerTest {
     companion object {
         private val image = DockerImageName.parse("redis:6-alpine")
-        private val redis = GenericContainer(image)
-            .withExposedPorts(6379)
-            .withReuse(true)
+        private val redis = GenericContainer(image).withExposedPorts(6379)
     }
 
     internal class Initializer : ApplicationContextInitializer<ConfigurableApplicationContext> {
