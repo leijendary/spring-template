@@ -1,1 +1,6 @@
-
+spring:
+  main:
+    bannerMode: OFF
+  threads:
+    virtual:
+      enabled: true

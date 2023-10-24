@@ -47,13 +47,70 @@ dependencies {
 
     // Spring Boot Starter
     implementation("org.springframework.boot:spring-boot-starter-actuator")
+    implementation("org.springframework.boot:spring-boot-starter-cache")
+    implementation("org.springframework.boot:spring-boot-starter-data-elasticsearch")
+    implementation("org.springframework.boot:spring-boot-starter-data-redis")
+    implementation("org.springframework.boot:spring-boot-starter-jdbc")
+    implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("org.springframework.boot:spring-boot-starter-web")
-
-    // Spring Boot Starter Test
     testImplementation("org.springframework.boot:spring-boot-starter-test")
+
+    // Spring Cloud Starter
+    implementation("org.springframework.cloud:spring-cloud-starter-loadbalancer")
+    implementation("org.springframework.cloud:spring-cloud-starter-openfeign")
+
+    // Spring Kafka
+    implementation("org.springframework.kafka:spring-kafka")
+    testImplementation("org.springframework.kafka:spring-kafka-test")
+
+    // Spring Retry
+    implementation("org.springframework.retry:spring-retry")
+
+    // AWS
+    implementation("io.awspring.cloud:spring-cloud-aws-starter")
+    implementation("io.awspring.cloud:spring-cloud-aws-starter-s3")
+    implementation("software.amazon.awssdk:cloudfront")
+
+    // Database
+    implementation("org.postgresql:postgresql")
+    implementation("org.liquibase:liquibase-core")
 
     // Devtools
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
+
+    // MapStruct
+    implementation("org.mapstruct:mapstruct:1.5.5.Final")
+    annotationProcessor("org.mapstruct:mapstruct-processor:1.5.5.Final")
+    testImplementation("org.mapstruct:mapstruct-processor:1.5.5.Final")
+
+    // OpenAPI
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0")
+
+    // Tracing
+    implementation("com.github.loki4j:loki-logback-appender:1.4.2")
+    implementation("io.github.openfeign:feign-micrometer")
+    implementation("io.micrometer:micrometer-registry-prometheus")
+    implementation("io.micrometer:micrometer-tracing-bridge-otel")
+    implementation("io.opentelemetry:opentelemetry-exporter-otlp")
+    implementation("net.ttddyy.observation:datasource-micrometer-spring-boot:1.0.2")
+}
+
+dependencyManagement {
+    imports {
+        mavenBom("io.awspring.cloud:spring-cloud-aws-dependencies:3.0.2")
+        mavenBom("io.micrometer:micrometer-tracing-bom:1.1.6")
+        mavenBom("org.springframework.cloud:spring-cloud-dependencies:2022.0.4")
+        mavenBom("org.testcontainers:testcontainers-bom:1.19.1")
+        mavenBom("software.amazon.awssdk:bom:2.21.5")
+    }
+}
+
+sourceSets {
+    main {
+        kotlin {
+            srcDir("$rootDir/build/generated/src/main/kotlin")
+        }
+    }
 }
 
 tasks {
