@@ -16,8 +16,8 @@ jobs:
       - name: Setup graalvm
         uses: graalvm/setup-graalvm@v1
         with:
-          cache: "gradle"
-          distribution: "graalvm-community"
+          cache: gradle
+          distribution: graalvm-community
           java-version: 21
       - name: Setup gradle
         uses: gradle/gradle-build-action@v2
