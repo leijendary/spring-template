@@ -20,8 +20,6 @@ jobs:
           cache: gradle
           distribution: graalvm-community
           java-version: 21
-      - name: Setup gradle
-        uses: gradle/gradle-build-action@v2
       - name: Execute gradle compile
         run: ./gradlew nativeCompile -i -x test
       - name: Upload dockerfile
