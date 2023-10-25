@@ -1,13 +1,4 @@
-FROM ghcr.io/graalvm/graalvm-community:21 as build
-WORKDIR /workspace
-COPY gradlew .
-COPY gradle gradle
-COPY settings.gradle.kts .
-COPY build.gradle.kts .
-COPY src src
-RUN ./gradlew nativeCompile -i -x test
-
 FROM alpine:3
 RUN apk add gcompat
-COPY --from=build /workspace/build/native/nativeCompile/* app
+COPY --chmod=755 build/native/nativeCompile/* app
 ENTRYPOINT ./app
