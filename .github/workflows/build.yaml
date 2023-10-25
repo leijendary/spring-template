@@ -46,7 +46,7 @@ jobs:
       id-token: write
       contents: read
     steps:
-      - name: Set up qemu
+      - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
         with:
           platforms: arm64
@@ -58,7 +58,7 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-region: ${{ vars.AWS_REGION }}
-          #          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/DeploymentRole-${{ inputs.environment }}
+          # role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/DeploymentRole-${{ inputs.environment }}
           role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/DeploymentRole-dev
       - id: login-registry
         name: Login to registry

@@ -23,7 +23,7 @@ jobs:
           java-version: 21
       - name: Setup gradle
         uses: gradle/gradle-build-action@v2
-      - name: Configure aws credentials
+      - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-region: ${{ vars.AWS_REGION }}
