@@ -8,6 +8,7 @@ on:
 jobs:
   binary:
     runs-on: ubuntu-latest
+    # TODO: adjust timeout
     timeout-minutes: 120
     environment: ${{ inputs.environment }}
     steps:
@@ -78,17 +79,19 @@ jobs:
         with:
           name: binary
           path: build/native/nativeCompile
+      - id: metadata
+        name: Metadata
+        uses: docker/metadata-action@v5
+        with:
+          # images: ${{ steps.login-registry.outputs.registry }}/${{ github.event.repository.name }}
+          images: ${{ secrets.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}
+          tags: |
+            type=semver,pattern={{version}}
+            type=sha
       - name: Push to registry
         uses: docker/build-push-action@v5
-        env:
-          REPOSITORY: ${{ secrets.DOCKERHUB_USERNAME }}
-          # REPOSITORY: ${{ steps.login-registry.outputs.registry }}
-          IMAGE_NAME: ${{ github.event.repository.name }}
-          IMAGE_TAG: ${{ github.sha }}
         with:
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
           context: .
           platforms: linux/arm64
           push: true
-          tags: ${{ env.REPOSITORY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+          tags: ${{ steps.metadata.outputs.tags }}
