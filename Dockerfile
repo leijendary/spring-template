@@ -1,6 +1,5 @@
 FROM ghcr.io/graalvm/graalvm-community:21 as build
 WORKDIR /workspace
-COPY ~/.gradle /root/.gradle
 COPY gradlew .
 COPY gradle gradle
 COPY settings.gradle.kts .
