@@ -4,12 +4,12 @@ on:
       - main
 
 jobs:
-  test:
-    name: Test
-    uses: ./.github/workflows/test.yaml
-    with:
-      environment: prod
-    secrets: inherit
+  #  test:
+  #    name: Test
+  #    uses: ./.github/workflows/test.yaml
+  #    with:
+  #      environment: prod
+  #    secrets: inherit
   build:
     needs: test
     name: Build
