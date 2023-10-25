@@ -35,8 +35,6 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - name: Checkout
-        uses: actions/checkout@v3
       - name: Setup graalvm
         uses: graalvm/setup-graalvm@v1
         with:
@@ -44,8 +42,6 @@ jobs:
           java-version: 21
       - name: Setup gradle
         uses: gradle/gradle-build-action@v2
-      - run: echo $HOME
-      - run: ls -la ~/.gradle
       - id: metadata
         name: Metadata
         uses: docker/metadata-action@v5
@@ -57,9 +53,12 @@ jobs:
             type=sha,prefix=
       - name: Build and push
         uses: docker/build-push-action@v5
+        env:
+          # CACHE_REF: ${{ steps.login-registry.outputs.registry }}/${{ github.event.repository.name }}:cache
+          CACHE_REF: ${{ secrets.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}:cache
         with:
-          cache-from: type=local,src=~/.gradle
-          cache-to: type=local,dest=~/.gradle
+          cache-from: type=registry,ref=${{ env.CACHE_REF }}
+          cache-to: type=registry,ref=${{ env.CACHE_REF }},mode=max
           context: .
           platforms: linux/arm64
           push: true
