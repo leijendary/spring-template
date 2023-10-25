@@ -1,9 +1,28 @@
+management:
+  endpoint:
+    health:
+      showDetails: ALWAYS
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+
 spring:
+  jackson:
+    defaultPropertyInclusion: NON_ABSENT
   main:
     bannerMode: OFF
   threads:
     virtual:
       enabled: true
+
+server:
+  error:
+    whitelabel:
+      enabled: false
+  http2:
+    enabled: true
+  port: 80
 
 springdoc:
   pathsToMatch: /api/**
