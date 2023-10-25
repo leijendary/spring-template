@@ -5,7 +5,7 @@ import org.openapitools.generator.gradle.plugin.tasks.GenerateTask
 val openApiTasks = File("$rootDir/src/main/resources/specs").listFiles()?.map {
     val name = it.name.replace(".yaml", "")
 
-    tasks.register("openApi-$name", GenerateTask::class.java) {
+    tasks.register("openApiGenerate-$name", GenerateTask::class.java) {
         generatorName.set("kotlin-spring")
         inputSpec.set(it.path)
         outputDir.set("$rootDir/build/generated")
