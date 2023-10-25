@@ -19,15 +19,16 @@ jobs:
       - name: Setup graalvm
         uses: graalvm/setup-graalvm@v1
         with:
-          cache: gradle
           distribution: graalvm-community
           java-version: 21
+      - name: Setup gradle
+        uses: gradle/gradle-build-action@v2
       - name: Configure aws credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-region: ${{ vars.AWS_REGION }}
-          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/DeploymentRole-dev
           # role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/DeploymentRole-${{ inputs.environment }}
+          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/DeploymentRole-dev
       - name: Execute gradle test
         run: ./gradlew test -i
         env:
