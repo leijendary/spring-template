@@ -6,44 +6,11 @@ on:
         type: string
 
 jobs:
-  binary:
+  docker:
     runs-on: ubuntu-latest
     # TODO: adjust timeout
     timeout-minutes: 120
     environment: ${{ inputs.environment }}
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-      - name: Setup graalvm
-        uses: graalvm/setup-graalvm@v1
-        with:
-          cache: gradle
-          distribution: graalvm-community
-          java-version: 21
-      - name: Execute gradle compile
-        run: ./gradlew nativeCompile -i -x test
-      - name: Upload dockerfile
-        uses: actions/upload-artifact@v3
-        with:
-          name: dockerfile
-          path: Dockerfile
-          retention-days: 5
-          if-no-files-found: error
-      - name: Upload binary
-        uses: actions/upload-artifact@v3
-        with:
-          name: binary
-          path: build/native/nativeCompile/*
-          retention-days: 5
-          if-no-files-found: error
-  push:
-    needs: binary
-    runs-on: ubuntu-latest
-    timeout-minutes: 2
-    environment: ${{ inputs.environment }}
-    permissions:
-      id-token: write
-      contents: read
     steps:
       - name: Set up qemu
         uses: docker/setup-qemu-action@v3
@@ -68,15 +35,15 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - name: Download dockerfile
-        uses: actions/download-artifact@v3
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup graalvm
+        uses: graalvm/setup-graalvm@v1
         with:
-          name: dockerfile
-      - name: Download binary
-        uses: actions/download-artifact@v3
-        with:
-          name: binary
-          path: build/native/nativeCompile
+          distribution: graalvm-community
+          java-version: 21
+      - name: Setup gradle
+        uses: gradle/gradle-build-action@v2
       - id: metadata
         name: Metadata
         uses: docker/metadata-action@v5
@@ -85,10 +52,15 @@ jobs:
           images: ${{ secrets.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}
           tags: |
             type=semver,pattern={{version}}
-            type=sha
-      - name: Push to registry
+            type=sha,prefix=
+      - name: Build and push
         uses: docker/build-push-action@v5
+        env:
+          # CACHE_REF: ${{ steps.login-registry.outputs.registry }}/${{ github.event.repository.name }}:cache
+          CACHE_REF: ${{ secrets.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}:cache
         with:
+          cache-from: type=registry,ref=${{ env.CACHE_REF }}
+          cache-to: type=registry,ref=${{ env.CACHE_REF }},mode=max
           context: .
           platforms: linux/arm64
           push: true
