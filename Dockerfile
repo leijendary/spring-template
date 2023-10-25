@@ -5,7 +5,7 @@ COPY gradle gradle
 COPY settings.gradle.kts .
 COPY build.gradle.kts .
 COPY src src
-RUN ./gradlew nativeCompile --no-daemon -i -x test
+RUN ./gradlew nativeCompile -i -x test
 
 FROM alpine:3
 RUN apk add gcompat
