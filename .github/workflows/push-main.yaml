@@ -11,7 +11,7 @@ jobs:
   #      environment: prod
   #    secrets: inherit
   build:
-    needs: test
+    #    needs: test
     name: Build
     uses: ./.github/workflows/build.yaml
     with:
