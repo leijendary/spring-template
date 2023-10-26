@@ -144,6 +144,12 @@ tasks {
         openApiTasks?.let(dependsOn::addAll)
     }
 
+    processResources {
+        filesMatching("application.yaml") {
+            expand(project.properties)
+        }
+    }
+
     test {
         useJUnitPlatform()
     }

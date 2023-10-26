@@ -1,3 +1,31 @@
+info:
+  app:
+    organization: leijendary
+    group: ${group}
+    name: ${name}
+    description: ${description}
+    version: ${version}
+  api:
+    termsOfService:
+    contact:
+      name: Jonathan Leijendekker
+      url: https://leijendary.com
+      email:
+    license:
+      name: Jonathan Leijendekker
+      url: https://leijendary.com
+    servers:
+      - url: http://localhost
+        description: Local
+      - url: https://api.dev.leijendary.com
+        description: Development
+      - url: https://api.test.leijendary.com
+        description: Testing
+      - url: https://api.staging.leijendary.com
+        description: Staging
+      - url: https://api.leijendary.com
+        description: Production
+
 management:
   endpoint:
     health:
@@ -8,10 +36,12 @@ management:
         include: '*'
 
 spring:
+  application:
+    name: ${name}
   jackson:
     defaultPropertyInclusion: NON_ABSENT
   main:
-    bannerMode: OFF
+    bannerMode: LOG
   threads:
     virtual:
       enabled: true
