@@ -30,6 +30,6 @@ jobs:
           # role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/DeploymentRole-${{ inputs.environment }}
           role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/DeploymentRole-dev
       - name: Execute gradle test
-        run: ./gradlew test -i
+        run: ./gradlew nativeTest -i
         env:
           SPRING_PROFILES_ACTIVE: ci
