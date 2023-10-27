@@ -3,6 +3,7 @@ package com.leijendary.spring.core.util
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.leijendary.spring.core.config.properties.AuthProperties
 import com.leijendary.spring.core.config.properties.NumberProperties
+import com.leijendary.spring.core.security.Encryption
 import com.leijendary.spring.core.storage.BlockStorage
 import com.leijendary.spring.core.util.SpringContext.Companion.getBean
 import io.micrometer.tracing.Tracer
@@ -12,6 +13,7 @@ import org.springframework.transaction.PlatformTransactionManager
 object BeanContainer {
     val authProperties by lazy { getBean(AuthProperties::class) }
     val blockStorage by lazy { getBean(BlockStorage::class) }
+    val encryption by lazy { getBean(Encryption::class) }
     val numberProperties by lazy { getBean(NumberProperties::class) }
     val objectMapper by lazy { getBean(ObjectMapper::class) }
     val tracer by lazy { getBean(Tracer::class) }
