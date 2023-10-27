@@ -1,0 +1,8 @@
+spring:
+  cloud:
+    aws:
+      cloudFront:
+        distributionId:
+        url: https://cdn.staging.leijendary.com
+      s3:
+        bucketName: leijendary-api-staging

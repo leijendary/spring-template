@@ -1,0 +1,24 @@
+spring:
+  cloud:
+    aws:
+      cloudFront:
+        distributionId:
+        url: https://cdn.leijendary.com
+      s3:
+        bucketName: leijendary-api-prod
+  kafka:
+    listener:
+      concurrency: 20
+    topic:
+      sampleCreated:
+        partitions: 10
+      sampleUpdated:
+        partitions: 5
+      sampleDeleted:
+        partitions: 5
+
+springdoc:
+  apiDocs:
+    enabled: false
+  swaggerUi:
+    enabled: false

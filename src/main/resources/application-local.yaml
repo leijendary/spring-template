@@ -1,0 +1,30 @@
+management:
+  tracing:
+    sampling:
+      probability: 1.0
+
+spring:
+  cloud:
+    aws:
+      cloudFront:
+        distributionId:
+        url: https://cdn.dev.leijendary.com
+      s3:
+        bucketName: leijendary-api-dev
+  data:
+    redis:
+      ssl:
+        enabled: false
+  datasource:
+    primary:
+      maximumPoolSize: 5
+    readonly:
+      maximumPoolSize: 5
+  kafka:
+    jaas:
+      enabled: false
+    properties:
+      sasl:
+        mechanism: PLAIN
+    security:
+      protocol: PLAINTEXT

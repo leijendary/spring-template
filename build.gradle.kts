@@ -113,13 +113,21 @@ dependencies {
     testImplementation("org.mapstruct:mapstruct-processor:1.5.5.Final")
 
     // OpenAPI
-    runtimeOnly("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0")
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0")
 
     // Test Containers
     testImplementation("org.testcontainers:junit-jupiter")
     testImplementation("org.testcontainers:elasticsearch")
     testImplementation("org.testcontainers:kafka")
     testImplementation("org.testcontainers:postgresql")
+
+    // Tracing
+    implementation("com.github.loki4j:loki-logback-appender:1.4.2")
+    implementation("io.github.openfeign:feign-micrometer")
+    implementation("io.micrometer:micrometer-registry-prometheus")
+    implementation("io.micrometer:micrometer-tracing-bridge-otel")
+    implementation("io.opentelemetry:opentelemetry-exporter-otlp")
+    implementation("net.ttddyy.observation:datasource-micrometer-spring-boot:1.0.2")
 }
 
 dependencyManagement {

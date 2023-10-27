@@ -1,12 +1,11 @@
-info:
-  app:
-    organization: leijendary
-    group: ${group}
-    name: ${name}
+logging:
+  includeApplicationName: false
+
+openApi:
+  info:
+    title: ${name}
     description: ${description}
     version: ${version}
-  api:
-    termsOfService:
     contact:
       name: Jonathan Leijendekker
       url: https://leijendary.com
@@ -14,17 +13,19 @@ info:
     license:
       name: Jonathan Leijendekker
       url: https://leijendary.com
-    servers:
-      - url: http://localhost
-        description: Local
-      - url: https://api.dev.leijendary.com
-        description: Development
-      - url: https://api.test.leijendary.com
-        description: Testing
-      - url: https://api.staging.leijendary.com
-        description: Staging
-      - url: https://api.leijendary.com
-        description: Production
+  security:
+    Authorization: [ ]
+  servers:
+    - url: http://localhost
+      description: Local
+    - url: https://api.dev.leijendary.com
+      description: Development
+    - url: https://api.test.leijendary.com
+      description: Testing
+    - url: https://api.staging.leijendary.com
+      description: Staging
+    - url: https://api.leijendary.com
+      description: Production
 
 management:
   endpoint:
@@ -34,17 +35,12 @@ management:
     web:
       exposure:
         include: '*'
-
-spring:
-  application:
-    name: ${name}
-  jackson:
-    defaultPropertyInclusion: NON_ABSENT
-  main:
-    bannerMode: LOG
-  threads:
-    virtual:
-      enabled: true
+  otlp:
+    metrics:
+      export:
+        url:
+    tracing:
+      endpoint:
 
 server:
   error:
@@ -53,6 +49,84 @@ server:
   http2:
     enabled: true
   port: 80
+
+spring:
+  application:
+    name: ${name}
+  cache:
+    type: REDIS
+    redis:
+      timeToLive: 5h
+  data:
+    redis:
+      host:
+      port:
+      ssl:
+        enabled: true
+      username:
+      password:
+    web:
+      pageable:
+        maxPageSize: 100
+  datasource:
+    primary:
+      poolName: Primary
+      jdbcUrl:
+      username:
+      password:
+      dataSourceProperties:
+        cachePrepStmts: true
+        rewriteBatchedStatements: true
+        useServerPrepStmts: true
+    readOnly:
+      poolName: Read-only
+      jdbcUrl:
+      username:
+      password:
+  elasticsearch:
+    uris:
+    username:
+    password:
+  jackson:
+    defaultPropertyInclusion: NON_ABSENT
+  kafka:
+    bootstrapServers:
+    clientId: ${name}
+    consumer:
+      groupId: ${name}
+      properties:
+        partition:
+          assignment:
+            strategy: org.apache.kafka.clients.consumer.CooperativeStickyAssignor
+    jaas:
+      enabled: true
+      loginModule: org.apache.kafka.common.security.scram.ScramLoginModule
+      options:
+        username:
+        password:
+    producer:
+      acks: all
+    properties:
+      interceptor:
+        classes: com.leijendary.spring.core.interceptor.KafkaInterceptor
+      sasl:
+        mechanism: SCRAM-SHA-256
+    security:
+      protocol: SASL_SSL
+    topic:
+      sampleCreated:
+        name: sample.created
+      sampleUpdated:
+        name: sample.updated
+      sampleDeleted:
+        name: sample.deleted
+  main:
+    bannerMode: LOG
+  messages:
+    basename: messages.access, messages.error, messages.validation
+  threads:
+    virtual:
+      enabled: true
 
 springdoc:
   pathsToMatch: /api/**
