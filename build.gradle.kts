@@ -138,14 +138,6 @@ dependencyManagement {
     }
 }
 
-sourceSets {
-    main {
-        kotlin {
-            srcDir("$rootDir/build/generated/src/main/kotlin")
-        }
-    }
-}
-
 tasks {
     compileKotlin {
         openApiTasks?.let(dependsOn::addAll)
