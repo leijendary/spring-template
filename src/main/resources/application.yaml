@@ -1,3 +1,11 @@
+auth:
+  system:
+    principal: System
+
+encrypt:
+  key:
+  salt:
+
 logging:
   includeApplicationName: false
 
@@ -42,6 +50,10 @@ management:
     tracing:
       endpoint:
 
+number:
+  scale: 2
+  round: HALF_UP
+
 server:
   error:
     whitelabel:
@@ -57,6 +69,35 @@ spring:
     type: REDIS
     redis:
       timeToLive: 5h
+  cloud:
+    aws:
+      cloudFront:
+        distributionId:
+        url:
+        publicKeyId:
+        privateKey:
+        signatureDuration: 30m
+      s3:
+        bucketName:
+        signatureDuration: 30m
+    discovery:
+      client:
+        simple:
+          instances:
+            petStore:
+              - uri: https://petstore.swagger.io
+    loadbalancer:
+      retry:
+        maxRetriesOnSameServiceInstance: 3
+        retryOnAllOperations: true
+        retryableStatusCodes:
+          - 502
+          - 503
+        backoff:
+          enabled: true
+    serviceRegistry:
+      autoRegistration:
+        enabled: false
   data:
     redis:
       host:
