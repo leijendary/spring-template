@@ -8,6 +8,12 @@ encrypt:
 
 logging:
   includeApplicationName: false
+  level:
+    liquibase:
+      util: ERROR
+    org:
+      apache:
+        kafka: ERROR
 
 openApi:
   info:
@@ -88,17 +94,20 @@ spring:
               - uri: https://petstore.swagger.io
     loadbalancer:
       retry:
+        backoff:
+          enabled: true
         maxRetriesOnSameServiceInstance: 3
-        retryOnAllOperations: true
         retryableStatusCodes:
           - 502
           - 503
-        backoff:
-          enabled: true
+        retryOnAllOperations: true
     serviceRegistry:
       autoRegistration:
         enabled: false
   data:
+    jdbc:
+      repositories:
+        enabled: false
     redis:
       host:
       port:
@@ -106,24 +115,17 @@ spring:
         enabled: true
       username:
       password:
-    web:
-      pageable:
-        maxPageSize: 100
+      repositories:
+        enabled: false
   datasource:
     primary:
-      poolName: Primary
-      jdbcUrl:
-      username:
-      password:
-      dataSourceProperties:
-        cachePrepStmts: true
-        rewriteBatchedStatements: true
-        useServerPrepStmts: true
+      url:
+      maximumPoolSize: 10
     readOnly:
-      poolName: Read-only
-      jdbcUrl:
-      username:
-      password:
+      url:
+      maximumPoolSize: 10
+    username:
+    password:
   elasticsearch:
     uris:
     username:
@@ -149,7 +151,7 @@ spring:
       acks: all
     properties:
       interceptor:
-        classes: com.leijendary.spring.core.interceptor.KafkaInterceptor
+        classes: com.leijendary.interceptor.KafkaInterceptor
       sasl:
         mechanism: SCRAM-SHA-256
     security:

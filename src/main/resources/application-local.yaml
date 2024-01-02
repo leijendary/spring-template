@@ -1,4 +1,10 @@
 management:
+  otlp:
+    metrics:
+      export:
+        url: http://localhost:4318/v1/metrics
+    tracing:
+      endpoint: http://localhost:4318/v1/traces
   tracing:
     sampling:
       probability: 1.0
@@ -17,9 +23,9 @@ spring:
         enabled: false
   datasource:
     primary:
-      maximumPoolSize: 5
-    readonly:
-      maximumPoolSize: 5
+      poolSize: 5
+    readOnly:
+      poolSize: 5
   kafka:
     jaas:
       enabled: false

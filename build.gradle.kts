@@ -27,16 +27,18 @@ val openApiTasks = File("$rootDir/src/main/resources/specs").listFiles()?.map {
 }
 
 plugins {
-    id("org.springframework.boot") version "3.2.0-RC1"
-    id("io.spring.dependency-management") version "1.1.3"
-    id("org.graalvm.buildtools.native") version "0.9.27"
+    val kotlinVersion = "2.0.0-Beta2"
+
+    id("org.springframework.boot") version "3.2.1"
+    id("io.spring.dependency-management") version "1.1.4"
+    id("org.graalvm.buildtools.native") version "0.9.28"
     id("org.openapi.generator") version "7.0.1"
-    kotlin("jvm") version "1.9.20-RC"
-    kotlin("plugin.spring") version "1.9.20-RC"
+    kotlin("jvm") version kotlinVersion
+    kotlin("plugin.spring") version kotlinVersion
 }
 
 group = "com.leijendary"
-description = "Spring native template for the microservices architecture."
+description = "Spring boot template for the microservices architecture."
 version = "0.0.1"
 
 java {
@@ -108,10 +110,10 @@ dependencies {
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 
     // OpenAPI
-    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0")
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.3.0")
 
     // Test
-    testImplementation("org.mockito.kotlin:mockito-kotlin:5.1.0")
+    testImplementation("org.mockito.kotlin:mockito-kotlin:5.2.1")
     testImplementation("org.mockito:mockito-inline:5.2.0")
 
     // Test Containers
@@ -126,15 +128,24 @@ dependencies {
     implementation("io.micrometer:micrometer-registry-prometheus")
     implementation("io.micrometer:micrometer-tracing-bridge-otel")
     implementation("io.opentelemetry:opentelemetry-exporter-otlp")
-    implementation("net.ttddyy.observation:datasource-micrometer-spring-boot:1.0.2")
+    implementation("net.ttddyy.observation:datasource-micrometer-spring-boot:1.0.3")
 }
 
 dependencyManagement {
     imports {
-        mavenBom("io.awspring.cloud:spring-cloud-aws-dependencies:3.0.2")
-        mavenBom("org.springframework.cloud:spring-cloud-dependencies:2023.0.0-SNAPSHOT")
-        mavenBom("org.testcontainers:testcontainers-bom:1.19.1")
-        mavenBom("software.amazon.awssdk:bom:2.21.5")
+        mavenBom("io.awspring.cloud:spring-cloud-aws-dependencies:3.1.0")
+        mavenBom("io.micrometer:micrometer-tracing-bom:1.2.1")
+        mavenBom("org.springframework.cloud:spring-cloud-dependencies:2023.0.0")
+        mavenBom("org.testcontainers:testcontainers-bom:1.19.3")
+        mavenBom("software.amazon.awssdk:bom:2.22.7")
+    }
+}
+
+sourceSets {
+    main {
+        kotlin {
+            srcDir("$rootDir/build/generated/src/main/kotlin")
+        }
     }
 }
 

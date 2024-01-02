@@ -1,4 +1,4 @@
-rootProject.name = "native-template"
+rootProject.name = "spring-template"
 
 pluginManagement {
     repositories {
