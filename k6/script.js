@@ -31,7 +31,7 @@ export default function () {
       },
       {
         name: `Test japanese ${uuid}`,
-        description: `Testing the jaapanese description ${uuid}`,
+        description: `Testing the japanese description ${uuid}`,
         language: "jp",
         ordinal: 2,
       },
