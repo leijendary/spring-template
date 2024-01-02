@@ -1,26 +1,23 @@
 package com.leijendary.domain.sample
 
 import com.leijendary.error.exception.ResourceNotFoundException
-import com.leijendary.extension.shouldMatch
 import com.leijendary.model.ErrorSource
 import com.leijendary.model.Page
 import com.leijendary.model.Page.Companion.empty
 import com.leijendary.model.PageRequest
 import com.leijendary.model.QueryRequest
-import org.springframework.data.elasticsearch.client.elc.ElasticsearchTemplate
-import org.springframework.data.elasticsearch.client.elc.NativeQueryBuilder
 import org.springframework.data.elasticsearch.core.suggest.Completion
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import java.util.concurrent.atomic.AtomicInteger
 import kotlin.streams.asSequence
 
-private val SOURCE = ErrorSource(pointer = "/data/sampleDocument/id")
 private const val STREAM_CHUNK = 1000
+private const val ENTITY = "sampleDocument"
+private val SOURCE = ErrorSource(pointer = "/data/$ENTITY/id")
 
 @Service
 class SampleSearchService(
-    private val elasticsearchTemplate: ElasticsearchTemplate,
     private val sampleDocumentRepository: SampleDocumentRepository,
     private val sampleRepository: SampleRepository,
 ) {
@@ -29,18 +26,12 @@ class SampleSearchService(
             return empty(pageRequest)
         }
 
-        val searchQuery = NativeQueryBuilder()
-            .withQuery { query ->
-                query.bool {
-                    it.shouldMatch(queryRequest.query, "translations.name", "translations.description")
-                }
-            }
-            .build()
-        val searchHits = elasticsearchTemplate.search(searchQuery, SampleDocument::class.java)
-        val list = searchHits.map { mapToList(it.content) }.toList()
-        val total = searchHits.totalHits
+        val query = queryRequest.query
+        val samples = sampleDocumentRepository
+            .findByTranslationsNameOrTranslationsDescription(query, query, pageRequest.pageable())
+            .map(::mapToList)
 
-        return Page(pageRequest, list, total)
+        return Page(pageRequest, samples.content, samples.totalElements)
     }
 
     fun save(sample: SampleDetail): SampleDocument {
@@ -66,14 +57,15 @@ class SampleSearchService(
     }
 
     fun get(id: Long): SampleDetail {
-        val document = sampleDocumentRepository.findByIdOrNull(id) ?: throw ResourceNotFoundException(id, SOURCE)
+        val document = sampleDocumentRepository.findByIdOrNull(id)
+            ?: throw ResourceNotFoundException(id, ENTITY, SOURCE)
 
         return map(document)
     }
 
     fun update(sample: SampleDetail): SampleDocument {
         val document = sampleDocumentRepository.findByIdOrNull(sample.id)
-            ?: throw ResourceNotFoundException(sample.id, SOURCE)
+            ?: throw ResourceNotFoundException(sample.id, ENTITY, SOURCE)
         document.update(sample)
 
         return sampleDocumentRepository.save(document)

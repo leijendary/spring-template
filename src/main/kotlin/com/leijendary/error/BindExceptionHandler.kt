@@ -8,7 +8,6 @@ import org.springframework.core.annotation.Order
 import org.springframework.http.HttpStatus.BAD_REQUEST
 import org.springframework.validation.BindException
 import org.springframework.validation.FieldError
-import org.springframework.web.bind.MethodArgumentNotValidException
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestControllerAdvice
@@ -19,24 +18,31 @@ class BindExceptionHandler(private val messageSource: MessageSource) {
     @ExceptionHandler(BindException::class)
     @ResponseStatus(BAD_REQUEST)
     fun catchBind(exception: BindException): List<ErrorModel> {
-        val isMethodArgumentNotValid = exception is MethodArgumentNotValidException
-        val prefix = if (isMethodArgumentNotValid) "/body/" else ""
+        return exception.allErrors.map { error ->
+            val (prefix, field, isBindingFailure) = if (error is FieldError) {
+                val prefix = if (!error.isBindingFailure) "/body/" else ""
 
-        return exception.allErrors.map { field ->
-            val objectName = if (field is FieldError) field.field else field.objectName
-            val location = objectName.split(".", "[", "]")
+                Triple(prefix, error.field, error.isBindingFailure)
+            } else {
+                Triple("", error.objectName, true)
+            }
+            val location = field.split(".", "[", "]")
                 .stream()
                 .filter { it.isNotBlank() }
                 .map { it.toIntOrNull() ?: it }
                 .toArray()
                 .joinToString("/", prefix = prefix)
-            val source = if (isMethodArgumentNotValid) {
-                ErrorSource(pointer = location)
-            } else {
+            val source = if (isBindingFailure) {
                 ErrorSource(parameter = location)
+            } else {
+                ErrorSource(pointer = location)
             }
-            val code = field.defaultMessage ?: ""
-            val arguments = field.arguments
+            val code = if (!error.shouldRenderDefaultMessage()) {
+                error.defaultMessage ?: "validation.binding.invalidValue"
+            } else {
+                "validation.binding.invalidValue"
+            }
+            val arguments = error.arguments
             val message = messageSource.getMessage(code, arguments, code, locale)
 
             ErrorModel(code = code, message = message, source = source)

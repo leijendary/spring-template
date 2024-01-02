@@ -185,7 +185,7 @@ class SampleRepository(private val jdbcClient: JdbcClient) {
             .params(language, translate, id)
             .query(SampleDetail::class.java)
             .optional()
-            .orElseThrow { ResourceNotFoundException(id, SOURCE) }
+            .orElseThrow { ResourceNotFoundException(id, ENTITY, SOURCE) }
     }
 
     @Transactional(readOnly = true)

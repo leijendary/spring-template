@@ -17,7 +17,8 @@ class ResourceNotFoundExceptionHandler(private val messageSource: MessageSource)
     @ResponseStatus(NOT_FOUND)
     fun catchResourceNotFound(exception: ResourceNotFoundException): List<ErrorModel> {
         val code = "error.resource.notFound"
-        val message = messageSource.getMessage(code, emptyArray(), locale)
+        val arguments = arrayOf(exception.entity)
+        val message = messageSource.getMessage(code, arguments, locale)
         val error = ErrorModel(id = exception.id.toString(), code = code, message = message, source = exception.source)
 
         return listOf(error)
