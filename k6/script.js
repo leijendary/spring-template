@@ -2,7 +2,7 @@ import { uuidv4 } from "https://jslib.k6.io/k6-utils/1.4.0/index.js";
 import { check } from "k6";
 import http from "k6/http";
 
-const url = "http://localhost:82";
+const url = "http://localhost:30080";
 
 export const options = {
   stages: [
@@ -11,8 +11,8 @@ export const options = {
       target: 100,
     },
     {
-      duration: "2m",
-      target: 100,
+      duration: "5m",
+      target: 500,
     }
   ],
 };
