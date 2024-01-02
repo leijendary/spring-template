@@ -64,3 +64,8 @@
 ### To build native docker image:
 
 `./gradlew bootBuildImage`
+
+# Load Testing
+
+This template uses [k6](https://grafana.com/docs/k6/latest/) to do the load testing. k6 is by far the best load testing
+framework for developer experience.
