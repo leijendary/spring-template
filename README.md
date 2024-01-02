@@ -28,7 +28,6 @@
 - Spring Retry
 - Spring Validation
 - Spring Web
-- SpringDoc OpenAPI
 - AWS CDK
 - Caffeine
 - Docker
