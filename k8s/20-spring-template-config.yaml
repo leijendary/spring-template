@@ -4,15 +4,15 @@ metadata:
   name: spring-template-config
   namespace: template
 data:
-  MANAGEMENT_OTLP_METRICS_EXPORT_URL: http://jaeger-service.monitoring.svc.cluster.local:4318/v1/metrics
-  MANAGEMENT_OTLP_TRACING_ENDPOINT: http://jaeger-service.monitoring.svc.cluster.local:4318/v1/traces
+  MANAGEMENT_OTLP_METRICS_EXPORT_URL: "http://jaeger-service.monitoring.svc.cluster.local:4318/v1/metrics"
+  MANAGEMENT_OTLP_TRACING_ENDPOINT: "http://jaeger-service.monitoring.svc.cluster.local:4318/v1/traces"
   SPRING_CLOUD_AWS_CREDENTIALS_INSTANCE_PROFILE: "false"
   SPRING_CLOUD_AWS_REGION_INSTANCE_PROFILE: "false"
-  SPRING_CLOUD_AWS_REGION_STATIC: eu-central-1
-  SPRING_DATA_REDIS_HOST: redis-service.cache.svc.cluster.local
+  SPRING_CLOUD_AWS_REGION_STATIC: "eu-central-1"
+  SPRING_DATA_REDIS_HOST: "redis-service.cache.svc.cluster.local"
   SPRING_DATA_REDIS_PORT: "6379"
   SPRING_DATASOURCE_PRIMARY_URL: "jdbc:postgresql://postgres-service.database.svc.cluster.local:5432/spring_template"
   SPRING_DATASOURCE_READ_ONLY_URL: "jdbc:postgresql://postgres-service.database.svc.cluster.local:5432/spring_template"
-  SPRING_ELASTICSEARCH_URIS: http://elasticsearch-service.elasticstack.svc.cluster.local:9200
-  SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka-service.kafka.svc.cluster.local:9092
-  SPRING_PROFILES_ACTIVE: dev
+  SPRING_ELASTICSEARCH_URIS: "http://elasticsearch-service.elasticstack.svc.cluster.local:9200"
+  SPRING_KAFKA_BOOTSTRAP_SERVERS: "kafka-service.kafka.svc.cluster.local:9092"
+  SPRING_PROFILES_ACTIVE: "local"

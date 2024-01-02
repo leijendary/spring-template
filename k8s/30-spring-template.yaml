@@ -43,10 +43,10 @@ spec:
           resources:
             requests:
               memory: 1G
-              cpu: 0.5
+              cpu: "0.5"
             limits:
               memory: 1G
-              cpu: 0.5
+              cpu: "0.5"
 
 ---
 apiVersion: v1
