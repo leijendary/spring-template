@@ -1,4 +1,4 @@
-package com.leijendary.spring.container
+package com.leijendary.container
 
 import org.springframework.boot.test.util.TestPropertyValues
 import org.springframework.context.ApplicationContextInitializer

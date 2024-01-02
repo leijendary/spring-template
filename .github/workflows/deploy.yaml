@@ -1,0 +1,52 @@
+on:
+  workflow_call:
+    inputs:
+      environment:
+        required: true
+        type: string
+      image-tag:
+        required: false
+        type: string
+        default: ${{ github.sha }}
+
+jobs:
+  fargate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    environment: ${{ inputs.environment }}
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-region: ${{ vars.AWS_REGION }}
+          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/DeploymentRole-${{ inputs.environment }}
+      - id: login-registry
+        name: Login to registry
+        uses: aws-actions/amazon-ecr-login@v2
+        with:
+          mask-password: "true"
+      - name: Setup node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "20.x"
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Deploy AWS CDK
+        env:
+          ENVIRONMENT: ${{ inputs.environment }}
+          STACK_ID: ${{ vars.STACK_ID }}
+          STACK_NAME: ${{ github.event.repository.name }}
+          ORGANIZATION: ${{ vars.ORGANIZATION }}
+          VPC_ID: ${{ vars.VPC_ID }}
+          IMAGE_TAG: ${{ inputs.image-tag }}
+          NAMESPACE_ID: ${{ vars.NAMESPACE_ID }}
+          NAMESPACE_NAME: ${{ vars.NAMESPACE_NAME }}
+          DISTRIBUTION_ID: ${{ vars.DISTRIBUTION_ID }}
+          DISTRIBUTION_DOMAIN_NAME: ${{ vars.DISTRIBUTION_DOMAIN_NAME }}
+        working-directory: ./aws
+        run: |
+          npm ci
+          npm run cdk deploy -- --require-approval never

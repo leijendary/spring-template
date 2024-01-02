@@ -1,0 +1,14 @@
+on:
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+
+jobs:
+  test:
+    name: Test
+    uses: ./.github/workflows/test.yaml
+    with:
+      environment: dev
+    secrets: inherit

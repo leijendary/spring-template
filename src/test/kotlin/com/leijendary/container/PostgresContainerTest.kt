@@ -1,4 +1,4 @@
-package com.leijendary.spring.container
+package com.leijendary.container
 
 import org.springframework.boot.test.util.TestPropertyValues
 import org.springframework.context.ApplicationContextInitializer
@@ -17,7 +17,8 @@ class PostgresContainerTest {
             postgres.start()
 
             val properties = arrayOf(
-                "spring.datasource.url=${postgres.jdbcUrl}",
+                "spring.datasource.primary.url=${postgres.jdbcUrl}",
+                "spring.datasource.readOnly.url=${postgres.jdbcUrl}",
                 "spring.datasource.username=${postgres.username}",
                 "spring.datasource.password=${postgres.password}",
             )

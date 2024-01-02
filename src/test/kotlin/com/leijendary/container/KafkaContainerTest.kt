@@ -1,4 +1,4 @@
-package com.leijendary.spring.container
+package com.leijendary.container
 
 import org.springframework.boot.test.util.TestPropertyValues
 import org.springframework.context.ApplicationContextInitializer
@@ -8,7 +8,7 @@ import org.testcontainers.utility.DockerImageName
 
 class KafkaContainerTest {
     companion object {
-        private val image = DockerImageName.parse("confluentinc/cp-kafka:7.4.0")
+        private val image = DockerImageName.parse("confluentinc/cp-kafka:7.5.3")
         private val kafka = KafkaContainer(image).withKraft()
     }
 

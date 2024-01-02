@@ -1,6 +1,6 @@
-package com.leijendary.spring
+package com.leijendary
 
-import com.leijendary.spring.container.*
+import com.leijendary.container.*
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
@@ -17,7 +17,7 @@ import org.springframework.test.context.ContextConfiguration
     ]
 )
 @AutoConfigureMockMvc
-class ApplicationTests {
+class ApplicationTest {
     @Test
     fun contextLoads() {
     }

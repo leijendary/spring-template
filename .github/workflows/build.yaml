@@ -8,21 +8,20 @@ on:
 jobs:
   binary:
     runs-on: ubuntu-latest
-    # TODO: adjust timeout
-    timeout-minutes: 120
+    timeout-minutes: 10
     environment: ${{ inputs.environment }}
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-      - name: Setup graalvm
-        uses: graalvm/setup-graalvm@v1
+      - name: Setup java 21
+        uses: actions/setup-java@v3
         with:
-          distribution: graalvm-community
           java-version: 21
+          distribution: "zulu"
       - name: Setup gradle
         uses: gradle/gradle-build-action@v2
-      - name: Execute gradle compile
-        run: ./gradlew nativeCompile -i -x test
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Execute gradle build
+        run: ./gradlew bootJar -i -x test
       - name: Upload dockerfile
         uses: actions/upload-artifact@v3
         with:
@@ -34,7 +33,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: binary
-          path: build/native/nativeCompile/*
+          path: build/libs/*.jar
           retention-days: 5
           if-no-files-found: error
   push:
@@ -50,16 +49,11 @@ jobs:
         uses: docker/setup-qemu-action@v3
         with:
           platforms: arm64
-      - name: Setup docker buildx
-        uses: docker/setup-buildx-action@v3
-        with:
-          platforms: linux/arm64
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-region: ${{ vars.AWS_REGION }}
-          # role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/DeploymentRole-${{ inputs.environment }}
-          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/DeploymentRole-dev
+          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/DeploymentRole-${{ inputs.environment }}
       - id: login-registry
         name: Login to registry
         uses: aws-actions/amazon-ecr-login@v2
@@ -73,19 +67,11 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: binary
-          path: build/native/nativeCompile
-      - id: metadata
-        name: Metadata
-        uses: docker/metadata-action@v5
-        with:
-          images: ${{ steps.login-registry.outputs.registry }}/${{ github.event.repository.name }}
-          tags: |
-            type=semver,pattern={{version}}
-            type=sha,prefix=
+          path: build/libs
       - name: Push to registry
         uses: docker/build-push-action@v5
         with:
           context: .
           platforms: linux/arm64
+          tags: ${{ steps.login-registry.outputs.registry }}/${{ github.event.repository.name }}:${{ github.sha }}
           push: true
-          tags: ${{ steps.metadata.outputs.tags }}
