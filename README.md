@@ -80,39 +80,38 @@ Given the following specifications in a kubernetes ran locally:
           /\      |‾‾| /‾‾/   /‾‾/   
      /\  /  \     |  |/  /   /  /    
     /  \/    \    |     (   /   ‾‾\  
-   /          \   |  |\  \ |  (‾)  |
+   /          \   |  |\  \ |  (‾)  | 
   / __________ \  |__| \__\ \_____/ .io
 
-execution: local
-script: k6/script.js
-output: -
+  execution: local
+     script: k6/script.js
+     output: -
 
-scenarios: (100.00%) 1 scenario, 500 max VUs, 5m50s max duration (incl. graceful stop):
-* default: Up to 500 looping VUs for 5m20s over 2 stages (gracefulRampDown: 30s, gracefulStop: 30s)
+  scenarios: (100.00%) 1 scenario, 500 max VUs, 5m50s max duration (incl. graceful stop):
+           * default: Up to 500 looping VUs for 5m20s over 2 stages (gracefulRampDown: 30s, gracefulStop: 30s)
 
 
      ✓ create status is 201
 
-     checks.........................: 100.00% ✓ 198530     ✗ 0     
-     data_received..................: 132 MB  412 kB/s
-     data_sent......................: 116 MB  360 kB/s
-     http_req_blocked...............: avg=7.84µs   min=0s     med=1µs      max=19.31ms  p(90)=3µs      p(95)=4µs   
-     http_req_connecting............: avg=5.33µs   min=0s     med=0s       max=19.28ms  p(90)=0s       p(95)=0s    
-     http_req_duration..............: avg=458.66ms min=3.37ms med=336.09ms max=5.42s    p(90)=922.29ms p(95)=1.15s 
-       { expected_response:true }...: avg=458.66ms min=3.37ms med=336.09ms max=5.42s    p(90)=922.29ms p(95)=1.15s 
-     http_req_failed................: 0.00%   ✓ 0          ✗ 198530
-     http_req_receiving.............: avg=298.97µs min=6µs    med=42µs     max=233.51ms p(90)=526µs    p(95)=1.09ms
-     http_req_sending...............: avg=11.78µs  min=2µs    med=10µs     max=4.12ms   p(90)=18µs     p(95)=25µs  
-     http_req_tls_handshaking.......: avg=0s       min=0s     med=0s       max=0s       p(90)=0s       p(95)=0s    
-     http_req_waiting...............: avg=458.35ms min=3.33ms med=335.74ms max=5.42s    p(90)=921.95ms p(95)=1.15s 
-     http_reqs......................: 198530  618.388325/s
-     iteration_duration.............: avg=458.82ms min=3.56ms med=336.24ms max=5.42s    p(90)=922.42ms p(95)=1.15s 
-     iterations.....................: 198530  618.388325/s
-     vus............................: 39      min=5        max=499 
+     checks.........................: 100.00% ✓ 227826     ✗ 0     
+     data_received..................: 152 MB  472 kB/s
+     data_sent......................: 132 MB  413 kB/s
+     http_req_blocked...............: avg=8.63µs   min=0s     med=1µs      max=31.27ms p(90)=3µs      p(95)=4µs  
+     http_req_connecting............: avg=5.94µs   min=0s     med=0s       max=31.23ms p(90)=0s       p(95)=0s   
+     http_req_duration..............: avg=399.38ms min=2.18ms med=263.14ms max=13.69s  p(90)=761.07ms p(95)=1.08s
+       { expected_response:true }...: avg=399.38ms min=2.18ms med=263.14ms max=13.69s  p(90)=761.07ms p(95)=1.08s
+     http_req_failed................: 0.00%   ✓ 0          ✗ 227826
+     http_req_receiving.............: avg=168.04µs min=6µs    med=32µs     max=53.18ms p(90)=286µs    p(95)=629µs
+     http_req_sending...............: avg=13.05µs  min=2µs    med=9µs      max=8.89ms  p(90)=20µs     p(95)=26µs 
+     http_req_tls_handshaking.......: avg=0s       min=0s     med=0s       max=0s      p(90)=0s       p(95)=0s   
+     http_req_waiting...............: avg=399.2ms  min=2.15ms med=262.98ms max=13.69s  p(90)=760.87ms p(95)=1.08s
+     http_reqs......................: 227826  710.071007/s
+     iteration_duration.............: avg=399.56ms min=2.35ms med=263.31ms max=13.69s  p(90)=761.26ms p(95)=1.08s
+     iterations.....................: 227826  710.071007/s
+     vus............................: 499     min=5        max=499 
      vus_max........................: 500     min=500      max=500 
 
 
-running (5m21.0s), 000/500 VUs, 198530 complete and 0 interrupted iterations
+running (5m20.8s), 000/500 VUs, 227826 complete and 0 interrupted iterations
 default ✓ [======================================] 000/500 VUs  5m20s
-
 ```
