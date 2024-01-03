@@ -34,10 +34,28 @@ class SampleSearchService(
         return Page(pageRequest, samples.content, samples.totalElements)
     }
 
-    fun save(sample: SampleDetail): SampleDocument {
+    fun save(sample: SampleDetail) {
         val document = map(sample)
 
-        return sampleDocumentRepository.save(document)
+        sampleDocumentRepository.save(document)
+    }
+
+    fun get(id: Long): SampleDetail {
+        val document = sampleDocumentRepository.findByIdOrNull(id)
+            ?: throw ResourceNotFoundException(id, ENTITY, SOURCE)
+
+        return map(document)
+    }
+
+    fun update(sample: SampleDetail) {
+        val document = sampleDocumentRepository.findByIdOrNull(sample.id) ?: return
+        document.update(sample)
+
+        sampleDocumentRepository.save(document)
+    }
+
+    fun delete(id: Long) {
+        sampleDocumentRepository.deleteById(id)
     }
 
     fun reindex(): Int {
@@ -54,25 +72,6 @@ class SampleSearchService(
         }
 
         return count.get()
-    }
-
-    fun get(id: Long): SampleDetail {
-        val document = sampleDocumentRepository.findByIdOrNull(id)
-            ?: throw ResourceNotFoundException(id, ENTITY, SOURCE)
-
-        return map(document)
-    }
-
-    fun update(sample: SampleDetail): SampleDocument {
-        val document = sampleDocumentRepository.findByIdOrNull(sample.id)
-            ?: throw ResourceNotFoundException(sample.id, ENTITY, SOURCE)
-        document.update(sample)
-
-        return sampleDocumentRepository.save(document)
-    }
-
-    fun delete(id: Long) {
-        sampleDocumentRepository.deleteById(id)
     }
 
     private fun map(sample: SampleDetail) = SampleDocument(
