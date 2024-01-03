@@ -58,13 +58,13 @@ class KafkaConfiguration(
             TopicPartition(record.topic() + TOPIC_DEAD_LETTER_SUFFIX, record.partition())
         }
         val errorHandler = DefaultErrorHandler(recover)
-        val concurrency = kafkaProperties.listener.concurrency
 
         return ConcurrentKafkaListenerContainerFactory<String, String>().apply {
             this.consumerFactory = consumerFactory
+            containerProperties.isMicrometerEnabled = true
             containerProperties.isObservationEnabled = true
             setCommonErrorHandler(errorHandler)
-            setConcurrency(concurrency)
+            setConcurrency(kafkaProperties.listener.concurrency)
         }
     }
 
