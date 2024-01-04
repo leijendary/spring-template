@@ -42,11 +42,11 @@ spec:
             successThreshold: 1
           resources:
             requests:
-              memory: 1G
-              cpu: "0.5"
+              memory: 1Gi
+              cpu: 500m
             limits:
-              memory: 2G
-              cpu: "1"
+              memory: 2Gi
+              cpu: 1000m
 
 ---
 apiVersion: v1
