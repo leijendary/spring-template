@@ -1,6 +1,6 @@
 package com.leijendary.filter
 
-import com.leijendary.util.Tracing
+import com.leijendary.util.BeanContainer.tracer
 import jakarta.servlet.FilterChain
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
@@ -11,15 +11,11 @@ const val HEADER_TRACE_ID = "X-Trace-ID"
 
 @Component
 class TraceFilter : OncePerRequestFilter() {
-    override fun doFilterInternal(
-        request: HttpServletRequest,
-        response: HttpServletResponse,
-        filterChain: FilterChain
-    ) {
-        val traceId = Tracing.get().traceId()
+    override fun doFilterInternal(request: HttpServletRequest, response: HttpServletResponse, chain: FilterChain) {
+        val traceId = tracer.nextSpan().context().traceId()
 
         response.addHeader(HEADER_TRACE_ID, traceId)
 
-        filterChain.doFilter(request, response)
+        chain.doFilter(request, response)
     }
 }

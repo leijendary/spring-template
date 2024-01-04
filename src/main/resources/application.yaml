@@ -155,8 +155,6 @@ spring:
     producer:
       acks: all
     properties:
-      interceptor:
-        classes: com.leijendary.interceptor.KafkaInterceptor
       sasl:
         mechanism: SCRAM-SHA-256
     security:
