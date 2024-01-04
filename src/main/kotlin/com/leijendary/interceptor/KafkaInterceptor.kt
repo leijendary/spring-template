@@ -1,22 +1,19 @@
 package com.leijendary.interceptor
 
 import com.leijendary.extension.logger
-import com.leijendary.util.HEADER_TRACE_PARENT
-import com.leijendary.util.Tracing
-/*import com.leijendary.util.HEADER_TRACE_PARENT
-import com.leijendary.util.Tracing*/
-import org.apache.kafka.clients.consumer.ConsumerInterceptor
-import org.apache.kafka.clients.consumer.ConsumerRecords
-import org.apache.kafka.clients.consumer.OffsetAndMetadata
+import org.apache.kafka.clients.consumer.Consumer
+import org.apache.kafka.clients.consumer.ConsumerRecord
 import org.apache.kafka.clients.producer.ProducerInterceptor
 import org.apache.kafka.clients.producer.ProducerRecord
 import org.apache.kafka.clients.producer.RecordMetadata
-import org.apache.kafka.common.TopicPartition
+import org.springframework.kafka.listener.RecordInterceptor
+import org.springframework.stereotype.Component
 
-class KafkaInterceptor : ProducerInterceptor<String, Any>, ConsumerInterceptor<String, Any> {
+@Component
+class KafkaInterceptor : ProducerInterceptor<String, String>, RecordInterceptor<String, String> {
     private val log = logger()
 
-    override fun onSend(record: ProducerRecord<String, Any>): ProducerRecord<String, Any> {
+    override fun onSend(record: ProducerRecord<String, String>): ProducerRecord<String, String> {
         val topic = record.topic()
         val partition = record.partition()
         val key = record.key()
@@ -27,26 +24,6 @@ class KafkaInterceptor : ProducerInterceptor<String, Any>, ConsumerInterceptor<S
         return record
     }
 
-    override fun onConsume(records: ConsumerRecords<String, Any>): ConsumerRecords<String, Any> {
-        records.forEach {
-            val topic = it.topic()
-            val partition = it.partition()
-            val key = it.key()
-            val payload = it.value()
-            val traceParent = it.headers()
-                .lastHeader(HEADER_TRACE_PARENT)
-                ?.value()
-                ?.let(::String)
-            val text = "Received from topic '$topic' on partition '$partition' with key '$key' and payload '$payload'"
-
-            Tracing.log(traceParent) {
-                log.info(text)
-            }
-        }
-
-        return records
-    }
-
     override fun configure(configs: MutableMap<String, *>) {
         // No configuration needed for this
     }
@@ -55,11 +32,21 @@ class KafkaInterceptor : ProducerInterceptor<String, Any>, ConsumerInterceptor<S
         // No configuration needed for this
     }
 
-    override fun onCommit(offsets: MutableMap<TopicPartition, OffsetAndMetadata>) {
+    override fun close() {
         // No configuration needed for this
     }
 
-    override fun close() {
-        // No configuration needed for this
+    override fun intercept(
+        record: ConsumerRecord<String, String>,
+        consumer: Consumer<String, String>
+    ): ConsumerRecord<String, String> {
+        val topic = record.topic()
+        val partition = record.partition()
+        val key = record.key()
+        val payload = record.value()
+
+        log.info("Received from topic '$topic' on partition '$partition' with key '$key' and payload '$payload'")
+
+        return record
     }
 }

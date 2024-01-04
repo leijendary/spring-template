@@ -14,8 +14,7 @@ import java.time.OffsetDateTime
 import java.time.ZoneId
 import java.util.*
 
-const val HEADER_USER_ID = "X-User-ID"
-
+private const val HEADER_USER_ID = "X-User-ID"
 private val SESSION_NO_FOUND_EXCEPTION = StatusException(
     code = "access.session.notFound",
     status = UNAUTHORIZED,
