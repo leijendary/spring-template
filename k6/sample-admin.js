@@ -4,11 +4,13 @@ import http from "k6/http";
 
 const url = "http://localhost:30080";
 
+// Ramp up to 500 VUs within 30 seconds.
+// Then continue to run for 5 minutes with the same number of VUs.
 export const options = {
   stages: [
     {
-      duration: "20s",
-      target: 100,
+      duration: "30s",
+      target: 500,
     },
     {
       duration: "5m",
