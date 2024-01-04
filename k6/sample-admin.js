@@ -1,8 +1,8 @@
-import { check } from "k6";
+import { check, group } from "k6";
 import exec from "k6/execution";
 import http from "k6/http";
 
-const url = "http://localhost:30080";
+const url = "http://localhost:82/api/v1/samples/admin";
 
 // Ramp up to 500 VUs within 30 seconds.
 // Then continue to run for 5 minutes with the same number of VUs.
@@ -20,10 +20,12 @@ export const options = {
 };
 
 export default function () {
-  const id = create();
-  get(id);
-  update(id);
-  remove(id);
+  group("sample admin CRUD operations", function () {
+    const id = create();
+    get(id);
+    update(id);
+    remove(id);
+  });
 }
 
 function create() {
@@ -50,8 +52,11 @@ function create() {
     headers: {
       "Content-Type": "application/json",
     },
+    tags: {
+      name: "CreateSampleAdminURL",
+    },
   };
-  const res = http.post(`${url}/api/v1/samples/admin`, payload, params);
+  const res = http.post(url, payload, params);
 
   check(res, {
     "create status is 201": (r) => r.status === 201,
@@ -67,8 +72,11 @@ function get(id) {
     headers: {
       "Content-Type": "application/json",
     },
+    tags: {
+      name: "GetSampleAdminURL",
+    },
   };
-  const res = http.get(`${url}/api/v1/samples/admin/${id}`, params);
+  const res = http.get(`${url}/${id}`, params);
 
   check(res, {
     "get status is 200": (r) => r.status === 200,
@@ -104,8 +112,11 @@ function update(id) {
     headers: {
       "Content-Type": "application/json",
     },
+    tags: {
+      name: "UpdateSampleAdminURL",
+    },
   };
-  const res = http.put(`${url}/api/v1/samples/admin/${id}?version=0`, payload, params);
+  const res = http.put(`${url}/${id}?version=0`, payload, params);
 
   check(res, {
     "update status is 200": (r) => r.status === 200,
@@ -113,9 +124,14 @@ function update(id) {
 }
 
 function remove(id) {
-  const res = http.del(`${url}/api/v1/samples/admin/${id}?version=1`);
+  const params = {
+    tags: {
+      name: "DeleteSampleAdminURL",
+    },
+  };
+  const res = http.del(`${url}/${id}?version=1`, null, params);
 
   check(res, {
-    "update status is 204": (r) => r.status === 204,
+    "delete status is 204": (r) => r.status === 204,
   });
 }
