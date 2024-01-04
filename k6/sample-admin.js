@@ -1,5 +1,5 @@
-import { uuidv4 } from "https://jslib.k6.io/k6-utils/1.4.0/index.js";
 import { check } from "k6";
+import exec from "k6/execution";
 import http from "k6/http";
 
 const url = "http://localhost:30080";
@@ -27,20 +27,20 @@ export default function () {
 }
 
 function create() {
-  const uuid = uuidv4();
+  const iteration = exec.scenario.iterationInInstance + 1;
   const payload = JSON.stringify({
-    name: `Test ${uuid}`,
-    description: `I am testing record ID ${uuid}`,
-    amount: 222.25,
+    name: `Test ${iteration}`,
+    description: `I am testing iteration #${iteration}`,
+    amount: iteration * 1.99,
     translations: [
       {
-        name: `Test english ${uuid}`,
+        name: `Test english ${iteration}`,
         language: "en",
         ordinal: 1,
       },
       {
-        name: `Test japanese ${uuid}`,
-        description: `Testing the japanese description ${uuid}`,
+        name: `Test japanese ${iteration}`,
+        description: `Testing the japanese description ${iteration}`,
         language: "jp",
         ordinal: 2,
       },
