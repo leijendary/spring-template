@@ -84,34 +84,36 @@ Given the following specifications in a kubernetes ran locally:
   / __________ \  |__| \__\ \_____/ .io
 
   execution: local
-     script: k6/script.js
+     script: k6/sample-admin.js
      output: -
 
   scenarios: (100.00%) 1 scenario, 500 max VUs, 5m50s max duration (incl. graceful stop):
            * default: Up to 500 looping VUs for 5m20s over 2 stages (gracefulRampDown: 30s, gracefulStop: 30s)
 
-
      ✓ create status is 201
+     ✓ get status is 200
+     ✓ update status is 200
+     ✓ update status is 204
 
-     checks.........................: 100.00% ✓ 227826     ✗ 0     
-     data_received..................: 152 MB  472 kB/s
-     data_sent......................: 132 MB  413 kB/s
-     http_req_blocked...............: avg=8.63µs   min=0s     med=1µs      max=31.27ms p(90)=3µs      p(95)=4µs  
-     http_req_connecting............: avg=5.94µs   min=0s     med=0s       max=31.23ms p(90)=0s       p(95)=0s   
-     http_req_duration..............: avg=399.38ms min=2.18ms med=263.14ms max=13.69s  p(90)=761.07ms p(95)=1.08s
-       { expected_response:true }...: avg=399.38ms min=2.18ms med=263.14ms max=13.69s  p(90)=761.07ms p(95)=1.08s
-     http_req_failed................: 0.00%   ✓ 0          ✗ 227826
-     http_req_receiving.............: avg=168.04µs min=6µs    med=32µs     max=53.18ms p(90)=286µs    p(95)=629µs
-     http_req_sending...............: avg=13.05µs  min=2µs    med=9µs      max=8.89ms  p(90)=20µs     p(95)=26µs 
-     http_req_tls_handshaking.......: avg=0s       min=0s     med=0s       max=0s      p(90)=0s       p(95)=0s   
-     http_req_waiting...............: avg=399.2ms  min=2.15ms med=262.98ms max=13.69s  p(90)=760.87ms p(95)=1.08s
-     http_reqs......................: 227826  710.071007/s
-     iteration_duration.............: avg=399.56ms min=2.35ms med=263.31ms max=13.69s  p(90)=761.26ms p(95)=1.08s
-     iterations.....................: 227826  710.071007/s
-     vus............................: 499     min=5        max=499 
+     checks.........................: 100.00% ✓ 238776     ✗ 0     
+     data_received..................: 126 MB  391 kB/s
+     data_sent......................: 87 MB   270 kB/s
+     http_req_blocked...............: avg=10.56µs  min=0s      med=2µs      max=148.93ms p(90)=4µs      p(95)=5µs  
+     http_req_connecting............: avg=5.79µs   min=0s      med=0s       max=32.45ms  p(90)=0s       p(95)=0s   
+     http_req_duration..............: avg=383.13ms min=1.96ms  med=228.26ms max=8.19s    p(90)=880.35ms p(95)=1.21s
+       { expected_response:true }...: avg=383.13ms min=1.96ms  med=228.26ms max=8.19s    p(90)=880.35ms p(95)=1.21s
+     http_req_failed................: 0.00%   ✓ 0          ✗ 238776
+     http_req_receiving.............: avg=219.79µs min=4µs     med=36µs     max=298.12ms p(90)=320µs    p(95)=802µs
+     http_req_sending...............: avg=16.96µs  min=2µs     med=9µs      max=164.32ms p(90)=21µs     p(95)=29µs 
+     http_req_tls_handshaking.......: avg=0s       min=0s      med=0s       max=0s       p(90)=0s       p(95)=0s   
+     http_req_waiting...............: avg=382.89ms min=1.92ms  med=228.05ms max=8.19s    p(90)=880.17ms p(95)=1.21s
+     http_reqs......................: 238776  740.289539/s
+     iteration_duration.............: avg=1.53s    min=13.05ms med=999.13ms max=13.54s   p(90)=3.55s    p(95)=4.49s
+     iterations.....................: 59694   185.072385/s
+     vus............................: 179     min=5        max=499 
      vus_max........................: 500     min=500      max=500 
 
 
-running (5m20.8s), 000/500 VUs, 227826 complete and 0 interrupted iterations
+running (5m22.5s), 000/500 VUs, 59694 complete and 0 interrupted iterations
 default ✓ [======================================] 000/500 VUs  5m20s
 ```
