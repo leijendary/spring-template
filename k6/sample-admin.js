@@ -2,7 +2,7 @@ import { check, group } from "k6";
 import exec from "k6/execution";
 import http from "k6/http";
 
-const url = "http://localhost:82/api/v1/samples/admin";
+const url = "http://localhost:30080/api/v1/samples/admin";
 
 // Ramp up to 500 VUs within 30 seconds.
 // Then continue to run for 5 minutes with the same number of VUs.
