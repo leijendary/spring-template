@@ -52,7 +52,7 @@ export class FargateServiceConstruct extends FargateService {
   private setScaling() {
     const scalableTarget = this.autoScaleTaskCount({
       minCapacity: 1,
-      maxCapacity: 10,
+      maxCapacity: 20,
     });
     scalableTarget.scaleOnMemoryUtilization(`${id}ScaleByMemory-${environment}`, {
       policyName: "ScaleOn70PercentMemory",
