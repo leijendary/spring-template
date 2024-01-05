@@ -4,7 +4,7 @@ import feign.RequestInterceptor
 import org.openapi.petstore.v2.model.Pet
 import org.springframework.cloud.openfeign.FeignClient
 import org.springframework.context.annotation.Bean
-import org.springframework.http.HttpHeaders
+import org.springframework.http.HttpHeaders.AUTHORIZATION
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestParam
 import java.util.*
@@ -12,7 +12,7 @@ import java.util.*
 class PetStoreFeignConfiguration {
     @Bean
     fun requestInterceptor() = RequestInterceptor {
-        it.header(HttpHeaders.AUTHORIZATION, "Bearer ${UUID.randomUUID()}")
+        it.header(AUTHORIZATION, "Bearer ${UUID.randomUUID()}")
     }
 }
 
