@@ -14,13 +14,13 @@ import java.util.concurrent.atomic.AtomicInteger
 import kotlin.streams.asSequence
 
 private const val STREAM_CHUNK = 1000
-private const val ENTITY = "sampleDocument"
+private const val ENTITY = "sampleSearch"
 private val SOURCE = ErrorSource(pointer = "/data/$ENTITY/id")
 
 @Service
 class SampleSearchService(
-    private val sampleDocumentRepository: SampleDocumentRepository,
     private val sampleRepository: SampleRepository,
+    private val sampleSearchRepository: SampleSearchRepository,
 ) {
     private val log = logger()
 
@@ -30,7 +30,7 @@ class SampleSearchService(
         }
 
         val query = queryRequest.query
-        val samples = sampleDocumentRepository
+        val samples = sampleSearchRepository
             .findByTranslationsNameOrTranslationsDescription(query, query, pageRequest.pageable())
             .map(::mapToList)
 
@@ -40,25 +40,25 @@ class SampleSearchService(
     fun save(sample: SampleDetail) {
         val document = map(sample)
 
-        sampleDocumentRepository.save(document)
+        sampleSearchRepository.save(document)
     }
 
     fun get(id: Long): SampleDetail {
-        val document = sampleDocumentRepository.findByIdOrNull(id)
+        val document = sampleSearchRepository.findByIdOrNull(id)
             ?: throw ResourceNotFoundException(id, ENTITY, SOURCE)
 
         return map(document)
     }
 
     fun update(sample: SampleDetail) {
-        val document = sampleDocumentRepository.findByIdOrNull(sample.id) ?: return
+        val document = sampleSearchRepository.findByIdOrNull(sample.id) ?: return
         document.update(sample)
 
-        sampleDocumentRepository.save(document)
+        sampleSearchRepository.save(document)
     }
 
     fun delete(id: Long) {
-        sampleDocumentRepository.deleteById(id)
+        sampleSearchRepository.deleteById(id)
     }
 
     fun reindex(): Int {
@@ -69,7 +69,7 @@ class SampleSearchService(
                 .asSequence()
                 .chunked(STREAM_CHUNK)
                 .forEach {
-                    sampleDocumentRepository.saveAll(it)
+                    sampleSearchRepository.saveAll(it)
 
                     val current = count.addAndGet(it.size)
 
@@ -80,13 +80,13 @@ class SampleSearchService(
         return count.get()
     }
 
-    private fun map(sample: SampleDetail) = SampleDocument(
+    private fun map(sample: SampleDetail) = SampleSearch(
         id = sample.id,
         name = sample.name,
         description = sample.description,
         amount = sample.amount,
         translations = sample.translations.map {
-            SampleTranslationDocument(
+            SampleSearchTranslation(
                 name = it.name,
                 description = it.description,
                 language = it.language,
@@ -100,7 +100,7 @@ class SampleSearchService(
             .let(::Completion),
     )
 
-    private fun mapToList(document: SampleDocument): SampleList {
+    private fun mapToList(document: SampleSearch): SampleList {
         val translation = document.translation
 
         return SampleList(
@@ -112,7 +112,7 @@ class SampleSearchService(
         )
     }
 
-    private fun map(document: SampleDocument): SampleDetail {
+    private fun map(document: SampleSearch): SampleDetail {
         val translation = document.translation
 
         return SampleDetail(
@@ -125,7 +125,7 @@ class SampleSearchService(
         )
     }
 
-    private fun mapStream(sample: SampleDetail): SampleDocument {
+    private fun mapStream(sample: SampleDetail): SampleSearch {
         val translations = sampleRepository.listTranslations(sample.id)
         sample.translations.addAll(translations)
 

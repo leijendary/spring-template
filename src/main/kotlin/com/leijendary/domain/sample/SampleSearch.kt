@@ -1,6 +1,6 @@
 package com.leijendary.domain.sample
 
-import com.leijendary.domain.sample.SampleDocument.Companion.INDEX_NAME
+import com.leijendary.domain.sample.SampleSearch.Companion.INDEX_NAME
 import com.leijendary.projection.LocaleProjection
 import com.leijendary.projection.LocalizedProjection
 import org.springframework.data.annotation.Id
@@ -13,7 +13,7 @@ import java.time.OffsetDateTime
 
 @Document(indexName = INDEX_NAME)
 @Setting(settingPath = "/elasticsearch/settings.json")
-data class SampleDocument(
+data class SampleSearch(
     @Id
     @Field(type = FieldType.Long)
     var id: Long,
@@ -28,14 +28,14 @@ data class SampleDocument(
     var amount: BigDecimal,
 
     @Field(type = Nested, includeInParent = true)
-    override var translations: List<SampleTranslationDocument> = emptyList(),
+    override var translations: List<SampleSearchTranslation> = emptyList(),
 
     @Field(type = Date, format = [date_time])
     var createdAt: OffsetDateTime,
 
     @CompletionField
     var completion: Completion,
-) : LocalizedProjection<SampleTranslationDocument> {
+) : LocalizedProjection<SampleSearchTranslation> {
     companion object {
         const val INDEX_NAME = "sample"
     }
@@ -45,11 +45,11 @@ data class SampleDocument(
         description = sample.description
         amount = sample.amount
         translations = sample.translations.map {
-            SampleTranslationDocument(
+            SampleSearchTranslation(
                 name = it.name,
                 description = it.description,
                 language = it.language,
-                ordinal = it.ordinal,
+                ordinal = it.ordinal
             )
         }
         completion = sample.translations
@@ -59,16 +59,17 @@ data class SampleDocument(
     }
 }
 
-data class SampleTranslationDocument(
+@JvmRecord
+data class SampleSearchTranslation(
     @Field(type = Text, analyzer = "ngram_analyzer", searchAnalyzer = "standard")
-    var name: String,
+    val name: String,
 
     @Field(type = Text, analyzer = "ngram_analyzer", searchAnalyzer = "standard")
-    var description: String?,
+    val description: String?,
 
     @Field(type = Keyword)
-    override var language: String,
+    override val language: String,
 
     @Field(type = Integer)
-    override var ordinal: Int = 0
+    override val ordinal: Int = 0
 ) : LocaleProjection
