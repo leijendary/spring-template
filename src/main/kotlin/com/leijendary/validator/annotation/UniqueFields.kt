@@ -4,11 +4,11 @@ import com.leijendary.validator.UniqueFieldsValidator
 import jakarta.validation.Constraint
 import jakarta.validation.Payload
 import kotlin.annotation.AnnotationRetention.RUNTIME
-import kotlin.annotation.AnnotationTarget.*
+import kotlin.annotation.AnnotationTarget.FIELD
 import kotlin.reflect.KClass
 
 @Constraint(validatedBy = [UniqueFieldsValidator::class])
-@Target(ANNOTATION_CLASS, CLASS, PROPERTY_GETTER, FIELD)
+@Target(FIELD)
 @Retention(RUNTIME)
 annotation class UniqueFields(
     val message: String = "validation.duplicateValue",
