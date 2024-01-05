@@ -19,14 +19,14 @@ val SOURCE_SERVER_INTERNAL = ErrorSource(pointer = "/server/internal")
 @Order
 class GlobalExceptionHandler(messageSource: MessageSource) {
     private val log = logger()
-    private val message = messageSource.getMessage(CODE_SERVER_ERROR, emptyArray(), locale)
+    private val defaultMessage = messageSource.getMessage(CODE_SERVER_ERROR, emptyArray(), locale)
 
     @ExceptionHandler(Exception::class)
     @ResponseStatus(INTERNAL_SERVER_ERROR)
     fun catchException(exception: Exception): List<ErrorModel> {
         log.error("Global Exception", exception)
 
-        val message = if (isProd) this.message else exception.message
+        val message = if (isProd) defaultMessage else exception.message
         val error = ErrorModel(code = CODE_SERVER_ERROR, message = message, source = SOURCE_SERVER_INTERNAL)
 
         return listOf(error)

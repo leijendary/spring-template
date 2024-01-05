@@ -4,7 +4,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties
 
 @ConfigurationProperties("spring.datasource.read-only")
 class DataSourceReadOnlyProperties {
-    var name: String = "Read-only"
+    var name = "Read-only"
     lateinit var url: String
-    var poolSize: Int = 10
+    var poolSize = 10
 }

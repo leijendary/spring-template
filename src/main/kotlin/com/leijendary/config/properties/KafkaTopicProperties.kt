@@ -7,8 +7,8 @@ import org.springframework.boot.context.properties.ConfigurationProperties
 class KafkaTopicProperties : HashMap<String, KafkaTopic>() {
     class KafkaTopic {
         lateinit var name: String
-        var partitions: Int = 1
-        var replicas: Int = 1
+        var partitions = 1
+        var replicas = 1
     }
 
     fun nameOf(key: String): String {

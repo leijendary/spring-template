@@ -4,7 +4,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties
 
 @ConfigurationProperties("spring.datasource.primary")
 class DataSourcePrimaryProperties {
-    var name: String = "Primary"
+    var name = "Primary"
     lateinit var url: String
-    var poolSize: Int = 10
+    var poolSize = 10
 }
