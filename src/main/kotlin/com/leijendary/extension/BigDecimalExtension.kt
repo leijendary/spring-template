@@ -3,11 +3,12 @@ package com.leijendary.extension
 import com.leijendary.util.BeanContainer.numberProperties
 import java.math.BigDecimal
 import java.math.BigDecimal.ZERO
+import java.math.RoundingMode
 
 private val ONE_HUNDRED = BigDecimal(100)
 
-fun BigDecimal.scaled(): BigDecimal {
-    return setScale(numberProperties.scale, numberProperties.round)
+fun BigDecimal.scaled(roundingMode: RoundingMode = numberProperties.round): BigDecimal {
+    return setScale(numberProperties.scale, roundingMode)
 }
 
 fun BigDecimal.percent(value: BigDecimal): BigDecimal {
