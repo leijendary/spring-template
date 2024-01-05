@@ -1,6 +1,7 @@
 package com.leijendary.domain.sample
 
 import com.leijendary.error.exception.ResourceNotFoundException
+import com.leijendary.extension.logger
 import com.leijendary.model.ErrorSource
 import com.leijendary.model.Page
 import com.leijendary.model.Page.Companion.empty
@@ -21,6 +22,8 @@ class SampleSearchService(
     private val sampleDocumentRepository: SampleDocumentRepository,
     private val sampleRepository: SampleRepository,
 ) {
+    private val log = logger()
+
     fun page(queryRequest: QueryRequest, pageRequest: PageRequest): Page<SampleList> {
         if (queryRequest.query.isNullOrBlank()) {
             return empty(pageRequest)
@@ -67,7 +70,10 @@ class SampleSearchService(
                 .chunked(STREAM_CHUNK)
                 .forEach {
                     sampleDocumentRepository.saveAll(it)
-                    count.addAndGet(it.size)
+
+                    val current = count.addAndGet(it.size)
+
+                    log.info("Synced $current samples.")
                 }
         }
 
