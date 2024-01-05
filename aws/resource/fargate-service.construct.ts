@@ -55,11 +55,11 @@ export class FargateServiceConstruct extends FargateService {
       maxCapacity: 20,
     });
     scalableTarget.scaleOnMemoryUtilization(`${id}ScaleByMemory-${environment}`, {
-      policyName: "ScaleOn70PercentMemory",
+      policyName: "ScaleOnMemory70",
       targetUtilizationPercent: 70,
     });
     scalableTarget.scaleOnCpuUtilization(`${id}ScaleByCpu-${environment}`, {
-      policyName: "ScaleOn50PercentCpu",
+      policyName: "ScaleOnCpu50",
       targetUtilizationPercent: 50,
     });
   }
