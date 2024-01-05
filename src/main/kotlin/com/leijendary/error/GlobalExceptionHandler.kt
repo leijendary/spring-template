@@ -26,7 +26,7 @@ class GlobalExceptionHandler(messageSource: MessageSource) {
     fun catchException(exception: Exception): List<ErrorModel> {
         log.error("Global Exception", exception)
 
-        val message = if (isProd()) this.message else exception.message
+        val message = if (isProd) this.message else exception.message
         val error = ErrorModel(code = CODE_SERVER_ERROR, message = message, source = SOURCE_SERVER_INTERNAL)
 
         return listOf(error)

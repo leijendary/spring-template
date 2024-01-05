@@ -1,6 +1,6 @@
 const environment = process.env.ENVIRONMENT!!;
 
-export const isProd = () => environment === "prod";
+export const isProd = environment === "prod";
 
 export default {
   account: process.env.CDK_DEFAULT_ACCOUNT!!,

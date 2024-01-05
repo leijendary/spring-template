@@ -44,7 +44,7 @@ export class FargateServiceConstruct extends FargateService {
 
     super(scope, `${id}Service-${environment}`, config);
 
-    if (isProd()) {
+    if (isProd) {
       this.setScaling();
     }
   }
