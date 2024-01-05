@@ -61,7 +61,7 @@ class SampleSearchService(
     fun reindex(): Int {
         val count = AtomicInteger()
 
-        sampleRepository.streamAll().parallel().use { stream ->
+        sampleRepository.streamAll().use { stream ->
             stream.map(::mapStream)
                 .asSequence()
                 .chunked(STREAM_CHUNK)
