@@ -1,6 +1,5 @@
 package com.leijendary.domain.sample
 
-import com.leijendary.extension.elapsedTime
 import com.leijendary.model.Page
 import com.leijendary.model.PageRequest
 import com.leijendary.model.QueryRequest
@@ -10,15 +9,11 @@ import jakarta.validation.Valid
 import org.springframework.http.HttpStatus.CREATED
 import org.springframework.http.HttpStatus.NO_CONTENT
 import org.springframework.web.bind.annotation.*
-import kotlin.system.measureTimeMillis
 
 @RestController
 @RequestMapping("/api/v1/samples/admin")
 @Tag(name = "Sample Admin")
-class SampleAdminController(
-    private val sampleSearchService: SampleSearchService,
-    private val sampleService: SampleService
-) {
+class SampleAdminController(private val sampleService: SampleService) {
     @GetMapping
     @Operation(
         summary = """
@@ -59,17 +54,5 @@ class SampleAdminController(
     @Operation(summary = "Removes the sample record from the database. This is a soft delete.")
     fun delete(@PathVariable id: Long, @RequestParam version: Int) {
         sampleService.delete(id, version)
-    }
-
-    @PostMapping("reindex")
-    @Operation(summary = "Reindex all objects to elasticsearch.")
-    fun reindex(): String {
-        var count: Int
-        val time = measureTimeMillis {
-            count = sampleSearchService.reindex()
-        }
-        val elapsed = time.elapsedTime()
-
-        return "Re-indexed $count records to Sample Search, completed in $elapsed"
     }
 }
