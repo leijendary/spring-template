@@ -7,36 +7,36 @@ import com.leijendary.validator.annotation.UniqueFields
 import jakarta.validation.Valid
 import jakarta.validation.constraints.*
 import java.math.BigDecimal
+import java.math.BigDecimal.ZERO
 import java.time.OffsetDateTime
 
-@JvmRecord
-data class SampleRequest(
+class SampleRequest {
     @field:NotBlank(message = "validation.required")
     @field:Size(max = 100, message = "validation.maxLength")
-    val name: String? = null,
+    var name = ""
 
     @field:NotNull(message = "validation.required")
-    val description: String? = null,
+    var description: String? = null
 
     @field:NotNull(message = "validation.required")
     @field:DecimalMin(value = "0.01", message = "validation.decimal.min")
     @field:DecimalMax(value = "9999999999.99", message = "validation.decimal.max")
-    val amount: BigDecimal?,
+    var amount: BigDecimal = ZERO
 
     @field:Valid
     @field:UniqueFields(uniqueFields = ["name", "language", "ordinal"])
     @field:NotEmpty(message = "validation.required")
-    val translations: List<SampleTranslationRequest>? = arrayListOf()
-)
+    var translations = arrayListOf<SampleTranslationRequest>()
+}
 
-data class SampleTranslationRequest(
+class SampleTranslationRequest : TranslationRequest() {
     @field:NotBlank(message = "validation.required")
     @field:Size(max = 100, message = "validation.maxLength")
-    val name: String? = null,
+    var name = ""
 
     @field:Size(max = 200, message = "validation.maxLength")
     val description: String? = null
-) : TranslationRequest()
+}
 
 @JvmRecord
 data class SampleList(

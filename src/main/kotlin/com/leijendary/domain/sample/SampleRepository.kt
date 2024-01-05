@@ -248,9 +248,9 @@ class SampleRepository(private val jdbcClient: JdbcClient) {
         )
 
         translations.forEach {
-            binds.names.add(it.name!!)
+            binds.names.add(it.name)
             binds.descriptions.add(it.description)
-            binds.languages.add(it.language!!)
+            binds.languages.add(it.language)
             binds.ordinals.add(it.ordinal)
         }
 

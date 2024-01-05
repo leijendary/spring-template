@@ -26,11 +26,11 @@ class SampleService(
     fun create(request: SampleRequest): SampleDetail {
         val sample = transactional {
             val sample = sampleRepository.create(request)
-            val translations = sampleRepository.createTranslations(sample.id, request.translations!!)
+            val translations = sampleRepository.createTranslations(sample.id, request.translations)
             sample.translations.addAll(translations)
 
             sample
-        }!!
+        }
 
         sampleMessageProducer.created(sample)
 
@@ -54,11 +54,11 @@ class SampleService(
     fun update(id: Long, version: Int, request: SampleRequest): SampleDetail {
         val sample = transactional {
             val sample = sampleRepository.update(id, version, request)
-            val translations = sampleRepository.updateTranslations(id, request.translations!!)
+            val translations = sampleRepository.updateTranslations(id, request.translations)
             sample.translations.addAll(translations)
 
             sample
-        }!!
+        }
 
         sampleMessageProducer.updated(sample)
 

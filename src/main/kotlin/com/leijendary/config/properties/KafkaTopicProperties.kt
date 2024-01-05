@@ -12,6 +12,6 @@ class KafkaTopicProperties : HashMap<String, KafkaTopic>() {
     }
 
     fun nameOf(key: String): String {
-        return this[key]!!.name
+        return getValue(key).name
     }
 }
