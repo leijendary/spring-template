@@ -6,8 +6,8 @@ import jakarta.validation.ConstraintValidator
 import jakarta.validation.ConstraintValidatorContext
 
 class UniqueFieldsValidator : ConstraintValidator<UniqueFields, List<Any>> {
-    private lateinit var uniqueFields: Array<String>
     private lateinit var message: String
+    private lateinit var uniqueFields: Array<String>
 
     override fun initialize(constraintAnnotation: UniqueFields) {
         super.initialize(constraintAnnotation)
@@ -17,14 +17,18 @@ class UniqueFieldsValidator : ConstraintValidator<UniqueFields, List<Any>> {
     }
 
     override fun isValid(list: List<Any>?, context: ConstraintValidatorContext): Boolean {
+        if (list === null || list.isEmpty()) {
+            return true
+        }
+
         val fieldSets = mutableMapOf<String, MutableSet<Any>>()
         var hasDuplicate = false
 
         context.disableDefaultConstraintViolation()
 
-        list?.forEachIndexed { index, target ->
-            uniqueFields.forEach fieldLoop@{ field ->
-                val value = target.reflectGet(field) ?: return@fieldLoop
+        list.forEachIndexed { index, target ->
+            for (field in uniqueFields) {
+                val value = target.reflectGet(field) ?: continue
                 val set = fieldSets.getOrDefault(field, mutableSetOf())
                 val added = set.add(value)
 
