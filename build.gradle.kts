@@ -72,6 +72,8 @@ repositories {
 dependencies {
     // Kotlin
     implementation(kotlin("reflect"))
+    implementation(kotlin("stdlib-jdk8"))
+    testImplementation(kotlin("test"))
 
     // Spring Boot Starter
     implementation("org.springframework.boot:spring-boot-starter-actuator")

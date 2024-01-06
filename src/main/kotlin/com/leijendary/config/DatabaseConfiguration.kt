@@ -1,5 +1,6 @@
 package com.leijendary.config
 
+import com.zaxxer.hikari.HikariDataSource
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.jdbc.DataSourceBuilder
 import org.springframework.context.annotation.Bean
@@ -22,13 +23,13 @@ class DatabaseConfiguration {
 
     @Bean
     @ConfigurationProperties("spring.datasource")
-    fun primaryDataSource(): DataSource {
-        return DataSourceBuilder.create().build()
+    fun primaryDataSource(): HikariDataSource {
+        return DataSourceBuilder.create().type(HikariDataSource::class.java).build()
     }
 
     @Bean
     @ConfigurationProperties("spring.datasource.read-only")
-    fun readOnlyDataSource(): DataSource {
-        return DataSourceBuilder.create().build()
+    fun readOnlyDataSource(): HikariDataSource {
+        return DataSourceBuilder.create().type(HikariDataSource::class.java).build()
     }
 }
