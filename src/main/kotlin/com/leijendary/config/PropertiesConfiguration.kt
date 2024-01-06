@@ -9,6 +9,8 @@ import org.springframework.context.annotation.Configuration
     AuthProperties::class,
     AwsCloudFrontProperties::class,
     AwsS3Properties::class,
+    DataSourcePrimaryProperties::class,
+    DataSourceReadOnlyProperties::class,
     KafkaTopicProperties::class,
     NumberProperties::class,
     OpenApiProperties::class

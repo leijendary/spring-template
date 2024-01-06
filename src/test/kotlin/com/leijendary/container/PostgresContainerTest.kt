@@ -17,8 +17,8 @@ class PostgresContainerTest {
             postgres.start()
 
             val properties = arrayOf(
+                "spring.datasource.primary.jdbcUrl=${postgres.jdbcUrl}",
                 "spring.datasource.readOnly.jdbcUrl=${postgres.jdbcUrl}",
-                "spring.datasource.jdbcUrl=${postgres.jdbcUrl}",
                 "spring.datasource.username=${postgres.username}",
                 "spring.datasource.password=${postgres.password}",
             )

@@ -123,16 +123,18 @@ spring:
       repositories:
         enabled: false
   datasource:
-    poolName: Primary
-    jdbcUrl:
-    username:
-    password:
-    readOnly:
-      poolName: Read-only
-      readOnly: true
+    primary:
+      poolName: Primary
       jdbcUrl:
       username: \${spring.datasource.username}
       password: \${spring.datasource.password}
+    readOnly:
+      poolName: Read-only
+      jdbcUrl:
+      username: \${spring.datasource.username}
+      password: \${spring.datasource.password}
+    username:
+    password:
   elasticsearch:
     uris:
     username:
