@@ -23,9 +23,9 @@ spring:
         enabled: false
   datasource:
     primary:
-      poolSize: 5
+      maximumPoolSize: 5
     readOnly:
-      poolSize: 5
+      maximumPoolSize: 5
   kafka:
     jaas:
       enabled: false

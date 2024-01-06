@@ -124,11 +124,11 @@ spring:
         enabled: false
   datasource:
     primary:
-      url:
-      maximumPoolSize: 10
+      poolName: Primary
+      jdbcUrl:
     readOnly:
-      url:
-      maximumPoolSize: 10
+      poolName: Read-only
+      jdbcUrl:
     username:
     password:
   elasticsearch:

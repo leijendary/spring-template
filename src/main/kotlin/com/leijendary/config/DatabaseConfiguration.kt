@@ -28,27 +28,18 @@ class DatabaseConfiguration(
 
     @Bean
     fun primaryDataSource(): DataSource {
-        val dataSource = HikariDataSource().apply {
-            poolName = primaryProperties.name
-            jdbcUrl = primaryProperties.url
-            maximumPoolSize = primaryProperties.poolSize
-        }
-        dataSource.username = dataSourceProperties.username
-        dataSource.password = dataSourceProperties.password
+        primaryProperties.username = dataSourceProperties.username
+        primaryProperties.password = dataSourceProperties.password
 
-        return dataSource
+        return HikariDataSource(primaryProperties)
     }
 
     @Bean
     fun readOnlyDataSource(): DataSource {
-        val dataSource = HikariDataSource().apply {
-            poolName = readOnlyProperties.name
-            jdbcUrl = readOnlyProperties.url
-            maximumPoolSize = readOnlyProperties.poolSize
-        }
-        dataSource.username = dataSourceProperties.username
-        dataSource.password = dataSourceProperties.password
+        readOnlyProperties.username = dataSourceProperties.username
+        readOnlyProperties.password = dataSourceProperties.password
+        readOnlyProperties.isReadOnly = true
 
-        return dataSource
+        return HikariDataSource(readOnlyProperties)
     }
 }
