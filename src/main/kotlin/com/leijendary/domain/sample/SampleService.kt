@@ -28,7 +28,6 @@ class SampleService(
             val sample = sampleRepository.create(request)
             val translations = sampleRepository.createTranslations(sample.id, request.translations)
             sample.translations.addAll(translations)
-
             sample
         }
 
@@ -56,7 +55,6 @@ class SampleService(
             val sample = sampleRepository.update(id, version, request)
             val translations = sampleRepository.updateTranslations(id, request.translations)
             sample.translations.addAll(translations)
-
             sample
         }
 
