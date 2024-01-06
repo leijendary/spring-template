@@ -22,8 +22,7 @@ spring:
       ssl:
         enabled: false
   datasource:
-    primary:
-      maximumPoolSize: 5
+    maximumPoolSize: 5
     readOnly:
       maximumPoolSize: 5
   kafka:

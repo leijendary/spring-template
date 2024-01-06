@@ -1,9 +1,7 @@
 package com.leijendary.config
 
-import com.leijendary.config.properties.DataSourcePrimaryProperties
-import com.leijendary.config.properties.DataSourceReadOnlyProperties
-import com.zaxxer.hikari.HikariDataSource
-import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties
+import org.springframework.boot.context.properties.ConfigurationProperties
+import org.springframework.boot.jdbc.DataSourceBuilder
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Primary
@@ -13,11 +11,7 @@ import javax.sql.DataSource
 
 @Configuration
 @EnableTransactionManagement
-class DatabaseConfiguration(
-    private val dataSourceProperties: DataSourceProperties,
-    private val primaryProperties: DataSourcePrimaryProperties,
-    private val readOnlyProperties: DataSourceReadOnlyProperties
-) {
+class DatabaseConfiguration {
     @Bean
     @Primary
     fun dataSource(primaryDataSource: DataSource, readOnlyDataSource: DataSource): DataSource {
@@ -27,19 +21,14 @@ class DatabaseConfiguration(
     }
 
     @Bean
+    @ConfigurationProperties("spring.datasource")
     fun primaryDataSource(): DataSource {
-        primaryProperties.username = dataSourceProperties.username
-        primaryProperties.password = dataSourceProperties.password
-
-        return HikariDataSource(primaryProperties)
+        return DataSourceBuilder.create().build()
     }
 
     @Bean
+    @ConfigurationProperties("spring.datasource.read-only")
     fun readOnlyDataSource(): DataSource {
-        readOnlyProperties.username = dataSourceProperties.username
-        readOnlyProperties.password = dataSourceProperties.password
-        readOnlyProperties.isReadOnly = true
-
-        return HikariDataSource(readOnlyProperties)
+        return DataSourceBuilder.create().build()
     }
 }
