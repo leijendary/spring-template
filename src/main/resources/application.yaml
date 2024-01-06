@@ -130,6 +130,7 @@ spring:
       password: \${spring.datasource.password}
     readOnly:
       poolName: Read-only
+      readOnly: true
       jdbcUrl:
       username: \${spring.datasource.username}
       password: \${spring.datasource.password}
