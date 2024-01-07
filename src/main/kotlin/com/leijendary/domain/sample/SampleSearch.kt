@@ -39,24 +39,6 @@ data class SampleSearch(
     companion object {
         const val INDEX_NAME = "sample"
     }
-
-    fun update(sample: SampleDetail) {
-        name = sample.name
-        description = sample.description
-        amount = sample.amount
-        translations = sample.translations.map {
-            SampleSearchTranslation(
-                name = it.name,
-                description = it.description,
-                language = it.language,
-                ordinal = it.ordinal
-            )
-        }
-        completion = sample.translations
-            .map { it.name }
-            .toTypedArray()
-            .let(::Completion)
-    }
 }
 
 @JvmRecord

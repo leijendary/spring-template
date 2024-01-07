@@ -21,7 +21,7 @@ class SampleMessageConsumer(private val sampleSearchService: SampleSearchService
     fun updated(json: String) {
         val sample = json.toClass<SampleDetail>()
 
-        sampleSearchService.update(sample)
+        sampleSearchService.save(sample)
     }
 
     @KafkaListener(topics = ["\${spring.kafka.topic.$SAMPLE_DELETED.name}"])

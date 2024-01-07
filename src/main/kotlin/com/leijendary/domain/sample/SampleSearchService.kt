@@ -38,23 +38,15 @@ class SampleSearchService(
     }
 
     fun save(sample: SampleDetail) {
-        val document = map(sample)
+        val search = map(sample)
 
-        sampleSearchRepository.save(document)
+        sampleSearchRepository.save(search)
     }
 
     fun get(id: Long): SampleDetail {
-        val document = sampleSearchRepository.findByIdOrNull(id)
-            ?: throw ResourceNotFoundException(id, ENTITY, SOURCE)
+        val search = sampleSearchRepository.findByIdOrNull(id) ?: throw ResourceNotFoundException(id, ENTITY, SOURCE)
 
-        return map(document)
-    }
-
-    fun update(sample: SampleDetail) {
-        val document = sampleSearchRepository.findByIdOrNull(sample.id) ?: return
-        document.update(sample)
-
-        sampleSearchRepository.save(document)
+        return map(search)
     }
 
     fun delete(id: Long) {
@@ -100,28 +92,28 @@ class SampleSearchService(
             .let(::Completion),
     )
 
-    private fun mapToList(document: SampleSearch): SampleList {
-        val translation = document.translation
+    private fun mapToList(search: SampleSearch): SampleList {
+        val translation = search.translation
 
         return SampleList(
-            id = document.id,
+            id = search.id,
             name = translation.name,
             description = translation.description,
-            amount = document.amount,
-            createdAt = document.createdAt,
+            amount = search.amount,
+            createdAt = search.createdAt,
         )
     }
 
-    private fun map(document: SampleSearch): SampleDetail {
-        val translation = document.translation
+    private fun map(search: SampleSearch): SampleDetail {
+        val translation = search.translation
 
         return SampleDetail(
-            id = document.id,
+            id = search.id,
             name = translation.name,
             description = translation.description,
-            amount = document.amount,
+            amount = search.amount,
             version = 0,
-            createdAt = document.createdAt,
+            createdAt = search.createdAt,
         )
     }
 
