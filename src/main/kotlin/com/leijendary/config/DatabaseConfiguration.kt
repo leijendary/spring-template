@@ -41,7 +41,7 @@ class DatabaseConfiguration {
 
 @Component
 @Primary
-class SynchronizedJdbcTransactionManager(dataSource: DataSource) : JdbcTransactionManager(dataSource) {
+class SynchronizedTransactionManager(dataSource: DataSource) : JdbcTransactionManager(dataSource) {
     override fun doBegin(transaction: Any, definition: TransactionDefinition) {
         setCurrentTransactionName(definition.name)
         setCurrentTransactionIsolationLevel(definition.isolationLevel)
