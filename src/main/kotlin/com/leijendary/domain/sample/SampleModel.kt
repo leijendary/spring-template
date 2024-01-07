@@ -1,5 +1,7 @@
 package com.leijendary.domain.sample
 
+import com.fasterxml.jackson.annotation.JsonInclude
+import com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY
 import com.leijendary.model.TranslationRequest
 import com.leijendary.projection.LocaleProjection
 import com.leijendary.projection.SeekProjection
@@ -54,8 +56,10 @@ data class SampleDetail(
     val description: String?,
     val amount: BigDecimal,
     val version: Int,
+    val createdAt: OffsetDateTime,
+
+    @JsonInclude(NON_EMPTY)
     val translations: MutableList<SampleTranslation> = mutableListOf(),
-    val createdAt: OffsetDateTime
 )
 
 @JvmRecord

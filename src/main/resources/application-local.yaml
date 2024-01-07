@@ -21,11 +21,6 @@ spring:
     redis:
       ssl:
         enabled: false
-  datasource:
-    primary:
-      maximumPoolSize: 5
-    readOnly:
-      maximumPoolSize: 5
   kafka:
     jaas:
       enabled: false
