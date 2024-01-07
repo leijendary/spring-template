@@ -9,7 +9,9 @@ import org.testcontainers.utility.DockerImageName
 class KafkaContainerTest {
     companion object {
         private val image = DockerImageName.parse("confluentinc/cp-kafka:7.5.3")
-        private val kafka = KafkaContainer(image).withKraft()
+        private val kafka = KafkaContainer(image)
+            .withEnv("KAFKA_HEAP_OPTS", "-Xms128m -Xmx256m")
+            .withKraft()
     }
 
     internal class Initializer : ApplicationContextInitializer<ConfigurableApplicationContext> {
