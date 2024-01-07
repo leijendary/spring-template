@@ -67,5 +67,4 @@ class TransactionRoutingDataSource(primary: DataSource, readOnly: DataSource) : 
 
         return if (isReadOnly) READ_ONLY else READ_WRITE
     }
-
 }
