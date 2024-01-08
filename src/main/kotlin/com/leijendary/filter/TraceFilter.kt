@@ -1,6 +1,6 @@
 package com.leijendary.filter
 
-import com.leijendary.util.BeanContainer.tracer
+import io.micrometer.tracing.Tracer
 import jakarta.servlet.FilterChain
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
@@ -10,7 +10,7 @@ import org.springframework.web.filter.OncePerRequestFilter
 const val HEADER_TRACE_ID = "X-Trace-ID"
 
 @Component
-class TraceFilter : OncePerRequestFilter() {
+class TraceFilter(private val tracer: Tracer) : OncePerRequestFilter() {
     override fun doFilterInternal(request: HttpServletRequest, response: HttpServletResponse, chain: FilterChain) {
         val traceId = tracer.nextSpan().context().traceId()
 
