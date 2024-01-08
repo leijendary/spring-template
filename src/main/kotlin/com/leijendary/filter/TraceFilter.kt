@@ -12,7 +12,8 @@ const val HEADER_TRACE_ID = "X-Trace-ID"
 @Component
 class TraceFilter(private val tracer: Tracer) : OncePerRequestFilter() {
     override fun doFilterInternal(request: HttpServletRequest, response: HttpServletResponse, chain: FilterChain) {
-        val traceId = tracer.nextSpan().context().traceId()
+        val span = tracer.currentSpan() ?: tracer.nextSpan()
+        val traceId = span.context().traceId()
 
         response.addHeader(HEADER_TRACE_ID, traceId)
 
