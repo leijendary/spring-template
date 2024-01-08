@@ -1,21 +1,16 @@
 package com.leijendary.domain.sample
 
-import com.leijendary.error.exception.ResourceNotFoundException
 import com.leijendary.extension.logger
-import com.leijendary.model.ErrorSource
 import com.leijendary.model.Page
 import com.leijendary.model.Page.Companion.empty
 import com.leijendary.model.PageRequest
 import com.leijendary.model.QueryRequest
 import org.springframework.data.elasticsearch.core.suggest.Completion
-import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import java.util.concurrent.atomic.AtomicInteger
 import kotlin.streams.asSequence
 
 private const val STREAM_CHUNK = 1000
-private const val ENTITY = "sampleSearch"
-private val SOURCE = ErrorSource(pointer = "/data/$ENTITY/id")
 
 @Service
 class SampleSearchService(
@@ -41,12 +36,6 @@ class SampleSearchService(
         val search = map(sample)
 
         sampleSearchRepository.save(search)
-    }
-
-    fun get(id: Long): SampleDetail {
-        val search = sampleSearchRepository.findByIdOrNull(id) ?: throw ResourceNotFoundException(id, ENTITY, SOURCE)
-
-        return map(search)
     }
 
     fun delete(id: Long) {
