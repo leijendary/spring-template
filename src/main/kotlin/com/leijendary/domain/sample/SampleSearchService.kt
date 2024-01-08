@@ -1,6 +1,8 @@
 package com.leijendary.domain.sample
 
+import com.leijendary.error.exception.ResourceNotFoundException
 import com.leijendary.extension.logger
+import com.leijendary.model.ErrorSource
 import com.leijendary.model.Page
 import com.leijendary.model.Page.Companion.empty
 import com.leijendary.model.PageRequest
@@ -11,6 +13,8 @@ import java.util.concurrent.atomic.AtomicInteger
 import kotlin.streams.asSequence
 
 private const val STREAM_CHUNK = 1000
+private const val ENTITY = "sampleSearch"
+private val SOURCE = ErrorSource(pointer = "/data/$ENTITY/id")
 
 @Service
 class SampleSearchService(
@@ -36,6 +40,16 @@ class SampleSearchService(
         val search = map(sample)
 
         sampleSearchRepository.save(search)
+    }
+
+    fun update(sample: SampleDetail) {
+        val exists = sampleSearchRepository.existsById(sample.id)
+
+        if (!exists) {
+            throw ResourceNotFoundException(sample.id, ENTITY, SOURCE)
+        }
+
+        save(sample)
     }
 
     fun delete(id: Long) {
