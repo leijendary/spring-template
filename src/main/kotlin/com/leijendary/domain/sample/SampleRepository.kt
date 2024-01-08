@@ -100,7 +100,7 @@ private const val SQL_UPDATE = """
     returning id, name, description, amount, version, null translations, created_at
 """
 
-private const val SQL_DELETE_TRANSLATIONS_NOT = "delete from sample_translation where id = ? and language <> all(?)"
+private const val SQL_DELETE_TRANSLATIONS = "delete from sample_translation where id = ? and language <> all(?)"
 
 private const val SQL_UPSERT_TRANSLATIONS = """
     insert into sample_translation (id, name, description, language, ordinal)
@@ -207,7 +207,7 @@ class SampleRepository(private val jdbcClient: JdbcClient) {
     fun updateTranslations(id: Long, translations: List<SampleTranslationRequest>): List<SampleTranslation> {
         val binds = translationsBinds(id, translations)
 
-        jdbcClient.sql(SQL_DELETE_TRANSLATIONS_NOT)
+        jdbcClient.sql(SQL_DELETE_TRANSLATIONS)
             .params(id, binds.languages.toTypedArray())
             .update()
 
