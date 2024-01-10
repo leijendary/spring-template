@@ -76,6 +76,9 @@ server:
 spring:
   application:
     name: ${name}
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.data.elasticsearch.ReactiveElasticsearchRepositoriesAutoConfiguration
   cache:
     type: REDIS
     redis:
@@ -110,9 +113,6 @@ spring:
       autoRegistration:
         enabled: false
   data:
-    jdbc:
-      repositories:
-        enabled: false
     redis:
       host:
       port:

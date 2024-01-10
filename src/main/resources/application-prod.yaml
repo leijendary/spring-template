@@ -8,14 +8,14 @@ spring:
         bucketName: leijendary-api-prod
   kafka:
     listener:
-      concurrency: 20
+      concurrency: 10
     topic:
       sampleCreated:
-        partitions: 10
+        partitions: 5
       sampleUpdated:
-        partitions: 5
+        partitions: 3
       sampleDeleted:
-        partitions: 5
+        partitions: 2
 
 springdoc:
   apiDocs:

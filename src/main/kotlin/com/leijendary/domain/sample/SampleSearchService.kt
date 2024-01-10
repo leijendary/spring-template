@@ -8,7 +8,6 @@ import com.leijendary.model.Page.Companion.empty
 import com.leijendary.model.PageRequest
 import com.leijendary.model.QueryRequest
 import org.springframework.data.elasticsearch.core.suggest.Completion
-import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import java.util.concurrent.atomic.AtomicInteger
 import kotlin.streams.asSequence
@@ -43,10 +42,14 @@ class SampleSearchService(
         sampleSearchRepository.save(search)
     }
 
-    fun get(id: Long): SampleDetail {
-        val search = sampleSearchRepository.findByIdOrNull(id) ?: throw ResourceNotFoundException(id, ENTITY, SOURCE)
+    fun update(sample: SampleDetail) {
+        val exists = sampleSearchRepository.existsById(sample.id)
 
-        return map(search)
+        if (!exists) {
+            throw ResourceNotFoundException(sample.id, ENTITY, SOURCE)
+        }
+
+        save(sample)
     }
 
     fun delete(id: Long) {

@@ -19,12 +19,6 @@ class SampleSearchController(private val sampleSearchService: SampleSearchServic
         return sampleSearchService.page(queryRequest, pageRequest)
     }
 
-    @GetMapping("{id}")
-    @Operation(summary = "Get the specific object using the ID in elasticsearch")
-    fun get(@PathVariable id: Long): SampleDetail {
-        return sampleSearchService.get(id)
-    }
-
     @PostMapping("reindex")
     @Operation(summary = "Reindex all objects to elasticsearch.")
     fun reindex(): String {
