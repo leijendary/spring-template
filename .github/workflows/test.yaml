@@ -28,7 +28,7 @@ jobs:
         with:
           aws-region: ${{ vars.AWS_REGION }}
           role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/DeploymentRole-${{ inputs.environment }}
-      - name: Execute native test
-        run: ./gradlew nativeTest -i
+      - name: Execute Gradle test
+        run: ./gradlew test -i
         env:
           SPRING_PROFILES_ACTIVE: ci
