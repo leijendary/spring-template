@@ -24,8 +24,8 @@ jobs:
           platforms: linux/arm64
       - name: Setup Gradle (for caching)
         uses: gradle/gradle-build-action@v2
-      - run: echo ls -la ~/.gradle
-      - run: echo ls -la ~/.gradle/caches
+      - run: ls -la ~/.gradle
+      - run: ls -la ~/.gradle/caches
       - name: Checkout
         uses: actions/checkout@v3
       - name: Configure AWS credentials
