@@ -24,18 +24,6 @@ class KafkaInterceptor : ProducerInterceptor<String, String>, RecordInterceptor<
         return record
     }
 
-    override fun configure(configs: MutableMap<String, *>) {
-        // No configuration needed for this
-    }
-
-    override fun onAcknowledgement(metadata: RecordMetadata, exception: Exception?) {
-        // No configuration needed for this
-    }
-
-    override fun close() {
-        // No configuration needed for this
-    }
-
     override fun intercept(
         record: ConsumerRecord<String, String>,
         consumer: Consumer<String, String>
@@ -48,5 +36,17 @@ class KafkaInterceptor : ProducerInterceptor<String, String>, RecordInterceptor<
         log.info("Received from topic '$topic' on partition '$partition' with key '$key' and payload '$payload'")
 
         return record
+    }
+
+    override fun configure(configs: MutableMap<String, *>) {
+        // No configuration needed for this
+    }
+
+    override fun onAcknowledgement(metadata: RecordMetadata, exception: Exception?) {
+        // No configuration needed for this
+    }
+
+    override fun close() {
+        // No configuration needed for this
     }
 }
