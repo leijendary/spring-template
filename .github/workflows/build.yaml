@@ -28,6 +28,8 @@ jobs:
         uses: aws-actions/amazon-ecr-login@v2
         with:
           mask-password: "true"
+      - name: Checkout
+        uses: actions/checkout@v3
       - name: Push to registry
         uses: docker/build-push-action@v5
         with:
