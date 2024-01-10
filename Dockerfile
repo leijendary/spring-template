@@ -21,5 +21,6 @@ RUN ./gradlew nativeCompile -x test
 
 # Run the application
 FROM alpine:3
+RUN apk add gcompat
 COPY --from=build /app/build/native/nativeCompile/* app
 ENTRYPOINT ./app
