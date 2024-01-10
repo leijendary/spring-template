@@ -22,10 +22,6 @@ jobs:
         uses: docker/setup-buildx-action@v3
         with:
           platforms: linux/arm64
-      - name: Setup Gradle (for caching)
-        uses: gradle/gradle-build-action@v2
-        with:
-          cache-read-only: false
       - name: Checkout
         uses: actions/checkout@v3
       - name: Configure AWS credentials
@@ -40,10 +36,13 @@ jobs:
           mask-password: "true"
       - name: Push to registry
         uses: docker/build-push-action@v5
+        env:
+          REGISTRY: ${{ steps.login-registry.outputs.registry }}
+          REPOSITORY: ${{ github.event.repository.name }}
         with:
-          cache-from: type=local,src=~/.gradle
-          cache-to: type=local,dest=~/.gradle,mode=max
+          cache-from: type=registry,ref=${{ env.REGISTRY }}/${{ env.REPOSITORY }}:buildcache
+          cache-to: type=registry,ref=${{ env.REGISTRY }}/${{ env.REPOSITORY }}:buildcache,mode=max
           context: .
           platforms: linux/arm64
           push: true
-          tags: ${{ steps.login-registry.outputs.registry }}/${{ github.event.repository.name }}:${{ github.sha }}
+          tags: ${{ env.REGISTRY }}/${{ env.REPOSITORY }}:${{ github.sha }}
