@@ -21,5 +21,5 @@ RUN ./gradlew nativeCompile -x test
 
 # Run the application
 FROM scratch
-COPY --from=build /build/native/nativeCompile/* app
-ENTRYPOINT ./application
+COPY --from=build /app/build/native/nativeCompile/* app
+ENTRYPOINT ./app
