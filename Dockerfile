@@ -1,9 +1,9 @@
 FROM ghcr.io/graalvm/graalvm-community:21 AS build
 
-# Copy gradle directory
+# Copy Gradle directory
 COPY .gradle/ /root/.gradle/
 
-# Download the gradle distribution
+# Download the Gradle distribution
 COPY gradlew .
 COPY gradle/ gradle/
 RUN --mount=type=cache,target=/root/.gradle ./gradlew --version
