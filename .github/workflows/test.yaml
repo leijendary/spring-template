@@ -21,6 +21,8 @@ jobs:
           distribution: graalvm-community
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v2
+      - run: echo $HOME
+      - run: cd $HOME/.gradle/caches && ls -la
       - name: Checkout
         uses: actions/checkout@v3
       - name: Configure AWS credentials
