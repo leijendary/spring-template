@@ -14,12 +14,12 @@ jobs:
       id-token: write
       contents: read
     steps:
-      - name: Setup graalvm 21
+      - name: Setup GraalVM
         uses: graalvm/setup-graalvm@v1
         with:
           java-version: 21
           distribution: graalvm-community
-      - name: Setup gradle
+      - name: Setup Gradle
         uses: gradle/gradle-build-action@v2
       - name: Checkout
         uses: actions/checkout@v3

@@ -28,7 +28,7 @@ jobs:
         uses: aws-actions/amazon-ecr-login@v2
         with:
           mask-password: "true"
-      - name: Setup node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: "20.x"
