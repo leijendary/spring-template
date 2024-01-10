@@ -8,7 +8,7 @@ RUN ./gradlew --version
 # Download dependencies
 COPY settings.gradle.kts .
 COPY build.gradle.kts .
-RUN ./gradlew dependencies
+RUN --mount=type=cache,target=/root/.gradle ./gradlew dependencies
 
 # Add source code
 COPY src/ src/
