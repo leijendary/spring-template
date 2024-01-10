@@ -1,7 +1,7 @@
 FROM ghcr.io/graalvm/graalvm-community:21 as build
 
-# Copy gradle directory from runner
-COPY /home/runner/.gradle/ /root/.gradle/
+# Copy gradle directory
+COPY .gradle/ .gradle/
 
 # Download the gradle distribution
 COPY gradlew .
