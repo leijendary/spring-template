@@ -4,16 +4,14 @@ on:
       - develop
 
 jobs:
-  # TODO: uncomment
-  #  test:
-  #    name: Test
-  #    uses: ./.github/workflows/test.yaml
-  #    with:
-  #      environment: dev
-  #    secrets: inherit
+  test:
+    name: Test
+    uses: ./.github/workflows/test.yaml
+    with:
+      environment: dev
+    secrets: inherit
   build:
-    # TODO: uncomment
-    # needs: test
+    needs: test
     name: Build
     uses: ./.github/workflows/build.yaml
     with:
