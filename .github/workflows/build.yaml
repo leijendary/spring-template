@@ -40,8 +40,8 @@ jobs:
           REGISTRY: ${{ steps.login-registry.outputs.registry }}
           REPOSITORY: ${{ github.event.repository.name }}
         with:
-          cache-from: type=registry,ref=${{ env.REGISTRY }}/${{ env.REPOSITORY }}:buildcache
-          cache-to: type=registry,ref=${{ env.REGISTRY }}/${{ env.REPOSITORY }}:buildcache,mode=max
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
           context: .
           platforms: linux/arm64
           push: true
