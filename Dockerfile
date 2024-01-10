@@ -11,6 +11,7 @@ RUN --mount=type=cache,target=/root/.gradle ./gradlew --version
 # Download dependencies
 COPY settings.gradle.kts .
 COPY build.gradle.kts .
+RUN ls -la /root/.gradle
 RUN --mount=type=cache,target=/root/.gradle ./gradlew dependencies
 
 # Add source code
