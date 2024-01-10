@@ -40,13 +40,10 @@ jobs:
           mask-password: "true"
       - name: Build and push
         uses: docker/build-push-action@v5
-        env:
-          REGISTRY: ${{ steps.login-registry.outputs.registry }}
-          REPOSITORY: ${{ github.event.repository.name }}
         with:
           cache-from: type=gha
           cache-to: type=gha,mode=max
           context: .
           platforms: linux/arm64
           push: true
-          tags: ${{ env.REGISTRY }}/${{ env.REPOSITORY }}:${{ github.sha }}
+          tags: ${{ steps.login-registry.outputs.registry }}/${{ github.event.repository.name }}:${{ github.sha }}
