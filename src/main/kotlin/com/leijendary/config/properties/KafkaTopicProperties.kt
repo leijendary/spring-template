@@ -5,7 +5,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties
 
 @ConfigurationProperties("spring.kafka.topic")
 class KafkaTopicProperties : HashMap<String, KafkaTopic>() {
-    class KafkaTopic {
+    inner class KafkaTopic {
         lateinit var name: String
         var partitions = 1
         var replicas = 1
