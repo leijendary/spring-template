@@ -12,7 +12,8 @@ RUN --mount=type=cache,target=/root/.gradle ./gradlew dependencies
 # Add source code
 COPY src/ src/
 # Run GraalVM native compiler
-RUN ./gradlew nativeCompile -x test
+ARG SPRING_PROFILES_ACTIVE="prod"
+RUN ./gradlew -Pspring.profiles.active=$SPRING_PROFILES_ACTIVE nativeCompile -x test
 
 # Run the application
 FROM alpine:3
