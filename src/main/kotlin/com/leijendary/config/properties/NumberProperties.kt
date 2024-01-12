@@ -5,7 +5,5 @@ import java.math.RoundingMode
 import java.math.RoundingMode.HALF_UP
 
 @ConfigurationProperties("number")
-class NumberProperties {
-    var scale = 2
-    var round: RoundingMode = HALF_UP
-}
+@JvmRecord
+data class NumberProperties(val scale: Int = 2, val round: RoundingMode = HALF_UP)
