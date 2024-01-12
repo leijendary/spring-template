@@ -1,11 +1,16 @@
 package com.leijendary.container
 
+import org.springframework.aot.hint.ExecutableMode.INVOKE
+import org.springframework.aot.hint.RuntimeHints
+import org.springframework.aot.hint.RuntimeHintsRegistrar
 import org.springframework.boot.test.util.TestPropertyValues
 import org.springframework.context.ApplicationContextInitializer
 import org.springframework.context.ConfigurableApplicationContext
+import org.springframework.context.annotation.ImportRuntimeHints
 import org.testcontainers.containers.GenericContainer
 import org.testcontainers.utility.DockerImageName
 
+@ImportRuntimeHints(JaegerContainerRuntimeHints::class)
 class JaegerContainerTest {
     companion object {
         private val image = DockerImageName.parse("jaegertracing/all-in-one:1")
@@ -14,7 +19,7 @@ class JaegerContainerTest {
             .withExposedPorts(4318)
     }
 
-    inner class Initializer : ApplicationContextInitializer<ConfigurableApplicationContext> {
+    internal class Initializer : ApplicationContextInitializer<ConfigurableApplicationContext> {
         override fun initialize(applicationContext: ConfigurableApplicationContext) {
             jaeger.start()
 
@@ -26,6 +31,14 @@ class JaegerContainerTest {
             TestPropertyValues
                 .of(*properties)
                 .applyTo(applicationContext.environment)
+        }
+    }
+}
+
+class JaegerContainerRuntimeHints : RuntimeHintsRegistrar {
+    override fun registerHints(hints: RuntimeHints, classLoader: ClassLoader?) {
+        hints.reflection().registerType(JaegerContainerTest.Initializer::class.java) {
+            it.withConstructor(emptyList(), INVOKE)
         }
     }
 }

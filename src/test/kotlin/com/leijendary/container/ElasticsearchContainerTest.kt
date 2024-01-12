@@ -1,11 +1,16 @@
 package com.leijendary.container
 
+import org.springframework.aot.hint.ExecutableMode.INVOKE
+import org.springframework.aot.hint.RuntimeHints
+import org.springframework.aot.hint.RuntimeHintsRegistrar
 import org.springframework.boot.test.util.TestPropertyValues
 import org.springframework.context.ApplicationContextInitializer
 import org.springframework.context.ConfigurableApplicationContext
+import org.springframework.context.annotation.ImportRuntimeHints
 import org.testcontainers.elasticsearch.ElasticsearchContainer
 import org.testcontainers.utility.DockerImageName
 
+@ImportRuntimeHints(ElasticsearchContainerRuntimeHints::class)
 class ElasticsearchContainerTest {
     companion object {
         private val image = DockerImageName.parse("docker.elastic.co/elasticsearch/elasticsearch:8.8.2")
@@ -16,7 +21,7 @@ class ElasticsearchContainerTest {
             .withEnv("ES_JAVA_OPTS", "-Xms128m -Xmx256m")
     }
 
-    inner class Initializer : ApplicationContextInitializer<ConfigurableApplicationContext> {
+    internal class Initializer : ApplicationContextInitializer<ConfigurableApplicationContext> {
         override fun initialize(applicationContext: ConfigurableApplicationContext) {
             elasticsearch.start()
 
@@ -29,6 +34,14 @@ class ElasticsearchContainerTest {
             TestPropertyValues
                 .of(*properties)
                 .applyTo(applicationContext.environment)
+        }
+    }
+}
+
+class ElasticsearchContainerRuntimeHints : RuntimeHintsRegistrar {
+    override fun registerHints(hints: RuntimeHints, classLoader: ClassLoader?) {
+        hints.reflection().registerType(ElasticsearchContainerTest.Initializer::class.java) {
+            it.withConstructor(emptyList(), INVOKE)
         }
     }
 }
