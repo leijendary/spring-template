@@ -166,7 +166,7 @@ graalvmNative {
             buildArgs.addAll(
                 listOf(
                     "--strict-image-heap",
-                    "--initialize-at-build-time=io.lettuce.core.metrics.DefaultCommandLatencyCollector$DefaultPauseDetectorWrapper"
+                    "--initialize-at-build-time=io.lettuce.core.metrics.DefaultCommandLatencyCollector\$DefaultPauseDetectorWrapper"
                 )
             )
         }
