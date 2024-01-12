@@ -160,6 +160,18 @@ sourceSets {
     }
 }
 
+graalvmNative {
+    binaries {
+        named("test") {
+            buildArgs.addAll(
+                listOf(
+                    "--trace-class-initialization=kotlin.annotation.AnnotationTarget,kotlin.annotation.AnnotationRetention",
+                )
+            )
+        }
+    }
+}
+
 tasks {
     compileKotlin {
         openApiTasks?.let(dependsOn::addAll)
