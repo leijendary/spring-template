@@ -6,6 +6,8 @@ val openApiTasks = File("$rootDir/src/main/resources/specs").listFiles()?.map {
     val name = it.name.replace(".yaml", "")
 
     tasks.register("openApiGenerate-$name", GenerateTask::class.java) {
+        group = "openapi tools"
+        description = "Generate models from the OpenAPI specifications of $${it.name}"
         generatorName.set("kotlin-spring")
         inputSpec.set(it.path)
         outputDir.set("$rootDir/build/generated")
@@ -107,9 +109,20 @@ dependencies {
     // Devtools
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 
+    // Feign
+    implementation("io.github.openfeign:feign-core") {
+        version {
+            strictly("12.5")
+        }
+    }
+    implementation("io.github.openfeign:feign-micrometer") {
+        version {
+            strictly("12.5")
+        }
+    }
+
     // Observability and Metrics
     implementation("com.github.loki4j:loki-logback-appender:1.4.2")
-    implementation("io.github.openfeign:feign-micrometer")
     implementation("io.micrometer:micrometer-registry-prometheus")
     implementation("io.micrometer:micrometer-tracing-bridge-otel")
     implementation("io.opentelemetry:opentelemetry-exporter-otlp")
