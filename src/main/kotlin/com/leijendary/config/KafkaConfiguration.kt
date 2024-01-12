@@ -51,7 +51,7 @@ class KafkaConfiguration(
         template: KafkaTemplate<String, String>
     ): ConcurrentKafkaListenerContainerFactory<String, String> {
         val recover = DeadLetterPublishingRecoverer(template) { record, _ ->
-            TopicPartition(record.topic() + TOPIC_DEAD_LETTER_SUFFIX, record.partition())
+            TopicPartition(record.topic() + TOPIC_DEAD_LETTER_SUFFIX, 0)
         }
         val errorHandler = DefaultErrorHandler(recover)
 
