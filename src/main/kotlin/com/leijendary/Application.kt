@@ -29,10 +29,14 @@ class Application
 
 class ApplicationRuntimeHints : RuntimeHintsRegistrar {
     override fun registerHints(hints: RuntimeHints, classLoader: ClassLoader?) {
+        // Reflection
         hints.reflection()
             .registerType(ChangeLogHistoryServiceFactory::class.java) {
                 it.withConstructor(emptyList(), ExecutableMode.INVOKE)
             }
+
+        // Resources
+        hints.resources().registerPattern("*")
     }
 }
 
