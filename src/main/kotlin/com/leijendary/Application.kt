@@ -51,6 +51,7 @@ class ApplicationRuntimeHints : RuntimeHintsRegistrar {
             .registerPattern("elasticsearch/settings.json")
             .registerPattern("messages/*")
             .registerPattern("io/awspring/cloud/core/SpringCloudClientConfiguration.properties")
+            .registerPattern("io/awspring/cloud/s3/S3ObjectContentTypeResolver.properties")
 
         // Serialization
         hints.serialization().registerType(IdentityModel::class.java)
