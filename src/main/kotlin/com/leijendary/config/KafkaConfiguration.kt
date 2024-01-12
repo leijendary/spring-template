@@ -18,12 +18,6 @@ import org.springframework.kafka.listener.DefaultErrorHandler
 
 private const val TOPIC_DEAD_LETTER_SUFFIX = ".error"
 
-object Topic {
-    const val SAMPLE_CREATED = "sampleCreated"
-    const val SAMPLE_UPDATED = "sampleUpdated"
-    const val SAMPLE_DELETED = "sampleDeleted"
-}
-
 @Configuration
 @EnableKafka
 class KafkaConfiguration(
