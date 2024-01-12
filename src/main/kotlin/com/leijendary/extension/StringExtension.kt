@@ -1,12 +1,13 @@
 package com.leijendary.extension
 
 import com.leijendary.util.BeanContainer.objectMapper
+import java.io.Serializable
 import java.lang.Character.toLowerCase
 import java.lang.Character.toUpperCase
 
 private val REGEX_UNDERSCORE_ALPHA = "_[a-z]".toRegex()
 
-inline fun <reified T : Any> String.toClass(): T {
+inline fun <reified T : Serializable> String.toClass(): T {
     return objectMapper.readValue(this, T::class.java)
 }
 

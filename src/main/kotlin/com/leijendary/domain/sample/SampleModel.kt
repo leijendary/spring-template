@@ -8,6 +8,7 @@ import com.leijendary.projection.SeekProjection
 import com.leijendary.validator.annotation.UniqueFields
 import jakarta.validation.Valid
 import jakarta.validation.constraints.*
+import java.io.Serializable
 import java.math.BigDecimal
 import java.math.BigDecimal.ZERO
 import java.time.OffsetDateTime
@@ -60,7 +61,7 @@ data class SampleDetail(
 
     @JsonInclude(NON_EMPTY)
     val translations: MutableList<SampleTranslation> = mutableListOf(),
-)
+) : Serializable
 
 @JvmRecord
 data class SampleTranslation(
@@ -68,7 +69,7 @@ data class SampleTranslation(
     val description: String?,
     override val language: String,
     override val ordinal: Int
-) : LocaleProjection
+) : Serializable, LocaleProjection
 
 @JvmRecord
 data class SampleTranslationsBinds(

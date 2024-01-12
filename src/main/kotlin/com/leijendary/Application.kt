@@ -1,5 +1,7 @@
 package com.leijendary
 
+import com.leijendary.model.IdentityModel
+import com.leijendary.validator.UniqueFieldsValidator
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeIn.HEADER
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeType.HTTP
 import io.swagger.v3.oas.annotations.security.SecurityScheme
@@ -40,9 +42,15 @@ class ApplicationRuntimeHints : RuntimeHintsRegistrar {
             }
             .registerType(KeyFactorySpi::class.java, INVOKE_PUBLIC_CONSTRUCTORS, INVOKE_PUBLIC_METHODS)
             .registerType(RSA.Mappings::class.java, INVOKE_PUBLIC_CONSTRUCTORS, INVOKE_PUBLIC_METHODS)
+            .registerType(UniqueFieldsValidator::class.java) {
+                it.withConstructor(emptyList(), INVOKE)
+            }
 
         // Resources
         hints.resources().registerPattern("*")
+
+        // Serialization
+        hints.serialization().registerType(IdentityModel::class.java)
     }
 }
 

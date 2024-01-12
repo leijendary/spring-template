@@ -1,9 +1,10 @@
 package com.leijendary.extension
 
 import com.leijendary.util.BeanContainer.objectMapper
+import java.io.Serializable
 import java.lang.reflect.Field
 
-fun Any.toJson(): String {
+fun <T : Serializable> T.toJson(): String {
     return objectMapper.writeValueAsString(this)
 }
 
