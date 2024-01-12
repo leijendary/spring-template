@@ -109,6 +109,8 @@ spring:
           - 502
           - 503
         retryOnAllOperations: true
+    refresh:
+      enabled: false
     serviceRegistry:
       autoRegistration:
         enabled: false
