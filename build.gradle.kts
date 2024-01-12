@@ -163,11 +163,7 @@ sourceSets {
 graalvmNative {
     binaries {
         named("test") {
-            buildArgs.addAll(
-                listOf(
-                    "--trace-class-initialization=kotlin.annotation.AnnotationTarget,kotlin.annotation.AnnotationRetention",
-                )
-            )
+            buildArgs.addAll(listOf("--strict-image-heap"))
         }
     }
 }
