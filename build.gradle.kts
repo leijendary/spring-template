@@ -86,7 +86,6 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 
     // Spring Cloud Starter
-    implementation("org.springframework.cloud:spring-cloud-starter-loadbalancer")
     implementation("org.springframework.cloud:spring-cloud-starter-openfeign")
 
     // Spring Kafka
@@ -100,9 +99,6 @@ dependencies {
     implementation("io.awspring.cloud:spring-cloud-aws-starter")
     implementation("io.awspring.cloud:spring-cloud-aws-starter-s3")
     implementation("software.amazon.awssdk:cloudfront")
-
-    // Cache
-    implementation("com.github.ben-manes.caffeine:caffeine")
 
     // Database
     implementation("org.postgresql:postgresql")

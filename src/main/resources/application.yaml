@@ -94,26 +94,13 @@ spring:
       s3:
         bucketName:
         signatureDuration: 30m
-    discovery:
+    openfeign:
       client:
-        simple:
-          instances:
-            petStore:
-              - uri: https://petstore.swagger.io
-    loadbalancer:
-      retry:
-        backoff:
-          enabled: true
-        maxRetriesOnSameServiceInstance: 3
-        retryableStatusCodes:
-          - 502
-          - 503
-        retryOnAllOperations: true
+        config:
+          petStore:
+            url: https://petstore.swagger.io
     refresh:
       enabled: false
-    serviceRegistry:
-      autoRegistration:
-        enabled: false
   data:
     redis:
       host:
