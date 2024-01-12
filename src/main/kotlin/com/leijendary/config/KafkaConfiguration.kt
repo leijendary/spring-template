@@ -18,12 +18,6 @@ import org.springframework.kafka.listener.DefaultErrorHandler
 
 private const val TOPIC_DEAD_LETTER_SUFFIX = ".error"
 
-object Topic {
-    const val SAMPLE_CREATED = "sampleCreated"
-    const val SAMPLE_UPDATED = "sampleUpdated"
-    const val SAMPLE_DELETED = "sampleDeleted"
-}
-
 @Configuration
 @EnableKafka
 class KafkaConfiguration(
@@ -33,7 +27,7 @@ class KafkaConfiguration(
 ) {
     @Bean
     fun topics(): NewTopics {
-        val topics = kafkaTopicProperties.values.flatMap {
+        val topics = kafkaTopicProperties.values().flatMap {
             val topic = TopicBuilder
                 .name(it.name)
                 .partitions(it.partitions)
@@ -57,7 +51,7 @@ class KafkaConfiguration(
         template: KafkaTemplate<String, String>
     ): ConcurrentKafkaListenerContainerFactory<String, String> {
         val recover = DeadLetterPublishingRecoverer(template) { record, _ ->
-            TopicPartition(record.topic() + TOPIC_DEAD_LETTER_SUFFIX, record.partition())
+            TopicPartition(record.topic() + TOPIC_DEAD_LETTER_SUFFIX, 0)
         }
         val errorHandler = DefaultErrorHandler(recover)
 

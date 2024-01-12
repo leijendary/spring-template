@@ -5,7 +5,9 @@ import org.openapitools.generator.gradle.plugin.tasks.GenerateTask
 val openApiTasks = File("$rootDir/src/main/resources/specs").listFiles()?.map {
     val name = it.name.replace(".yaml", "")
 
-    tasks.register("openApiGenerate-$name", GenerateTask::class.java) {
+    tasks.register(name, GenerateTask::class.java) {
+        group = "openapi"
+        description = "Generate models from the OpenAPI specifications of ${it.name}"
         generatorName.set("kotlin-spring")
         inputSpec.set(it.path)
         outputDir.set("$rootDir/build/generated")
@@ -86,7 +88,6 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 
     // Spring Cloud Starter
-    implementation("org.springframework.cloud:spring-cloud-starter-loadbalancer")
     implementation("org.springframework.cloud:spring-cloud-starter-openfeign")
 
     // Spring Kafka
@@ -101,9 +102,6 @@ dependencies {
     implementation("io.awspring.cloud:spring-cloud-aws-starter-s3")
     implementation("software.amazon.awssdk:cloudfront")
 
-    // Cache
-    implementation("com.github.ben-manes.caffeine:caffeine")
-
     // Database
     implementation("org.postgresql:postgresql")
     implementation("org.liquibase:liquibase-core")
@@ -111,9 +109,20 @@ dependencies {
     // Devtools
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 
+    // Feign
+    implementation("io.github.openfeign:feign-core") {
+        version {
+            strictly("12.5")
+        }
+    }
+    implementation("io.github.openfeign:feign-micrometer") {
+        version {
+            strictly("12.5")
+        }
+    }
+
     // Observability and Metrics
     implementation("com.github.loki4j:loki-logback-appender:1.4.2")
-    implementation("io.github.openfeign:feign-micrometer")
     implementation("io.micrometer:micrometer-registry-prometheus")
     implementation("io.micrometer:micrometer-tracing-bridge-otel")
     implementation("io.opentelemetry:opentelemetry-exporter-otlp")
@@ -147,6 +156,19 @@ sourceSets {
     main {
         kotlin {
             srcDir("$rootDir/build/generated/src/main/kotlin")
+        }
+    }
+}
+
+graalvmNative {
+    binaries {
+        named("test") {
+            buildArgs.addAll(
+                listOf(
+                    "--strict-image-heap",
+                    "--initialize-at-build-time=io.lettuce.core.metrics.DefaultCommandLatencyCollector\$DefaultPauseDetectorWrapper"
+                )
+            )
         }
     }
 }

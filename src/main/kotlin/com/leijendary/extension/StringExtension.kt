@@ -6,7 +6,7 @@ import java.lang.Character.toUpperCase
 
 private val REGEX_UNDERSCORE_ALPHA = "_[a-z]".toRegex()
 
-inline fun <reified T : Any> String.toClass(): T {
+inline fun <reified T> String.toClass(): T {
     return objectMapper.readValue(this, T::class.java)
 }
 

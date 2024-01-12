@@ -5,9 +5,6 @@
 - Sample classes are included
 - **This template uses annotation based routing**
 - **Intended for personal use only as this does not include complete features like JHipster**
-- Although provided, spring native is not the priority of this template because of the following reasons:
-    - Very slow to compile
-    - `arm64` is not supported by GitHub by default
 
 # Technologies Used:
 
@@ -51,6 +48,10 @@
 ### To run tests:
 
 `./gradlew test`
+
+### To run tests in native mode:
+
+`./gradlew nativeTest`
 
 ### To build a JAR file:
 

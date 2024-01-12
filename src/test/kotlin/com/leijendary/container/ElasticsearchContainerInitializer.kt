@@ -6,7 +6,7 @@ import org.springframework.context.ConfigurableApplicationContext
 import org.testcontainers.elasticsearch.ElasticsearchContainer
 import org.testcontainers.utility.DockerImageName
 
-class ElasticsearchContainerTest {
+class ElasticsearchContainerInitializer : ApplicationContextInitializer<ConfigurableApplicationContext> {
     companion object {
         private val image = DockerImageName.parse("docker.elastic.co/elasticsearch/elasticsearch:8.8.2")
         private val elasticsearch = ElasticsearchContainer(image)
@@ -16,19 +16,17 @@ class ElasticsearchContainerTest {
             .withEnv("ES_JAVA_OPTS", "-Xms128m -Xmx256m")
     }
 
-    internal class Initializer : ApplicationContextInitializer<ConfigurableApplicationContext> {
-        override fun initialize(applicationContext: ConfigurableApplicationContext) {
-            elasticsearch.start()
+    override fun initialize(applicationContext: ConfigurableApplicationContext) {
+        elasticsearch.start()
 
-            val properties = arrayOf(
-                "spring.elasticsearch.uris=${elasticsearch.httpHostAddress}",
-                "spring.elasticsearch.username=elastic",
-                "spring.elasticsearch.password=changeme",
-            )
+        val properties = arrayOf(
+            "spring.elasticsearch.uris=${elasticsearch.httpHostAddress}",
+            "spring.elasticsearch.username=elastic",
+            "spring.elasticsearch.password=changeme",
+        )
 
-            TestPropertyValues
-                .of(*properties)
-                .applyTo(applicationContext.environment)
-        }
+        TestPropertyValues
+            .of(*properties)
+            .applyTo(applicationContext.environment)
     }
 }

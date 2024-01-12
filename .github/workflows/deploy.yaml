@@ -12,7 +12,7 @@ on:
 jobs:
   fargate:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 10
     environment: ${{ inputs.environment }}
     permissions:
       id-token: write
@@ -28,10 +28,10 @@ jobs:
         uses: aws-actions/amazon-ecr-login@v2
         with:
           mask-password: "true"
-      - name: Setup node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: "20.x"
+          node-version: 20.x
       - name: Checkout
         uses: actions/checkout@v3
       - name: Deploy AWS CDK
