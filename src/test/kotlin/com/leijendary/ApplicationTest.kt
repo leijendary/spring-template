@@ -9,11 +9,11 @@ import org.springframework.test.context.ContextConfiguration
 @SpringBootTest
 @ContextConfiguration(
     initializers = [
-        ElasticsearchContainerTest.Initializer::class,
-        JaegerContainerTest.Initializer::class,
-        KafkaContainerTest.Initializer::class,
-        PostgresContainerTest.Initializer::class,
-        RedisContainerTest.Initializer::class,
+        ElasticsearchContainerInitializer::class,
+        JaegerContainerInitializer::class,
+        KafkaContainerInitializer::class,
+        PostgresContainerInitializer::class,
+        RedisContainerInitializer::class,
     ]
 )
 @AutoConfigureMockMvc
