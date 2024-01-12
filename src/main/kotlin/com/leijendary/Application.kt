@@ -4,7 +4,11 @@ import io.swagger.v3.oas.annotations.enums.SecuritySchemeIn.HEADER
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeType.HTTP
 import io.swagger.v3.oas.annotations.security.SecurityScheme
 import liquibase.changelog.ChangeLogHistoryServiceFactory
-import org.springframework.aot.hint.ExecutableMode
+import org.bouncycastle.jcajce.provider.asymmetric.RSA
+import org.bouncycastle.jcajce.provider.asymmetric.rsa.KeyFactorySpi
+import org.springframework.aot.hint.ExecutableMode.INVOKE
+import org.springframework.aot.hint.MemberCategory.INVOKE_PUBLIC_CONSTRUCTORS
+import org.springframework.aot.hint.MemberCategory.INVOKE_PUBLIC_METHODS
 import org.springframework.aot.hint.RuntimeHints
 import org.springframework.aot.hint.RuntimeHintsRegistrar
 import org.springframework.boot.SpringBootVersion
@@ -32,8 +36,10 @@ class ApplicationRuntimeHints : RuntimeHintsRegistrar {
         // Reflection
         hints.reflection()
             .registerType(ChangeLogHistoryServiceFactory::class.java) {
-                it.withConstructor(emptyList(), ExecutableMode.INVOKE)
+                it.withConstructor(emptyList(), INVOKE)
             }
+            .registerType(KeyFactorySpi::class.java, INVOKE_PUBLIC_CONSTRUCTORS, INVOKE_PUBLIC_METHODS)
+            .registerType(RSA.Mappings::class.java, INVOKE_PUBLIC_CONSTRUCTORS, INVOKE_PUBLIC_METHODS)
 
         // Resources
         hints.resources().registerPattern("*")
