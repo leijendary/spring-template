@@ -16,7 +16,7 @@ class ElasticsearchContainerTest {
             .withEnv("ES_JAVA_OPTS", "-Xms128m -Xmx256m")
     }
 
-    internal class Initializer : ApplicationContextInitializer<ConfigurableApplicationContext> {
+    inner class Initializer : ApplicationContextInitializer<ConfigurableApplicationContext> {
         override fun initialize(applicationContext: ConfigurableApplicationContext) {
             elasticsearch.start()
 

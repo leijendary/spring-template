@@ -14,7 +14,7 @@ class JaegerContainerTest {
             .withExposedPorts(4318)
     }
 
-    internal class Initializer : ApplicationContextInitializer<ConfigurableApplicationContext> {
+    inner class Initializer : ApplicationContextInitializer<ConfigurableApplicationContext> {
         override fun initialize(applicationContext: ConfigurableApplicationContext) {
             jaeger.start()
 

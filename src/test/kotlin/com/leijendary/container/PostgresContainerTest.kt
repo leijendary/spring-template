@@ -12,7 +12,7 @@ class PostgresContainerTest {
         private val postgres = PostgreSQLContainer(image)
     }
 
-    internal class Initializer : ApplicationContextInitializer<ConfigurableApplicationContext> {
+    inner class Initializer : ApplicationContextInitializer<ConfigurableApplicationContext> {
         override fun initialize(applicationContext: ConfigurableApplicationContext) {
             postgres.start()
 

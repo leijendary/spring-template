@@ -14,7 +14,7 @@ class KafkaContainerTest {
             .withKraft()
     }
 
-    internal class Initializer : ApplicationContextInitializer<ConfigurableApplicationContext> {
+    inner class Initializer : ApplicationContextInitializer<ConfigurableApplicationContext> {
         override fun initialize(applicationContext: ConfigurableApplicationContext) {
             kafka.start()
 

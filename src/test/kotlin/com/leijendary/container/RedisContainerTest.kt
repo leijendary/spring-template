@@ -12,7 +12,7 @@ class RedisContainerTest {
         private val redis = GenericContainer(image).withExposedPorts(6379)
     }
 
-    internal class Initializer : ApplicationContextInitializer<ConfigurableApplicationContext> {
+    inner class Initializer : ApplicationContextInitializer<ConfigurableApplicationContext> {
         override fun initialize(applicationContext: ConfigurableApplicationContext) {
             redis.start()
 
