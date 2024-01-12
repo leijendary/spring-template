@@ -163,7 +163,12 @@ sourceSets {
 graalvmNative {
     binaries {
         named("test") {
-            buildArgs.addAll(listOf("--strict-image-heap"))
+            buildArgs.addAll(
+                listOf(
+                    "--strict-image-heap",
+                    "--initialize-at-build-time=io.lettuce.core.metrics.DefaultCommandLatencyCollector$DefaultPauseDetectorWrapper"
+                )
+            )
         }
     }
 }
