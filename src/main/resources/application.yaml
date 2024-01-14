@@ -12,6 +12,8 @@ logging:
     liquibase:
       util: ERROR
     org:
+      apache:
+        kafka: ERROR
       springframework:
         context:
           support:
