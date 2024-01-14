@@ -53,6 +53,12 @@ class SampleSearchService(
     }
 
     fun delete(id: Long) {
+        val exists = sampleSearchRepository.existsById(id)
+
+        if (!exists) {
+            throw ResourceNotFoundException(id, ENTITY, SOURCE)
+        }
+
         sampleSearchRepository.deleteById(id)
     }
 
