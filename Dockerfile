@@ -1,5 +1,5 @@
 FROM ghcr.io/graalvm/graalvm-community:21 AS build
-# Copy Gradle directory
+# Copy existing Gradle directory. This is usually from existing test cache.
 COPY .gradle/ /root/.gradle/
 # Download the Gradle distribution
 COPY gradlew .
