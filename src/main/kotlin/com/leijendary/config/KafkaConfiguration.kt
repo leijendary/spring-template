@@ -3,7 +3,6 @@ package com.leijendary.config
 import com.leijendary.config.properties.KafkaTopicProperties
 import com.leijendary.interceptor.KafkaInterceptor
 import org.apache.kafka.common.TopicPartition
-import org.springframework.boot.autoconfigure.kafka.KafkaProperties
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.kafka.annotation.EnableKafka
@@ -22,7 +21,6 @@ private const val TOPIC_DEAD_LETTER_SUFFIX = ".error"
 @EnableKafka
 class KafkaConfiguration(
     private val kafkaInterceptor: KafkaInterceptor,
-    private val kafkaProperties: KafkaProperties,
     private val kafkaTopicProperties: KafkaTopicProperties,
 ) {
     @Bean
@@ -60,7 +58,6 @@ class KafkaConfiguration(
             containerProperties.isMicrometerEnabled = true
             containerProperties.isObservationEnabled = true
             setCommonErrorHandler(errorHandler)
-            setConcurrency(kafkaProperties.listener.concurrency)
             setRecordInterceptor(kafkaInterceptor)
         }
     }

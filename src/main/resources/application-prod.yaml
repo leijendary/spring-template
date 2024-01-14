@@ -7,8 +7,6 @@ spring:
       s3:
         bucketName: leijendary-api-prod
   kafka:
-    listener:
-      concurrency: 10
     topic:
       sampleCreated:
         partitions: 5

@@ -146,6 +146,8 @@ spring:
       options:
         username:
         password:
+    listener:
+      ackMode: RECORD
     producer:
       acks: all
     properties:
