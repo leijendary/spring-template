@@ -9,6 +9,7 @@ import com.leijendary.model.PageRequest
 import com.leijendary.model.QueryRequest
 import org.springframework.data.elasticsearch.core.suggest.Completion
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 import java.util.concurrent.atomic.AtomicInteger
 import kotlin.streams.asSequence
 
@@ -62,10 +63,11 @@ class SampleSearchService(
         sampleSearchRepository.deleteById(id)
     }
 
+    @Transactional(readOnly = true)
     fun reindex(): Int {
         val count = AtomicInteger()
 
-        sampleRepository.streamAll().use { stream ->
+        sampleRepository.streamAll().parallel().use { stream ->
             stream.map(::mapStream)
                 .asSequence()
                 .chunked(STREAM_CHUNK)
