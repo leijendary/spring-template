@@ -10,7 +10,6 @@ class ElasticsearchContainerInitializer : ApplicationContextInitializer<Configur
     companion object {
         private val image = DockerImageName.parse("docker.elastic.co/elasticsearch/elasticsearch:8.8.2")
         private val elasticsearch = ElasticsearchContainer(image)
-            .withEnv("discovery.type", "single-node")
             .withEnv("bootstrap.memory_lock", "true")
             .withEnv("xpack.security.transport.ssl.enabled", "false")
             .withEnv("ES_JAVA_OPTS", "-Xms128m -Xmx256m")

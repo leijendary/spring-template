@@ -16,7 +16,7 @@ import env from "../env";
 import { FargateServiceConstruct, FargateServiceConstructProps } from "../resource/fargate-service.construct";
 import { TaskDefinitionConstruct, TaskDefinitionConstructProps } from "../resource/task-definition.construct";
 
-const { account, region, environment, organization, vpcId, clusterName, imageTag } = env;
+const { account, region, environment, organization, vpcId, imageTag, clusterName } = env;
 const { id: distributionId, domainName } = env.distribution;
 const { id: namespaceId, name: namespaceName } = env.namespace;
 const { id, name } = env.stack;
