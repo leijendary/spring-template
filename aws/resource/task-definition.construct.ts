@@ -61,7 +61,6 @@ export type TaskDefinitionConstructProps = {
 
 const { environment, port, clusterName } = env;
 const { id, name } = env.stack;
-const family = `${name}-${environment}`;
 const assumedBy = new ServicePrincipal("ecs-tasks.amazonaws.com");
 
 export class TaskDefinitionConstruct extends TaskDefinition {
@@ -74,10 +73,10 @@ export class TaskDefinitionConstruct extends TaskDefinition {
     const taskRole = createTaskRole(scope);
     const executionRole = createExecutionRole(scope, logGroup, repository);
     const config: TaskDefinitionProps = {
-      family,
-      compatibility: Compatibility.FARGATE,
+      family: `${name}-${environment}`,
       memoryMiB: `${memory}`,
       cpu: `${cpu}`,
+      compatibility: Compatibility.FARGATE,
       runtimePlatform: {
         cpuArchitecture: CpuArchitecture.ARM64,
         operatingSystemFamily: OperatingSystemFamily.LINUX,
@@ -170,7 +169,7 @@ export class TaskDefinitionConstruct extends TaskDefinition {
 
 function createLogGroup(scope: Construct, logPrefix: string) {
   const config: LogGroupProps = {
-    logGroupName: `${logPrefix}/${family}`,
+    logGroupName: `${logPrefix}/${name}`,
     removalPolicy: RemovalPolicy.DESTROY,
     retention: isProd ? RetentionDays.THREE_MONTHS : RetentionDays.ONE_MONTH,
   };

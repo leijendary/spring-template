@@ -22,5 +22,5 @@ export default {
     id: process.env.DISTRIBUTION_ID!!,
     domainName: process.env.DISTRIBUTION_DOMAIN_NAME!!,
   },
-  clusterName: `api-cluster-${environment}`,
+  clusterName: `api-${environment}`,
 };
