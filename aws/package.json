@@ -2,7 +2,7 @@
   "name": "aws",
   "version": "0.1.0",
   "bin": {
-    "aws": "bin/aws.js"
+    "aws": "bin/app.js"
   },
   "scripts": {
     "build": "tsc",
