@@ -1,50 +1,76 @@
 import { Duration, RemovalPolicy } from "aws-cdk-lib";
-import { Distribution, IDistribution } from "aws-cdk-lib/aws-cloudfront";
-import { IRepository, Repository } from "aws-cdk-lib/aws-ecr";
+import { IDistribution } from "aws-cdk-lib/aws-cloudfront";
+import { IRepository } from "aws-cdk-lib/aws-ecr";
 import {
   AppProtocol,
   Compatibility,
   ContainerDefinitionOptions,
   ContainerImage,
   CpuArchitecture,
+  EcrImage,
   LogDriver,
   OperatingSystemFamily,
   Secret,
   TaskDefinition,
   TaskDefinitionProps,
 } from "aws-cdk-lib/aws-ecs";
-import { PolicyDocument, PolicyStatement, Role, ServicePrincipal } from "aws-cdk-lib/aws-iam";
-import { LogGroup, RetentionDays } from "aws-cdk-lib/aws-logs";
-import { DatabaseSecret } from "aws-cdk-lib/aws-rds";
-import { Bucket, IBucket } from "aws-cdk-lib/aws-s3";
-import { Secret as SecretManager } from "aws-cdk-lib/aws-secretsmanager";
+import { PolicyDocument, PolicyStatement, Role, RoleProps, ServicePrincipal } from "aws-cdk-lib/aws-iam";
+import { LogGroup, LogGroupProps, RetentionDays } from "aws-cdk-lib/aws-logs";
+import { IBucket } from "aws-cdk-lib/aws-s3";
 import { Construct } from "constructs";
 import env, { isProd } from "../env";
 
-type TaskDefinitionConstructProps = {
-  repositoryArn: string;
+export type TaskDefinitionConstructCredentialsProps = {
+  security: {
+    encrypt: {
+      key: Secret;
+      salt: Secret;
+    };
+    cloudFront: {
+      privateKey: Secret;
+      publicKeyId: Secret;
+    };
+  };
+  aurora: {
+    username: Secret;
+    password: Secret;
+  };
+  dataStorage: {
+    elasticsearch: {
+      username: Secret;
+      password: Secret;
+    };
+    kafka: {
+      username: Secret;
+      password: Secret;
+    };
+    redis: {
+      username: Secret;
+      password: Secret;
+    };
+  };
 };
 
-const environment = env.environment;
-const organization = env.organization;
-const port = env.port;
-const imageTag = env.imageTag;
+export type TaskDefinitionConstructProps = {
+  repository: IRepository;
+  image: EcrImage;
+  bucket: IBucket;
+  distribution: IDistribution;
+  credentials: TaskDefinitionConstructCredentialsProps;
+};
+
+const { environment, port, clusterName } = env;
 const { id, name } = env.stack;
-const { id: distributionId, domainName: distributionDomainName } = env.distribution;
 const family = `${name}-${environment}`;
 const assumedBy = new ServicePrincipal("ecs-tasks.amazonaws.com");
-const logPrefix = "/ecs/fargate";
 
 export class TaskDefinitionConstruct extends TaskDefinition {
   constructor(scope: Construct, props: TaskDefinitionConstructProps) {
-    const { repositoryArn } = props;
+    const { repository, image, bucket, distribution, credentials } = props;
     const memory = isProd ? 2048 : 512;
     const cpu = isProd ? 1024 : 256;
-    const repository = getRepository(scope, repositoryArn);
-    const image = getImage(repository);
-    const bucket = getBucket(scope);
-    const distribution = getDistribution(scope);
-    const logGroup = createLogGroup(scope);
+    const logPrefix = `/ecs/fargate/${clusterName}`;
+    const logGroup = createLogGroup(scope, logPrefix);
     const taskRole = createTaskRole(scope);
     const executionRole = createExecutionRole(scope, logGroup, repository);
     const config: TaskDefinitionProps = {
@@ -62,16 +88,20 @@ export class TaskDefinitionConstruct extends TaskDefinition {
 
     super(scope, `${id}TaskDefinition-${environment}`, config);
 
-    this.container(scope, image, memory, cpu, logGroup);
+    this.container(image, memory, cpu, logPrefix, logGroup, credentials);
     this.trustPolicy(taskRole, executionRole);
     this.grantBucketAccess(taskRole, bucket);
     this.grantDistribution(taskRole, distribution);
   }
 
-  private container(scope: Construct, image: ContainerImage, memory: number, cpu: number, logGroup: LogGroup) {
-    const securityCredentials = getSecurityCredentials(scope);
-    const auroraCredentials = getAuroraCredentials(scope);
-    const dataStorageCredentials = getDataStorageCredentials(scope);
+  private container(
+    image: ContainerImage,
+    memory: number,
+    cpu: number,
+    logPrefix: string,
+    logGroup: LogGroup,
+    credentials: TaskDefinitionConstructCredentialsProps
+  ) {
     const memoryPadding = isProd ? 256 : 128;
     const config: ContainerDefinitionOptions = {
       containerName: name,
@@ -99,18 +129,18 @@ export class TaskDefinitionConstruct extends TaskDefinition {
         SPRING_PROFILES_ACTIVE: environment,
       },
       secrets: {
-        ENCRYPT_KEY: securityCredentials.encrypt.key,
-        ENCRYPT_SALT: securityCredentials.encrypt.salt,
-        SPRING_CLOUD_AWS_CLOUD_FRONT_PRIVATE_KEY: securityCredentials.cloudFront.privateKey,
-        SPRING_CLOUD_AWS_CLOUD_FRONT_PUBLIC_KEY_ID: securityCredentials.cloudFront.publicKeyId,
-        SPRING_DATA_REDIS_USERNAME: dataStorageCredentials.redis.username,
-        SPRING_DATA_REDIS_PASSWORD: dataStorageCredentials.redis.password,
-        SPRING_DATASOURCE_USERNAME: auroraCredentials.username,
-        SPRING_DATASOURCE_PASSWORD: auroraCredentials.password,
-        SPRING_ELASTICSEARCH_USERNAME: dataStorageCredentials.elasticsearch.username,
-        SPRING_ELASTICSEARCH_PASSWORD: dataStorageCredentials.elasticsearch.password,
-        SPRING_KAFKA_JAAS_OPTIONS_USERNAME: dataStorageCredentials.kafka.username,
-        SPRING_KAFKA_JAAS_OPTIONS_PASSWORD: dataStorageCredentials.kafka.password,
+        ENCRYPT_KEY: credentials.security.encrypt.key,
+        ENCRYPT_SALT: credentials.security.encrypt.salt,
+        SPRING_CLOUD_AWS_CLOUD_FRONT_PRIVATE_KEY: credentials.security.cloudFront.privateKey,
+        SPRING_CLOUD_AWS_CLOUD_FRONT_PUBLIC_KEY_ID: credentials.security.cloudFront.publicKeyId,
+        SPRING_DATA_REDIS_USERNAME: credentials.dataStorage.redis.username,
+        SPRING_DATA_REDIS_PASSWORD: credentials.dataStorage.redis.password,
+        SPRING_DATASOURCE_USERNAME: credentials.aurora.username,
+        SPRING_DATASOURCE_PASSWORD: credentials.aurora.password,
+        SPRING_ELASTICSEARCH_USERNAME: credentials.dataStorage.elasticsearch.username,
+        SPRING_ELASTICSEARCH_PASSWORD: credentials.dataStorage.elasticsearch.password,
+        SPRING_KAFKA_JAAS_OPTIONS_USERNAME: credentials.dataStorage.kafka.username,
+        SPRING_KAFKA_JAAS_OPTIONS_PASSWORD: credentials.dataStorage.kafka.password,
       },
     };
 
@@ -118,13 +148,13 @@ export class TaskDefinitionConstruct extends TaskDefinition {
   }
 
   private trustPolicy(taskRole: Role, executionRole: Role) {
-    const trustPolicy = new PolicyStatement({
+    const policyStatement = new PolicyStatement({
       actions: ["sts:AssumeRole"],
       resources: [this.taskDefinitionArn],
     });
 
-    taskRole.addToPolicy(trustPolicy);
-    executionRole.addToPolicy(trustPolicy);
+    taskRole.addToPolicy(policyStatement);
+    executionRole.addToPolicy(policyStatement);
   }
 
   private grantBucketAccess(role: Role, bucket: IBucket) {
@@ -138,23 +168,27 @@ export class TaskDefinitionConstruct extends TaskDefinition {
   }
 }
 
-const createLogGroup = (scope: Construct) => {
-  return new LogGroup(scope, `${id}LogGroup-${environment}`, {
+function createLogGroup(scope: Construct, logPrefix: string) {
+  const config: LogGroupProps = {
     logGroupName: `${logPrefix}/${family}`,
     removalPolicy: RemovalPolicy.DESTROY,
-    retention: RetentionDays.ONE_MONTH,
-  });
-};
+    retention: isProd ? RetentionDays.THREE_MONTHS : RetentionDays.ONE_MONTH,
+  };
 
-const createTaskRole = (scope: Construct) => {
-  return new Role(scope, `${id}TaskRole-${environment}`, {
+  return new LogGroup(scope, `${id}LogGroup-${environment}`, config);
+}
+
+function createTaskRole(scope: Construct) {
+  const config: RoleProps = {
     roleName: `${id}TaskRole-${environment}`,
     assumedBy,
-  });
-};
+  };
 
-const createExecutionRole = (scope: Construct, logGroup: LogGroup, repository: IRepository) => {
-  return new Role(scope, `${id}ExecutionRole-${environment}`, {
+  return new Role(scope, `${id}TaskRole-${environment}`, config);
+}
+
+function createExecutionRole(scope: Construct, logGroup: LogGroup, repository: IRepository) {
+  const config: RoleProps = {
     roleName: `${id}ExecutionRole-${environment}`,
     assumedBy,
     inlinePolicies: {
@@ -176,79 +210,7 @@ const createExecutionRole = (scope: Construct, logGroup: LogGroup, repository: I
         ],
       }),
     },
-  });
-};
-
-const getRepository = (scope: Construct, repositoryArn: string) => {
-  return Repository.fromRepositoryArn(scope, `${id}Repository-${environment}`, repositoryArn);
-};
-
-const getImage = (repository: IRepository) => {
-  return ContainerImage.fromEcrRepository(repository, imageTag);
-};
-
-const getBucket = (scope: Construct) => {
-  return Bucket.fromBucketName(scope, `${id}Bucket-${environment}`, `${organization}-api-${environment}`);
-};
-
-const getDistribution = (scope: Construct) => {
-  return Distribution.fromDistributionAttributes(scope, `${id}Distribution-${environment}`, {
-    distributionId,
-    domainName: distributionDomainName,
-  });
-};
-
-const getSecurityCredentials = (scope: Construct) => {
-  const credential = SecretManager.fromSecretNameV2(
-    scope,
-    `${id}SecuritySecret-${environment}`,
-    `security-${environment}`
-  );
-
-  return {
-    encrypt: {
-      key: Secret.fromSecretsManager(credential, "encrypt.key"),
-      salt: Secret.fromSecretsManager(credential, "encrypt.salt"),
-    },
-    cloudFront: {
-      privateKey: Secret.fromSecretsManager(credential, "cloudFront.privateKey"),
-      publicKeyId: Secret.fromSecretsManager(credential, "cloudFront.publicKeyId"),
-    },
   };
-};
 
-const getAuroraCredentials = (scope: Construct) => {
-  const credential = DatabaseSecret.fromSecretNameV2(
-    scope,
-    `${id}AuroraSecret-${environment}`,
-    `api-aurora-${environment}`
-  );
-
-  return {
-    username: Secret.fromSecretsManager(credential, "username"),
-    password: Secret.fromSecretsManager(credential, "password"),
-  };
-};
-
-const getDataStorageCredentials = (scope: Construct) => {
-  const credential = SecretManager.fromSecretNameV2(
-    scope,
-    `${id}DataStorageSecret-${environment}`,
-    `data-storage-${environment}`
-  );
-
-  return {
-    elasticsearch: {
-      username: Secret.fromSecretsManager(credential, "elasticsearch.username"),
-      password: Secret.fromSecretsManager(credential, "elasticsearch.password"),
-    },
-    kafka: {
-      username: Secret.fromSecretsManager(credential, "kafka.username"),
-      password: Secret.fromSecretsManager(credential, "kafka.password"),
-    },
-    redis: {
-      username: Secret.fromSecretsManager(credential, "redis.username"),
-      password: Secret.fromSecretsManager(credential, "redis.password"),
-    },
-  };
-};
+  return new Role(scope, `${id}ExecutionRole-${environment}`, config);
+}

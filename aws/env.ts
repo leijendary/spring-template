@@ -13,6 +13,7 @@ export default {
     name: process.env.STACK_NAME!!,
   },
   vpcId: process.env.VPC_ID!!,
+  clusterName: `api-${environment}`,
   imageTag: process.env.IMAGE_TAG!!,
   namespace: {
     id: process.env.NAMESPACE_ID!!,
