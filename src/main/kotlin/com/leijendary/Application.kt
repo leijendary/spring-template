@@ -6,6 +6,8 @@ import io.swagger.v3.oas.annotations.enums.SecuritySchemeIn.HEADER
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeType.HTTP
 import io.swagger.v3.oas.annotations.security.SecurityScheme
 import liquibase.changelog.ChangeLogHistoryServiceFactory
+import org.apache.kafka.clients.consumer.CooperativeStickyAssignor
+import org.apache.kafka.common.security.scram.ScramLoginModule
 import org.bouncycastle.jcajce.provider.asymmetric.RSA
 import org.bouncycastle.jcajce.provider.asymmetric.rsa.KeyFactorySpi
 import org.springframework.aot.hint.ExecutableMode.INVOKE
@@ -40,8 +42,10 @@ class ApplicationRuntimeHints : RuntimeHintsRegistrar {
             .registerType(ChangeLogHistoryServiceFactory::class.java) {
                 it.withConstructor(emptyList(), INVOKE)
             }
+            .registerType(CooperativeStickyAssignor::class.java, INVOKE_PUBLIC_CONSTRUCTORS, INVOKE_PUBLIC_METHODS)
             .registerType(KeyFactorySpi::class.java, INVOKE_PUBLIC_CONSTRUCTORS, INVOKE_PUBLIC_METHODS)
             .registerType(RSA.Mappings::class.java, INVOKE_PUBLIC_CONSTRUCTORS, INVOKE_PUBLIC_METHODS)
+            .registerType(ScramLoginModule::class.java, INVOKE_PUBLIC_CONSTRUCTORS, INVOKE_PUBLIC_METHODS)
             .registerType(UniqueFieldsValidator::class.java) {
                 it.withConstructor(emptyList(), INVOKE)
             }

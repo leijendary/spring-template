@@ -1,4 +1,4 @@
-import { Duration, RemovalPolicy } from "aws-cdk-lib";
+import { RemovalPolicy } from "aws-cdk-lib";
 import { IDistribution } from "aws-cdk-lib/aws-cloudfront";
 import { IRepository } from "aws-cdk-lib/aws-ecr";
 import {
@@ -61,14 +61,15 @@ export type TaskDefinitionConstructProps = {
 
 const { environment, port, clusterName } = env;
 const { id, name } = env.stack;
+const logPrefix = `/ecs/fargate/${clusterName}`;
 const assumedBy = new ServicePrincipal("ecs-tasks.amazonaws.com");
+const memory = isProd ? 1024 : 512;
+const memoryPadding = isProd ? 256 : 128;
+const cpu = isProd ? 512 : 256;
 
 export class TaskDefinitionConstruct extends TaskDefinition {
   constructor(scope: Construct, props: TaskDefinitionConstructProps) {
     const { repository, image, bucket, distribution, credentials } = props;
-    const memory = isProd ? 2048 : 512;
-    const cpu = isProd ? 1024 : 256;
-    const logPrefix = `/ecs/fargate/${clusterName}`;
     const logGroup = createLogGroup(scope, logPrefix);
     const taskRole = createTaskRole(scope);
     const executionRole = createExecutionRole(scope, logGroup, repository);
@@ -87,21 +88,13 @@ export class TaskDefinitionConstruct extends TaskDefinition {
 
     super(scope, `${id}TaskDefinition-${environment}`, config);
 
-    this.container(image, memory, cpu, logPrefix, logGroup, credentials);
+    this.container(image, credentials, logGroup);
     this.trustPolicy(taskRole, executionRole);
     this.grantBucketAccess(taskRole, bucket);
     this.grantDistribution(taskRole, distribution);
   }
 
-  private container(
-    image: ContainerImage,
-    memory: number,
-    cpu: number,
-    logPrefix: string,
-    logGroup: LogGroup,
-    credentials: TaskDefinitionConstructCredentialsProps
-  ) {
-    const memoryPadding = isProd ? 256 : 128;
+  private container(image: ContainerImage, credentials: TaskDefinitionConstructCredentialsProps, logGroup: LogGroup) {
     const config: ContainerDefinitionOptions = {
       containerName: name,
       image,
@@ -122,7 +115,6 @@ export class TaskDefinitionConstruct extends TaskDefinition {
       ],
       healthCheck: {
         command: ["CMD-SHELL", "wget -qO- http://localhost/actuator/health || exit 1"],
-        startPeriod: Duration.seconds(isProd ? 0 : 200),
       },
       environment: {
         SPRING_PROFILES_ACTIVE: environment,
