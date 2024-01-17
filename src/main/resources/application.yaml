@@ -146,6 +146,8 @@ spring:
       options:
         username:
         password:
+    listener:
+      ackMode: RECORD
     producer:
       acks: all
     properties:
@@ -156,10 +158,13 @@ spring:
     topic:
       sampleCreated:
         name: sample.created
+        partitions: 1
       sampleUpdated:
         name: sample.updated
+        partitions: 1
       sampleDeleted:
         name: sample.deleted
+        partitions: 1
   main:
     bannerMode: LOG
   messages:

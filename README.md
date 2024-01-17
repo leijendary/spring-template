@@ -72,10 +72,10 @@ framework for developer experience.
 
 ### Result
 
-Given the following specifications in a kubernetes ran locally:
+Given the following specifications in a kubernetes ran locally (with autoscaling, of course):
 
-- **Memory**: 1G
-- **CPU**: 0.5
+- **Memory**: 512MiB
+- **CPU**: 500m
 
 ```
           /\      |‾‾| /‾‾/   /‾‾/   
@@ -88,33 +88,37 @@ Given the following specifications in a kubernetes ran locally:
      script: k6/sample-admin.js
      output: -
 
-  scenarios: (100.00%) 1 scenario, 500 max VUs, 5m50s max duration (incl. graceful stop):
-           * default: Up to 500 looping VUs for 5m20s over 2 stages (gracefulRampDown: 30s, gracefulStop: 30s)
+  scenarios: (100.00%) 1 scenario, 500 max VUs, 6m0s max duration (incl. graceful stop):
+           * default: Up to 500 looping VUs for 5m30s over 2 stages (gracefulRampDown: 30s, gracefulStop: 30s)
 
-     ✓ create status is 201
-     ✓ get status is 200
-     ✓ update status is 200
-     ✓ update status is 204
 
-     checks.........................: 100.00% ✓ 238776     ✗ 0     
-     data_received..................: 126 MB  391 kB/s
-     data_sent......................: 87 MB   270 kB/s
-     http_req_blocked...............: avg=10.56µs  min=0s      med=2µs      max=148.93ms p(90)=4µs      p(95)=5µs  
-     http_req_connecting............: avg=5.79µs   min=0s      med=0s       max=32.45ms  p(90)=0s       p(95)=0s   
-     http_req_duration..............: avg=383.13ms min=1.96ms  med=228.26ms max=8.19s    p(90)=880.35ms p(95)=1.21s
-       { expected_response:true }...: avg=383.13ms min=1.96ms  med=228.26ms max=8.19s    p(90)=880.35ms p(95)=1.21s
-     http_req_failed................: 0.00%   ✓ 0          ✗ 238776
-     http_req_receiving.............: avg=219.79µs min=4µs     med=36µs     max=298.12ms p(90)=320µs    p(95)=802µs
-     http_req_sending...............: avg=16.96µs  min=2µs     med=9µs      max=164.32ms p(90)=21µs     p(95)=29µs 
+     █ sample admin CRUD operations
+
+       ✓ create status is 201
+       ✓ get status is 200
+       ✓ update status is 200
+       ✓ delete status is 204
+
+     checks.........................: 100.00% ✓ 615448      ✗ 0     
+     data_received..................: 277 MB  835 kB/s
+     data_sent......................: 200 MB  602 kB/s
+     group_duration.................: avg=1.02s    min=11.97ms med=451.16ms max=16.01s   p(90)=2.97s    p(95)=5.73s
+     http_req_blocked...............: avg=6µs      min=0s      med=1µs      max=8.28ms   p(90)=3µs      p(95)=4µs  
+     http_req_connecting............: avg=4.02µs   min=0s      med=0s       max=5.71ms   p(90)=0s       p(95)=0s   
+     http_req_duration..............: avg=256.36ms min=1.56ms  med=96.49ms  max=10.94s   p(90)=394.07ms p(95)=1.52s
+       { expected_response:true }...: avg=256.36ms min=1.56ms  med=96.49ms  max=10.94s   p(90)=394.07ms p(95)=1.52s
+     http_req_failed................: 0.00%   ✓ 0           ✗ 615448
+     http_req_receiving.............: avg=161µs    min=3µs     med=27µs     max=211.42ms p(90)=232µs    p(95)=492µs
+     http_req_sending...............: avg=9.71µs   min=1µs     med=7µs      max=5.37ms   p(90)=16µs     p(95)=23µs 
      http_req_tls_handshaking.......: avg=0s       min=0s      med=0s       max=0s       p(90)=0s       p(95)=0s   
-     http_req_waiting...............: avg=382.89ms min=1.92ms  med=228.05ms max=8.19s    p(90)=880.17ms p(95)=1.21s
-     http_reqs......................: 238776  740.289539/s
-     iteration_duration.............: avg=1.53s    min=13.05ms med=999.13ms max=13.54s   p(90)=3.55s    p(95)=4.49s
-     iterations.....................: 59694   185.072385/s
-     vus............................: 179     min=5        max=499 
-     vus_max........................: 500     min=500      max=500 
+     http_req_waiting...............: avg=256.19ms min=1.53ms  med=96.34ms  max=10.94s   p(90)=393.83ms p(95)=1.52s
+     http_reqs......................: 615448  1853.510163/s
+     iteration_duration.............: avg=1.02s    min=12.02ms med=451.17ms max=16.01s   p(90)=2.97s    p(95)=5.73s
+     iterations.....................: 153862  463.377541/s
+     vus............................: 8       min=8         max=500 
+     vus_max........................: 500     min=500       max=500 
 
 
-running (5m22.5s), 000/500 VUs, 59694 complete and 0 interrupted iterations
-default ✓ [======================================] 000/500 VUs  5m20s
+running (5m32.0s), 000/500 VUs, 153862 complete and 0 interrupted iterations
+default ✓ [======================================] 000/500 VUs  5m30s
 ```
