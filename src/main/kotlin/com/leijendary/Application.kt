@@ -15,7 +15,7 @@ import org.apache.kafka.common.security.scram.ScramLoginModule
 import org.apache.kafka.common.security.scram.internals.ScramFormatter
 import org.apache.kafka.common.security.scram.internals.ScramSaslClient
 import org.apache.kafka.common.security.scram.internals.ScramSaslClient.ScramSaslClientFactory
-import org.bouncycastle.jcajce.provider.asymmetric.RSA
+import org.bouncycastle.jcajce.provider.asymmetric.RSA.Mappings
 import org.bouncycastle.jcajce.provider.asymmetric.rsa.KeyFactorySpi
 import org.springframework.aot.hint.ExecutableMode.INVOKE
 import org.springframework.aot.hint.MemberCategory.*
@@ -54,7 +54,7 @@ class ApplicationRuntimeHints : RuntimeHintsRegistrar {
             .registerType<DefaultLoginCallbackHandler>(*categories.toTypedArray())
             .registerType<KeyFactorySpi>(*categories.toTypedArray())
             .registerType<LoginModule>(*categories.toTypedArray())
-            .registerType<RSA>(*categories.toTypedArray())
+            .registerType<Mappings>(*categories.toTypedArray())
             .registerType<SaslClient>(*categories.toTypedArray())
             .registerType<SaslClientAuthenticator>(*categories.toTypedArray())
             .registerType<SaslClientCallbackHandler>(*categories.toTypedArray())
