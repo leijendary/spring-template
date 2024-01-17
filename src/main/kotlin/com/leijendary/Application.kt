@@ -72,7 +72,8 @@ class ApplicationRuntimeHints : RuntimeHintsRegistrar {
             .registerPattern("io/awspring/cloud/s3/S3ObjectContentTypeResolver.properties")
 
         // Serialization
-        hints.serialization().registerType(IdentityModel::class.java)
+        hints.serialization()
+            .registerType(IdentityModel::class.java)
     }
 }
 
