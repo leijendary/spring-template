@@ -11,8 +11,9 @@ on:
 
 jobs:
   fargate:
+    name: Deploy to AWS Fargate
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 20
     environment: ${{ inputs.environment }}
     permissions:
       id-token: write

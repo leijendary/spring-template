@@ -57,10 +57,10 @@ class KafkaConfiguration(
         val errorHandler = DefaultErrorHandler(recover)
 
         return ConcurrentKafkaListenerContainerFactory<String, String>().apply {
-            this.consumerFactory = consumerFactory
             containerProperties.ackMode = kafkaProperties.listener.ackMode
             containerProperties.isObservationEnabled = kafkaProperties.listener.isObservationEnabled
             setCommonErrorHandler(errorHandler)
+            setConsumerFactory(consumerFactory)
             setRecordInterceptor(kafkaInterceptor)
         }
     }
