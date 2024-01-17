@@ -6,7 +6,7 @@ import software.amazon.awssdk.auth.credentials.AwsCredentialsProvider
 import software.amazon.awssdk.regions.providers.AwsRegionProvider
 import software.amazon.awssdk.services.cloudfront.CloudFrontClient
 
-@Configuration
+@Configuration(proxyBeanMethods = false)
 class AwsConfiguration(
     private val awsCredentialsProvider: AwsCredentialsProvider,
     private val awsRegionProvider: AwsRegionProvider

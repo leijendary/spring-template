@@ -20,7 +20,7 @@ enum class DataSourceType {
     READ_ONLY
 }
 
-@Configuration
+@Configuration(proxyBeanMethods = false)
 class DatabaseConfiguration {
     @Bean
     @Primary

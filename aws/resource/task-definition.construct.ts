@@ -116,9 +116,6 @@ export class TaskDefinitionConstruct extends TaskDefinition {
       healthCheck: {
         command: ["CMD-SHELL", "wget -qO- http://localhost/actuator/health || exit 1"],
       },
-      environment: {
-        SPRING_PROFILES_ACTIVE: environment,
-      },
       secrets: {
         ENCRYPT_KEY: credentials.security.encrypt.key,
         ENCRYPT_SALT: credentials.security.encrypt.salt,

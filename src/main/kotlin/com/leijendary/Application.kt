@@ -7,54 +7,65 @@ import io.swagger.v3.oas.annotations.enums.SecuritySchemeType.HTTP
 import io.swagger.v3.oas.annotations.security.SecurityScheme
 import liquibase.changelog.ChangeLogHistoryServiceFactory
 import org.apache.kafka.clients.consumer.CooperativeStickyAssignor
+import org.apache.kafka.common.security.authenticator.AbstractLogin
+import org.apache.kafka.common.security.authenticator.DefaultLogin
+import org.apache.kafka.common.security.authenticator.SaslClientAuthenticator
+import org.apache.kafka.common.security.authenticator.SaslClientCallbackHandler
 import org.apache.kafka.common.security.scram.ScramLoginModule
+import org.apache.kafka.common.security.scram.internals.ScramFormatter
+import org.apache.kafka.common.security.scram.internals.ScramSaslClient
 import org.bouncycastle.jcajce.provider.asymmetric.RSA
 import org.bouncycastle.jcajce.provider.asymmetric.rsa.KeyFactorySpi
 import org.springframework.aot.hint.ExecutableMode.INVOKE
+import org.springframework.aot.hint.MemberCategory.*
 import org.springframework.aot.hint.RuntimeHints
 import org.springframework.aot.hint.RuntimeHintsRegistrar
+import org.springframework.aot.hint.registerType
 import org.springframework.boot.SpringBootVersion
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
-import org.springframework.cloud.client.discovery.EnableDiscoveryClient
 import org.springframework.cloud.openfeign.EnableFeignClients
 import org.springframework.context.annotation.ImportRuntimeHints
 import org.springframework.core.env.get
 import org.springframework.http.HttpHeaders.AUTHORIZATION
 import org.springframework.retry.annotation.EnableRetry
 import org.springframework.scheduling.annotation.EnableAsync
+import javax.security.auth.spi.LoginModule
+import javax.security.sasl.SaslClient
 
 @EnableAsync
-@EnableDiscoveryClient
 @EnableFeignClients
 @EnableRetry
 @ImportRuntimeHints(ApplicationRuntimeHints::class)
 @SecurityScheme(name = AUTHORIZATION, type = HTTP, `in` = HEADER, scheme = "bearer", bearerFormat = "JWT")
-@SpringBootApplication
+@SpringBootApplication(proxyBeanMethods = false)
 class Application
 
 class ApplicationRuntimeHints : RuntimeHintsRegistrar {
     override fun registerHints(hints: RuntimeHints, classLoader: ClassLoader?) {
+        val categories = listOf(INVOKE_DECLARED_CONSTRUCTORS, INVOKE_DECLARED_METHODS, DECLARED_CLASSES)
+
         // Reflection
         hints.reflection()
-            .registerType(ChangeLogHistoryServiceFactory::class.java) {
+            .registerType<ChangeLogHistoryServiceFactory> {
                 it.withConstructor(emptyList(), INVOKE)
             }
-            .registerType(CooperativeStickyAssignor::class.java) {
+            .registerType<CooperativeStickyAssignor>(*categories.toTypedArray())
+            .registerType<KeyFactorySpi>(*categories.toTypedArray())
+            .registerType<RSA.Mappings>(*categories.toTypedArray())
+            .registerType<ScramLoginModule>(*categories.toTypedArray())
+            .registerType<UniqueFieldsValidator> {
                 it.withConstructor(emptyList(), INVOKE)
             }
-            .registerType(KeyFactorySpi::class.java) {
-                it.withConstructor(emptyList(), INVOKE)
-            }
-            .registerType(RSA.Mappings::class.java) {
-                it.withConstructor(emptyList(), INVOKE)
-            }
-            .registerType(ScramLoginModule::class.java) {
-                it.withConstructor(emptyList(), INVOKE)
-            }
-            .registerType(UniqueFieldsValidator::class.java) {
-                it.withConstructor(emptyList(), INVOKE)
-            }
+            .registerType<SaslClientCallbackHandler>(*categories.toTypedArray())
+            .registerType<DefaultLogin>(*categories.toTypedArray())
+            .registerType<AbstractLogin.DefaultLoginCallbackHandler>(*categories.toTypedArray())
+            .registerType<LoginModule>(*categories.toTypedArray())
+            .registerType<ScramSaslClient>(*categories.toTypedArray())
+            .registerType<ScramSaslClient.ScramSaslClientFactory>(*categories.toTypedArray())
+            .registerType<SaslClientAuthenticator>(*categories.toTypedArray())
+            .registerType<ScramFormatter>(*categories.toTypedArray())
+            .registerType<SaslClient>(*categories.toTypedArray())
 
         // Resources
         hints.resources()

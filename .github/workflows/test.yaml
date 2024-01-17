@@ -6,9 +6,9 @@ on:
         type: string
 
 jobs:
-  native:
+  unit:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 20
     environment: ${{ inputs.environment }}
     permissions:
       id-token: write
@@ -31,6 +31,6 @@ jobs:
           aws-region: ${{ vars.AWS_REGION }}
           role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/DeploymentRole-${{ inputs.environment }}
       - name: Execute Gradle test
-        run: ./gradlew nativeTest -i
+        run: ./gradlew test
         env:
           SPRING_PROFILES_ACTIVE: ci

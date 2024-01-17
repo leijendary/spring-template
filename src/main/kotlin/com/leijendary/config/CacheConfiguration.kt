@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.core.convert.converter.Converter
 import org.springframework.data.redis.core.convert.RedisCustomConversions
 
-@Configuration
+@Configuration(proxyBeanMethods = false)
 @EnableCaching
 class CacheConfiguration {
     @Bean

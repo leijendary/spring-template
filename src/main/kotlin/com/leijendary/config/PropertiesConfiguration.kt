@@ -4,7 +4,7 @@ import com.leijendary.config.properties.*
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Configuration
 
-@Configuration
+@Configuration(proxyBeanMethods = false)
 @EnableConfigurationProperties(
     AuthProperties::class,
     AwsCloudFrontProperties::class,

@@ -148,6 +148,7 @@ spring:
         password:
     listener:
       ackMode: RECORD
+      observationEnabled: true
     producer:
       acks: all
     properties:
@@ -155,6 +156,8 @@ spring:
         mechanism: SCRAM-SHA-256
     security:
       protocol: SASL_SSL
+    template:
+      observationEnabled: true
     topic:
       sampleCreated:
         name: sample.created

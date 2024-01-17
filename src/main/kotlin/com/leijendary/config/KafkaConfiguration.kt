@@ -19,7 +19,7 @@ import org.springframework.kafka.listener.DefaultErrorHandler
 
 private const val TOPIC_DEAD_LETTER_SUFFIX = ".error"
 
-@Configuration
+@Configuration(proxyBeanMethods = false)
 @EnableKafka
 class KafkaConfiguration(
     private val kafkaInterceptor: KafkaInterceptor,
@@ -59,8 +59,7 @@ class KafkaConfiguration(
         return ConcurrentKafkaListenerContainerFactory<String, String>().apply {
             this.consumerFactory = consumerFactory
             containerProperties.ackMode = kafkaProperties.listener.ackMode
-            containerProperties.isMicrometerEnabled = true
-            containerProperties.isObservationEnabled = true
+            containerProperties.isObservationEnabled = kafkaProperties.listener.isObservationEnabled
             setCommonErrorHandler(errorHandler)
             setRecordInterceptor(kafkaInterceptor)
         }
@@ -69,8 +68,7 @@ class KafkaConfiguration(
     @Bean
     fun kafkaTemplate(producerFactory: ProducerFactory<String, String>): KafkaTemplate<String, String> {
         return KafkaTemplate(producerFactory).apply {
-            setMicrometerEnabled(true)
-            setObservationEnabled(true)
+            setObservationEnabled(kafkaProperties.template.isObservationEnabled)
             setProducerInterceptor(kafkaInterceptor)
         }
     }
