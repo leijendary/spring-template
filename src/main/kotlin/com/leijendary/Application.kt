@@ -48,10 +48,10 @@ class ApplicationRuntimeHints : RuntimeHintsRegistrar {
 
         // Reflection
         hints.reflection()
-            .registerType<DefaultLoginCallbackHandler>(*categories.toTypedArray())
             .registerType<ChangeLogHistoryServiceFactory> { it.withConstructor(emptyList(), INVOKE) }
             .registerType<CooperativeStickyAssignor>(*categories.toTypedArray())
             .registerType<DefaultLogin>(*categories.toTypedArray())
+            .registerType<DefaultLoginCallbackHandler>(*categories.toTypedArray())
             .registerType<KeyFactorySpi>(*categories.toTypedArray())
             .registerType<LoginModule>(*categories.toTypedArray())
             .registerType<RSA>(*categories.toTypedArray())
@@ -60,8 +60,8 @@ class ApplicationRuntimeHints : RuntimeHintsRegistrar {
             .registerType<SaslClientCallbackHandler>(*categories.toTypedArray())
             .registerType<ScramFormatter>(*categories.toTypedArray())
             .registerType<ScramLoginModule>(*categories.toTypedArray())
-            .registerType<ScramSaslClientFactory>(*categories.toTypedArray())
             .registerType<ScramSaslClient>(*categories.toTypedArray())
+            .registerType<ScramSaslClientFactory>(*categories.toTypedArray())
             .registerType<UniqueFieldsValidator> { it.withConstructor(emptyList(), INVOKE) }
 
         // Resources
