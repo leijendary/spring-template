@@ -7,13 +7,14 @@ import io.swagger.v3.oas.annotations.enums.SecuritySchemeType.HTTP
 import io.swagger.v3.oas.annotations.security.SecurityScheme
 import liquibase.changelog.ChangeLogHistoryServiceFactory
 import org.apache.kafka.clients.consumer.CooperativeStickyAssignor
-import org.apache.kafka.common.security.authenticator.AbstractLogin
+import org.apache.kafka.common.security.authenticator.AbstractLogin.DefaultLoginCallbackHandler
 import org.apache.kafka.common.security.authenticator.DefaultLogin
 import org.apache.kafka.common.security.authenticator.SaslClientAuthenticator
 import org.apache.kafka.common.security.authenticator.SaslClientCallbackHandler
 import org.apache.kafka.common.security.scram.ScramLoginModule
 import org.apache.kafka.common.security.scram.internals.ScramFormatter
 import org.apache.kafka.common.security.scram.internals.ScramSaslClient
+import org.apache.kafka.common.security.scram.internals.ScramSaslClient.ScramSaslClientFactory
 import org.bouncycastle.jcajce.provider.asymmetric.RSA
 import org.bouncycastle.jcajce.provider.asymmetric.rsa.KeyFactorySpi
 import org.springframework.aot.hint.ExecutableMode.INVOKE
@@ -47,25 +48,21 @@ class ApplicationRuntimeHints : RuntimeHintsRegistrar {
 
         // Reflection
         hints.reflection()
-            .registerType<ChangeLogHistoryServiceFactory> {
-                it.withConstructor(emptyList(), INVOKE)
-            }
+            .registerType<DefaultLoginCallbackHandler>(*categories.toTypedArray())
+            .registerType<ChangeLogHistoryServiceFactory> { it.withConstructor(emptyList(), INVOKE) }
             .registerType<CooperativeStickyAssignor>(*categories.toTypedArray())
-            .registerType<KeyFactorySpi>(*categories.toTypedArray())
-            .registerType<RSA.Mappings>(*categories.toTypedArray())
-            .registerType<ScramLoginModule>(*categories.toTypedArray())
-            .registerType<UniqueFieldsValidator> {
-                it.withConstructor(emptyList(), INVOKE)
-            }
-            .registerType<SaslClientCallbackHandler>(*categories.toTypedArray())
             .registerType<DefaultLogin>(*categories.toTypedArray())
-            .registerType<AbstractLogin.DefaultLoginCallbackHandler>(*categories.toTypedArray())
+            .registerType<KeyFactorySpi>(*categories.toTypedArray())
             .registerType<LoginModule>(*categories.toTypedArray())
-            .registerType<ScramSaslClient>(*categories.toTypedArray())
-            .registerType<ScramSaslClient.ScramSaslClientFactory>(*categories.toTypedArray())
-            .registerType<SaslClientAuthenticator>(*categories.toTypedArray())
-            .registerType<ScramFormatter>(*categories.toTypedArray())
+            .registerType<RSA>(*categories.toTypedArray())
             .registerType<SaslClient>(*categories.toTypedArray())
+            .registerType<SaslClientAuthenticator>(*categories.toTypedArray())
+            .registerType<SaslClientCallbackHandler>(*categories.toTypedArray())
+            .registerType<ScramFormatter>(*categories.toTypedArray())
+            .registerType<ScramLoginModule>(*categories.toTypedArray())
+            .registerType<ScramSaslClientFactory>(*categories.toTypedArray())
+            .registerType<ScramSaslClient>(*categories.toTypedArray())
+            .registerType<UniqueFieldsValidator> { it.withConstructor(emptyList(), INVOKE) }
 
         // Resources
         hints.resources()
