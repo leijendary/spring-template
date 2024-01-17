@@ -1,7 +1,6 @@
 package com.leijendary
 
 import com.leijendary.container.*
-import com.leijendary.model.IdentityModel
 import org.junit.jupiter.api.Test
 import org.springframework.aot.hint.RuntimeHints
 import org.springframework.aot.hint.RuntimeHintsRegistrar
@@ -28,14 +27,10 @@ class ApplicationTest {
     }
 }
 
-
 class ApplicationTestRuntimeHints : RuntimeHintsRegistrar {
     override fun registerHints(hints: RuntimeHints, classLoader: ClassLoader?) {
         // Resources
         hints.resources()
             .registerPattern("elasticsearch-default-memory-vm.options")
-
-        // Serialization
-        hints.serialization().registerType(IdentityModel::class.java)
     }
 }

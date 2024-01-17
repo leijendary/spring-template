@@ -8,7 +8,7 @@ on:
 jobs:
   unit:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 10
     environment: ${{ inputs.environment }}
     permissions:
       id-token: write
@@ -31,6 +31,34 @@ jobs:
           aws-region: ${{ vars.AWS_REGION }}
           role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/DeploymentRole-${{ inputs.environment }}
       - name: Execute Gradle test
-        run: ./gradlew test
+        run: ./gradlew test --tests "*Test"
+        env:
+          SPRING_PROFILES_ACTIVE: ci
+  integration:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    environment: ${{ inputs.environment }}
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - name: Setup GraalVM
+        uses: graalvm/setup-graalvm@v1
+        with:
+          java-version: 21
+          distribution: graalvm-community
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v2
+        with:
+          cache-read-only: false
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-region: ${{ vars.AWS_REGION }}
+          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/DeploymentRole-${{ inputs.environment }}
+      - name: Execute Gradle test
+        run: ./gradlew test --tests "*TestCase"
         env:
           SPRING_PROFILES_ACTIVE: ci
