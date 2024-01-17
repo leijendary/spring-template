@@ -11,8 +11,6 @@ import org.apache.kafka.common.security.scram.ScramLoginModule
 import org.bouncycastle.jcajce.provider.asymmetric.RSA
 import org.bouncycastle.jcajce.provider.asymmetric.rsa.KeyFactorySpi
 import org.springframework.aot.hint.ExecutableMode.INVOKE
-import org.springframework.aot.hint.MemberCategory.INVOKE_PUBLIC_CONSTRUCTORS
-import org.springframework.aot.hint.MemberCategory.INVOKE_PUBLIC_METHODS
 import org.springframework.aot.hint.RuntimeHints
 import org.springframework.aot.hint.RuntimeHintsRegistrar
 import org.springframework.boot.SpringBootVersion
@@ -42,10 +40,18 @@ class ApplicationRuntimeHints : RuntimeHintsRegistrar {
             .registerType(ChangeLogHistoryServiceFactory::class.java) {
                 it.withConstructor(emptyList(), INVOKE)
             }
-            .registerType(CooperativeStickyAssignor::class.java, INVOKE_PUBLIC_CONSTRUCTORS, INVOKE_PUBLIC_METHODS)
-            .registerType(KeyFactorySpi::class.java, INVOKE_PUBLIC_CONSTRUCTORS, INVOKE_PUBLIC_METHODS)
-            .registerType(RSA.Mappings::class.java, INVOKE_PUBLIC_CONSTRUCTORS, INVOKE_PUBLIC_METHODS)
-            .registerType(ScramLoginModule::class.java, INVOKE_PUBLIC_CONSTRUCTORS, INVOKE_PUBLIC_METHODS)
+            .registerType(CooperativeStickyAssignor::class.java) {
+                it.withConstructor(emptyList(), INVOKE)
+            }
+            .registerType(KeyFactorySpi::class.java) {
+                it.withConstructor(emptyList(), INVOKE)
+            }
+            .registerType(RSA.Mappings::class.java) {
+                it.withConstructor(emptyList(), INVOKE)
+            }
+            .registerType(ScramLoginModule::class.java) {
+                it.withConstructor(emptyList(), INVOKE)
+            }
             .registerType(UniqueFieldsValidator::class.java) {
                 it.withConstructor(emptyList(), INVOKE)
             }
