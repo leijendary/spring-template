@@ -110,6 +110,7 @@ dependencies {
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 
     // Feign
+    // https://github.com/spring-cloud/spring-cloud-openfeign/issues/959
     implementation("io.github.openfeign:feign-core") {
         version {
             strictly("12.5")
