@@ -164,12 +164,12 @@ sourceSets {
 graalvmNative {
     binaries {
         named("test") {
-            buildArgs.addAll(
-                listOf(
-                    "--strict-image-heap",
-                    "--initialize-at-build-time=io.lettuce.core.metrics.DefaultCommandLatencyCollector\$DefaultPauseDetectorWrapper"
-                )
+            val args = listOf(
+                "--strict-image-heap",
+                "--initialize-at-build-time=io.lettuce.core.metrics.DefaultCommandLatencyCollector\$DefaultPauseDetectorWrapper"
             )
+
+            buildArgs.addAll(args)
         }
     }
 }
