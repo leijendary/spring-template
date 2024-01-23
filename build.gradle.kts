@@ -88,6 +88,7 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 
     // Spring Cloud Starter
+    implementation(platform("org.springframework.cloud:spring-cloud-dependencies:2023.0.0"))
     implementation("org.springframework.cloud:spring-cloud-starter-openfeign")
 
     // Spring Kafka
@@ -98,6 +99,8 @@ dependencies {
     implementation("org.springframework.retry:spring-retry")
 
     // AWS
+    implementation(platform("io.awspring.cloud:spring-cloud-aws-dependencies:3.1.0"))
+    implementation(platform("software.amazon.awssdk:bom:2.22.7"))
     implementation("io.awspring.cloud:spring-cloud-aws-starter")
     implementation("io.awspring.cloud:spring-cloud-aws-starter-s3")
     implementation("software.amazon.awssdk:cloudfront")
@@ -123,10 +126,9 @@ dependencies {
     }
 
     // Observability and Metrics
-    implementation("com.github.loki4j:loki-logback-appender:1.4.2")
+    implementation(platform("io.micrometer:micrometer-tracing-bom:1.2.1"))
+    implementation("com.grafana:grafana-opentelemetry-starter:1.4.0")
     implementation("io.micrometer:micrometer-registry-prometheus")
-    implementation("io.micrometer:micrometer-tracing-bridge-otel")
-    implementation("io.opentelemetry:opentelemetry-exporter-otlp")
     implementation("net.ttddyy.observation:datasource-micrometer-spring-boot:1.0.3")
 
     // OpenAPI
@@ -137,20 +139,11 @@ dependencies {
     testImplementation("org.mockito:mockito-inline:5.2.0")
 
     // Test Containers
+    testImplementation(platform("org.testcontainers:testcontainers-bom:1.19.3"))
     testImplementation("org.testcontainers:junit-jupiter")
     testImplementation("org.testcontainers:elasticsearch")
     testImplementation("org.testcontainers:kafka")
     testImplementation("org.testcontainers:postgresql")
-}
-
-dependencyManagement {
-    imports {
-        mavenBom("io.awspring.cloud:spring-cloud-aws-dependencies:3.1.0")
-        mavenBom("io.micrometer:micrometer-tracing-bom:1.2.1")
-        mavenBom("org.springframework.cloud:spring-cloud-dependencies:2023.0.0")
-        mavenBom("org.testcontainers:testcontainers-bom:1.19.3")
-        mavenBom("software.amazon.awssdk:bom:2.22.7")
-    }
 }
 
 sourceSets {
