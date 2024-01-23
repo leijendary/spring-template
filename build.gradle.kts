@@ -129,8 +129,9 @@ dependencies {
 
     // Observability and Metrics
     implementation(platform("io.micrometer:micrometer-tracing-bom:1.2.1"))
-    implementation("com.grafana:grafana-opentelemetry-starter:1.4.0")
     implementation("io.micrometer:micrometer-registry-prometheus")
+    implementation("io.micrometer:micrometer-tracing-bridge-otel")
+    implementation("io.opentelemetry:opentelemetry-exporter-otlp")
     implementation("net.ttddyy.observation:datasource-micrometer-spring-boot:1.0.3")
 
     // OpenAPI
