@@ -99,11 +99,13 @@ dependencies {
     implementation("org.springframework.retry:spring-retry")
 
     // AWS
-    implementation(platform("io.awspring.cloud:spring-cloud-aws-dependencies:3.1.0"))
     implementation(platform("software.amazon.awssdk:bom:2.22.7"))
+    implementation("software.amazon.awssdk:cloudfront")
+
+    // AWS Cloud
+    implementation(platform("io.awspring.cloud:spring-cloud-aws-dependencies:3.1.0"))
     implementation("io.awspring.cloud:spring-cloud-aws-starter")
     implementation("io.awspring.cloud:spring-cloud-aws-starter-s3")
-    implementation("software.amazon.awssdk:cloudfront")
 
     // Database
     implementation("org.postgresql:postgresql")
