@@ -5,20 +5,20 @@ on:
 
 jobs:
   test-staging:
-    name: Test staging
+    name: Test
     uses: ./.github/workflows/test.yaml
     with:
       environment: staging
     secrets: inherit
   test-prod:
-    name: Test production
+    name: Test
     uses: ./.github/workflows/test.yaml
     with:
       environment: prod
     secrets: inherit
   build-staging:
     needs: test-staging
-    name: Build for staging
+    name: Build
     uses: ./.github/workflows/build.yaml
     with:
       environment: staging
@@ -26,7 +26,7 @@ jobs:
     secrets: inherit
   build-prod:
     needs: test-prod
-    name: Build for production
+    name: Build
     uses: ./.github/workflows/build.yaml
     with:
       environment: prod
@@ -34,7 +34,7 @@ jobs:
     secrets: inherit
   deploy-staging:
     needs: build-staging
-    name: Deploy to staging
+    name: Deploy
     uses: ./.github/workflows/deploy.yaml
     with:
       environment: staging
@@ -42,7 +42,7 @@ jobs:
     secrets: inherit
   deploy-prod:
     needs: build-prod
-    name: Deploy to production
+    name: Deploy
     uses: ./.github/workflows/deploy.yaml
     with:
       environment: prod
