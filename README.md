@@ -65,6 +65,40 @@
 
 `./gradlew bootBuildImage`
 
+# Branching Strategy
+
+As you may have noticed, GitHub Actions are also included in this template repository. Each company has their own
+different git workflow, and this is what I think is the fastest for most teams.
+
+- `main` is the actual development branch. This is ALWAYS updated.
+- `release/*` is the branch for testing. Whatever is going to be placed here, means that this is a candidate for
+  release.
+- No long-lived branches, except for `release/*`, `fix/*`, and `hotfix/*`.
+- Changes from `main` may be cherry-picked to `release/*`.
+- `main` is for developer testing and `release/*` is for QA testing only. Also called as "acceptance".
+- Tagging the `release/*` branch will automatically deploy to the staging and production environments.
+
+```puml
+actor developer
+participant "main (dev branch)" as main
+participant "release/* (test branch)" as release
+participant tag
+participant "staging (prod copy)" as staging
+participant prod
+
+developer <- main: Pull code
+developer -> developer: Commit changes
+developer -> main: Push code
+main -> main: Deploy
+developer -> main: Test
+main -> release: Merge
+release -> release: Deploy
+release -> release: QA test
+release -> tag: Create tag
+tag -> staging: Deploy
+tag -> prod: Deploy
+```
+
 # Load Testing
 
 This template uses [k6](https://grafana.com/docs/k6/latest/) to do the load testing. k6 is by far the best load testing
