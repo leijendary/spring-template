@@ -74,19 +74,11 @@ different git workflow, and this is what I think is the fastest for most teams.
 - `release/*` **deploys to test**. Whatever is going to be placed here, means that this is a candidate for
   release. Only used by QA testers. This is where you start tagging.
 - `tags` **deploys to staging AND prod**.
-- No long-lived branches, except for `release/*`, `fix/*`, and `hotfix/*`.
+- **No** long-lived branches, except for `release/*`, `fix/*`, and `hotfix/*`.
 - Changes from `main` **may** be cherry-picked to `release/*`.
-
-```mermaid
-gitGraph
-  commit
-  branch "release/*"
-  checkout "release/*"
-  merge main
-  branch "1.0.0"
-  checkout "1.0.0"
-  merge "release/*"
-```
+- `fix/*` and `hotfix/*` merges to a `release/*` branch that is created from the production tag.
+- When the `release/*` branch that contains the `fix/*` or `hotfix/*` is tagged and deployed to production, this release
+  branch will be merged to `main`.
 
 # Load Testing
 
