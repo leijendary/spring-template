@@ -18,7 +18,7 @@ jobs:
     secrets: inherit
   build-staging:
     needs: test-staging
-    name: Build for staging
+    name: Build staging
     uses: ./.github/workflows/build.yaml
     with:
       environment: staging
@@ -26,7 +26,7 @@ jobs:
     secrets: inherit
   build-prod:
     needs: test-prod
-    name: Build for production
+    name: Build production
     uses: ./.github/workflows/build.yaml
     with:
       environment: prod
@@ -34,7 +34,7 @@ jobs:
     secrets: inherit
   deploy-staging:
     needs: build-staging
-    name: Deploy to staging
+    name: Deploy staging
     uses: ./.github/workflows/deploy.yaml
     with:
       environment: staging
@@ -42,7 +42,7 @@ jobs:
     secrets: inherit
   deploy-prod:
     needs: build-prod
-    name: Deploy to production
+    name: Deploy production
     uses: ./.github/workflows/deploy.yaml
     with:
       environment: prod
