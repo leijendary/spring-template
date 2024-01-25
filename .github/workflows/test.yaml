@@ -7,7 +7,7 @@ on:
 
 jobs:
   unit:
-    name: Unit - ${{ inputs.environment }}
+    name: Unit
     runs-on: ubuntu-latest
     timeout-minutes: 10
     environment: ${{ inputs.environment }}
@@ -36,7 +36,7 @@ jobs:
         env:
           SPRING_PROFILES_ACTIVE: ci
   integration:
-    name: Integration - ${{ inputs.environment }}
+    name: Integration
     runs-on: ubuntu-latest
     timeout-minutes: 30
     environment: ${{ inputs.environment }}
