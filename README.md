@@ -70,33 +70,22 @@
 As you may have noticed, GitHub Actions are also included in this template repository. Each company has their own
 different git workflow, and this is what I think is the fastest for most teams.
 
-- `main` is the actual development branch. This is ALWAYS updated.
-- `release/*` is the branch for testing. Whatever is going to be placed here, means that this is a candidate for
-  release.
+- `main` **deploys to dev**. This is ALWAYS updated. The sole purpose of this is for developer's testing.
+- `release/*` **deploys to test**. Whatever is going to be placed here, means that this is a candidate for
+  release. Only used by QA testers. This is where you start tagging.
+- `tags` **deploys to staging AND prod**.
 - No long-lived branches, except for `release/*`, `fix/*`, and `hotfix/*`.
-- Changes from `main` may be cherry-picked to `release/*`.
-- `main` is for developer testing and `release/*` is for QA testing only. Also called as "acceptance".
-- Tagging the `release/*` branch will automatically deploy to the staging and production environments.
+- Changes from `main` **may** be cherry-picked to `release/*`.
 
-```puml
-actor developer
-participant "main (dev branch)" as main
-participant "release/* (test branch)" as release
-participant tag
-participant "staging (prod copy)" as staging
-participant prod
-
-developer <- main: Pull code
-developer -> developer: Commit changes
-developer -> main: Push code
-main -> main: Deploy
-developer -> main: Test
-main -> release: Merge
-release -> release: Deploy
-release -> release: QA test
-release -> tag: Create tag
-tag -> staging: Deploy
-tag -> prod: Deploy
+```mermaid
+gitGraph
+  commit
+  branch "release/*"
+  checkout "release/*"
+  merge main
+  branch "1.0.0"
+  checkout "1.0.0"
+  merge "release/*"
 ```
 
 # Load Testing
