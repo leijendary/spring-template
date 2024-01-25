@@ -27,11 +27,11 @@ jobs:
         name: Login to registry
         uses: aws-actions/amazon-ecr-login@v2
         with:
-          mask-password: "true"
+          mask-password: true
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: 20.x
+          check-latest: true
       - name: Checkout
         uses: actions/checkout@v3
       - name: Deploy AWS CDK

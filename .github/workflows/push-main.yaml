@@ -8,19 +8,19 @@ jobs:
     name: Test
     uses: ./.github/workflows/test.yaml
     with:
-      environment: prod
+      environment: dev
     secrets: inherit
   build:
     needs: test
     name: Build
     uses: ./.github/workflows/build.yaml
     with:
-      environment: prod
+      environment: dev
     secrets: inherit
   deploy:
     needs: build
     name: Deploy
     uses: ./.github/workflows/deploy.yaml
     with:
-      environment: prod
+      environment: dev
     secrets: inherit

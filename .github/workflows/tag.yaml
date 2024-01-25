@@ -4,36 +4,45 @@ on:
       - "*"
 
 jobs:
-  docker:
-    name: Tag image
-    runs-on: ubuntu-latest
-    timeout-minutes: 1
-    environment: prod
-    permissions:
-      id-token: write
-      contents: read
-    steps:
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          aws-region: ${{ vars.AWS_REGION }}
-          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/DeploymentRole-${{ inputs.environment }}
-      - id: login-registry
-        name: Login to registry
-        uses: aws-actions/amazon-ecr-login@v2
-        with:
-          mask-password: "true"
-      - name: Tag and push
-        env:
-          REGISTRY: ${{ steps.login-registry.outputs.registry }}
-          REPOSITORY: ${{ github.event.repository.name }}
-        run: |
-          docker pull --platform=linux/arm64 ${{ env.REGISTRY }}/${{ env.REPOSITORY }}:${{ github.sha }}
-          docker tag ${{ env.REGISTRY }}/${{ env.REPOSITORY }}:${{ github.sha }} ${{ env.REGISTRY }}/${{ env.REPOSITORY }}:${{ github.ref_name }}
-          docker push ${{ env.REGISTRY }}/${{ env.REPOSITORY }}:${{ github.ref_name }}
-  deploy:
-    needs: docker
-    name: Deploy
+  test-staging:
+    name: Test staging
+    uses: ./.github/workflows/test.yaml
+    with:
+      environment: staging
+    secrets: inherit
+  test-prod:
+    name: Test production
+    uses: ./.github/workflows/test.yaml
+    with:
+      environment: prod
+    secrets: inherit
+  build-staging:
+    needs: test-staging
+    name: Build for staging
+    uses: ./.github/workflows/build.yaml
+    with:
+      environment: staging
+      image-tag: ${{ github.ref_name }}
+    secrets: inherit
+  build-prod:
+    needs: test-prod
+    name: Build for production
+    uses: ./.github/workflows/build.yaml
+    with:
+      environment: prod
+      image-tag: ${{ github.ref_name }}
+    secrets: inherit
+  deploy-staging:
+    needs: build-staging
+    name: Deploy to staging
+    uses: ./.github/workflows/deploy.yaml
+    with:
+      environment: staging
+      image-tag: ${{ github.ref_name }}
+    secrets: inherit
+  deploy-prod:
+    needs: build-prod
+    name: Deploy to production
     uses: ./.github/workflows/deploy.yaml
     with:
       environment: prod
