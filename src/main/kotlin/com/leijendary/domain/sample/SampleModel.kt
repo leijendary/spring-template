@@ -26,7 +26,7 @@ class SampleRequest {
     var amount: BigDecimal = ZERO
 
     @field:Valid
-    @field:UniqueFields(uniqueFields = ["name", "language", "ordinal"])
+    @field:UniqueFields(["name", "language", "ordinal"])
     @field:NotEmpty(message = "validation.required")
     var translations = arrayListOf<SampleTranslationRequest>()
 }

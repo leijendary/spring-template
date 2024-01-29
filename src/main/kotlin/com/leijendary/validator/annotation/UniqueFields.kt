@@ -11,8 +11,8 @@ import kotlin.reflect.KClass
 @Retention
 @Constraint(validatedBy = [UniqueFieldsValidator::class])
 annotation class UniqueFields(
+    val fields: Array<String> = [],
     val message: String = "validation.duplicateValue",
-    val uniqueFields: Array<String> = [],
     val groups: Array<KClass<*>> = [],
     val payload: Array<KClass<out Payload>> = []
 )
