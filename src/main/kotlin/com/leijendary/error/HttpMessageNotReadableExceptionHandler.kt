@@ -23,10 +23,6 @@ class HttpMessageNotReadableExceptionHandler(private val messageSource: MessageS
     @ExceptionHandler(HttpMessageNotReadableException::class)
     @ResponseStatus(BAD_REQUEST)
     fun catchHttpMessageNotReadable(exception: HttpMessageNotReadableException): List<ErrorModel> {
-        return errors(exception)
-    }
-
-    private fun errors(exception: HttpMessageNotReadableException): List<ErrorModel> {
         val code = "error.badRequest"
         var message = exception.message?.split(":".toRegex())?.toTypedArray()?.get(0) ?: ""
         val error: ErrorModel
