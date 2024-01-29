@@ -168,6 +168,10 @@ graalvmNative {
             buildArgs.addAll(args)
         }
     }
+
+    metadataRepository {
+        enabled = true
+    }
 }
 
 tasks {
