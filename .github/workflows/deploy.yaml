@@ -29,13 +29,13 @@ jobs:
         uses: aws-actions/amazon-ecr-login@v2
         with:
           mask-password: true
+      - name: Checkout
+        uses: actions/checkout@v3
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: lts/Hydrogen
           cache: npm
-      - name: Checkout
-        uses: actions/checkout@v3
       - name: Deploy AWS CDK
         env:
           ENVIRONMENT: ${{ inputs.environment }}
