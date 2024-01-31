@@ -4,7 +4,7 @@ import com.leijendary.client.PetStoreClient
 import com.leijendary.model.QueryRequest
 import com.leijendary.model.Seek
 import com.leijendary.model.SeekRequest
-import com.leijendary.util.RequestContext.requestAttribute
+import com.leijendary.util.requestAttribute
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.openapi.petstore.v2.model.Pet
