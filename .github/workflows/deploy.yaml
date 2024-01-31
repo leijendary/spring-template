@@ -32,7 +32,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: latest
+          node-version: lts/Hydrogen
           cache: npm
       - name: Checkout
         uses: actions/checkout@v3
