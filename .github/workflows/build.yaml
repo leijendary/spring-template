@@ -21,7 +21,9 @@ jobs:
     environment: ${{ inputs.environment }}
     steps:
       - name: Setup Docker
-        run: brew install docker
+        run: |
+          brew install docker colima
+          colima start
       - name: Setup Docker Buildx
         uses: docker/setup-buildx-action@v3
         with:
