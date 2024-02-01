@@ -16,15 +16,10 @@ permissions:
 jobs:
   docker:
     name: Docker
-    runs-on: macos-14
+    runs-on: ubuntu-latest
     timeout-minutes: 120
     environment: ${{ inputs.environment }}
     steps:
-      - name: Setup Docker
-        run: |
-          brew install docker colima lima
-          colima version
-          colima start --cpu 3 --memory 6 --disk 100 --vm-type=qemu --mount-type=sshfs --dns=1.1.1.1
       - name: Setup QEMU
         uses: docker/setup-qemu-action@v3
         with:
