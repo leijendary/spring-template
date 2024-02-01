@@ -5,15 +5,16 @@ on:
         required: true
         type: string
 
+permissions:
+  id-token: write
+  contents: read
+
 jobs:
   unit:
     name: Unit
     runs-on: ubuntu-latest
     timeout-minutes: 10
     environment: ${{ inputs.environment }}
-    permissions:
-      id-token: write
-      contents: read
     steps:
       - name: Setup GraalVM
         uses: graalvm/setup-graalvm@v1
@@ -40,9 +41,6 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     environment: ${{ inputs.environment }}
-    permissions:
-      id-token: write
-      contents: read
     steps:
       - name: Setup GraalVM
         uses: graalvm/setup-graalvm@v1
