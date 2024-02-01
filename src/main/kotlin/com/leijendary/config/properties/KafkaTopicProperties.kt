@@ -3,7 +3,6 @@ package com.leijendary.config.properties
 import org.springframework.boot.context.properties.ConfigurationProperties
 
 @ConfigurationProperties("spring.kafka.topic")
-@JvmRecord
 data class KafkaTopicProperties(
     val sampleCreated: KafkaTopic,
     val sampleUpdated: KafkaTopic,

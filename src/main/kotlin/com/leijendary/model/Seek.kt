@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore
 import com.leijendary.projection.SeekProjection
 import java.time.OffsetDateTime
 
-@JvmRecord
 data class SeekRequest(val size: Int = 20, val createdAt: OffsetDateTime? = null, val id: Long? = null) {
     @JsonIgnore
     fun limit(): Int {

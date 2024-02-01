@@ -2,9 +2,9 @@ package com.leijendary.config.feign
 
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.leijendary.model.ErrorModel
 import com.leijendary.error.exception.ErrorModelException
 import com.leijendary.extension.logger
+import com.leijendary.model.ErrorModel
 import feign.codec.ErrorDecoder
 import org.springframework.context.annotation.Bean
 import org.springframework.http.HttpStatus

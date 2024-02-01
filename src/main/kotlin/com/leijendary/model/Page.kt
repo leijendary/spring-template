@@ -5,7 +5,6 @@ import org.springframework.data.domain.Sort.Direction
 import org.springframework.data.domain.Sort.Direction.DESC
 import org.springframework.data.domain.PageRequest as Pageable
 
-@JvmRecord
 data class PageRequest(
     val page: Int = 1,
     val size: Int = 20,

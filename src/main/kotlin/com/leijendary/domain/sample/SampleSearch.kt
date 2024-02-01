@@ -41,7 +41,6 @@ data class SampleSearch(
     }
 }
 
-@JvmRecord
 data class SampleSearchTranslation(
     @Field(type = Text, analyzer = "ngram_analyzer", searchAnalyzer = "standard")
     val name: String,

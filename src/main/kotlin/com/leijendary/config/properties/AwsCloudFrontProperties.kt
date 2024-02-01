@@ -4,7 +4,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties
 import java.time.Duration
 
 @ConfigurationProperties("spring.cloud.aws.cloud-front")
-@JvmRecord
 data class AwsCloudFrontProperties(
     val distributionId: String,
     val url: String,

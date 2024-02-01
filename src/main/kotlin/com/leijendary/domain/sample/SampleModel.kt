@@ -40,7 +40,6 @@ class SampleTranslationRequest : TranslationRequest() {
     val description: String? = null
 }
 
-@JvmRecord
 data class SampleList(
     override val id: Long,
     val name: String,
@@ -49,7 +48,6 @@ data class SampleList(
     override val createdAt: OffsetDateTime
 ) : SeekProjection
 
-@JvmRecord
 data class SampleDetail(
     val id: Long,
     val name: String,
@@ -62,7 +60,6 @@ data class SampleDetail(
     val translations: MutableList<SampleTranslation> = mutableListOf(),
 )
 
-@JvmRecord
 data class SampleTranslation(
     val name: String,
     val description: String?,
@@ -70,7 +67,6 @@ data class SampleTranslation(
     override val ordinal: Int
 ) : LocaleProjection
 
-@JvmRecord
 data class SampleTranslationsBinds(
     val ids: List<Long>,
     val names: MutableList<String>,
