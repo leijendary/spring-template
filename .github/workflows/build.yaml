@@ -20,6 +20,8 @@ jobs:
     timeout-minutes: 120
     environment: ${{ inputs.environment }}
     steps:
+      - name: Setup Docker
+        run: brew install docker
       - name: Setup Gradle (for caching)
         uses: gradle/actions/setup-gradle@v3
       - name: Checkout
