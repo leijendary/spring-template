@@ -30,7 +30,7 @@ jobs:
       - name: Setup Gradle (for caching)
         uses: gradle/gradle-build-action@v2
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Copy Gradle dependencies
         run: cp -R ~/.gradle .gradle/
       - name: Configure AWS credentials
