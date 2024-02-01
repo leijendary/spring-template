@@ -29,7 +29,7 @@ jobs:
         with:
           platforms: linux/arm64
       - name: Setup Gradle (for caching)
-        uses: gradle/gradle-build-action@v2
+        uses: gradle/actions/setup-gradle@v3
       - name: Checkout
         uses: actions/checkout@v4
       - name: Copy Gradle dependencies
@@ -47,7 +47,7 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v5
         with:
-          build-args:
+          build-args: |
             SPRING_PROFILES_ACTIVE=${{ inputs.environment }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
