@@ -8,7 +8,6 @@ data class KafkaTopicProperties(
     val sampleUpdated: KafkaTopic,
     val sampleDeleted: KafkaTopic,
 ) {
-    @JvmRecord
     data class KafkaTopic(val name: String, val partitions: Int = 1, val replicas: Int = 1)
 
     fun values(): List<KafkaTopic> {
