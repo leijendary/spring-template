@@ -8,6 +8,7 @@ import com.leijendary.model.QueryRequest
 import com.leijendary.model.SeekRequest
 import com.leijendary.util.RequestContext.language
 import com.leijendary.util.RequestContext.userIdOrSystem
+import com.leijendary.util.includeString
 import org.springframework.jdbc.core.simple.JdbcClient
 import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Transactional
@@ -15,117 +16,18 @@ import java.util.stream.Stream
 
 private const val ENTITY = "sample"
 private val SOURCE = ErrorSource(pointer = "/data/$ENTITY/id")
-
-private const val SQL_PAGE = """
-    select id, name, description, amount, created_at
-    from $ENTITY
-    where deleted_at is null and name ilike concat('%%', ?::text, '%%')
-    order by created_at desc
-    limit ?
-    offset ?
-"""
-
-private const val SQL_COUNT = """
-    select count(*)
-    from $ENTITY
-    where deleted_at is null and name ilike concat('%%', ?::text, '%%')
-"""
-
-private const val SQL_SEEK = """
-    select s.id, t.name, t.description, amount, created_at
-    from $ENTITY s
-    left join lateral (
-        select name, description
-        from sample_translation
-        where id = s.id
-        order by (language = :language)::int desc, ordinal
-        limit 1
-    ) t on true
-    where
-        deleted_at is null
-        and (s.name ilike concat('%%', :query::text, '%%') or t.name ilike concat('%%', :query::text, '%%'))
-        and (:createdAt::timestamptz is null or :id::bigint is null or (created_at, id) < (:createdAt, :id))
-    order by created_at desc, id desc
-    limit :limit
-"""
-
-private const val SQL_CREATE = """
-    insert into $ENTITY (name, description, amount, created_by, last_modified_by)
-    values (?, ?, ?, ?, ?)
-    returning id, name, description, amount, version, null translations, created_at
-"""
-
-private const val SQL_CREATE_TRANSLATIONS = """
-    insert into sample_translation (id, name, description, language, ordinal)
-    select * from unnest(?::bigint[], ?::text[], ?::text[], ?::text[],  ?::smallint[])
-    returning name, description, language, ordinal
-"""
-
-private const val SQL_GET = """
-    select
-        s.id,
-        coalesce(t.name, s.name) name,
-        coalesce(t.description, s.description) description,
-        amount,
-        version,
-        null translations,
-        created_at
-    from $ENTITY s
-    left join lateral (
-        select name, description
-        from sample_translation
-        where id = s.id
-        order by (language = ?)::int desc, ordinal
-        limit 1
-    ) t on ?
-    where id = ? and deleted_at is null
-"""
-
-private const val SQL_LIST_TRANSLATIONS = """
-    select name, description, language, ordinal 
-    from sample_translation 
-    where id = ?
-"""
-
-private const val SQL_UPDATE = """
-    update $ENTITY
-    set
-        name = ?,
-        description = ?,
-        amount = ?,
-        version = version + 1,
-        last_modified_at = now(),
-        last_modified_by = ?
-    where id = ? and version = ?
-    returning id, name, description, amount, version, null translations, created_at
-"""
-
-private const val SQL_DELETE_TRANSLATIONS = "delete from sample_translation where id = ? and language <> all(?)"
-
-private const val SQL_UPSERT_TRANSLATIONS = """
-    insert into sample_translation (id, name, description, language, ordinal)
-    select * from unnest(?::int[], ?::text[], ?::text[], ?::text[], ?::smallint[])
-    on conflict (id, language)
-    do update
-    set
-        name = excluded.name,
-        description = excluded.description,
-        language = excluded.language,
-        ordinal = excluded.ordinal
-    returning name, description, language, ordinal
-"""
-
-private const val SQL_DELETE = """
-    update $ENTITY
-    set version = version + 1, deleted_by = ?, deleted_at = now()
-    where id = ? and version = ? and deleted_at is null
-"""
-
-private const val SQL_STREAM = """
-    select id, name, description, amount, version, null translations, created_at
-    from $ENTITY
-    where deleted_at is null
-"""
+private val SQL_PAGE = includeString("db/sql/sample/page.sql")
+private val SQL_COUNT = includeString("db/sql/sample/count.sql")
+private val SQL_SEEK = includeString("db/sql/sample/seek.sql")
+private val SQL_CREATE = includeString("db/sql/sample/create.sql")
+private val SQL_CREATE_TRANSLATIONS = includeString("db/sql/sample/translations.create.sql")
+private val SQL_GET = includeString("db/sql/sample/get.sql")
+private val SQL_LIST_TRANSLATIONS = includeString("db/sql/sample/translations.list.sql")
+private val SQL_UPDATE = includeString("db/sql/sample/update.sql")
+private val SQL_DELETE_TRANSLATIONS = includeString("db/sql/sample/translations.delete.sql")
+private val SQL_UPSERT_TRANSLATIONS = includeString("db/sql/sample/translations.upsert.sql")
+private val SQL_DELETE = includeString("db/sql/sample/delete.sql")
+private val SQL_STREAM = includeString("db/sql/sample/stream.sql")
 
 @Repository
 class SampleRepository(private val jdbcClient: JdbcClient) {

@@ -66,6 +66,7 @@ class ApplicationRuntimeHints : RuntimeHintsRegistrar {
 
         // Resources
         hints.resources()
+            .registerPattern("db/sql/*")
             .registerPattern("elasticsearch/settings.json")
             .registerPattern("messages/*")
             .registerPattern("io/awspring/cloud/core/SpringCloudClientConfiguration.properties")

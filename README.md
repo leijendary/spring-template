@@ -100,7 +100,7 @@ Given the following specifications in a kubernetes ran locally (with autoscaling
   / __________ \  |__| \__\ \_____/ .io
 
   execution: local
-     script: k6/sample-admin.js
+     script: k6/sample/admin.js
      output: -
 
   scenarios: (100.00%) 1 scenario, 500 max VUs, 6m0s max duration (incl. graceful stop):

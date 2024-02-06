@@ -19,7 +19,7 @@ export const options = {
   ],
 };
 
-export default function () {
+export default function() {
   group("sample admin CRUD operations", function () {
     const id = create();
     get(id);
