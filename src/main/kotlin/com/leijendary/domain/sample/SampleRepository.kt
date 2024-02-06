@@ -20,14 +20,14 @@ private val SQL_PAGE = includeString("db/sql/sample/page.sql")
 private val SQL_COUNT = includeString("db/sql/sample/count.sql")
 private val SQL_SEEK = includeString("db/sql/sample/seek.sql")
 private val SQL_CREATE = includeString("db/sql/sample/create.sql")
-private val SQL_CREATE_TRANSLATIONS = includeString("db/sql/sample/translations.create.sql")
 private val SQL_GET = includeString("db/sql/sample/get.sql")
-private val SQL_LIST_TRANSLATIONS = includeString("db/sql/sample/translations.list.sql")
 private val SQL_UPDATE = includeString("db/sql/sample/update.sql")
-private val SQL_DELETE_TRANSLATIONS = includeString("db/sql/sample/translations.delete.sql")
-private val SQL_UPSERT_TRANSLATIONS = includeString("db/sql/sample/translations.upsert.sql")
 private val SQL_DELETE = includeString("db/sql/sample/delete.sql")
 private val SQL_STREAM = includeString("db/sql/sample/stream.sql")
+private val SQL_TRANSLATIONS_LIST = includeString("db/sql/sample/translations.list.sql")
+private val SQL_TRANSLATIONS_CREATE = includeString("db/sql/sample/translations.create.sql")
+private val SQL_TRANSLATIONS_UPSERT = includeString("db/sql/sample/translations.upsert.sql")
+private val SQL_TRANSLATIONS_DELETE = includeString("db/sql/sample/translations.delete.sql")
 
 @Repository
 class SampleRepository(private val jdbcClient: JdbcClient) {
@@ -69,7 +69,7 @@ class SampleRepository(private val jdbcClient: JdbcClient) {
     fun createTranslations(id: Long, translations: List<SampleTranslationRequest>): List<SampleTranslation> {
         val binds = translationsBinds(id, translations)
 
-        return jdbcClient.sql(SQL_CREATE_TRANSLATIONS)
+        return jdbcClient.sql(SQL_TRANSLATIONS_CREATE)
             .params(
                 binds.ids.toTypedArray(),
                 binds.names.toTypedArray(),
@@ -92,7 +92,7 @@ class SampleRepository(private val jdbcClient: JdbcClient) {
 
     @Transactional(readOnly = true)
     fun listTranslations(id: Long): List<SampleTranslation> {
-        return jdbcClient.sql(SQL_LIST_TRANSLATIONS)
+        return jdbcClient.sql(SQL_TRANSLATIONS_LIST)
             .param(id)
             .query(SampleTranslation::class.java)
             .list()
@@ -109,11 +109,11 @@ class SampleRepository(private val jdbcClient: JdbcClient) {
     fun updateTranslations(id: Long, translations: List<SampleTranslationRequest>): List<SampleTranslation> {
         val binds = translationsBinds(id, translations)
 
-        jdbcClient.sql(SQL_DELETE_TRANSLATIONS)
+        jdbcClient.sql(SQL_TRANSLATIONS_DELETE)
             .params(id, binds.languages.toTypedArray())
             .update()
 
-        return jdbcClient.sql(SQL_UPSERT_TRANSLATIONS)
+        return jdbcClient.sql(SQL_TRANSLATIONS_UPSERT)
             .params(
                 binds.ids.toTypedArray(),
                 binds.names.toTypedArray(),
