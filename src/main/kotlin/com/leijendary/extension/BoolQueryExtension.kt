@@ -2,7 +2,7 @@ package com.leijendary.extension
 
 import co.elastic.clients.elasticsearch._types.query_dsl.BoolQuery.Builder
 import co.elastic.clients.json.JsonData
-import com.leijendary.util.RequestContext.timeZone
+import com.leijendary.util.timeZone
 import org.springframework.data.elasticsearch.annotations.DateFormat.date
 import org.springframework.data.elasticsearch.core.geo.GeoPoint
 import java.time.LocalDate

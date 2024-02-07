@@ -1,6 +1,6 @@
 package com.leijendary.extension
 
-import com.leijendary.util.BeanContainer.objectMapper
+import com.leijendary.util.objectMapper
 import java.lang.reflect.Field
 
 fun Any.toJson(): String {

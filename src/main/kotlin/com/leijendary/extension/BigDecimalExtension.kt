@@ -1,6 +1,6 @@
 package com.leijendary.extension
 
-import com.leijendary.util.BeanContainer.numberProperties
+import com.leijendary.util.numberProperties
 import java.math.BigDecimal
 import java.math.BigDecimal.ZERO
 import java.math.RoundingMode

@@ -1,6 +1,6 @@
 package com.leijendary.extension
 
-import com.leijendary.util.BeanContainer.transactionManager
+import com.leijendary.util.transactionManager
 import org.springframework.transaction.TransactionStatus
 import org.springframework.transaction.support.TransactionTemplate
 

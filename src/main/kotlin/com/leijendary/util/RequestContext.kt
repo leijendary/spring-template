@@ -2,8 +2,6 @@ package com.leijendary.util
 
 import com.leijendary.error.exception.StatusException
 import com.leijendary.model.ErrorSource
-import com.leijendary.util.BeanContainer.authProperties
-import com.leijendary.util.RequestContext.attributes
 import jakarta.servlet.http.HttpServletRequest
 import org.springframework.context.i18n.LocaleContextHolder.getLocale
 import org.springframework.context.i18n.LocaleContextHolder.getTimeZone
@@ -23,37 +21,35 @@ private val SESSION_NOT_FOUND_EXCEPTION = StatusException(
     source = ErrorSource(header = HEADER_USER_ID)
 )
 
-object RequestContext {
-    val attributes: RequestAttributes
-        get() = RequestContextHolder.currentRequestAttributes()
+val attributes: RequestAttributes
+    get() = RequestContextHolder.currentRequestAttributes()
 
-    val currentRequest: HttpServletRequest
-        get() = (attributes as ServletRequestAttributes).request
+val currentRequest: HttpServletRequest
+    get() = (attributes as ServletRequestAttributes).request
 
-    val userIdOrNull: String?
-        get() = currentRequest.getHeader(HEADER_USER_ID)
+val userIdOrNull: String?
+    get() = currentRequest.getHeader(HEADER_USER_ID)
 
-    val userIdOrThrow: String
-        get() = userIdOrNull ?: throw SESSION_NOT_FOUND_EXCEPTION
+val userIdOrThrow: String
+    get() = userIdOrNull ?: throw SESSION_NOT_FOUND_EXCEPTION
 
-    val userIdOrSystem: String
-        get() = userIdOrNull ?: authProperties.system.principal
+val userIdOrSystem: String
+    get() = userIdOrNull ?: authProperties.system.principal
 
-    val timeZone: TimeZone
-        get() = getTimeZone()
+val timeZone: TimeZone
+    get() = getTimeZone()
 
-    val zoneId: ZoneId
-        get() = timeZone.toZoneId()
+val zoneId: ZoneId
+    get() = timeZone.toZoneId()
 
-    val locale: Locale
-        get() = getLocale()
+val locale: Locale
+    get() = getLocale()
 
-    val language: String
-        get() = locale.language
+val language: String
+    get() = locale.language
 
-    val now: OffsetDateTime
-        get() = OffsetDateTime.now(zoneId)
-}
+val now: OffsetDateTime
+    get() = OffsetDateTime.now(zoneId)
 
 /**
  * Added this here as a utility function to cache objects in to the request scope.

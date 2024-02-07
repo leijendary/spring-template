@@ -1,6 +1,6 @@
 package com.leijendary.extension
 
-import com.leijendary.util.RequestContext.locale
+import com.leijendary.util.locale
 import java.time.OffsetDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle.MEDIUM

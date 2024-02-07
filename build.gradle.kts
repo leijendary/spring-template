@@ -29,11 +29,11 @@ val openApiTasks = File("$rootDir/src/main/resources/specs").listFiles()?.map {
 }
 
 plugins {
-    val kotlinVersion = "2.0.0-Beta2"
+    val kotlinVersion = "2.0.0-Beta3"
 
-    id("org.springframework.boot") version "3.2.1"
+    id("org.springframework.boot") version "3.2.2"
     id("io.spring.dependency-management") version "1.1.4"
-    id("org.graalvm.buildtools.native") version "0.9.28"
+    id("org.graalvm.buildtools.native") version "0.10.0"
     id("org.openapi.generator") version "7.0.1"
     kotlin("jvm") version kotlinVersion
     kotlin("plugin.spring") version kotlinVersion
@@ -74,7 +74,6 @@ repositories {
 dependencies {
     // Kotlin
     implementation(kotlin("reflect"))
-    implementation(kotlin("stdlib-jdk8"))
     testImplementation(kotlin("test"))
 
     // Spring Boot Starter

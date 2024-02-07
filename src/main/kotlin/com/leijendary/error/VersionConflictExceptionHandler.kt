@@ -3,7 +3,7 @@ package com.leijendary.error
 import com.leijendary.error.exception.VersionConflictException
 import com.leijendary.model.ErrorModel
 import com.leijendary.model.ErrorSource
-import com.leijendary.util.RequestContext.locale
+import com.leijendary.util.locale
 import org.springframework.context.MessageSource
 import org.springframework.core.annotation.Order
 import org.springframework.http.HttpStatus.CONFLICT

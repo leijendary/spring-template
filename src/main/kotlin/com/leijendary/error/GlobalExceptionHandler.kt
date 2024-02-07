@@ -3,8 +3,8 @@ package com.leijendary.error
 import com.leijendary.extension.logger
 import com.leijendary.model.ErrorModel
 import com.leijendary.model.ErrorSource
-import com.leijendary.util.RequestContext.locale
 import com.leijendary.util.SpringContext.Companion.isProd
+import com.leijendary.util.locale
 import org.springframework.context.MessageSource
 import org.springframework.core.annotation.Order
 import org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR
@@ -17,16 +17,19 @@ val SOURCE_SERVER_INTERNAL = ErrorSource(pointer = "/server/internal")
 
 @RestControllerAdvice
 @Order
-class GlobalExceptionHandler(messageSource: MessageSource) {
+class GlobalExceptionHandler(private val messageSource: MessageSource) {
     private val log = logger()
-    private val defaultMessage = messageSource.getMessage(CODE_SERVER_ERROR, emptyArray(), locale)
 
     @ExceptionHandler(Exception::class)
     @ResponseStatus(INTERNAL_SERVER_ERROR)
     fun catchException(exception: Exception): List<ErrorModel> {
         log.error("Global Exception", exception)
 
-        val message = if (isProd) defaultMessage else exception.message
+        val message = if (isProd) {
+            messageSource.getMessage(CODE_SERVER_ERROR, emptyArray(), locale)
+        } else {
+            exception.message
+        }
         val error = ErrorModel(code = CODE_SERVER_ERROR, message = message, source = SOURCE_SERVER_INTERNAL)
 
         return listOf(error)

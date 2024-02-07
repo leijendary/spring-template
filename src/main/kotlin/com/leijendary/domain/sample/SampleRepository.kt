@@ -6,9 +6,9 @@ import com.leijendary.model.ErrorSource
 import com.leijendary.model.PageRequest
 import com.leijendary.model.QueryRequest
 import com.leijendary.model.SeekRequest
-import com.leijendary.util.RequestContext.language
-import com.leijendary.util.RequestContext.userIdOrSystem
 import com.leijendary.util.includeString
+import com.leijendary.util.language
+import com.leijendary.util.userIdOrSystem
 import org.springframework.jdbc.core.simple.JdbcClient
 import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Transactional
