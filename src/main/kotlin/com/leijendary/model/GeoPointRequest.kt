@@ -9,7 +9,7 @@ open class GeoPointRequest(open val latitude: Double?, open val longitude: Doubl
     @get:JsonIgnore
     val geoPoint: GeoPoint?
         get() {
-            if (latitude === null || longitude === null) {
+            if (latitude == null || longitude == null) {
                 return null
             }
 
