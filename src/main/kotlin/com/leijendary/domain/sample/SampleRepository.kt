@@ -48,7 +48,7 @@ class SampleRepository(private val jdbcClient: JdbcClient) {
     }
 
     @Transactional(readOnly = true)
-    fun seek(queryRequest: QueryRequest, seekRequest: SeekRequest): List<SampleList> {
+    fun seek(queryRequest: QueryRequest, seekRequest: SeekRequest): MutableList<SampleList> {
         return jdbcClient.sql(SQL_SEEK)
             .param("language", language)
             .param("query", queryRequest.query)

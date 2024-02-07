@@ -11,7 +11,7 @@ data class SeekRequest(val size: Int = 20, val createdAt: OffsetDateTime? = null
     }
 }
 
-data class Seek<T : SeekProjection>(private val request: SeekRequest, val data: List<T>) {
+data class Seek<T : SeekProjection>(private val request: SeekRequest, val data: MutableList<T>) {
     val size = request.size
     var createdAt: OffsetDateTime? = null
     var id: Long? = null
