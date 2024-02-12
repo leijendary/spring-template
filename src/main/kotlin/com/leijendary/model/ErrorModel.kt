@@ -6,5 +6,5 @@ data class ErrorSource(
     val pointer: String? = null,
     val parameter: String? = null,
     val header: String? = null,
-    val meta: Map<String, Any>? = null
+    val meta: MutableMap<String, Any>? = null
 )

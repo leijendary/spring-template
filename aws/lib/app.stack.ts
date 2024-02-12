@@ -127,7 +127,7 @@ export class ApplicationStack extends Stack {
     const credential = SecretManager.fromSecretNameV2(
       this,
       `${id}SecuritySecret-${environment}`,
-      `/${organization}/${environment}/security`
+      `${organization}/${environment}/security`
     );
 
     return {
@@ -146,7 +146,7 @@ export class ApplicationStack extends Stack {
     const credential = DatabaseSecret.fromSecretNameV2(
       this,
       `${id}AuroraSecret-${environment}`,
-      `/${organization}/${environment}/aurora/api`
+      `${organization}/${environment}/aurora/api`
     );
 
     return {
@@ -159,7 +159,7 @@ export class ApplicationStack extends Stack {
     const credential = SecretManager.fromSecretNameV2(
       this,
       `${id}DataStorageSecret-${environment}`,
-      `/${organization}/${environment}/data-storage`
+      `${organization}/${environment}/data-storage`
     );
 
     return {
