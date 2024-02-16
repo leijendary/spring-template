@@ -5,6 +5,7 @@ import com.leijendary.config.DataSourceType.READ_WRITE
 import com.leijendary.config.properties.DataSourcePrimaryProperties
 import com.leijendary.config.properties.DataSourceReadOnlyProperties
 import com.zaxxer.hikari.HikariDataSource
+import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Primary
@@ -21,6 +22,7 @@ enum class DataSourceType {
 }
 
 @Configuration(proxyBeanMethods = false)
+@EnableConfigurationProperties(DataSourcePrimaryProperties::class, DataSourceReadOnlyProperties::class)
 class DatabaseConfiguration {
     @Bean
     @Primary

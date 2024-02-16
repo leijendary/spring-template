@@ -21,7 +21,7 @@ class VersionConflictExceptionHandler(private val messageSource: MessageSource) 
         val message = messageSource.getMessage(code, emptyArray(), locale)
         val source = ErrorSource(
             pointer = "/data/${exception.entity}/version",
-            meta = mapOf("version" to exception.version)
+            meta = mutableMapOf("version" to exception.version)
         )
         val error = ErrorModel(id = exception.id.toString(), code = code, message = message, source = source)
 

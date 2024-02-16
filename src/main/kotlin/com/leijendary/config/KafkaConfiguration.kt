@@ -4,6 +4,7 @@ import com.leijendary.config.properties.KafkaTopicProperties
 import com.leijendary.interceptor.KafkaInterceptor
 import org.apache.kafka.common.TopicPartition
 import org.springframework.boot.autoconfigure.kafka.KafkaProperties
+import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.kafka.annotation.EnableKafka
@@ -21,6 +22,7 @@ private const val TOPIC_DEAD_LETTER_SUFFIX = ".error"
 
 @Configuration(proxyBeanMethods = false)
 @EnableKafka
+@EnableConfigurationProperties(KafkaTopicProperties::class)
 class KafkaConfiguration(
     private val kafkaInterceptor: KafkaInterceptor,
     private val kafkaProperties: KafkaProperties,

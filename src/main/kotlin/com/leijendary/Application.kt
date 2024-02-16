@@ -34,34 +34,34 @@ import org.springframework.scheduling.annotation.EnableAsync
 import javax.security.auth.spi.LoginModule
 import javax.security.sasl.SaslClient
 
+@SpringBootApplication(proxyBeanMethods = false)
+@ImportRuntimeHints(ApplicationRuntimeHints::class)
+@SecurityScheme(name = AUTHORIZATION, type = HTTP, `in` = HEADER, scheme = "bearer", bearerFormat = "JWT")
 @EnableAsync
 @EnableFeignClients
 @EnableRetry
-@ImportRuntimeHints(ApplicationRuntimeHints::class)
-@SecurityScheme(name = AUTHORIZATION, type = HTTP, `in` = HEADER, scheme = "bearer", bearerFormat = "JWT")
-@SpringBootApplication(proxyBeanMethods = false)
 class Application
 
 class ApplicationRuntimeHints : RuntimeHintsRegistrar {
     override fun registerHints(hints: RuntimeHints, classLoader: ClassLoader?) {
-        val categories = listOf(INVOKE_DECLARED_CONSTRUCTORS, INVOKE_DECLARED_METHODS, DECLARED_CLASSES)
+        val categories = arrayOf(INVOKE_DECLARED_CONSTRUCTORS, INVOKE_DECLARED_METHODS, DECLARED_CLASSES)
 
         // Reflection
         hints.reflection()
             .registerType<ChangeLogHistoryServiceFactory> { it.withConstructor(emptyList(), INVOKE) }
-            .registerType<CooperativeStickyAssignor>(*categories.toTypedArray())
-            .registerType<DefaultLogin>(*categories.toTypedArray())
-            .registerType<DefaultLoginCallbackHandler>(*categories.toTypedArray())
-            .registerType<KeyFactorySpi>(*categories.toTypedArray())
-            .registerType<LoginModule>(*categories.toTypedArray())
-            .registerType<Mappings>(*categories.toTypedArray())
-            .registerType<SaslClient>(*categories.toTypedArray())
-            .registerType<SaslClientAuthenticator>(*categories.toTypedArray())
-            .registerType<SaslClientCallbackHandler>(*categories.toTypedArray())
-            .registerType<ScramFormatter>(*categories.toTypedArray())
-            .registerType<ScramLoginModule>(*categories.toTypedArray())
-            .registerType<ScramSaslClient>(*categories.toTypedArray())
-            .registerType<ScramSaslClientFactory>(*categories.toTypedArray())
+            .registerType<CooperativeStickyAssignor>(*categories)
+            .registerType<DefaultLogin>(*categories)
+            .registerType<DefaultLoginCallbackHandler>(*categories)
+            .registerType<KeyFactorySpi>(*categories)
+            .registerType<LoginModule>(*categories)
+            .registerType<Mappings>(*categories)
+            .registerType<SaslClient>(*categories)
+            .registerType<SaslClientAuthenticator>(*categories)
+            .registerType<SaslClientCallbackHandler>(*categories)
+            .registerType<ScramFormatter>(*categories)
+            .registerType<ScramLoginModule>(*categories)
+            .registerType<ScramSaslClient>(*categories)
+            .registerType<ScramSaslClientFactory>(*categories)
             .registerType<UniqueFieldsValidator> { it.withConstructor(emptyList(), INVOKE) }
 
         // Resources
