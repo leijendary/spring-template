@@ -29,7 +29,6 @@ export class FargateServiceConstruct extends FargateService {
       taskDefinition,
       minHealthyPercent: 100,
       maxHealthyPercent: 200,
-      desiredCount: 1,
       circuitBreaker: {
         rollback: true,
       },

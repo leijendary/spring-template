@@ -65,7 +65,7 @@ const logPrefix = `/ecs/fargate/${clusterName}`;
 const assumedBy = new ServicePrincipal("ecs-tasks.amazonaws.com");
 const memory = isProd ? 1024 : 512;
 const memoryPadding = isProd ? 256 : 128;
-const memoryReservation = memory - memoryPadding
+const memoryReservation = memory - memoryPadding;
 const cpu = isProd ? 512 : 256;
 
 export class TaskDefinitionConstruct extends TaskDefinition {
@@ -89,13 +89,17 @@ export class TaskDefinitionConstruct extends TaskDefinition {
 
     super(scope, `${id}TaskDefinition-${environment}`, config);
 
-    this.container(image, credentials, logGroup);
+    this.mainContainer(image, credentials, logGroup);
     this.trustPolicy(taskRole, executionRole);
     this.grantBucketAccess(taskRole, bucket);
     this.grantDistribution(taskRole, distribution);
   }
 
-  private container(image: ContainerImage, credentials: TaskDefinitionConstructCredentialsProps, logGroup: LogGroup) {
+  private mainContainer(
+    image: ContainerImage,
+    credentials: TaskDefinitionConstructCredentialsProps,
+    logGroup: LogGroup
+  ) {
     const config: ContainerDefinitionOptions = {
       containerName: name,
       image,
