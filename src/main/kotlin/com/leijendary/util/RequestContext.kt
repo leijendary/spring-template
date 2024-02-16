@@ -15,6 +15,7 @@ import java.time.ZoneId
 import java.util.*
 
 private const val HEADER_USER_ID = "X-User-ID"
+private const val USER_SYSTEM = "System"
 private val SESSION_NOT_FOUND_EXCEPTION = StatusException(
     code = "access.session.notFound",
     status = UNAUTHORIZED,
@@ -34,7 +35,7 @@ val userIdOrThrow: String
     get() = userIdOrNull ?: throw SESSION_NOT_FOUND_EXCEPTION
 
 val userIdOrSystem: String
-    get() = userIdOrNull ?: authProperties.system.principal
+    get() = userIdOrNull ?: USER_SYSTEM
 
 val timeZone: TimeZone
     get() = getTimeZone()

@@ -1,14 +1,14 @@
 package com.leijendary.extension
 
-import com.leijendary.util.numberProperties
 import java.math.BigDecimal
 import java.math.BigDecimal.ZERO
 import java.math.RoundingMode
+import java.math.RoundingMode.DOWN
 
 private val ONE_HUNDRED = BigDecimal(100)
 
-fun BigDecimal.scaled(roundingMode: RoundingMode = numberProperties.round): BigDecimal {
-    return setScale(numberProperties.scale, roundingMode)
+fun BigDecimal.scaled(scale: Int = 2, mode: RoundingMode = DOWN): BigDecimal {
+    return setScale(scale, mode)
 }
 
 fun BigDecimal.percent(value: BigDecimal): BigDecimal {
