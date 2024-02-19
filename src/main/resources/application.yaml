@@ -82,7 +82,7 @@ spring:
         url:
         publicKeyId:
         privateKey:
-        signatureDuration: 30m
+        signatureDuration: 5h
       s3:
         bucketName:
         signatureDuration: 30m
