@@ -3,6 +3,10 @@ on:
     tags:
       - "*"
 
+concurrency:
+  group: tag
+  cancel-in-progress: true
+
 jobs:
   test-staging:
     name: Test staging

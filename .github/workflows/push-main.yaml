@@ -3,6 +3,10 @@ on:
     branches:
       - main
 
+concurrency:
+  group: dev
+  cancel-in-progress: true
+
 jobs:
   test:
     name: Test

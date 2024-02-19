@@ -3,6 +3,10 @@ on:
     branches:
       - release/**
 
+concurrency:
+  group: test
+  cancel-in-progress: true
+
 jobs:
   test:
     name: Test
