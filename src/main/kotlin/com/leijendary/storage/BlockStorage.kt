@@ -42,7 +42,13 @@ class BlockStorage(
         PUT
     }
 
-    fun sign(image: ImageProjection, request: Request = GET): ImageProjection {
+    fun <T : ImageProjection> cdn(image: T) = image.apply {
+        thumbnail = "${awsCloudFrontProperties.url}/${thumbnail}"
+        preview = "${awsCloudFrontProperties.url}/${preview}"
+        original = "${awsCloudFrontProperties.url}/${original}"
+    }
+
+    fun <T : ImageProjection> sign(image: T, request: Request = GET): T {
         val original = supplyAsync { sign(image.original, request) }
         val preview = supplyAsync { sign(image.preview, request) }
         val thumbnail = supplyAsync { sign(image.thumbnail, request) }
