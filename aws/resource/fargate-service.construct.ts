@@ -1,4 +1,4 @@
-import { RemovalPolicy } from "aws-cdk-lib";
+import { Duration, RemovalPolicy } from "aws-cdk-lib";
 import { ISecurityGroup } from "aws-cdk-lib/aws-ec2";
 import { FargateService, FargateServiceProps, ICluster } from "aws-cdk-lib/aws-ecs";
 import { Rule, Schedule } from "aws-cdk-lib/aws-events";
@@ -36,6 +36,7 @@ export class FargateServiceConstruct extends FargateService {
         services: [
           {
             portMappingName: name,
+            perRequestTimeout: Duration.minutes(5),
           },
         ],
       },
