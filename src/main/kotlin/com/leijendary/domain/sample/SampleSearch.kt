@@ -7,11 +7,12 @@ import org.springframework.data.annotation.Id
 import org.springframework.data.elasticsearch.annotations.*
 import org.springframework.data.elasticsearch.annotations.DateFormat.date_time
 import org.springframework.data.elasticsearch.annotations.FieldType.*
+import org.springframework.data.elasticsearch.annotations.WriteTypeHint.FALSE
 import org.springframework.data.elasticsearch.core.suggest.Completion
 import java.math.BigDecimal
 import java.time.OffsetDateTime
 
-@Document(indexName = INDEX_NAME)
+@Document(indexName = INDEX_NAME, writeTypeHint = FALSE)
 @Setting(settingPath = "/elasticsearch/settings.json")
 data class SampleSearch(
     @Id
