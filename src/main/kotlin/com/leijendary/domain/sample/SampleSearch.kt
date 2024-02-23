@@ -18,7 +18,10 @@ data class SampleSearch(
     @Field(type = FieldType.Long)
     var id: Long,
 
-    @Field(type = Text, analyzer = "ngram_analyzer", searchAnalyzer = "standard")
+    @MultiField(
+        mainField = Field(type = Text, analyzer = "ngram_analyzer", searchAnalyzer = "standard"),
+        otherFields = [InnerField(suffix = "keyword", type = Keyword)]
+    )
     var name: String,
 
     @Field(type = Text)
