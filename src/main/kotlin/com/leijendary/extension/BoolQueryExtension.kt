@@ -2,8 +2,7 @@ package com.leijendary.extension
 
 import co.elastic.clients.elasticsearch._types.query_dsl.BoolQuery.Builder
 import co.elastic.clients.json.JsonData
-import com.leijendary.util.timeZone
-import org.springframework.data.elasticsearch.annotations.DateFormat.date
+import org.springframework.data.elasticsearch.annotations.DateFormat
 import org.springframework.data.elasticsearch.core.geo.GeoPoint
 import java.time.LocalDate
 import java.time.OffsetDateTime
@@ -50,16 +49,12 @@ fun Builder.geoDistance(geoPoint: GeoPoint, radius: Double, field: String) = app
     }
 }
 
-fun Builder.dateTimeRange(start: LocalDate, end: LocalDate?, field: String) = apply {
-    val format = date.name
-    val timeZoneId = timeZone.id
-
+fun Builder.dateRange(start: LocalDate, end: LocalDate?, field: String) = apply {
     must { must ->
         must.range { range ->
             range.field(field)
                 .gte(JsonData.of(start.toString()))
-                .format(format)
-                .timeZone(timeZoneId)
+                .format(DateFormat.date.name)
                 .apply {
                     end?.let { lte(JsonData.of(it.toString())) }
                 }
@@ -80,19 +75,11 @@ fun Builder.dateTimeRange(start: OffsetDateTime, end: OffsetDateTime?, field: St
 }
 
 fun Builder.withinAnyDate(dates: Set<LocalDate>, field: String) = apply {
-    val format = date.name
-    val timeZoneId = timeZone.id
-
-    dates.stream()
-        .map(LocalDate::toString)
-        .map(JsonData::of)
-        .forEach { date ->
-            should { should ->
-                should.range {
-                    it.field(field).gte(date).lte(date).format(format).timeZone(timeZoneId)
-                }
-            }
+    dates.map { JsonData.of(it.toString()) }.forEach { date ->
+        should { should ->
+            should.range { it.field(field).gte(date).lte(date).format(DateFormat.date.name) }
         }
+    }
 
     minimumShouldMatch("1")
 }
