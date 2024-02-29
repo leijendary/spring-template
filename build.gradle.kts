@@ -31,9 +31,9 @@ val openApiTasks = File("$rootDir/src/main/resources/specs").listFiles()?.map {
 plugins {
     val kotlinVersion = "2.0.0-Beta3"
 
-    id("org.springframework.boot") version "3.2.2"
+    id("org.springframework.boot") version "3.2.3"
     id("io.spring.dependency-management") version "1.1.4"
-    id("org.graalvm.buildtools.native") version "0.10.0"
+    id("org.graalvm.buildtools.native") version "0.10.1"
     id("org.openapi.generator") version "7.0.1"
     kotlin("jvm") version kotlinVersion
     kotlin("plugin.spring") version kotlinVersion
@@ -127,7 +127,7 @@ dependencies {
     }
 
     // Observability and Metrics
-    implementation(platform("io.micrometer:micrometer-tracing-bom:1.2.1"))
+    implementation(platform("io.micrometer:micrometer-tracing-bom:1.2.3"))
     implementation("io.micrometer:micrometer-registry-prometheus")
     implementation("io.micrometer:micrometer-tracing-bridge-otel")
     implementation("io.opentelemetry:opentelemetry-exporter-otlp")
@@ -141,7 +141,7 @@ dependencies {
     testImplementation("org.mockito:mockito-inline:5.2.0")
 
     // Test Containers
-    testImplementation(platform("org.testcontainers:testcontainers-bom:1.19.3"))
+    testImplementation(platform("org.testcontainers:testcontainers-bom:1.19.6"))
     testImplementation("org.testcontainers:junit-jupiter")
     testImplementation("org.testcontainers:elasticsearch")
     testImplementation("org.testcontainers:kafka")

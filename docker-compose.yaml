@@ -1,0 +1,41 @@
+version: "3.9"
+services:
+  spring-template:
+    build: .
+    container_name: spring-template
+    ports:
+      - "80:80"
+    env_file: .docker.env
+    networks:
+      - elasticsearch_network
+      - postgres_network
+      - redis_network
+      - kafka_network
+      - jaeger_network
+    healthcheck:
+      test: [ "CMD-SHELL", "wget -qO- http://localhost/actuator/health || exit 1" ]
+    deploy:
+      resources:
+        reservations:
+          memory: 256M
+          cpus: "0.25"
+        limits:
+          memory: 512M
+          cpus: "0.25"
+
+networks:
+  elasticsearch_network:
+    name: elasticsearch_network
+    external: true
+  postgres_network:
+    name: postgres_network
+    external: true
+  redis_network:
+    name: redis_network
+    external: true
+  kafka_network:
+    name: kafka_network
+    external: true
+  jaeger_network:
+    name: jaeger_network
+    external: true
