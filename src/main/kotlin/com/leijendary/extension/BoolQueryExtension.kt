@@ -5,7 +5,9 @@ import co.elastic.clients.json.JsonData
 import org.springframework.data.elasticsearch.annotations.DateFormat
 import org.springframework.data.elasticsearch.core.geo.GeoPoint
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.OffsetDateTime
+import java.time.format.DateTimeFormatter.ISO_LOCAL_DATE_TIME
 
 fun Builder.shouldMatch(query: String, vararg fields: String) = apply {
     fields.forEach { field ->
@@ -57,6 +59,18 @@ fun Builder.dateRange(start: LocalDate, end: LocalDate?, field: String) = apply 
                 .format(DateFormat.date.name)
                 .apply {
                     end?.let { lte(JsonData.of(it.toString())) }
+                }
+        }
+    }
+}
+
+fun Builder.dateTimeRange(start: LocalDateTime, end: LocalDateTime?, field: String) = apply {
+    must { must ->
+        must.range { range ->
+            range.field(field)
+                .gte(JsonData.of(start.format(ISO_LOCAL_DATE_TIME)))
+                .apply {
+                    end?.let { lte(JsonData.of(it.format(ISO_LOCAL_DATE_TIME))) }
                 }
         }
     }
