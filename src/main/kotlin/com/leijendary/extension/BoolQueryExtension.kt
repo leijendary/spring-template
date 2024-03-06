@@ -8,6 +8,7 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.OffsetDateTime
 import java.time.format.DateTimeFormatter.ISO_LOCAL_DATE_TIME
+import java.time.temporal.ChronoUnit.SECONDS
 
 fun Builder.shouldMatch(query: String, vararg fields: String) = apply {
     fields.forEach { field ->
@@ -68,9 +69,9 @@ fun Builder.dateTimeRange(start: LocalDateTime, end: LocalDateTime?, field: Stri
     must { must ->
         must.range { range ->
             range.field(field)
-                .gte(JsonData.of(start.format(ISO_LOCAL_DATE_TIME)))
+                .gte(JsonData.of(start.truncatedTo(SECONDS).format(ISO_LOCAL_DATE_TIME)))
                 .apply {
-                    end?.let { lte(JsonData.of(it.format(ISO_LOCAL_DATE_TIME))) }
+                    end?.let { lte(JsonData.of(it.truncatedTo(SECONDS).format(ISO_LOCAL_DATE_TIME))) }
                 }
         }
     }
