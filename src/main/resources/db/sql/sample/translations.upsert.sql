@@ -1,5 +1,5 @@
 insert into sample_translation (id, name, description, language, ordinal)
-select * from unnest(?::int[], ?::text[], ?::text[], ?::text[], ?::smallint[])
+select * from unnest(:ids::bigint[], :names::text[], :descriptions::text[], :languages::text[], :ordinals::smallint[])
 on conflict (id, language) do update
 set
     name = excluded.name,

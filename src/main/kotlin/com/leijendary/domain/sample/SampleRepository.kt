@@ -34,7 +34,9 @@ class SampleRepository(private val jdbcClient: JdbcClient) {
     @Transactional(readOnly = true)
     fun page(queryRequest: QueryRequest, pageRequest: PageRequest): List<SampleList> {
         return jdbcClient.sql(SQL_PAGE)
-            .params(queryRequest.query, pageRequest.limit(), pageRequest.offset())
+            .param("query", queryRequest.query)
+            .param("limit", pageRequest.limit())
+            .param("offset", pageRequest.offset())
             .query(SampleList::class.java)
             .list()
     }
@@ -42,7 +44,7 @@ class SampleRepository(private val jdbcClient: JdbcClient) {
     @Transactional(readOnly = true)
     fun count(queryRequest: QueryRequest): Long {
         return jdbcClient.sql(SQL_COUNT)
-            .param(queryRequest.query)
+            .param("query", queryRequest.query)
             .query(Long::class.java)
             .single()
     }
@@ -50,18 +52,22 @@ class SampleRepository(private val jdbcClient: JdbcClient) {
     @Transactional(readOnly = true)
     fun seek(queryRequest: QueryRequest, seekRequest: SeekRequest): MutableList<SampleList> {
         return jdbcClient.sql(SQL_SEEK)
-            .param("language", language)
-            .param("query", queryRequest.query)
-            .param("limit", seekRequest.limit())
-            .param("createdAt", seekRequest.createdAt)
             .param("id", seekRequest.id)
+            .param("query", queryRequest.query)
+            .param("language", language)
+            .param("createdAt", seekRequest.createdAt)
+            .param("limit", seekRequest.limit())
             .query(SampleList::class.java)
             .list()
     }
 
     fun create(request: SampleRequest): SampleDetail {
         return jdbcClient.sql(SQL_CREATE)
-            .params(request.name, request.description, request.amount, userIdOrSystem, userIdOrSystem)
+            .param("name", request.name)
+            .param("description", request.description)
+            .param("amount", request.amount)
+            .param("createdBy", userIdOrSystem)
+            .param("lastModifiedBy", userIdOrSystem)
             .query(SampleDetail::class.java)
             .single()
     }
@@ -70,13 +76,11 @@ class SampleRepository(private val jdbcClient: JdbcClient) {
         val binds = translationsBinds(id, translations)
 
         return jdbcClient.sql(SQL_TRANSLATIONS_CREATE)
-            .params(
-                binds.ids.toTypedArray(),
-                binds.names.toTypedArray(),
-                binds.descriptions.toTypedArray(),
-                binds.languages.toTypedArray(),
-                binds.ordinals.toTypedArray()
-            )
+            .param("ids", binds.ids.toTypedArray())
+            .param("names", binds.names.toTypedArray())
+            .param("descriptions", binds.descriptions.toTypedArray())
+            .param("languages", binds.languages.toTypedArray())
+            .param("ordinals", binds.ordinals.toTypedArray())
             .query(SampleTranslation::class.java)
             .list()
     }
@@ -84,7 +88,9 @@ class SampleRepository(private val jdbcClient: JdbcClient) {
     @Transactional(readOnly = true)
     fun get(id: Long, translate: Boolean): SampleDetail {
         return jdbcClient.sql(SQL_GET)
-            .params(language, translate, id)
+            .param("id", id)
+            .param("language", language)
+            .param("translate", translate)
             .query(SampleDetail::class.java)
             .optional()
             .orElseThrow { ResourceNotFoundException(id, ENTITY, SOURCE) }
@@ -93,14 +99,19 @@ class SampleRepository(private val jdbcClient: JdbcClient) {
     @Transactional(readOnly = true)
     fun listTranslations(id: Long): List<SampleTranslation> {
         return jdbcClient.sql(SQL_TRANSLATIONS_LIST)
-            .param(id)
+            .param("id", id)
             .query(SampleTranslation::class.java)
             .list()
     }
 
     fun update(id: Long, version: Int, request: SampleRequest): SampleDetail {
         return jdbcClient.sql(SQL_UPDATE)
-            .params(request.name, request.description, request.amount, userIdOrSystem, id, version)
+            .param("id", id)
+            .param("version", version)
+            .param("name", request.name)
+            .param("description", request.description)
+            .param("amount", request.amount)
+            .param("lastModifiedBy", userIdOrSystem)
             .query(SampleDetail::class.java)
             .optional()
             .orElseThrow { VersionConflictException(id, ENTITY, version) }
@@ -110,24 +121,25 @@ class SampleRepository(private val jdbcClient: JdbcClient) {
         val binds = translationsBinds(id, translations)
 
         jdbcClient.sql(SQL_TRANSLATIONS_DELETE)
-            .params(id, binds.languages.toTypedArray())
+            .param("id", id)
+            .param("languages", binds.languages.toTypedArray())
             .update()
 
         return jdbcClient.sql(SQL_TRANSLATIONS_UPSERT)
-            .params(
-                binds.ids.toTypedArray(),
-                binds.names.toTypedArray(),
-                binds.descriptions.toTypedArray(),
-                binds.languages.toTypedArray(),
-                binds.ordinals.toTypedArray()
-            )
+            .param("ids", binds.ids.toTypedArray())
+            .param("names", binds.names.toTypedArray())
+            .param("descriptions", binds.descriptions.toTypedArray())
+            .param("languages", binds.languages.toTypedArray())
+            .param("ordinals", binds.ordinals.toTypedArray())
             .query(SampleTranslation::class.java)
             .list()
     }
 
     fun delete(id: Long, version: Int) {
         val count = jdbcClient.sql(SQL_DELETE)
-            .params(userIdOrSystem, id, version)
+            .param("id", id)
+            .param("version", version)
+            .param("deletedBy", userIdOrSystem)
             .update()
 
         if (count == 0) {

@@ -1,1 +1,1 @@
-delete from sample_translation where id = ? and language <> all(?)
+delete from sample_translation where id = :id and language <> all(:languages)

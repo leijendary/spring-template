@@ -11,8 +11,8 @@ left join lateral (
     select name, description
     from sample_translation
     where id = s.id
-    order by (language = ?)::int desc, ordinal
+    order by (language = :language)::int desc, ordinal
     limit 1
-) t on ?
-where id = ?
+) t on :translate
+where id = :id
 and deleted_at is null

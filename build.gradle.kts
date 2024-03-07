@@ -126,6 +126,9 @@ dependencies {
         }
     }
 
+    // Jackson
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+
     // Observability and Metrics
     implementation(platform("io.micrometer:micrometer-tracing-bom:1.2.3"))
     implementation("io.micrometer:micrometer-registry-prometheus")
