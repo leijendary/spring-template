@@ -20,6 +20,8 @@ management:
   endpoint:
     health:
       showDetails: ALWAYS
+    prometheus:
+      enabled: true
   endpoints:
     web:
       exposure:

@@ -1,6 +1,6 @@
 package com.leijendary.filter
 
-import io.prometheus.client.exemplars.tracer.common.SpanContextSupplier
+import io.micrometer.tracing.Tracer
 import jakarta.servlet.FilterChain
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
@@ -13,11 +13,12 @@ private const val SAMPLED = "01"
 private const val NOT_SAMPLED = "00"
 
 @Component
-class TraceFilter(private val span: SpanContextSupplier) : OncePerRequestFilter() {
+class TraceFilter(private val tracer: Tracer) : OncePerRequestFilter() {
     override fun doFilterInternal(request: HttpServletRequest, response: HttpServletResponse, chain: FilterChain) {
-        val flag = if (span.isSampled) SAMPLED else NOT_SAMPLED
+        val span = tracer.currentSpan()?.context() ?: tracer.nextSpan().context()
+        val flag = if (span.sampled()) SAMPLED else NOT_SAMPLED
 
-        response.addHeader(HEADER, "$VERSION-${span.traceId}-${span.spanId}-$flag")
+        response.addHeader(HEADER, "$VERSION-${span.traceId()}-${span.spanId()}-$flag")
 
         chain.doFilter(request, response)
     }

@@ -29,9 +29,9 @@ val openApiTasks = File("$rootDir/src/main/resources/specs").listFiles()?.map {
 }
 
 plugins {
-    val kotlinVersion = "2.0.0-Beta3"
+    val kotlinVersion = "2.0.0-Beta4"
 
-    id("org.springframework.boot") version "3.2.3"
+    id("org.springframework.boot") version "3.3.0-SNAPSHOT"
     id("io.spring.dependency-management") version "1.1.4"
     id("org.graalvm.buildtools.native") version "0.10.1"
     id("org.openapi.generator") version "7.0.1"
@@ -87,7 +87,7 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 
     // Spring Cloud Starter
-    implementation(platform("org.springframework.cloud:spring-cloud-dependencies:2023.0.0"))
+    implementation(platform("org.springframework.cloud:spring-cloud-dependencies:2023.0.1-SNAPSHOT"))
     implementation("org.springframework.cloud:spring-cloud-starter-openfeign")
 
     // Spring Kafka
@@ -114,17 +114,7 @@ dependencies {
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 
     // Feign
-    // https://github.com/spring-cloud/spring-cloud-openfeign/issues/959
-    implementation("io.github.openfeign:feign-core") {
-        version {
-            strictly("12.5")
-        }
-    }
-    implementation("io.github.openfeign:feign-micrometer") {
-        version {
-            strictly("12.5")
-        }
-    }
+    implementation("io.github.openfeign:feign-micrometer")
 
     // Jackson
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
@@ -144,7 +134,7 @@ dependencies {
     testImplementation("org.mockito:mockito-inline:5.2.0")
 
     // Test Containers
-    testImplementation(platform("org.testcontainers:testcontainers-bom:1.19.6"))
+    testImplementation(platform("org.testcontainers:testcontainers-bom:1.19.7"))
     testImplementation("org.testcontainers:junit-jupiter")
     testImplementation("org.testcontainers:elasticsearch")
     testImplementation("org.testcontainers:kafka")
