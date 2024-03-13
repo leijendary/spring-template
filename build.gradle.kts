@@ -98,7 +98,7 @@ dependencies {
     implementation("org.springframework.retry:spring-retry")
 
     // AWS
-    implementation(platform("software.amazon.awssdk:bom:2.22.7"))
+    implementation(platform("software.amazon.awssdk:bom:2.25.7"))
     implementation("software.amazon.awssdk:cloudfront")
 
     // AWS Cloud
@@ -120,7 +120,7 @@ dependencies {
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 
     // Observability and Metrics
-    implementation(platform("io.micrometer:micrometer-tracing-bom:1.2.3"))
+    implementation(platform("io.micrometer:micrometer-tracing-bom:1.2.4"))
     implementation("io.micrometer:micrometer-registry-prometheus")
     implementation("io.micrometer:micrometer-tracing-bridge-otel")
     implementation("io.opentelemetry:opentelemetry-exporter-otlp")
