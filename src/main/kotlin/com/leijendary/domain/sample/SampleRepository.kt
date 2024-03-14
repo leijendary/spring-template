@@ -61,13 +61,13 @@ class SampleRepository(private val jdbcClient: JdbcClient) {
             .list()
     }
 
-    fun create(request: SampleRequest): SampleDetail {
+    fun create(request: SampleRequest, userId: String = userIdOrSystem): SampleDetail {
         return jdbcClient.sql(SQL_CREATE)
             .param("name", request.name)
             .param("description", request.description)
             .param("amount", request.amount)
-            .param("createdBy", userIdOrSystem)
-            .param("lastModifiedBy", userIdOrSystem)
+            .param("createdBy", userId)
+            .param("lastModifiedBy", userId)
             .query(SampleDetail::class.java)
             .single()
     }
@@ -104,14 +104,14 @@ class SampleRepository(private val jdbcClient: JdbcClient) {
             .list()
     }
 
-    fun update(id: Long, version: Int, request: SampleRequest): SampleDetail {
+    fun update(id: Long, version: Int, request: SampleRequest, userId: String = userIdOrSystem): SampleDetail {
         return jdbcClient.sql(SQL_UPDATE)
             .param("id", id)
             .param("version", version)
             .param("name", request.name)
             .param("description", request.description)
             .param("amount", request.amount)
-            .param("lastModifiedBy", userIdOrSystem)
+            .param("lastModifiedBy", userId)
             .query(SampleDetail::class.java)
             .optional()
             .orElseThrow { VersionConflictException(id, ENTITY, version) }
@@ -135,11 +135,11 @@ class SampleRepository(private val jdbcClient: JdbcClient) {
             .list()
     }
 
-    fun delete(id: Long, version: Int) {
+    fun delete(id: Long, version: Int, userId: String = userIdOrSystem) {
         val count = jdbcClient.sql(SQL_DELETE)
             .param("id", id)
             .param("version", version)
-            .param("deletedBy", userIdOrSystem)
+            .param("deletedBy", userId)
             .update()
 
         if (count == 0) {
