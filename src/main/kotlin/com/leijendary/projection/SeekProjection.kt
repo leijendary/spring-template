@@ -1,8 +1,8 @@
 package com.leijendary.projection
 
-import java.time.OffsetDateTime
+import java.time.Instant
 
 interface SeekProjection {
-    val createdAt: OffsetDateTime
+    val createdAt: Instant
     val id: Long
 }

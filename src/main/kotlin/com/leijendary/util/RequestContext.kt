@@ -10,7 +10,6 @@ import org.springframework.web.context.request.RequestAttributes
 import org.springframework.web.context.request.RequestAttributes.SCOPE_REQUEST
 import org.springframework.web.context.request.RequestContextHolder
 import org.springframework.web.context.request.ServletRequestAttributes
-import java.time.OffsetDateTime
 import java.time.ZoneId
 import java.util.*
 
@@ -48,9 +47,6 @@ val locale: Locale
 
 val language: String
     get() = locale.language
-
-val now: OffsetDateTime
-    get() = OffsetDateTime.now(zoneId)
 
 /**
  * Added this here as a utility function to cache objects in to the request scope.

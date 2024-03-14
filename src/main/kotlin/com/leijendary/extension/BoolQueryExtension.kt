@@ -4,9 +4,9 @@ import co.elastic.clients.elasticsearch._types.query_dsl.BoolQuery.Builder
 import co.elastic.clients.json.JsonData
 import org.springframework.data.elasticsearch.annotations.DateFormat
 import org.springframework.data.elasticsearch.core.geo.GeoPoint
+import java.time.Instant
 import java.time.LocalDate
 import java.time.LocalDateTime
-import java.time.OffsetDateTime
 import java.time.format.DateTimeFormatter.ISO_LOCAL_DATE_TIME
 import java.time.temporal.ChronoUnit.SECONDS
 
@@ -77,7 +77,7 @@ fun Builder.dateTimeRange(start: LocalDateTime, end: LocalDateTime?, field: Stri
     }
 }
 
-fun Builder.dateTimeRange(start: OffsetDateTime, end: OffsetDateTime?, field: String) = apply {
+fun Builder.dateTimeRange(start: Instant, end: Instant?, field: String) = apply {
     must { must ->
         must.range { range ->
             range.field(field)

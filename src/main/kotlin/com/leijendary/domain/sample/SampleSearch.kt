@@ -9,7 +9,7 @@ import org.springframework.data.elasticsearch.annotations.DateFormat.date_time
 import org.springframework.data.elasticsearch.annotations.FieldType.*
 import org.springframework.data.elasticsearch.core.suggest.Completion
 import java.math.BigDecimal
-import java.time.OffsetDateTime
+import java.time.Instant
 
 @Document(indexName = INDEX_NAME)
 @Setting(settingPath = "/elasticsearch/settings.json")
@@ -34,7 +34,7 @@ data class SampleSearch(
     override var translations: List<SampleSearchTranslation> = emptyList(),
 
     @Field(type = Date, format = [date_time])
-    var createdAt: OffsetDateTime,
+    var createdAt: Instant,
 
     @CompletionField
     var completion: Completion,
