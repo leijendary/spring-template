@@ -12,12 +12,11 @@ data class SeekRequest(val size: Int = 20, val createdAt: Instant? = null, val i
 }
 
 data class Seek<T : SeekProjection>(private val request: SeekRequest, val data: MutableList<T>) {
-    val size = request.size
     var createdAt: Instant? = null
     var id: Long? = null
 
     init {
-        if (data.size > size) {
+        if (data.size > request.size) {
             data.removeLast()
             data.lastOrNull()?.let {
                 this.createdAt = it.createdAt
