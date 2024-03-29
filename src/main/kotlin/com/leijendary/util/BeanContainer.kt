@@ -10,5 +10,5 @@ import org.springframework.transaction.support.TransactionTemplate
 val blockStorage by lazy { getBean(BlockStorage::class) }
 val encryption by lazy { getBean(Encryption::class) }
 val objectMapper by lazy { getBean(ObjectMapper::class) }
-val transactionTemplate by lazy { getBean(TransactionTemplate::class) }
 val readOnlyTransactionalTemplate by lazy { getBean(BEAN_READ_ONLY_TRANSACTION_TEMPLATE, TransactionTemplate::class) }
+val transactionTemplate by lazy { getBean(TransactionTemplate::class) }
