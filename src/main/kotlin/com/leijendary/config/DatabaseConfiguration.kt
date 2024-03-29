@@ -14,6 +14,7 @@ import org.springframework.jdbc.support.JdbcTransactionManager
 import org.springframework.stereotype.Component
 import org.springframework.transaction.TransactionDefinition
 import org.springframework.transaction.support.TransactionSynchronizationManager.*
+import org.springframework.transaction.support.TransactionTemplate
 import javax.sql.DataSource
 
 enum class DataSourceType {
@@ -24,6 +25,10 @@ enum class DataSourceType {
 @Configuration(proxyBeanMethods = false)
 @EnableConfigurationProperties(DataSourcePrimaryProperties::class, DataSourceReadOnlyProperties::class)
 class DatabaseConfiguration {
+    companion object {
+        const val BEAN_READ_ONLY_TRANSACTION_TEMPLATE = "readOnlyTransactionTemplate"
+    }
+
     @Bean
     @Primary
     fun dataSource(primaryDataSource: DataSource, readOnlyDataSource: DataSource): DataSource {
@@ -38,6 +43,17 @@ class DatabaseConfiguration {
     @Bean
     fun readOnlyDataSource(config: DataSourceReadOnlyProperties): DataSource {
         return HikariDataSource(config)
+    }
+
+    @Primary
+    @Bean
+    fun transactionTemplate(transactionManager: JdbcTransactionManager): TransactionTemplate {
+        return TransactionTemplate(transactionManager)
+    }
+
+    @Bean(BEAN_READ_ONLY_TRANSACTION_TEMPLATE)
+    fun readOnlyTransactionTemplate(transactionManager: JdbcTransactionManager): TransactionTemplate {
+        return TransactionTemplate(transactionManager).apply { isReadOnly = true }
     }
 }
 

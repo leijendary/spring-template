@@ -14,9 +14,9 @@ import java.time.temporal.ChronoUnit.SECONDS
 class OpenApiConfiguration {
     init {
         val schema = Schema<LocalDateTime>()
-        schema.type = "string"
-        schema.format = "yyyyMMdd'T'HH:mm:ss"
-        schema.example = LocalDateTime.now().truncatedTo(SECONDS).format(ISO_LOCAL_DATE_TIME)
+            .type("string")
+            .format("yyyyMMdd'T'HH:mm:ss")
+            .example(LocalDateTime.now().truncatedTo(SECONDS).format(ISO_LOCAL_DATE_TIME))
 
         SpringDocUtils.getConfig().replaceWithSchema(LocalDateTime::class.java, schema)
     }

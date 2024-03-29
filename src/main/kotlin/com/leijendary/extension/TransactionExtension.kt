@@ -1,8 +1,8 @@
 package com.leijendary.extension
 
-import com.leijendary.util.transactionManager
+import com.leijendary.util.readOnlyTransactionalTemplate
+import com.leijendary.util.transactionTemplate
 import org.springframework.transaction.TransactionStatus
-import org.springframework.transaction.support.TransactionTemplate
 
 /**
  * Use this function if you don't want your whole method to run under a single transaction.
@@ -10,7 +10,7 @@ import org.springframework.transaction.support.TransactionTemplate
  * transaction but does not necessarily need to run in a transaction.
  */
 fun <T> transactional(readOnly: Boolean = false, function: (TransactionStatus) -> T): T {
-    val template = TransactionTemplate(transactionManager).apply { isReadOnly = readOnly }
+    val template = if (readOnly) readOnlyTransactionalTemplate else transactionTemplate
 
     return template.execute(function)!!
 }

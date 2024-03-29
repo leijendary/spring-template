@@ -17,6 +17,10 @@ class SpringContext : ApplicationContextAware {
         fun <T : Any> getBean(beanClass: KClass<T>): T {
             return context.getBean(beanClass.java)
         }
+
+        fun <T : Any> getBean(name: String, beanClass: KClass<T>): T {
+            return context.getBean(name, beanClass.java)
+        }
     }
 
     override fun setApplicationContext(applicationContext: ApplicationContext) {
