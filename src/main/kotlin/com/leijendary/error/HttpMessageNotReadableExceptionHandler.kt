@@ -61,8 +61,7 @@ class HttpMessageNotReadableExceptionHandler(private val messageSource: MessageS
         val source = source(exception.path)
         val code = "error.format.incompatible"
         val field = exception.path.lastOrNull()?.fieldName ?: "body"
-        val valueType = exception.targetType.simpleName
-        val arguments = arrayOf(field, valueType)
+        val arguments = arrayOf(field, exception.targetType.simpleName)
         val message = messageSource.getMessage(code, arguments, locale)
 
         return ErrorModel(code = code, message = message, source = source)
@@ -78,8 +77,7 @@ class HttpMessageNotReadableExceptionHandler(private val messageSource: MessageS
 
     private fun source(path: List<Reference>): ErrorSource {
         val prefix = if (path.isEmpty()) "/body" else "/body/"
-        val pointer = path.map { if (it.index >= 0) it.index else it.fieldName }
-            .joinToString("/", prefix = prefix)
+        val pointer = path.map { if (it.index >= 0) it.index else it.fieldName }.joinToString("/", prefix = prefix)
 
         return ErrorSource(pointer = pointer)
     }

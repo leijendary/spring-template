@@ -36,18 +36,13 @@ class BindExceptionHandler(private val messageSource: MessageSource) {
             .map { it.toIntOrNull() ?: it }
             .toArray()
             .joinToString("/", prefix = prefix)
-        val source = if (isBindingFailure) {
-            ErrorSource(parameter = location)
-        } else {
-            ErrorSource(pointer = location)
-        }
+        val source = if (isBindingFailure) ErrorSource(parameter = location) else ErrorSource(pointer = location)
         val code = if (!error.shouldRenderDefaultMessage()) {
             error.defaultMessage ?: "validation.binding.invalidValue"
         } else {
             "validation.binding.invalidValue"
         }
-        val arguments = error.arguments
-        val message = messageSource.getMessage(code, arguments, code, locale)
+        val message = messageSource.getMessage(code, error.arguments, code, locale)
 
         return ErrorModel(code = code, message = message, source = source)
     }
