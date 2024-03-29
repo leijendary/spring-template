@@ -117,6 +117,7 @@ class SampleRepository(private val jdbcClient: JdbcClient) {
             .orElseThrow { VersionConflictException(id, ENTITY, version) }
     }
 
+    @Transactional
     fun updateTranslations(id: Long, translations: List<SampleTranslationRequest>): List<SampleTranslation> {
         val binds = translationsBinds(id, translations)
 
