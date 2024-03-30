@@ -47,15 +47,9 @@ fun String.lowerCaseFirst(): String {
     return String(chars)
 }
 
-fun String.isInt() = when (toIntOrNull()) {
-    null -> false
-    else -> true
-}
+fun String.isInt() = toIntOrNull() !== null
 
-fun String.isLong() = when (toLongOrNull()) {
-    null -> false
-    else -> true
-}
+fun String.isLong() = toLongOrNull() !== null
 
 fun String.content(): String {
     return ClassPathResource(this).inputStream.use { StreamUtils.copyToString(it, UTF_8) }
