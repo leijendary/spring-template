@@ -2,11 +2,11 @@ package com.leijendary.domain.sample
 
 import com.leijendary.error.exception.ResourceNotFoundException
 import com.leijendary.error.exception.VersionConflictException
+import com.leijendary.extension.content
 import com.leijendary.model.ErrorSource
 import com.leijendary.model.PageRequest
 import com.leijendary.model.QueryRequest
 import com.leijendary.model.SeekRequest
-import com.leijendary.util.embedded
 import com.leijendary.util.language
 import com.leijendary.util.userIdOrSystem
 import org.springframework.jdbc.core.simple.JdbcClient
@@ -16,18 +16,18 @@ import java.util.stream.Stream
 
 private const val ENTITY = "sample"
 private val SOURCE = ErrorSource(pointer = "/data/$ENTITY/id")
-private val SQL_PAGE = embedded("db/sql/sample/page.sql")
-private val SQL_COUNT = embedded("db/sql/sample/count.sql")
-private val SQL_SEEK = embedded("db/sql/sample/seek.sql")
-private val SQL_CREATE = embedded("db/sql/sample/create.sql")
-private val SQL_GET = embedded("db/sql/sample/get.sql")
-private val SQL_UPDATE = embedded("db/sql/sample/update.sql")
-private val SQL_DELETE = embedded("db/sql/sample/delete.sql")
-private val SQL_STREAM = embedded("db/sql/sample/stream.sql")
-private val SQL_TRANSLATIONS_LIST = embedded("db/sql/sample/translations.list.sql")
-private val SQL_TRANSLATIONS_CREATE = embedded("db/sql/sample/translations.create.sql")
-private val SQL_TRANSLATIONS_UPSERT = embedded("db/sql/sample/translations.upsert.sql")
-private val SQL_TRANSLATIONS_DELETE = embedded("db/sql/sample/translations.delete.sql")
+private val SQL_PAGE = "db/sql/sample/page.sql".content()
+private val SQL_COUNT = "db/sql/sample/count.sql".content()
+private val SQL_SEEK = "db/sql/sample/seek.sql".content()
+private val SQL_CREATE = "db/sql/sample/create.sql".content()
+private val SQL_GET = "db/sql/sample/get.sql".content()
+private val SQL_UPDATE = "db/sql/sample/update.sql".content()
+private val SQL_DELETE = "db/sql/sample/delete.sql".content()
+private val SQL_STREAM = "db/sql/sample/stream.sql".content()
+private val SQL_TRANSLATIONS_LIST = "db/sql/sample/translations.list.sql".content()
+private val SQL_TRANSLATIONS_CREATE = "db/sql/sample/translations.create.sql".content()
+private val SQL_TRANSLATIONS_UPSERT = "db/sql/sample/translations.upsert.sql".content()
+private val SQL_TRANSLATIONS_DELETE = "db/sql/sample/translations.delete.sql".content()
 
 @Repository
 class SampleRepository(private val jdbcClient: JdbcClient) {

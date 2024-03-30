@@ -1,8 +1,11 @@
 package com.leijendary.extension
 
 import com.leijendary.util.objectMapper
+import org.springframework.core.io.ClassPathResource
+import org.springframework.util.StreamUtils
 import java.lang.Character.toLowerCase
 import java.lang.Character.toUpperCase
+import kotlin.text.Charsets.UTF_8
 
 private val REGEX_UNDERSCORE_ALPHA = "_[a-z]".toRegex()
 
@@ -52,4 +55,8 @@ fun String.isInt() = when (toIntOrNull()) {
 fun String.isLong() = when (toLongOrNull()) {
     null -> false
     else -> true
+}
+
+fun String.content(): String {
+    return ClassPathResource(this).inputStream.use { StreamUtils.copyToString(it, UTF_8) }
 }
