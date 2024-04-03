@@ -64,8 +64,6 @@ const { id, name } = env.stack;
 const logPrefix = `/ecs/fargate/${clusterName}`;
 const assumedBy = new ServicePrincipal("ecs-tasks.amazonaws.com");
 const memory = isProd ? 1024 : 512;
-const memoryPadding = isProd ? 256 : 128;
-const memoryReservation = memory - memoryPadding;
 const cpu = isProd ? 512 : 256;
 
 export class TaskDefinitionConstruct extends TaskDefinition {
@@ -104,7 +102,6 @@ export class TaskDefinitionConstruct extends TaskDefinition {
       containerName: name,
       image,
       memoryLimitMiB: memory,
-      memoryReservationMiB: memoryReservation,
       cpu,
       logging: LogDriver.awsLogs({
         streamPrefix: logPrefix,
