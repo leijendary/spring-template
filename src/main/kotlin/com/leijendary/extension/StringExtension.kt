@@ -22,15 +22,14 @@ fun String.snakeCaseToCamelCase(capitalizeFirst: Boolean = false): String {
 }
 
 fun String.camelCaseToSnakeCase(): String {
-    val builder = StringBuilder()
-    val folded = fold(builder) { acc, c ->
+    val builder = fold(StringBuilder()) { acc, c ->
         val lower = c.lowercase()
         val value = if (acc.isNotEmpty() && c.isUpperCase()) "_$lower" else lower
 
         acc.append(value)
     }
 
-    return folded.toString()
+    return builder.toString()
 }
 
 fun String.upperCaseFirst(): String {
@@ -47,9 +46,13 @@ fun String.lowerCaseFirst(): String {
     return String(chars)
 }
 
-fun String.isInt() = toIntOrNull() !== null
+fun String.isInt(): Boolean {
+    return toIntOrNull() !== null
+}
 
-fun String.isLong() = toLongOrNull() !== null
+fun String.isLong(): Boolean {
+    return toLongOrNull() !== null
+}
 
 fun String.content(): String {
     return ClassPathResource(this).inputStream.use { StreamUtils.copyToString(it, UTF_8) }
