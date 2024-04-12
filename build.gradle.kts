@@ -98,11 +98,11 @@ dependencies {
     implementation("org.springframework.retry:spring-retry")
 
     // AWS
-    implementation(platform("software.amazon.awssdk:bom:2.25.7"))
+    implementation(platform("software.amazon.awssdk:bom:2.25.29"))
     implementation("software.amazon.awssdk:cloudfront")
 
     // AWS Cloud
-    implementation(platform("io.awspring.cloud:spring-cloud-aws-dependencies:3.1.0"))
+    implementation(platform("io.awspring.cloud:spring-cloud-aws-dependencies:3.1.1"))
     implementation("io.awspring.cloud:spring-cloud-aws-starter")
     implementation("io.awspring.cloud:spring-cloud-aws-starter-s3")
 
@@ -120,17 +120,17 @@ dependencies {
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 
     // Observability and Metrics
-    implementation(platform("io.micrometer:micrometer-tracing-bom:1.2.4"))
+    implementation(platform("io.micrometer:micrometer-tracing-bom:1.2.5"))
     implementation("io.micrometer:micrometer-registry-prometheus")
     implementation("io.micrometer:micrometer-tracing-bridge-otel")
     implementation("io.opentelemetry:opentelemetry-exporter-otlp")
     implementation("net.ttddyy.observation:datasource-micrometer-spring-boot:1.0.3")
 
     // OpenAPI
-    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.3.0")
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.5.0")
 
     // Test
-    testImplementation("org.mockito.kotlin:mockito-kotlin:5.2.1")
+    testImplementation("org.mockito.kotlin:mockito-kotlin:5.3.1")
     testImplementation("org.mockito:mockito-inline:5.2.0")
 
     // Test Containers
