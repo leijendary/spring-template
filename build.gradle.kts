@@ -87,7 +87,7 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 
     // Spring Cloud Starter
-    implementation(platform("org.springframework.cloud:spring-cloud-dependencies:2023.0.1-SNAPSHOT"))
+    implementation(platform("org.springframework.cloud:spring-cloud-dependencies:2023.0.1"))
     implementation("org.springframework.cloud:spring-cloud-starter-openfeign")
 
     // Spring Kafka
