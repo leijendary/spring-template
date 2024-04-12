@@ -56,8 +56,7 @@
 - Select the `EnvFile` tab
 - Check `Enable EnvFile`
 - Click `+`
-- Locate the `.env` file in your local machine. If the file is hidden, select `Dockerfile` or anything for now and just
-  change it.
+- Locate the `.env` file in your local machine
 - Click `OK`
 
 ### To run the code:
