@@ -12,24 +12,24 @@ import java.math.BigDecimal
 import java.math.BigDecimal.ZERO
 import java.time.Instant
 
-data class SampleRequest(
+class SampleRequest {
     @field:NotBlank(message = "validation.required")
     @field:Size(max = 100, message = "validation.maxLength")
-    val name: String = "",
+    val name: String = ""
 
     @field:NotNull(message = "validation.required")
-    val description: String? = null,
+    val description: String? = null
 
     @field:NotNull(message = "validation.required")
     @field:DecimalMin(value = "0.01", message = "validation.decimal.min")
     @field:DecimalMax(value = "9999999999.99", message = "validation.decimal.max")
-    val amount: BigDecimal = ZERO,
+    val amount: BigDecimal = ZERO
 
     @field:Valid
     @field:UniqueFields(["name", "language", "ordinal"])
     @field:NotEmpty(message = "validation.required")
-    val translations: ArrayList<SampleTranslationRequest> = arrayListOf()
-)
+    val translations = arrayListOf<SampleTranslationRequest>()
+}
 
 class SampleTranslationRequest : TranslationRequest() {
     @field:NotBlank(message = "validation.required")
