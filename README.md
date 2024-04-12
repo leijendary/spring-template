@@ -41,6 +41,25 @@
 
 # Spring Microservice Template
 
+## Configuration
+
+- Refresh gradle dependencies in IntelliJ
+- Copy `.example.env` to `.env`
+- Update the values in `.env`
+- In IntelliJ, select `Current File`
+- Select `Edit Configurations...`
+- Click `Add new...`
+- Select `Kotlin`
+- Rename the configuration to `Application`
+- Change "Use classpath of module..." to `server.main`
+- Set `ph.css.ApplicationKt` as the main class
+- Select the `EnvFile` tab
+- Check `Enable EnvFile`
+- Click `+`
+- Locate the `.env` file in your local machine. If the file is hidden, select `Dockerfile` or anything for now and just
+  change it.
+- Click `OK`
+
 ### To run the code:
 
 `./gradlew bootRun`
