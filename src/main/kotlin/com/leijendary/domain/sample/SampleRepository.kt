@@ -73,10 +73,10 @@ class SampleRepository(private val jdbcClient: JdbcClient) {
     }
 
     fun createTranslations(id: Long, translations: List<SampleTranslationRequest>): List<SampleTranslation> {
-        val binds = translationsBinds(id, translations)
+        val binds = translationsBinds(translations)
 
         return jdbcClient.sql(SQL_TRANSLATIONS_CREATE)
-            .param("ids", binds.ids.toTypedArray())
+            .param("id", id)
             .param("names", binds.names.toTypedArray())
             .param("descriptions", binds.descriptions.toTypedArray())
             .param("languages", binds.languages.toTypedArray())
@@ -119,7 +119,7 @@ class SampleRepository(private val jdbcClient: JdbcClient) {
 
     @Transactional
     fun updateTranslations(id: Long, translations: List<SampleTranslationRequest>): List<SampleTranslation> {
-        val binds = translationsBinds(id, translations)
+        val binds = translationsBinds(translations)
 
         jdbcClient.sql(SQL_TRANSLATIONS_DELETE)
             .param("id", id)
@@ -127,7 +127,7 @@ class SampleRepository(private val jdbcClient: JdbcClient) {
             .update()
 
         return jdbcClient.sql(SQL_TRANSLATIONS_UPSERT)
-            .param("ids", binds.ids.toTypedArray())
+            .param("id", id)
             .param("names", binds.names.toTypedArray())
             .param("descriptions", binds.descriptions.toTypedArray())
             .param("languages", binds.languages.toTypedArray())
@@ -153,14 +153,8 @@ class SampleRepository(private val jdbcClient: JdbcClient) {
         return jdbcClient.sql(SQL_STREAM).query(SampleDetail::class.java).stream()
     }
 
-    private fun translationsBinds(id: Long, translations: List<SampleTranslationRequest>): SampleTranslationsBinds {
-        val binds = SampleTranslationsBinds(
-            ids = List(translations.size) { id },
-            names = ArrayList(translations.size),
-            descriptions = ArrayList(translations.size),
-            languages = ArrayList(translations.size),
-            ordinals = ArrayList(translations.size),
-        )
+    private fun translationsBinds(translations: List<SampleTranslationRequest>): SampleTranslationsBinds {
+        val binds = SampleTranslationsBinds(translations.size)
 
         translations.forEach {
             binds.names.add(it.name)

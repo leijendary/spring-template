@@ -10,7 +10,7 @@ import jakarta.validation.Valid
 import jakarta.validation.constraints.*
 import java.math.BigDecimal
 import java.math.BigDecimal.ZERO
-import java.time.Instant
+import java.time.OffsetDateTime
 
 class SampleRequest {
     @field:NotBlank(message = "validation.required")
@@ -45,7 +45,7 @@ data class SampleList(
     val name: String,
     val description: String?,
     val amount: BigDecimal,
-    override val createdAt: Instant
+    override val createdAt: OffsetDateTime
 ) : SeekProjection
 
 data class SampleDetail(
@@ -54,7 +54,7 @@ data class SampleDetail(
     val description: String?,
     val amount: BigDecimal,
     val version: Int,
-    val createdAt: Instant,
+    val createdAt: OffsetDateTime,
 
     @JsonInclude(NON_EMPTY)
     val translations: MutableList<SampleTranslation> = mutableListOf(),
@@ -67,10 +67,9 @@ data class SampleTranslation(
     override val ordinal: Int
 ) : LocaleProjection
 
-data class SampleTranslationsBinds(
-    val ids: List<Long>,
-    val names: MutableList<String>,
-    val descriptions: MutableList<String?>,
-    val languages: MutableList<String>,
-    val ordinals: MutableList<Int>
-)
+data class SampleTranslationsBinds(private val size: Int) {
+    val names: MutableList<String> = ArrayList(size)
+    val descriptions: MutableList<String?> = ArrayList(size)
+    val languages: MutableList<String> = ArrayList(size)
+    val ordinals: MutableList<Int> = ArrayList(size)
+}
