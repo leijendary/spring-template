@@ -8,6 +8,7 @@ import java.lang.Character.toUpperCase
 import kotlin.text.Charsets.UTF_8
 
 private val REGEX_UNDERSCORE_ALPHA = "_[a-z]".toRegex()
+private val REGEX_COMPACT_STRING = "(\\n\\s*|\\s{2,})".toRegex()
 
 inline fun <reified T> String.toClass(): T {
     return objectMapper.readValue(this, T::class.java)
@@ -54,6 +55,12 @@ fun String.isLong(): Boolean {
     return toLongOrNull() !== null
 }
 
-fun String.content(): String {
-    return ClassPathResource(this).inputStream.use { StreamUtils.copyToString(it, UTF_8) }
+fun String.content(compact: Boolean = true): String {
+    var string = ClassPathResource(this).inputStream.use { StreamUtils.copyToString(it, UTF_8) }
+
+    if (compact) {
+        string = string.replace(REGEX_COMPACT_STRING, " ")
+    }
+
+    return string
 }
