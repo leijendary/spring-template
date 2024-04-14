@@ -115,19 +115,6 @@ class SampleSearchService(
         )
     }
 
-    private fun map(search: SampleSearch): SampleDetail {
-        val translation = search.translation
-
-        return SampleDetail(
-            id = search.id,
-            name = translation.name,
-            description = translation.description,
-            amount = search.amount,
-            version = 0,
-            createdAt = search.createdAt,
-        )
-    }
-
     private fun mapStream(sample: SampleDetail): SampleSearch {
         val translations = sampleRepository.listTranslations(sample.id)
         sample.translations.addAll(translations)
