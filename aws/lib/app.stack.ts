@@ -1,7 +1,7 @@
 import { Stack, StackProps } from "aws-cdk-lib";
 import { Distribution, DistributionAttributes } from "aws-cdk-lib/aws-cloudfront";
 import { ISecurityGroup, IVpc, SecurityGroup, Vpc, VpcLookupOptions } from "aws-cdk-lib/aws-ec2";
-import { IRepository, Repository } from "aws-cdk-lib/aws-ecr";
+import { IRepository } from "aws-cdk-lib/aws-ecr";
 import { Cluster, ClusterAttributes, ContainerImage, Secret } from "aws-cdk-lib/aws-ecs";
 import { DatabaseSecret } from "aws-cdk-lib/aws-rds";
 import { Bucket } from "aws-cdk-lib/aws-s3";
@@ -14,6 +14,7 @@ import {
 import { Construct } from "constructs";
 import env from "../env";
 import { FargateServiceConstruct, FargateServiceConstructProps } from "../resource/fargate-service.construct";
+import { RepositoryConstruct } from "../resource/repository.construct";
 import { TaskDefinitionConstruct, TaskDefinitionConstructProps } from "../resource/task-definition.construct";
 
 const { account, region, environment, organization, vpcId, imageTag, clusterName } = env;
@@ -31,7 +32,7 @@ export class ApplicationStack extends Stack {
   }
 
   private createTaskDefinition() {
-    const repository = this.getRepository();
+    const repository = new RepositoryConstruct(this);
     const image = this.getImage(repository);
     const bucket = this.getBucket();
     const distribution = this.getDistribution();
@@ -62,14 +63,6 @@ export class ApplicationStack extends Stack {
     };
 
     new FargateServiceConstruct(this, config);
-  }
-
-  private getRepository() {
-    return Repository.fromRepositoryArn(
-      this,
-      `${id}Repository-${environment}`,
-      `arn:aws:ecr:${region}:${account}:repository/${name}`
-    );
   }
 
   private getImage(repository: IRepository) {
