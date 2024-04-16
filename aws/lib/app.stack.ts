@@ -20,7 +20,7 @@ import { TaskDefinitionConstruct, TaskDefinitionConstructProps } from "../resour
 const { account, region, environment, organization, vpcId, imageTag, clusterName } = env;
 const { id: distributionId, domainName } = env.distribution;
 const { id: namespaceId, name: namespaceName } = env.namespace;
-const { id, name } = env.stack;
+const { id } = env.stack;
 
 export class ApplicationStack extends Stack {
   constructor(scope: Construct, props: StackProps) {
