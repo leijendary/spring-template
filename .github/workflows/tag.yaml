@@ -8,17 +8,12 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  # Staging environment
   test-staging:
     name: Test staging
     uses: ./.github/workflows/test.yaml
     with:
       environment: staging
-    secrets: inherit
-  test-prod:
-    name: Test production
-    uses: ./.github/workflows/test.yaml
-    with:
-      environment: prod
     secrets: inherit
   build-staging:
     needs: test-staging
@@ -28,20 +23,28 @@ jobs:
       environment: staging
       image-tag: ${{ github.ref_name }}
     secrets: inherit
-  build-prod:
-    needs: test-prod
-    name: Build production
-    uses: ./.github/workflows/build.yaml
-    with:
-      environment: prod
-      image-tag: ${{ github.ref_name }}
-    secrets: inherit
   deploy-staging:
     needs: build-staging
     name: Deploy staging
     uses: ./.github/workflows/deploy.yaml
     with:
       environment: staging
+      image-tag: ${{ github.ref_name }}
+    secrets: inherit
+
+  # Production environment
+  test-prod:
+    name: Test production
+    uses: ./.github/workflows/test.yaml
+    with:
+      environment: prod
+    secrets: inherit
+  build-prod:
+    needs: test-prod
+    name: Build production
+    uses: ./.github/workflows/build.yaml
+    with:
+      environment: prod
       image-tag: ${{ github.ref_name }}
     secrets: inherit
   deploy-prod:
