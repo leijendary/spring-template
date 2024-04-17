@@ -4,53 +4,32 @@ on:
       environment:
         required: true
         type: string
+      image-tag:
+        required: false
+        type: string
+        default: ${{ github.sha }}
+
+permissions:
+  id-token: write
+  contents: read
 
 jobs:
-  binary:
+  docker:
+    name: Docker
     runs-on: codebuild-${{ github.event.repository.name }}-${{ inputs.environment }}-${{ github.run_id }}-${{ github.run_attempt }}-arm-3.0-large
     timeout-minutes: 30
     environment: ${{ inputs.environment }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Setup GraalVM
-        uses: graalvm/setup-graalvm@v1
-        with:
-          distribution: graalvm-community
-          java-version: 21
-      - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v3
-        with:
-          cache-read-only: false
-      - name: Execute Gradle compile
-        run: SPRING_PROFILES_ACTIVE=${{ inputs.environment }} ./gradlew nativeCompile -i -x test
-      - name: Upload Dockerfile
-        uses: actions/upload-artifact@v4
-        with:
-          name: dockerfile
-          path: Dockerfile
-          retention-days: 5
-          if-no-files-found: error
-      - name: Upload binary
-        uses: actions/upload-artifact@v4
-        with:
-          name: binary
-          path: build/native/nativeCompile/app
-          retention-days: 5
-          if-no-files-found: error
-  push:
-    needs: binary
-    runs-on: ubuntu-latest
-    timeout-minutes: 2
-    environment: ${{ inputs.environment }}
-    permissions:
-      id-token: write
-      contents: read
-    steps:
       - name: Setup Docker Buildx
         uses: docker/setup-buildx-action@v3
         with:
           platforms: linux/arm64
+      - name: Setup Gradle (for caching)
+        uses: gradle/actions/setup-gradle@v3
+      - name: Copy Gradle dependencies
+        run: cp -R ~/.gradle .gradle/
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
@@ -61,27 +40,14 @@ jobs:
         uses: aws-actions/amazon-ecr-login@v2
         with:
           mask-password: true
-      - name: Download Dockerfile
-        uses: actions/download-artifact@v4
-        with:
-          name: dockerfile
-      - name: Download binary
-        uses: actions/download-artifact@v4
-        with:
-          name: binary
-          path: build/native/nativeCompile
-      - id: metadata
-        name: Metadata
-        uses: docker/metadata-action@v5
-        with:
-          images: ${{ steps.login-registry.outputs.registry }}/${{ github.event.repository.name }}
-          tags: |
-            type=semver,pattern={{version}}
-            type=sha,prefix=,format=long
-      - name: Push to registry
+      - name: Build and push
         uses: docker/build-push-action@v5
         with:
+          build-args: |
+            SPRING_PROFILES_ACTIVE=${{ inputs.environment }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
           context: .
           platforms: linux/arm64
           push: true
-          tags: ${{ steps.metadata.outputs.tags }}
+          tags: ${{ steps.login-registry.outputs.registry }}/${{ github.event.repository.name }}:${{ inputs.image-tag }}

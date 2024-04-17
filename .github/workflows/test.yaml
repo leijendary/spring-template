@@ -26,8 +26,8 @@ jobs:
       - name: Setup GraalVM
         uses: graalvm/setup-graalvm@v1
         with:
-          java-version: 21
           distribution: graalvm-community
+          java-version: 21
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v3
         with:
@@ -52,8 +52,8 @@ jobs:
       - name: Setup GraalVM
         uses: graalvm/setup-graalvm@v1
         with:
-          java-version: 21
           distribution: graalvm-community
+          java-version: 21
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v3
         with:
