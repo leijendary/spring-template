@@ -1,4 +1,4 @@
 FROM alpine:3
 RUN apk add gcompat
-COPY --chmod=755 build/native/nativeCompile/* app
+COPY --chmod=755 build/native/nativeCompile/app app
 ENTRYPOINT ./app

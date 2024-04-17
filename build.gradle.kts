@@ -151,13 +151,8 @@ sourceSets {
 
 graalvmNative {
     binaries {
-        named("test") {
-            val args = listOf(
-                "--strict-image-heap",
-                "--initialize-at-build-time=io.lettuce.core.metrics.DefaultCommandLatencyCollector\$DefaultPauseDetectorWrapper"
-            )
-
-            buildArgs.addAll(args)
+        named("main") {
+            imageName = "app"
         }
     }
 
