@@ -73,7 +73,7 @@ class SampleRepository(private val jdbcClient: JdbcClient) {
     }
 
     fun createTranslations(id: Long, translations: List<SampleTranslationRequest>): List<SampleTranslation> {
-        val binds = translationsBinds(translations)
+        val binds = translations.toBinds()
 
         return jdbcClient.sql(SQL_TRANSLATIONS_CREATE)
             .param("id", id)
@@ -119,7 +119,7 @@ class SampleRepository(private val jdbcClient: JdbcClient) {
 
     @Transactional
     fun updateTranslations(id: Long, translations: List<SampleTranslationRequest>): List<SampleTranslation> {
-        val binds = translationsBinds(translations)
+        val binds = translations.toBinds()
 
         jdbcClient.sql(SQL_TRANSLATIONS_DELETE)
             .param("id", id)
@@ -151,18 +151,5 @@ class SampleRepository(private val jdbcClient: JdbcClient) {
     @Transactional(readOnly = true)
     fun streamAll(): Stream<SampleDetail> {
         return jdbcClient.sql(SQL_STREAM).query(SampleDetail::class.java).stream()
-    }
-
-    private fun translationsBinds(translations: List<SampleTranslationRequest>): SampleTranslationsBinds {
-        val binds = SampleTranslationsBinds(translations.size)
-
-        translations.forEach {
-            binds.names.add(it.name)
-            binds.descriptions.add(it.description)
-            binds.languages.add(it.language)
-            binds.ordinals.add(it.ordinal)
-        }
-
-        return binds
     }
 }

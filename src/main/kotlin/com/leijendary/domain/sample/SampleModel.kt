@@ -73,3 +73,16 @@ data class SampleTranslationsBinds(private val size: Int) {
     val languages: MutableList<String> = ArrayList(size)
     val ordinals: MutableList<Int> = ArrayList(size)
 }
+
+fun List<SampleTranslationRequest>.toBinds(): SampleTranslationsBinds {
+    val binds = SampleTranslationsBinds(size)
+
+    forEach {
+        binds.names.add(it.name)
+        binds.descriptions.add(it.description)
+        binds.languages.add(it.language)
+        binds.ordinals.add(it.ordinal)
+    }
+
+    return binds
+}
