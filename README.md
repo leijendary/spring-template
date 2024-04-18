@@ -52,7 +52,7 @@
 - Select `Kotlin`
 - Rename the configuration to `Application`
 - Change "Use classpath of module..." to `server.main`
-- Set `ph.css.ApplicationKt` as the main class
+- Set `com.leijendary.ApplicationKt` as the main class
 - Select the `EnvFile` tab
 - Check `Enable EnvFile`
 - Click `+`
