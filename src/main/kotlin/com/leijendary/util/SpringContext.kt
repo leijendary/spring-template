@@ -9,6 +9,11 @@ import kotlin.reflect.KClass
 
 @Component
 class SpringContext : ApplicationContextAware {
+    override fun setApplicationContext(applicationContext: ApplicationContext) {
+        context = applicationContext
+        isProd = context.environment.acceptsProfiles(Profiles.of("prod"))
+    }
+
     companion object {
         private lateinit var context: ApplicationContext
 
@@ -21,10 +26,5 @@ class SpringContext : ApplicationContextAware {
         fun <T : Any> getBean(name: String, beanClass: KClass<T>): T {
             return context.getBean(name, beanClass.java)
         }
-    }
-
-    override fun setApplicationContext(applicationContext: ApplicationContext) {
-        context = applicationContext
-        isProd = context.environment.acceptsProfiles(Profiles.of("prod"))
     }
 }

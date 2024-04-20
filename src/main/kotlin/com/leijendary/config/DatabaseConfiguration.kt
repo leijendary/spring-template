@@ -25,10 +25,6 @@ enum class DataSourceType {
 @Configuration(proxyBeanMethods = false)
 @EnableConfigurationProperties(DataSourcePrimaryProperties::class, DataSourceReadOnlyProperties::class)
 class DatabaseConfiguration {
-    companion object {
-        const val BEAN_READ_ONLY_TRANSACTION_TEMPLATE = "readOnlyTransactionTemplate"
-    }
-
     @Bean
     @Primary
     fun dataSource(primaryDataSource: DataSource, readOnlyDataSource: DataSource): DataSource {
@@ -54,6 +50,10 @@ class DatabaseConfiguration {
     @Bean(BEAN_READ_ONLY_TRANSACTION_TEMPLATE)
     fun readOnlyTransactionTemplate(transactionManager: JdbcTransactionManager): TransactionTemplate {
         return TransactionTemplate(transactionManager).apply { isReadOnly = true }
+    }
+
+    companion object {
+        const val BEAN_READ_ONLY_TRANSACTION_TEMPLATE = "readOnlyTransactionTemplate"
     }
 }
 

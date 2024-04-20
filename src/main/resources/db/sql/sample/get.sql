@@ -14,5 +14,6 @@ left join lateral (
     order by (language = :language)::int desc, ordinal
     limit 1
 ) t on :translate
-where id = :id
-and deleted_at is null
+where
+    id = :id
+    and deleted_at is null
