@@ -7,13 +7,6 @@ import org.testcontainers.containers.GenericContainer
 import org.testcontainers.utility.DockerImageName
 
 class JaegerContainerInitializer : ApplicationContextInitializer<ConfigurableApplicationContext> {
-    companion object {
-        private val image = DockerImageName.parse("jaegertracing/all-in-one:1")
-        private val jaeger = GenericContainer(image)
-            .withEnv("COLLECTOR_OTLP_ENABLED", "true")
-            .withExposedPorts(4318)
-    }
-
     override fun initialize(applicationContext: ConfigurableApplicationContext) {
         jaeger.start()
 
@@ -25,5 +18,12 @@ class JaegerContainerInitializer : ApplicationContextInitializer<ConfigurableApp
         TestPropertyValues
             .of(*properties)
             .applyTo(applicationContext.environment)
+    }
+
+    companion object {
+        private val image = DockerImageName.parse("jaegertracing/all-in-one:1")
+        private val jaeger = GenericContainer(image)
+            .withEnv("COLLECTOR_OTLP_ENABLED", "true")
+            .withExposedPorts(4318)
     }
 }

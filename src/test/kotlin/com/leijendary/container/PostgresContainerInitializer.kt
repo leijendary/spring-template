@@ -7,11 +7,6 @@ import org.testcontainers.containers.PostgreSQLContainer
 import org.testcontainers.utility.DockerImageName
 
 class PostgresContainerInitializer : ApplicationContextInitializer<ConfigurableApplicationContext> {
-    companion object {
-        private val image = DockerImageName.parse("postgres:15-alpine")
-        private val postgres = PostgreSQLContainer(image)
-    }
-
     override fun initialize(applicationContext: ConfigurableApplicationContext) {
         postgres.start()
 
@@ -25,5 +20,10 @@ class PostgresContainerInitializer : ApplicationContextInitializer<ConfigurableA
         TestPropertyValues
             .of(*properties)
             .applyTo(applicationContext.environment)
+    }
+
+    companion object {
+        private val image = DockerImageName.parse("postgres:15-alpine")
+        private val postgres = PostgreSQLContainer(image)
     }
 }
