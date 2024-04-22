@@ -77,10 +77,10 @@ class SampleRepository(private val jdbcClient: JdbcClient) {
 
         return jdbcClient.sql(SQL_TRANSLATIONS_CREATE)
             .param("id", id)
-            .param("names", binds.names.toTypedArray())
-            .param("descriptions", binds.descriptions.toTypedArray())
-            .param("languages", binds.languages.toTypedArray())
-            .param("ordinals", binds.ordinals.toTypedArray())
+            .param("names", binds.names)
+            .param("descriptions", binds.descriptions)
+            .param("languages", binds.languages)
+            .param("ordinals", binds.ordinals)
             .query(SampleTranslation::class.java)
             .list()
     }
@@ -123,15 +123,15 @@ class SampleRepository(private val jdbcClient: JdbcClient) {
 
         jdbcClient.sql(SQL_TRANSLATIONS_DELETE)
             .param("id", id)
-            .param("languages", binds.languages.toTypedArray())
+            .param("languages", binds.languages)
             .update()
 
         return jdbcClient.sql(SQL_TRANSLATIONS_UPSERT)
             .param("id", id)
-            .param("names", binds.names.toTypedArray())
-            .param("descriptions", binds.descriptions.toTypedArray())
-            .param("languages", binds.languages.toTypedArray())
-            .param("ordinals", binds.ordinals.toTypedArray())
+            .param("names", binds.names)
+            .param("descriptions", binds.descriptions)
+            .param("languages", binds.languages)
+            .param("ordinals", binds.ordinals)
             .query(SampleTranslation::class.java)
             .list()
     }

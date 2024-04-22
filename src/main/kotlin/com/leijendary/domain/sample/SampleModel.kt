@@ -68,20 +68,20 @@ data class SampleTranslation(
 ) : LocaleProjection
 
 data class SampleTranslationsBinds(private val size: Int) {
-    val names: MutableList<String> = ArrayList(size)
-    val descriptions: MutableList<String?> = ArrayList(size)
-    val languages: MutableList<String> = ArrayList(size)
-    val ordinals: MutableList<Int> = ArrayList(size)
+    val names = arrayOfNulls<String>(size)
+    val descriptions = arrayOfNulls<String?>(size)
+    val languages = arrayOfNulls<String>(size)
+    val ordinals = arrayOfNulls<Int>(size)
 }
 
 fun List<SampleTranslationRequest>.toBinds(): SampleTranslationsBinds {
     val binds = SampleTranslationsBinds(size)
 
-    forEach {
-        binds.names.add(it.name)
-        binds.descriptions.add(it.description)
-        binds.languages.add(it.language)
-        binds.ordinals.add(it.ordinal)
+    forEachIndexed { i, v ->
+        binds.names[i] = v.name
+        binds.descriptions[i] = v.description
+        binds.languages[i] = v.language
+        binds.ordinals[i] = v.ordinal
     }
 
     return binds
