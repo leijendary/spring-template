@@ -22,6 +22,6 @@ class RedisContainerInitializer : ApplicationContextInitializer<ConfigurableAppl
 
     companion object {
         private val image = DockerImageName.parse("redis:6-alpine")
-        private val redis = GenericContainer(image).withExposedPorts(6379)
+        private val redis = GenericContainer(image).withExposedPorts(6379).withReuse(true)
     }
 }

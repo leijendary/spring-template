@@ -1,9 +1,8 @@
 package com.leijendary.integration
 
-import com.leijendary.ApplicationTestCase
 import org.junit.jupiter.api.Test
 
-class SampleTestCase : ApplicationTestCase() {
+class SampleTestCase {
     @Test
     fun tada() {
         assert(true)

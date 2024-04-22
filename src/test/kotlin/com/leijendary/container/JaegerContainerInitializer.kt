@@ -25,5 +25,6 @@ class JaegerContainerInitializer : ApplicationContextInitializer<ConfigurableApp
         private val jaeger = GenericContainer(image)
             .withEnv("COLLECTOR_OTLP_ENABLED", "true")
             .withExposedPorts(4318)
+            .withReuse(true)
     }
 }

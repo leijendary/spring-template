@@ -27,5 +27,6 @@ class ElasticsearchContainerInitializer : ApplicationContextInitializer<Configur
             .withEnv("bootstrap.memory_lock", "true")
             .withEnv("xpack.security.transport.ssl.enabled", "false")
             .withEnv("ES_JAVA_OPTS", "-Xms128m -Xmx256m")
+            .withReuse(true)
     }
 }

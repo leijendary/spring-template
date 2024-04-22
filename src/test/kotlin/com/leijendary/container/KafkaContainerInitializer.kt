@@ -22,5 +22,6 @@ class KafkaContainerInitializer : ApplicationContextInitializer<ConfigurableAppl
         private val kafka = KafkaContainer(image)
             .withEnv("KAFKA_HEAP_OPTS", "-Xms128m -Xmx256m")
             .withKraft()
+            .withReuse(true)
     }
 }
