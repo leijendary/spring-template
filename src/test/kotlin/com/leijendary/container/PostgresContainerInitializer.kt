@@ -1,29 +1,21 @@
 package com.leijendary.container
 
-import org.springframework.boot.test.util.TestPropertyValues
-import org.springframework.context.ApplicationContextInitializer
-import org.springframework.context.ConfigurableApplicationContext
 import org.testcontainers.containers.PostgreSQLContainer
 import org.testcontainers.utility.DockerImageName
 
-class PostgresContainerInitializer : ApplicationContextInitializer<ConfigurableApplicationContext> {
-    override fun initialize(applicationContext: ConfigurableApplicationContext) {
-        postgres.start()
+class PostgresContainerInitializer : PostgreSQLContainer<PostgresContainerInitializer>(image) {
+    override fun start() {
+        super.start()
 
-        val properties = arrayOf(
-            "spring.datasource.primary.jdbcUrl=${postgres.jdbcUrl}",
-            "spring.datasource.readOnly.jdbcUrl=${postgres.jdbcUrl}",
-            "spring.datasource.username=${postgres.username}",
-            "spring.datasource.password=${postgres.password}",
-        )
-
-        TestPropertyValues
-            .of(*properties)
-            .applyTo(applicationContext.environment)
+        System.setProperty("spring.datasource.primary.url", jdbcUrl)
+        System.setProperty("spring.datasource.readOnly.url", jdbcUrl)
+        System.setProperty("spring.datasource.username", username)
+        System.setProperty("spring.datasource.password", password)
     }
 
     companion object {
+        val INSTANCE: PostgresContainerInitializer by lazy { PostgresContainerInitializer() }
+
         private val image = DockerImageName.parse("postgres:15-alpine")
-        private val postgres = PostgreSQLContainer(image).withReuse(true)
     }
 }

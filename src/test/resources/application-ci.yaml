@@ -24,3 +24,8 @@ spring:
         mechanism: PLAIN
     security:
       protocol: PLAINTEXT
+  liquibase:
+    changeLog: classpath:db/changelog/db.changelog-test.yaml
+  test:
+    database:
+      replace: none
