@@ -36,14 +36,19 @@ class PSQLExceptionHandler(private val messageSource: MessageSource) {
 
         val table = errorMessage.table!!.snakeCaseToCamelCase()
         val detail = errorMessage.detail!!
-        val column = errorMessage.column?.snakeCaseToCamelCase() ?: detail
-            .substringAfter("Key (")
-            .substringBefore(")=")
-            .substringAfter("(")
-            .substringBefore(",")
+        val key = detail.substringAfter("Key (").substringBefore(")=")
+        val column = errorMessage.column?.snakeCaseToCamelCase() ?: key
+            .substringAfter('(')
+            .substringBefore(',')
             .substringBefore("::")
             .snakeCaseToCamelCase()
-        val value = detail.substringAfter("=(").substringBefore(") ")
+        var value = detail.substringAfter("=(").substringBeforeLast(") ")
+        val isMultiColumn = key.contains(',')
+
+        if (isMultiColumn) {
+            value = value.substringBeforeLast(',')
+        }
+
         val (code, status) = when (exception.sqlState) {
             "23505" -> "validation.alreadyExists" to CONFLICT
             "23503" -> "error.resource.notFound" to NOT_FOUND
