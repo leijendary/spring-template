@@ -99,7 +99,6 @@ class SampleSearchService(
         createdAt = sample.createdAt,
         completion = sample.translations
             .map { it.name }
-            .toTypedArray()
             .let(::Completion),
     )
 
