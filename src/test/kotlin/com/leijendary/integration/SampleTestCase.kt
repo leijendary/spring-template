@@ -19,18 +19,18 @@ class SampleTestCase {
 
     companion object {
         @Container
-        val ELASTICSEARCH = ElasticsearchContainerInitializer.INSTANCE
+        private val ELASTICSEARCH = ElasticsearchContainerInitializer.INSTANCE
 
         @Container
-        val JAEGER = JaegerContainerInitializer.INSTANCE
+        private val JAEGER = JaegerContainerInitializer.INSTANCE
 
         @Container
-        val DATABASE = PostgresContainerInitializer.INSTANCE
+        private val DATABASE = PostgresContainerInitializer.INSTANCE
 
         @Container
-        val KAFKA = KafkaContainerInitializer.INSTANCE
+        private val KAFKA = KafkaContainerInitializer.INSTANCE
 
         @Container
-        val REDIS = RedisContainerInitializer.INSTANCE
+        private val REDIS = RedisContainerInitializer.INSTANCE
     }
 }
