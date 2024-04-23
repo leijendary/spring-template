@@ -1,5 +1,6 @@
 package com.leijendary.error
 
+import com.leijendary.extension.indexOfReverse
 import com.leijendary.extension.logger
 import com.leijendary.extension.snakeCaseToCamelCase
 import com.leijendary.model.ErrorModel
@@ -43,10 +44,11 @@ class PSQLExceptionHandler(private val messageSource: MessageSource) {
             .substringBefore("::")
             .snakeCaseToCamelCase()
         var value = detail.substringAfter("=(").substringBeforeLast(") ")
-        val isMultiColumn = key.contains(',')
+        val commas = key.count { it == ',' }
 
-        if (isMultiColumn) {
-            value = value.substringBeforeLast(',')
+        if (commas > 0) {
+            val i = value.indexOfReverse(',', commas)
+            value = value.substring(0, i)
         }
 
         val (code, status) = when (exception.sqlState) {
