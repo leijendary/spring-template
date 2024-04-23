@@ -16,12 +16,14 @@ class PropagateErrorFeignConfiguration(private val objectMapper: ObjectMapper) {
     @Bean
     fun errorDecoder() = ErrorDecoder { methodKey, response ->
         val status = HttpStatus.valueOf(response.status())
-        val errors = response.body().asReader(UTF_8).use {
-            objectMapper.readValue(it, object : TypeReference<List<ErrorModel>>() {})
-        }
+        val errors = response.body().asReader(UTF_8).use { objectMapper.readValue(it, TYPE_REFERENCE) }
 
         log.error("Feign error $status from $methodKey: $errors")
 
         ErrorModelException(status, errors)
+    }
+
+    companion object {
+        private val TYPE_REFERENCE = object : TypeReference<List<ErrorModel>>() {}
     }
 }
