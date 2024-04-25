@@ -27,7 +27,7 @@ private val SQL_STREAM = "db/sql/sample/stream.sql".content()
 private val SQL_TRANSLATIONS_LIST = "db/sql/sample/translations.list.sql".content()
 private val SQL_TRANSLATIONS_CREATE = "db/sql/sample/translations.create.sql".content()
 private val SQL_TRANSLATIONS_UPSERT = "db/sql/sample/translations.upsert.sql".content()
-private val SQL_TRANSLATIONS_DELETE = "db/sql/sample/translations.delete.sql".content()
+private val SQL_TRANSLATIONS_DELETE_NOT = "db/sql/sample/translations-not.delete.sql".content()
 
 @Repository
 class SampleRepository(private val jdbcClient: JdbcClient) {
@@ -121,7 +121,7 @@ class SampleRepository(private val jdbcClient: JdbcClient) {
     fun updateTranslations(id: Long, translations: List<SampleTranslationRequest>): List<SampleTranslation> {
         val binds = translations.toBinds()
 
-        jdbcClient.sql(SQL_TRANSLATIONS_DELETE)
+        jdbcClient.sql(SQL_TRANSLATIONS_DELETE_NOT)
             .param("id", id)
             .param("languages", binds.languages)
             .update()
