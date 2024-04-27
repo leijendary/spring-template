@@ -1,5 +1,6 @@
 package com.leijendary.extension
 
+import com.fasterxml.jackson.core.type.TypeReference
 import com.leijendary.util.objectMapper
 import org.springframework.core.io.ClassPathResource
 import org.springframework.util.StreamUtils
@@ -12,6 +13,10 @@ private val REGEX_COMPACT_STRING = "(\\n\\s*|\\s{2,})".toRegex()
 
 inline fun <reified T> String.toClass(): T {
     return objectMapper.readValue(this, T::class.java)
+}
+
+fun <T> String.toClass(reference: TypeReference<T>): T {
+    return objectMapper.readValue(this, reference)
 }
 
 fun String.snakeCaseToCamelCase(capitalizeFirst: Boolean = false): String {
