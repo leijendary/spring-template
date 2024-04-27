@@ -4,7 +4,6 @@ select
     coalesce(t.description, s.description) description,
     amount,
     version,
-    null translations,
     created_at
 from sample s
 left join lateral (

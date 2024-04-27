@@ -9,4 +9,4 @@ set
 where
     id = :id
     and version = :version
-returning id, name, description, amount, version, null translations, created_at
+returning id, name, description, amount, version, created_at

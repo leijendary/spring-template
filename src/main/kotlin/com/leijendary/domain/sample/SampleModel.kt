@@ -55,10 +55,10 @@ data class SampleDetail(
     val amount: BigDecimal,
     val version: Int,
     val createdAt: OffsetDateTime,
-
+) {
     @JsonInclude(NON_EMPTY)
-    val translations: MutableList<SampleTranslation> = mutableListOf(),
-)
+    val translations: MutableList<SampleTranslation> = mutableListOf()
+}
 
 data class SampleTranslation(
     val name: String,
