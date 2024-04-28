@@ -36,7 +36,7 @@ jobs:
         run: ./gradlew test --tests "*Test"
         env:
           SPRING_PROFILES_ACTIVE: ci
-      - name: Store reports
+      - name: Reports
         if: failure()
         uses: actions/upload-artifact@v4
         with:
@@ -70,7 +70,7 @@ jobs:
         run: ./gradlew test --tests "*TestCase"
         env:
           SPRING_PROFILES_ACTIVE: ci
-      - name: Store reports
+      - name: Reports
         if: failure()
         uses: actions/upload-artifact@v4
         with:
