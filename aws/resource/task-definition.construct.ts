@@ -101,8 +101,6 @@ export class TaskDefinitionConstruct extends TaskDefinition {
     const config: ContainerDefinitionOptions = {
       containerName: name,
       image,
-      memoryLimitMiB: memory,
-      cpu,
       logging: LogDriver.awsLogs({
         streamPrefix: logPrefix,
         logGroup,
