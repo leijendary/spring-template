@@ -69,7 +69,7 @@ class KafkaConfiguration(
     }
 
     @Bean
-    fun topicPartitionEnhancer() = AnnotationEnhancer { attr, _ ->
+    fun topicConcurrencyEnhancer() = AnnotationEnhancer { attr, _ ->
         @Suppress("UNCHECKED_CAST")
         val topics = attr["topics"] as Array<String>
         var concurrency = 1
