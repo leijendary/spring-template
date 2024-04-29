@@ -30,7 +30,7 @@ class KafkaConfiguration(
 ) {
     @Bean
     fun topics(): NewTopics {
-        val topics = kafkaTopicProperties.values().flatMap {
+        val topics = kafkaTopicProperties.values.flatMap {
             val topic = TopicBuilder
                 .name(it.name)
                 .partitions(it.partitions)

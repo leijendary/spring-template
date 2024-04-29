@@ -1,6 +1,9 @@
 package com.leijendary.domain.sample
 
 import com.leijendary.config.properties.KafkaTopicProperties
+import com.leijendary.config.properties.Topic.SAMPLE_CREATED
+import com.leijendary.config.properties.Topic.SAMPLE_DELETED
+import com.leijendary.config.properties.Topic.SAMPLE_UPDATED
 import com.leijendary.extension.toJson
 import com.leijendary.model.IdentityModel
 import org.springframework.kafka.core.KafkaTemplate
@@ -14,18 +17,23 @@ class SampleMessageProducer(
 ) {
     @Retryable
     fun created(sample: SampleDetail) {
-        kafkaTemplate.send(kafkaTopicProperties.sampleCreated.name, sample.toJson())
+        val topic = kafkaTopicProperties.getName(SAMPLE_CREATED)
+
+        kafkaTemplate.send(topic, sample.toJson())
     }
 
     @Retryable
     fun updated(sample: SampleDetail) {
-        kafkaTemplate.send(kafkaTopicProperties.sampleUpdated.name, sample.toJson())
+        val topic = kafkaTopicProperties.getName(SAMPLE_UPDATED)
+
+        kafkaTemplate.send(topic, sample.toJson())
     }
 
     @Retryable
     fun deleted(id: Long) {
         val model = IdentityModel(id)
+        val topic = kafkaTopicProperties.getName(SAMPLE_DELETED)
 
-        kafkaTemplate.send(kafkaTopicProperties.sampleDeleted.name, model.toJson())
+        kafkaTemplate.send(topic, model.toJson())
     }
 }
