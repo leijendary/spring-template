@@ -8,6 +8,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.kafka.annotation.EnableKafka
+import org.springframework.kafka.annotation.KafkaListenerAnnotationBeanPostProcessor.AnnotationEnhancer
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory
 import org.springframework.kafka.config.KafkaListenerContainerFactory
 import org.springframework.kafka.config.TopicBuilder
@@ -65,6 +66,22 @@ class KafkaConfiguration(
             setConsumerFactory(consumerFactory)
             setRecordInterceptor(kafkaInterceptor)
         }
+    }
+
+    @Bean
+    fun topicPartitionEnhancer() = AnnotationEnhancer { attr, _ ->
+        @Suppress("UNCHECKED_CAST")
+        val topics = attr["topics"] as Array<String>
+        var concurrency = 1
+
+        topics.forEachIndexed { i, topic ->
+            val properties = kafkaTopicProperties.getValue(topic)
+            topics[i] = properties.name
+            concurrency = maxOf(concurrency, properties.partitions)
+        }
+
+        attr["concurrency"] = concurrency.toString()
+        attr
     }
 
     @Bean

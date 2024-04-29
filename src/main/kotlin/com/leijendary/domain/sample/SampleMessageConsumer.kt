@@ -10,30 +10,21 @@ import org.springframework.stereotype.Component
 
 @Component
 class SampleMessageConsumer(private val sampleSearchService: SampleSearchService) {
-    @KafkaListener(
-        topics = ["\${kafka.topic.$SAMPLE_CREATED.name}"],
-        concurrency = "\${kafka.topic.$SAMPLE_CREATED.partitions}"
-    )
+    @KafkaListener(topics = [SAMPLE_CREATED])
     fun created(json: String) {
         val sample = json.toClass<SampleDetail>()
 
         sampleSearchService.save(sample)
     }
 
-    @KafkaListener(
-        topics = ["\${kafka.topic.$SAMPLE_UPDATED.name}"],
-        concurrency = "\${kafka.topic.$SAMPLE_UPDATED.partitions}"
-    )
+    @KafkaListener(topics = [SAMPLE_UPDATED])
     fun updated(json: String) {
         val sample = json.toClass<SampleDetail>()
 
         sampleSearchService.update(sample)
     }
 
-    @KafkaListener(
-        topics = ["\${kafka.topic.$SAMPLE_DELETED.name}"],
-        concurrency = "\${kafka.topic.$SAMPLE_DELETED.partitions}"
-    )
+    @KafkaListener(topics = [SAMPLE_DELETED])
     fun deleted(json: String) {
         val model = json.toClass<IdentityModel>()
 
