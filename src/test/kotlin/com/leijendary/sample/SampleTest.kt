@@ -1,4 +1,4 @@
-package com.leijendary.unit
+package com.leijendary.sample
 
 import org.junit.jupiter.api.Test
 
