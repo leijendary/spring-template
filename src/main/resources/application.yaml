@@ -1,6 +1,29 @@
+aws:
+  cloudFront:
+    distributionId:
+    url:
+    publicKeyId:
+    privateKey:
+    signatureDuration: 5h
+  s3:
+    bucketName:
+    signatureDuration: 30m
+
 encrypt:
   key:
   salt:
+
+kafka:
+  topic:
+    sampleCreated:
+      name: sample.created
+      partitions: 1
+    sampleUpdated:
+      name: sample.updated
+      partitions: 1
+    sampleDeleted:
+      name: sample.deleted
+      partitions: 1
 
 logging:
   includeApplicationName: false
@@ -78,16 +101,6 @@ spring:
     redis:
       timeToLive: 5h
   cloud:
-    aws:
-      cloudFront:
-        distributionId:
-        url:
-        publicKeyId:
-        privateKey:
-        signatureDuration: 5h
-      s3:
-        bucketName:
-        signatureDuration: 30m
     openfeign:
       client:
         config:
@@ -152,16 +165,6 @@ spring:
       protocol: SASL_SSL
     template:
       observationEnabled: true
-    topic:
-      sampleCreated:
-        name: sample.created
-        partitions: 1
-      sampleUpdated:
-        name: sample.updated
-        partitions: 1
-      sampleDeleted:
-        name: sample.deleted
-        partitions: 1
   main:
     bannerMode: LOG
   messages:

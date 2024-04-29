@@ -1,19 +1,18 @@
-spring:
-  cloud:
-    aws:
-      cloudFront:
-        distributionId:
-        url: https://cdn.leijendary.com
-      s3:
-        bucketName: leijendary-api-prod
-  kafka:
-    topic:
-      sampleCreated:
-        partitions: 5
-      sampleUpdated:
-        partitions: 3
-      sampleDeleted:
-        partitions: 2
+aws:
+  cloudFront:
+    distributionId:
+    url: https://cdn.leijendary.com
+  s3:
+    bucketName: leijendary-api-prod
+
+kafka:
+  topic:
+    sampleCreated:
+      partitions: 5
+    sampleUpdated:
+      partitions: 3
+    sampleDeleted:
+      partitions: 2
 
 springdoc:
   apiDocs:

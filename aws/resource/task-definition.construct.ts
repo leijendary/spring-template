@@ -117,10 +117,10 @@ export class TaskDefinitionConstruct extends TaskDefinition {
         command: ["CMD-SHELL", "wget -qO- http://localhost/actuator/health || exit 1"],
       },
       secrets: {
+        AWS_CLOUD_FRONT_PRIVATE_KEY: credentials.security.cloudFront.privateKey,
+        AWS_CLOUD_FRONT_PUBLIC_KEY_ID: credentials.security.cloudFront.publicKeyId,
         ENCRYPT_KEY: credentials.security.encrypt.key,
         ENCRYPT_SALT: credentials.security.encrypt.salt,
-        SPRING_CLOUD_AWS_CLOUD_FRONT_PRIVATE_KEY: credentials.security.cloudFront.privateKey,
-        SPRING_CLOUD_AWS_CLOUD_FRONT_PUBLIC_KEY_ID: credentials.security.cloudFront.publicKeyId,
         SPRING_DATA_REDIS_USERNAME: credentials.dataStorage.redis.username,
         SPRING_DATA_REDIS_PASSWORD: credentials.dataStorage.redis.password,
         SPRING_DATASOURCE_USERNAME: credentials.aurora.username,

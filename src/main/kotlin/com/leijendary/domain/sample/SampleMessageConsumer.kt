@@ -8,8 +8,8 @@ import org.springframework.stereotype.Component
 @Component
 class SampleMessageConsumer(private val sampleSearchService: SampleSearchService) {
     @KafkaListener(
-        topics = ["\${spring.kafka.topic.sampleCreated.name}"],
-        concurrency = "\${spring.kafka.topic.sampleCreated.partitions}"
+        topics = ["\${kafka.topic.sampleCreated.name}"],
+        concurrency = "\${kafka.topic.sampleCreated.partitions}"
     )
     fun created(json: String) {
         val sample = json.toClass<SampleDetail>()
@@ -18,8 +18,8 @@ class SampleMessageConsumer(private val sampleSearchService: SampleSearchService
     }
 
     @KafkaListener(
-        topics = ["\${spring.kafka.topic.sampleUpdated.name}"],
-        concurrency = "\${spring.kafka.topic.sampleUpdated.partitions}"
+        topics = ["\${kafka.topic.sampleUpdated.name}"],
+        concurrency = "\${kafka.topic.sampleUpdated.partitions}"
     )
     fun updated(json: String) {
         val sample = json.toClass<SampleDetail>()
@@ -28,8 +28,8 @@ class SampleMessageConsumer(private val sampleSearchService: SampleSearchService
     }
 
     @KafkaListener(
-        topics = ["\${spring.kafka.topic.sampleDeleted.name}"],
-        concurrency = "\${spring.kafka.topic.sampleDeleted.partitions}"
+        topics = ["\${kafka.topic.sampleDeleted.name}"],
+        concurrency = "\${kafka.topic.sampleDeleted.partitions}"
     )
     fun deleted(json: String) {
         val model = json.toClass<IdentityModel>()

@@ -3,7 +3,7 @@ package com.leijendary.config.properties
 import org.springframework.boot.context.properties.ConfigurationProperties
 import java.time.Duration
 
-@ConfigurationProperties("spring.cloud.aws.cloud-front")
+@ConfigurationProperties("aws.cloud-front")
 data class AwsCloudFrontProperties(
     val distributionId: String,
     val url: String,
