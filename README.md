@@ -14,7 +14,6 @@
 - Spring Cache
 - Spring Cloud AWS
 - Spring Cloud AWS S3
-- Spring Cloud LoadBalancer
 - Spring Cloud OpenFeign
 - Spring Configuration Processor
 - Spring Data Elasticsearch
@@ -26,7 +25,6 @@
 - Spring Validation
 - Spring Web
 - AWS CDK
-- Caffeine
 - Docker
 - JUnit
 - Kubernetes
