@@ -29,9 +29,9 @@ val openApiTasks = File("$rootDir/src/main/resources/specs").listFiles()?.map {
 }
 
 plugins {
-    val kotlinVersion = "2.0.0-RC1"
+    val kotlinVersion = "2.0.0-RC2"
 
-    id("org.springframework.boot") version "3.3.0-SNAPSHOT"
+    id("org.springframework.boot") version "3.3.0-RC1"
     id("io.spring.dependency-management") version "1.1.4"
     id("org.graalvm.buildtools.native") version "0.10.1"
     id("org.openapi.generator") version "7.0.1"
@@ -68,7 +68,6 @@ configurations {
 repositories {
     mavenCentral()
     maven { url = uri("https://repo.spring.io/milestone") }
-    maven { url = uri("https://repo.spring.io/snapshot") }
 }
 
 dependencies {
