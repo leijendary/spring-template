@@ -15,13 +15,10 @@ CREATE TABLE sample (
 );
 
 --changeset leijendary:create-sample-name-lower-unique-index
-CREATE UNIQUE INDEX sample_name_key
-ON sample(lower(name))
-WHERE deleted_at IS NULL;
+CREATE UNIQUE INDEX sample_name_key ON sample(lower(name)) WHERE deleted_at IS NULL;
 
 --changeset leijendary:create-sample-created-at-id-index
-CREATE INDEX sample_created_at_id_idx
-ON sample(created_at DESC, id DESC);
+CREATE INDEX sample_created_at_id_idx ON sample(created_at DESC, id DESC);
 
 --changeset leijendary:create-sample-translation-table
 CREATE TABLE sample_translation (
