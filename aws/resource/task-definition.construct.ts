@@ -22,13 +22,13 @@ import env, { isProd } from "../env";
 
 export type TaskDefinitionConstructCredentialsProps = {
   security: {
-    encrypt: {
-      key: Secret;
-      salt: Secret;
-    };
     cloudFront: {
       privateKey: Secret;
       publicKeyId: Secret;
+    };
+    encrypt: {
+      key: Secret;
+      salt: Secret;
     };
   };
   aurora: {
