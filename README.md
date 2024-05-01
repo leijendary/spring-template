@@ -101,6 +101,10 @@ different git workflow, and this is what I think is the fastest for most teams.
 This template uses [k6](https://grafana.com/docs/k6/latest/) to do the load testing. k6 is by far the best load testing
 framework for developer experience.
 
+## Running k6
+
+`k6 run k6/sample/admin.js`
+
 ### Result
 
 Given the following specifications in a kubernetes ran locally (with autoscaling, of course):
