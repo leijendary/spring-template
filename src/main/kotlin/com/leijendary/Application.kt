@@ -1,11 +1,16 @@
 package com.leijendary
 
+import com.leijendary.config.properties.KafkaTopicProperties.KafkaTopic
 import com.leijendary.model.IdentityModel
 import com.leijendary.validator.UniqueFieldsValidator
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeIn.HEADER
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeType.HTTP
 import io.swagger.v3.oas.annotations.security.SecurityScheme
 import liquibase.changelog.ChangeLogHistoryServiceFactory
+import liquibase.database.LiquibaseTableNamesFactory
+import liquibase.parser.SqlParserFactory
+import liquibase.report.ShowSummaryGeneratorFactory
+import liquibase.ui.LoggerUIService
 import org.apache.kafka.clients.consumer.CooperativeStickyAssignor
 import org.apache.kafka.common.security.authenticator.AbstractLogin.DefaultLoginCallbackHandler
 import org.apache.kafka.common.security.authenticator.DefaultLogin
@@ -52,7 +57,10 @@ class ApplicationRuntimeHints : RuntimeHintsRegistrar {
             .registerType<CooperativeStickyAssignor>(*categories)
             .registerType<DefaultLogin>(*categories)
             .registerType<DefaultLoginCallbackHandler>(*categories)
+            .registerType<KafkaTopic>(*categories)
             .registerType<KeyFactorySpi>(*categories)
+            .registerType<LiquibaseTableNamesFactory> { it.withConstructor(emptyList(), INVOKE) }
+            .registerType<LoggerUIService> { it.withConstructor(emptyList(), INVOKE) }
             .registerType<LoginModule>(*categories)
             .registerType<Mappings>(*categories)
             .registerType<SaslClient>(*categories)
@@ -62,6 +70,8 @@ class ApplicationRuntimeHints : RuntimeHintsRegistrar {
             .registerType<ScramLoginModule>(*categories)
             .registerType<ScramSaslClient>(*categories)
             .registerType<ScramSaslClientFactory>(*categories)
+            .registerType<ShowSummaryGeneratorFactory> { it.withConstructor(emptyList(), INVOKE) }
+            .registerType<SqlParserFactory> { it.withConstructor(emptyList(), INVOKE) }
             .registerType<UniqueFieldsValidator> { it.withConstructor(emptyList(), INVOKE) }
 
         // Resources
