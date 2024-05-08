@@ -26,14 +26,14 @@ jobs:
 
   # Production environment
   tag-prod:
-    name: Tag prod
+    name: Tag production
     uses: ./.github/workflows/tag.yaml
     with:
       environment: prod
     secrets: inherit
   deploy-prod:
     needs: tag-prod
-    name: Deploy prod
+    name: Deploy production
     uses: ./.github/workflows/deploy.yaml
     with:
       environment: prod
