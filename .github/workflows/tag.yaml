@@ -10,8 +10,8 @@ permissions:
   contents: read
 
 jobs:
-  tag:
-    name: Image
+  docker:
+    name: Docker
     runs-on: ubuntu-latest
     timeout-minutes: 5
     environment: ${{ inputs.environment }}
