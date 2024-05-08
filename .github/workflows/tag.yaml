@@ -11,7 +11,7 @@ permissions:
 
 jobs:
   tag:
-    name: Tag Image
+    name: Image
     runs-on: ubuntu-latest
     timeout-minutes: 5
     environment: ${{ inputs.environment }}
