@@ -12,7 +12,7 @@ RUN --mount=type=cache,target=/root/.gradle ./gradlew dependencies
 # Add source code.
 COPY src/ src/
 # Run GraalVM native compiler.
-RUN --mount=type=cache,target=/root/.gradle ./gradlew nativeCompile -x test
+RUN --mount=type=cache,target=/root/.gradle ./gradlew nativeCompile -i -x test
 
 # Run the application.
 FROM alpine:3

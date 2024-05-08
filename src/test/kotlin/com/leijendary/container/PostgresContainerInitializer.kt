@@ -7,8 +7,8 @@ class PostgresContainerInitializer : PostgreSQLContainer<PostgresContainerInitia
     override fun start() {
         super.start()
 
-        System.setProperty("spring.datasource.primary.url", jdbcUrl)
-        System.setProperty("spring.datasource.readOnly.url", jdbcUrl)
+        System.setProperty("spring.datasource.primary.jdbcUrl", jdbcUrl)
+        System.setProperty("spring.datasource.readOnly.jdbcUrl", jdbcUrl)
         System.setProperty("spring.datasource.username", username)
         System.setProperty("spring.datasource.password", password)
     }

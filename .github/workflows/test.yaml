@@ -33,7 +33,7 @@ jobs:
         with:
           cache-read-only: false
       - name: Execute Gradle test
-        run: ./gradlew test --tests "*Test"
+        run: ./gradlew test -i --tests "*Test"
         env:
           SPRING_PROFILES_ACTIVE: ci
       - name: Reports
@@ -67,7 +67,7 @@ jobs:
         with:
           cache-read-only: false
       - name: Execute Gradle test
-        run: ./gradlew test --tests "*TestCase"
+        run: ./gradlew test -i --tests "*TestCase"
         env:
           SPRING_PROFILES_ACTIVE: ci
       - name: Reports

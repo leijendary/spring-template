@@ -26,6 +26,8 @@ spring:
       protocol: PLAINTEXT
   liquibase:
     changeLog: classpath:db/changelog/db.changelog-test.yaml
+  main:
+    bannerMode: OFF
   test:
     database:
       replace: none

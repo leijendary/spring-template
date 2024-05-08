@@ -5,9 +5,6 @@ import org.testcontainers.utility.DockerImageName
 
 class ElasticsearchContainerInitializer : ElasticsearchContainer(image) {
     override fun start() {
-        withEnv("bootstrap.memory_lock", "true")
-        withEnv("xpack.security.transport.ssl.enabled", "false")
-
         super.start()
 
         System.setProperty("spring.elasticsearch.uris", httpHostAddress)
