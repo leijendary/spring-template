@@ -16,7 +16,7 @@ permissions:
 jobs:
   docker:
     name: Docker
-    runs-on: codebuild-${{ github.event.repository.name }}-${{ inputs.environment }}-${{ github.run_id }}-${{ github.run_attempt }}
+    runs-on: codebuild-${{ github.event.repository.name }}-${{ inputs.environment }}-${{ github.run_id }}-${{ github.run_attempt }}-arm-3.0-large
     timeout-minutes: 30
     environment: ${{ inputs.environment }}
     steps:
