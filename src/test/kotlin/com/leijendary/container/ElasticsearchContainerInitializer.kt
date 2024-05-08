@@ -5,7 +5,7 @@ import org.testcontainers.utility.DockerImageName
 
 class ElasticsearchContainerInitializer : ElasticsearchContainer(image) {
     override fun start() {
-        withEnv("xpack.security.enabled", "false")
+        withEnv("xpack.security.transport.ssl.enabled", "false")
 
         super.start()
 
