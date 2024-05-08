@@ -26,6 +26,7 @@ jobs:
 
   # Production environment
   tag-prod:
+    needs: deploy-staging
     name: Tag production
     uses: ./.github/workflows/tag.yaml
     with:
