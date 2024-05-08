@@ -5,8 +5,6 @@ services:
       platforms:
         - linux/arm64
         - linux/amd64
-      args:
-        SPRING_PROFILES_ACTIVE: local
     container_name: spring-template
     restart: unless-stopped
     depends_on:

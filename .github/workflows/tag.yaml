@@ -1,57 +1,36 @@
 on:
-  push:
-    tags:
-      - "*"
+  workflow_call:
+    inputs:
+      environment:
+        required: true
+        type: string
 
-concurrency:
-  group: tag
-  cancel-in-progress: true
+permissions:
+  id-token: write
+  contents: read
 
 jobs:
-  # Staging environment
-  test-staging:
-    name: Test staging
-    uses: ./.github/workflows/test.yaml
-    with:
-      environment: staging
-    secrets: inherit
-  build-staging:
-    needs: test-staging
-    name: Build staging
-    uses: ./.github/workflows/build.yaml
-    with:
-      environment: staging
-      image-tag: ${{ github.ref_name }}
-    secrets: inherit
-  deploy-staging:
-    needs: build-staging
-    name: Deploy staging
-    uses: ./.github/workflows/deploy.yaml
-    with:
-      environment: staging
-      image-tag: ${{ github.ref_name }}
-    secrets: inherit
-
-  # Production environment
-  test-prod:
-    name: Test production
-    uses: ./.github/workflows/test.yaml
-    with:
-      environment: prod
-    secrets: inherit
-  build-prod:
-    needs: test-prod
-    name: Build production
-    uses: ./.github/workflows/build.yaml
-    with:
-      environment: prod
-      image-tag: ${{ github.ref_name }}
-    secrets: inherit
-  deploy-prod:
-    needs: build-prod
-    name: Deploy production
-    uses: ./.github/workflows/deploy.yaml
-    with:
-      environment: prod
-      image-tag: ${{ github.ref_name }}
-    secrets: inherit
+  tag:
+    name: Tag Image
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    environment: ${{ inputs.environment }}
+    steps:
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-region: ${{ vars.AWS_REGION }}
+          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/DeploymentRole-${{ inputs.environment }}
+      - id: login-registry
+        name: Login to registry
+        uses: aws-actions/amazon-ecr-login@v2
+        with:
+          mask-password: true
+      - name: Tag and push
+        env:
+          SOURCE: ${{ steps.login-registry.outputs.registry }}/${{ github.event.repository.name }}:${{ github.sha }}
+          TARGET: ${{ steps.login-registry.outputs.registry }}/${{ github.event.repository.name }}:${{ github.ref_name }}
+        run: |
+          docker pull --platform=linux/arm64 ${{ env.SOURCE }}
+          docker tag ${{ env.SOURCE }} ${{ env.TARGET }}
+          docker push ${{ env.TARGET }}

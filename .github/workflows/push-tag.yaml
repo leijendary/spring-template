@@ -1,0 +1,41 @@
+on:
+  push:
+    tags:
+      - "*"
+
+concurrency:
+  group: tag
+  cancel-in-progress: true
+
+jobs:
+  # Staging environment
+  tag-staging:
+    name: Tag staging
+    uses: ./.github/workflows/tag.yaml
+    with:
+      environment: staging
+    secrets: inherit
+  deploy-staging:
+    needs: tag-staging
+    name: Deploy staging
+    uses: ./.github/workflows/deploy.yaml
+    with:
+      environment: staging
+      image-tag: ${{ github.ref_name }}
+    secrets: inherit
+
+  # Production environment
+  tag-prod:
+    name: Tag prod
+    uses: ./.github/workflows/tag.yaml
+    with:
+      environment: prod
+    secrets: inherit
+  deploy-prod:
+    needs: tag-prod
+    name: Deploy prod
+    uses: ./.github/workflows/deploy.yaml
+    with:
+      environment: prod
+      image-tag: ${{ github.ref_name }}
+    secrets: inherit
