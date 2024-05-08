@@ -37,10 +37,9 @@ jobs:
         env:
           SPRING_PROFILES_ACTIVE: ci
       - name: Reports
-        if: failure()
         uses: actions/upload-artifact@v4
         with:
-          name: reports
+          name: unit-test-reports
           path: |
             build/reports/
             build/test-results/
@@ -71,10 +70,9 @@ jobs:
         env:
           SPRING_PROFILES_ACTIVE: ci
       - name: Reports
-        if: failure()
         uses: actions/upload-artifact@v4
         with:
-          name: reports
+          name: integration-test-reports
           path: |
             build/reports/
             build/test-results/
