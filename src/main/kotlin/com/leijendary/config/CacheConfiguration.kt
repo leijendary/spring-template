@@ -17,9 +17,7 @@ class CacheConfiguration {
     }
 
     @Bean
-    fun cacheManagerCustomizer(): CacheManagerCustomizer<AbstractTransactionSupportingCacheManager> {
-        return CacheManagerCustomizer {
-            it.isTransactionAware = true
-        }
+    fun cacheManagerCustomizer() = CacheManagerCustomizer<AbstractTransactionSupportingCacheManager> {
+        it.isTransactionAware = true
     }
 }
