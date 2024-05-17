@@ -9,7 +9,7 @@ object Topic {
     const val SAMPLE_DELETED = "sampleDeleted"
 }
 
-@ConfigurationProperties("kafka.topic")
+@ConfigurationProperties("kafka.topic", ignoreUnknownFields = false)
 class KafkaTopicProperties : HashMap<String, KafkaTopic>() {
     data class KafkaTopic(val name: String, val partitions: Int = 1, val replicas: Int = 1)
 

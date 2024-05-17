@@ -69,7 +69,7 @@ openApi:
       name: Jonathan Leijendekker
       url: https://leijendary.com
   security:
-    Authorization: [ ]
+    - Authorization: [ ]
   servers:
     - url: http://localhost
       description: Local
