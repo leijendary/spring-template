@@ -11,17 +11,11 @@ import org.springframework.http.HttpStatus.NO_CONTENT
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("/api/v1/samples/admin")
+@RequestMapping("api/v1/samples/admin")
 @Tag(name = "Sample Admin")
 class SampleAdminController(private val sampleService: SampleService) {
     @GetMapping
-    @Operation(
-        summary = """
-           List of all sample records in a cursor-based result. Use createdAt and id in the next request to get 
-           the next page. This is a faster way to do pagination since it does not use limit offset, but rather
-           uses the index to get the next page of the result.
-        """
-    )
+    @Operation(summary = "List of all sample records in a paginated result.")
     fun page(queryRequest: QueryRequest, pageRequest: PageRequest): Page<SampleList> {
         return sampleService.page(queryRequest, pageRequest)
     }

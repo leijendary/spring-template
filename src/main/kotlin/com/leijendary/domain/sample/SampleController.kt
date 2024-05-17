@@ -26,7 +26,7 @@ import java.util.*
  * Pascal-Kebab-Case
  */
 @RestController
-@RequestMapping("/api/v1/samples")
+@RequestMapping("api/v1/samples")
 @Tag(name = "Sample")
 class SampleController(private val petStoreClient: PetStoreClient, private val sampleService: SampleService) {
     @GetMapping
