@@ -5,14 +5,14 @@ import java.math.BigDecimal.ZERO
 import java.math.RoundingMode
 import java.math.RoundingMode.DOWN
 
-private val ONE_HUNDRED = BigDecimal(100)
+private val ONE_HUNDRED = 100.toBigDecimal()
 
 fun BigDecimal.scaled(scale: Int = 2, mode: RoundingMode = DOWN): BigDecimal {
     return setScale(scale, mode)
 }
 
 fun BigDecimal.percent(value: BigDecimal): BigDecimal {
-    if (this == ZERO || value == ZERO) {
+    if (this.compareTo(ZERO) == 0 || value.compareTo(ZERO) == 0) {
         return ZERO
     }
 
