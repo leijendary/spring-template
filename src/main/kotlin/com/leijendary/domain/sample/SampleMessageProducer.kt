@@ -17,14 +17,14 @@ class SampleMessageProducer(
 ) {
     @Retryable
     fun created(sample: SampleDetail) {
-        val topic = kafkaTopicProperties.getName(SAMPLE_CREATED)
+        val topic = kafkaTopicProperties.nameOf(SAMPLE_CREATED)
 
         kafkaTemplate.send(topic, sample.toJson())
     }
 
     @Retryable
     fun updated(sample: SampleDetail) {
-        val topic = kafkaTopicProperties.getName(SAMPLE_UPDATED)
+        val topic = kafkaTopicProperties.nameOf(SAMPLE_UPDATED)
 
         kafkaTemplate.send(topic, sample.toJson())
     }
@@ -32,7 +32,7 @@ class SampleMessageProducer(
     @Retryable
     fun deleted(id: Long) {
         val model = IdentityModel(id)
-        val topic = kafkaTopicProperties.getName(SAMPLE_DELETED)
+        val topic = kafkaTopicProperties.nameOf(SAMPLE_DELETED)
 
         kafkaTemplate.send(topic, model.toJson())
     }

@@ -13,7 +13,7 @@ object Topic {
 class KafkaTopicProperties : HashMap<String, KafkaTopic>() {
     data class KafkaTopic(val name: String, val partitions: Int = 1, val replicas: Int = 1)
 
-    fun getName(key: String): String {
+    fun nameOf(key: String): String {
         return getValue(key).name
     }
 }
