@@ -112,14 +112,12 @@ dependencies {
     // Devtools
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 
-    // Feign
-    implementation("io.github.openfeign:feign-micrometer")
-
     // Jackson
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 
     // Observability and Metrics
     implementation(platform("io.micrometer:micrometer-tracing-bom:1.2.5"))
+    implementation("io.github.openfeign:feign-micrometer")
     implementation("io.micrometer:micrometer-registry-prometheus")
     implementation("io.micrometer:micrometer-tracing-bridge-otel")
     implementation("io.opentelemetry:opentelemetry-exporter-otlp")
