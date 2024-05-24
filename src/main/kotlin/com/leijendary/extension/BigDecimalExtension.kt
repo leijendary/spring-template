@@ -3,11 +3,11 @@ package com.leijendary.extension
 import java.math.BigDecimal
 import java.math.BigDecimal.ZERO
 import java.math.RoundingMode
-import java.math.RoundingMode.DOWN
+import java.math.RoundingMode.HALF_UP
 
 val ONE_HUNDRED = 100.toBigDecimal()
 
-fun BigDecimal.scaled(scale: Int = 2, mode: RoundingMode = DOWN): BigDecimal {
+fun BigDecimal.scaled(scale: Int = 2, mode: RoundingMode = HALF_UP): BigDecimal {
     return setScale(scale, mode)
 }
 
