@@ -5,7 +5,7 @@ import java.math.BigDecimal.ZERO
 import java.math.RoundingMode
 import java.math.RoundingMode.DOWN
 
-private val ONE_HUNDRED = 100.toBigDecimal()
+val ONE_HUNDRED = 100.toBigDecimal()
 
 fun BigDecimal.scaled(scale: Int = 2, mode: RoundingMode = DOWN): BigDecimal {
     return setScale(scale, mode)
