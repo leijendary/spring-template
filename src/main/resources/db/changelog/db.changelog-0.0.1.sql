@@ -15,7 +15,7 @@ create table sample (
 );
 
 --changeset leijendary:set-sample-id-initial-value
-select setval('sample_id_seq', (select floor(random() * 19999 + 110000)::bigint));
+select setval('sample_id_seq', (select floor(random() * 1999999 + 11000000)::bigint));
 
 --changeset leijendary:create-sample-name-lower-unique-index
 create unique index sample_name_key on sample(lower(name)) where deleted_at is null;
