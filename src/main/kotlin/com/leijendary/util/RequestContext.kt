@@ -40,16 +40,16 @@ class RequestContext {
      * function and reuse the value without passing it into multiple functions.
      */
     fun <T : Any> attribute(name: String, default: () -> T?): T? {
+        val request = currentRequest
         @Suppress("UNCHECKED_CAST")
-        var value = currentRequest.getAttribute(name) as? T
+        var value = request.getAttribute(name) as? T
 
         if (value !== null) {
             return value
         }
 
         value = default()
-
-        currentRequest.setAttribute(name, value)
+        request.setAttribute(name, value)
 
         return value
     }
