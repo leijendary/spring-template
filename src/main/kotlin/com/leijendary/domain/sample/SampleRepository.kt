@@ -7,8 +7,7 @@ import com.leijendary.model.ErrorSource
 import com.leijendary.model.PageRequest
 import com.leijendary.model.QueryRequest
 import com.leijendary.model.SeekRequest
-import com.leijendary.util.language
-import com.leijendary.util.userIdOrSystem
+import com.leijendary.util.requestContext
 import org.springframework.jdbc.core.simple.JdbcClient
 import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Transactional
@@ -54,14 +53,14 @@ class SampleRepository(private val jdbcClient: JdbcClient) {
         return jdbcClient.sql(SQL_SEEK)
             .param("id", seekRequest.id)
             .param("query", queryRequest.query)
-            .param("language", language)
+            .param("language", requestContext.language)
             .param("createdAt", seekRequest.createdAt)
             .param("limit", seekRequest.limit())
             .query(SampleList::class.java)
             .list()
     }
 
-    fun create(request: SampleRequest, userId: String = userIdOrSystem): SampleDetail {
+    fun create(request: SampleRequest, userId: String = requestContext.userIdOrSystem): SampleDetail {
         return jdbcClient.sql(SQL_CREATE)
             .param("name", request.name)
             .param("description", request.description)
@@ -89,7 +88,7 @@ class SampleRepository(private val jdbcClient: JdbcClient) {
     fun get(id: Long, translate: Boolean): SampleDetail {
         return jdbcClient.sql(SQL_GET)
             .param("id", id)
-            .param("language", language)
+            .param("language", requestContext.language)
             .param("translate", translate)
             .query(SampleDetail::class.java)
             .optional()
@@ -104,7 +103,12 @@ class SampleRepository(private val jdbcClient: JdbcClient) {
             .list()
     }
 
-    fun update(id: Long, version: Int, request: SampleRequest, userId: String = userIdOrSystem): SampleDetail {
+    fun update(
+        id: Long,
+        version: Int,
+        request: SampleRequest,
+        userId: String = requestContext.userIdOrSystem
+    ): SampleDetail {
         return jdbcClient.sql(SQL_UPDATE)
             .param("id", id)
             .param("version", version)
@@ -136,7 +140,7 @@ class SampleRepository(private val jdbcClient: JdbcClient) {
             .list()
     }
 
-    fun delete(id: Long, version: Int, userId: String = userIdOrSystem) {
+    fun delete(id: Long, version: Int, userId: String = requestContext.userIdOrSystem) {
         val count = jdbcClient.sql(SQL_DELETE)
             .param("id", id)
             .param("version", version)

@@ -23,7 +23,9 @@ import org.apache.kafka.common.security.scram.internals.ScramSaslClient.ScramSas
 import org.bouncycastle.jcajce.provider.asymmetric.RSA.Mappings
 import org.bouncycastle.jcajce.provider.asymmetric.rsa.KeyFactorySpi
 import org.springframework.aot.hint.ExecutableMode.INVOKE
-import org.springframework.aot.hint.MemberCategory.*
+import org.springframework.aot.hint.MemberCategory.DECLARED_CLASSES
+import org.springframework.aot.hint.MemberCategory.INVOKE_DECLARED_CONSTRUCTORS
+import org.springframework.aot.hint.MemberCategory.INVOKE_DECLARED_METHODS
 import org.springframework.aot.hint.RuntimeHints
 import org.springframework.aot.hint.RuntimeHintsRegistrar
 import org.springframework.aot.hint.registerType

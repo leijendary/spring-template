@@ -2,12 +2,10 @@ package com.leijendary.util
 
 import com.leijendary.error.exception.StatusException
 import com.leijendary.model.ErrorSource
-import jakarta.servlet.http.HttpServletRequest
-import org.springframework.context.i18n.LocaleContextHolder.getLocale
-import org.springframework.context.i18n.LocaleContextHolder.getTimeZone
+import org.springframework.context.i18n.LocaleContextHolder
 import org.springframework.http.HttpStatus.UNAUTHORIZED
-import org.springframework.web.context.request.RequestAttributes
-import org.springframework.web.context.request.RequestAttributes.SCOPE_REQUEST
+import org.springframework.stereotype.Component
+import org.springframework.web.context.annotation.RequestScope
 import org.springframework.web.context.request.RequestContextHolder
 import org.springframework.web.context.request.ServletRequestAttributes
 import java.time.ZoneId
@@ -21,50 +19,38 @@ private val SESSION_NOT_FOUND_EXCEPTION = StatusException(
     source = ErrorSource(header = HEADER_USER_ID)
 )
 
-val attributes: RequestAttributes
-    get() = RequestContextHolder.currentRequestAttributes()
+@Component
+@RequestScope
+class RequestContext {
+    val attributes by lazy { RequestContextHolder.currentRequestAttributes() }
+    val currentRequest by lazy { (attributes as ServletRequestAttributes).request }
+    val userIdOrNull: String? by lazy { currentRequest.getHeader(HEADER_USER_ID) }
+    val userIdOrSystem: String by lazy { userIdOrNull ?: USER_SYSTEM }
+    val userIdOrThrow: String by lazy { userIdOrNull ?: throw SESSION_NOT_FOUND_EXCEPTION }
+    val timeZone: TimeZone by lazy { LocaleContextHolder.getTimeZone() }
+    val zoneId: ZoneId by lazy { timeZone.toZoneId() }
+    val locale: Locale by lazy { LocaleContextHolder.getLocale() }
+    val language: String by lazy { locale.language }
 
-val currentRequest: HttpServletRequest
-    get() = (attributes as ServletRequestAttributes).request
+    /**
+     * Added this here as a utility function to cache objects in to the request scope.
+     * For example, you have an external API call that is being called multiple times
+     * within the same request lifecycle. Instead of calling the said external API call
+     * once and passing the result in to multiple functions, save the result in to this
+     * function and reuse the value without passing it into multiple functions.
+     */
+    fun <T : Any> attribute(name: String, default: () -> T?): T? {
+        @Suppress("UNCHECKED_CAST")
+        var value = currentRequest.getAttribute(name) as? T
 
-val userIdOrNull: String?
-    get() = currentRequest.getHeader(HEADER_USER_ID)
+        if (value !== null) {
+            return value
+        }
 
-val userIdOrThrow: String
-    get() = userIdOrNull ?: throw SESSION_NOT_FOUND_EXCEPTION
+        value = default()
 
-val userIdOrSystem: String
-    get() = userIdOrNull ?: USER_SYSTEM
+        currentRequest.setAttribute(name, value)
 
-val timeZone: TimeZone
-    get() = getTimeZone()
-
-val zoneId: ZoneId
-    get() = timeZone.toZoneId()
-
-val locale: Locale
-    get() = getLocale()
-
-val language: String
-    get() = locale.language
-
-/**
- * Added this here as a utility function to cache objects in to the request scope.
- * For example, you have an external API call that is being called multiple times
- * within the same request lifecycle. Instead of calling the said external API call
- * once and passing the result in to multiple functions, save the result in to this
- * function and reuse the value without passing it into multiple functions.
- */
-inline fun <reified T : Any> requestAttribute(name: String, default: () -> T): T {
-    var value = attributes.getAttribute(name, SCOPE_REQUEST) as? T
-
-    if (value !== null) {
         return value
     }
-
-    value = default()
-
-    attributes.setAttribute(name, value, SCOPE_REQUEST)
-
-    return value
 }

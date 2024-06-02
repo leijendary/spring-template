@@ -5,11 +5,14 @@ import com.leijendary.extension.logger
 import com.leijendary.extension.snakeCaseToCamelCase
 import com.leijendary.model.ErrorModel
 import com.leijendary.model.ErrorSource
-import com.leijendary.util.locale
+import com.leijendary.util.requestContext
 import org.postgresql.util.PSQLException
 import org.springframework.context.MessageSource
 import org.springframework.core.annotation.Order
-import org.springframework.http.HttpStatus.*
+import org.springframework.http.HttpStatus.BAD_REQUEST
+import org.springframework.http.HttpStatus.CONFLICT
+import org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR
+import org.springframework.http.HttpStatus.NOT_FOUND
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.RestControllerAdvice
@@ -26,7 +29,7 @@ class PSQLExceptionHandler(private val messageSource: MessageSource) {
         if (errorMessage === null) {
             log.error("Got an unknown database exception", exception)
 
-            val message = messageSource.getMessage(CODE_SERVER_ERROR, emptyArray(), locale)
+            val message = messageSource.getMessage(CODE_SERVER_ERROR, emptyArray(), requestContext.locale)
             val error = ErrorModel(code = CODE_SERVER_ERROR, message = message, source = SOURCE_SERVER_INTERNAL)
             val errors = listOf(error)
 
@@ -57,7 +60,7 @@ class PSQLExceptionHandler(private val messageSource: MessageSource) {
             else -> "error.data.integrity" to BAD_REQUEST
         }
         val arguments = arrayOf(column, value)
-        val message = messageSource.getMessage(code, arguments, locale)
+        val message = messageSource.getMessage(code, arguments, requestContext.locale)
         val source = ErrorSource(pointer = "/data/$table/$column")
         val error = ErrorModel(code = code, message = message, source = source)
         val errors = listOf(error)

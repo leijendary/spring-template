@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.exc.InvalidFormatException
 import com.fasterxml.jackson.databind.exc.MismatchedInputException
 import com.leijendary.model.ErrorModel
 import com.leijendary.model.ErrorSource
-import com.leijendary.util.locale
+import com.leijendary.util.requestContext
 import org.springframework.context.MessageSource
 import org.springframework.core.annotation.Order
 import org.springframework.http.HttpStatus.BAD_REQUEST
@@ -52,7 +52,7 @@ class HttpMessageNotReadableExceptionHandler(private val messageSource: MessageS
         val code = "error.format.invalid"
         val field = exception.path.lastOrNull()?.fieldName ?: "body"
         val arguments = arrayOf(field, exception.value, exception.targetType.simpleName)
-        val message = messageSource.getMessage(code, arguments, locale)
+        val message = messageSource.getMessage(code, arguments, requestContext.locale)
 
         return ErrorModel(code = code, message = message, source = source)
     }
@@ -62,7 +62,7 @@ class HttpMessageNotReadableExceptionHandler(private val messageSource: MessageS
         val code = "error.format.incompatible"
         val field = exception.path.lastOrNull()?.fieldName ?: "body"
         val arguments = arrayOf(field, exception.targetType.simpleName)
-        val message = messageSource.getMessage(code, arguments, locale)
+        val message = messageSource.getMessage(code, arguments, requestContext.locale)
 
         return ErrorModel(code = code, message = message, source = source)
     }

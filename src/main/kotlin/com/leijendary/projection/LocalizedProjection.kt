@@ -1,9 +1,9 @@
 package com.leijendary.projection
 
-import com.leijendary.util.language
+import com.leijendary.util.requestContext
 
 interface LocalizedProjection<T : LocaleProjection> {
     val translations: List<T>
     val translation: T
-        get() = translations.firstOrNull { it.language == language } ?: translations.minBy { it.ordinal }
+        get() = translations.firstOrNull { it.language == requestContext.language } ?: translations.minBy { it.ordinal }
 }

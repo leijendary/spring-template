@@ -2,7 +2,7 @@ package com.leijendary.error
 
 import com.leijendary.model.ErrorModel
 import com.leijendary.model.ErrorSource
-import com.leijendary.util.locale
+import com.leijendary.util.requestContext
 import org.springframework.context.MessageSource
 import org.springframework.core.annotation.Order
 import org.springframework.http.HttpStatus.BAD_REQUEST
@@ -26,7 +26,7 @@ class MethodArgumentTypeMismatchExceptionHandler(private val messageSource: Mess
         val value = exception.value
         val valueType = ClassUtils.getDescriptiveType(value)?.let(::getShortName)
         val arguments = arrayOf(name, value, valueType, requiredType)
-        val message = messageSource.getMessage(code, arguments, locale)
+        val message = messageSource.getMessage(code, arguments, requestContext.locale)
         val source = ErrorSource(pointer = "/param/$name")
         val error = ErrorModel(code = code, message = message, source = source)
 

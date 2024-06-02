@@ -4,11 +4,15 @@ import com.leijendary.client.PetStoreClient
 import com.leijendary.model.QueryRequest
 import com.leijendary.model.Seek
 import com.leijendary.model.SeekRequest
-import com.leijendary.util.requestAttribute
+import com.leijendary.util.requestContext
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.openapi.petstore.v2.model.Pet
-import org.springframework.web.bind.annotation.*
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
+import org.springframework.web.bind.annotation.RestController
 import java.util.*
 
 /**
@@ -63,12 +67,12 @@ class SampleController(private val petStoreClient: PetStoreClient, private val s
     }
 
     @GetMapping("request-scoped")
-    fun requestScoped(@RequestParam value: UUID): Pair<Map<String, UUID>, Map<String, UUID>> {
+    fun requestScoped(@RequestParam value: UUID): Pair<Map<String, UUID>?, Map<String, UUID>?> {
         val simpleName = UUID::class.qualifiedName!!
-        val a = requestAttribute(simpleName) { mapOf("value" to value) }
-        val b = requestAttribute(simpleName) { mapOf("value" to value) }
+        val a = requestContext.attribute(simpleName) { mapOf("value" to value) }
+        val b = requestContext.attribute(simpleName) { mapOf("differentValue" to UUID.randomUUID()) }
 
-        assert(value == a["value"])
+        assert(value == a?.get("value"))
         assert(a == b)
 
         return a to b

@@ -18,7 +18,7 @@ fun <T> transactional(readOnly: Boolean = false, function: (TransactionStatus) -
 }
 
 /**
- * Use this function when the code is inside a transaction and you want to run something when the transaction ends.
+ * Use this function when the code is inside a transaction, and you want to run something when the transaction ends.
  */
 fun afterCommit(function: () -> Any) = registerSynchronization(object : TransactionSynchronization {
     override fun afterCommit() {

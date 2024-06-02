@@ -3,7 +3,7 @@ package com.leijendary.error
 import com.leijendary.error.exception.VersionConflictException
 import com.leijendary.model.ErrorModel
 import com.leijendary.model.ErrorSource
-import com.leijendary.util.locale
+import com.leijendary.util.requestContext
 import org.springframework.context.MessageSource
 import org.springframework.core.annotation.Order
 import org.springframework.http.HttpStatus.CONFLICT
@@ -18,7 +18,7 @@ class VersionConflictExceptionHandler(private val messageSource: MessageSource) 
     @ResponseStatus(CONFLICT)
     fun catchVersionConflict(exception: VersionConflictException): List<ErrorModel> {
         val code = "error.data.version.conflict"
-        val message = messageSource.getMessage(code, emptyArray(), locale)
+        val message = messageSource.getMessage(code, emptyArray(), requestContext.locale)
         val source = ErrorSource(
             pointer = "/data/${exception.entity}/version",
             meta = mutableMapOf("version" to exception.version)

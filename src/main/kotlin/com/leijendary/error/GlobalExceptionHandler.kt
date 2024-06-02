@@ -4,7 +4,7 @@ import com.leijendary.extension.logger
 import com.leijendary.model.ErrorModel
 import com.leijendary.model.ErrorSource
 import com.leijendary.util.SpringContext.Companion.isProd
-import com.leijendary.util.locale
+import com.leijendary.util.requestContext
 import org.springframework.context.MessageSource
 import org.springframework.core.annotation.Order
 import org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR
@@ -26,7 +26,7 @@ class GlobalExceptionHandler(private val messageSource: MessageSource) {
         log.error("Global Exception", exception)
 
         val message = if (isProd) {
-            messageSource.getMessage(CODE_SERVER_ERROR, emptyArray(), locale)
+            messageSource.getMessage(CODE_SERVER_ERROR, emptyArray(), requestContext.locale)
         } else {
             exception.message
         }

@@ -2,7 +2,7 @@ package com.leijendary.error
 
 import com.leijendary.model.ErrorModel
 import com.leijendary.model.ErrorSource
-import com.leijendary.util.locale
+import com.leijendary.util.requestContext
 import org.springframework.context.MessageSource
 import org.springframework.core.annotation.Order
 import org.springframework.http.HttpStatus.METHOD_NOT_ALLOWED
@@ -21,7 +21,7 @@ class HttpRequestMethodNotSupportedExceptionHandler(private val messageSource: M
     fun catchHttpRequestMethodNotSupported(exception: HttpRequestMethodNotSupportedException): List<ErrorModel> {
         val code = "error.method.notSupported"
         val arguments = arrayOf(exception.method, exception.supportedHttpMethods)
-        val message = messageSource.getMessage(code, arguments, locale)
+        val message = messageSource.getMessage(code, arguments, requestContext.locale)
         val error = ErrorModel(code = code, message = message, source = SOURCE)
 
         return listOf(error)

@@ -2,7 +2,7 @@ package com.leijendary.error
 
 import com.leijendary.model.ErrorModel
 import com.leijendary.model.ErrorSource
-import com.leijendary.util.locale
+import com.leijendary.util.requestContext
 import org.springframework.context.MessageSource
 import org.springframework.core.annotation.Order
 import org.springframework.http.HttpStatus.BAD_REQUEST
@@ -42,7 +42,7 @@ class BindExceptionHandler(private val messageSource: MessageSource) {
         } else {
             "validation.binding.invalidValue"
         }
-        val message = messageSource.getMessage(code, error.arguments, code, locale)
+        val message = messageSource.getMessage(code, error.arguments, code, requestContext.locale)
 
         return ErrorModel(code = code, message = message, source = source)
     }

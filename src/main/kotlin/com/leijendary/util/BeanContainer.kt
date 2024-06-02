@@ -11,4 +11,5 @@ val blockStorage by lazy { getBean(BlockStorage::class) }
 val encryption by lazy { getBean(Encryption::class) }
 val objectMapper by lazy { getBean(ObjectMapper::class) }
 val readOnlyTransactionalTemplate by lazy { getBean(BEAN_READ_ONLY_TRANSACTION_TEMPLATE, TransactionTemplate::class) }
+val requestContext by lazy { getBean(RequestContext::class) }
 val transactionTemplate by lazy { getBean(TransactionTemplate::class) }
