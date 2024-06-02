@@ -15,9 +15,9 @@ class SpringContext : ApplicationContextAware {
     }
 
     companion object {
-        private lateinit var context: ApplicationContext
-
         var isProd by notNull<Boolean>()
+
+        private lateinit var context: ApplicationContext
 
         fun <T : Any> getBean(beanClass: KClass<T>): T {
             return context.getBean(beanClass.java)
