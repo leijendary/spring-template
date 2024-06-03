@@ -39,7 +39,7 @@ class RequestContext {
      * once and passing the result in to multiple functions, save the result in to this
      * function and reuse the value without passing it into multiple functions.
      */
-    fun <T : Any> attribute(name: String, default: () -> T?): T? {
+    fun <T : Any> attribute(name: String, default: () -> T): T {
         val request = currentRequest
         @Suppress("UNCHECKED_CAST")
         var value = request.getAttribute(name) as? T
