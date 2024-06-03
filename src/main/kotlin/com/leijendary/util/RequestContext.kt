@@ -22,9 +22,11 @@ private val SESSION_NOT_FOUND_EXCEPTION = StatusException(
 @Component
 @RequestScope
 class RequestContext {
-    val attributes by lazy { RequestContextHolder.currentRequestAttributes() }
-    val currentRequest by lazy { (attributes as ServletRequestAttributes).request }
-    val userIdOrNull: String? by lazy { currentRequest.getHeader(HEADER_USER_ID) }
+    val currentRequest by lazy {
+        val attributes = RequestContextHolder.getRequestAttributes() as? ServletRequestAttributes
+        attributes?.request
+    }
+    val userIdOrNull: String? by lazy { currentRequest?.getHeader(HEADER_USER_ID) }
     val userIdOrSystem: String by lazy { userIdOrNull ?: USER_SYSTEM }
     val userIdOrThrow: String by lazy { userIdOrNull ?: throw SESSION_NOT_FOUND_EXCEPTION }
     val timeZone: TimeZone by lazy { LocaleContextHolder.getTimeZone() }
@@ -40,7 +42,7 @@ class RequestContext {
      * function and reuse the value without passing it into multiple functions.
      */
     fun <T : Any> attribute(name: String, default: () -> T): T {
-        val request = currentRequest
+        val request = currentRequest ?: throw IllegalStateException("No thread-bound request found")
         @Suppress("UNCHECKED_CAST")
         var value = request.getAttribute(name) as? T
 

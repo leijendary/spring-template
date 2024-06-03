@@ -28,10 +28,24 @@ private val SQL_TRANSLATIONS_CREATE = "db/sql/sample/translations.create.sql".co
 private val SQL_TRANSLATIONS_UPSERT = "db/sql/sample/translations.upsert.sql".content()
 private val SQL_TRANSLATIONS_DELETE_NOT = "db/sql/sample/translations-not.delete.sql".content()
 
+interface SampleRepository {
+    fun page(queryRequest: QueryRequest, pageRequest: PageRequest): List<SampleList>
+    fun count(queryRequest: QueryRequest): Long
+    fun seek(queryRequest: QueryRequest, seekRequest: SeekRequest): MutableList<SampleList>
+    fun create(request: SampleRequest, userId: String): SampleDetail
+    fun createTranslations(id: Long, translations: List<SampleTranslationRequest>): List<SampleTranslation>
+    fun get(id: Long, translate: Boolean): SampleDetail
+    fun listTranslations(id: Long): List<SampleTranslation>
+    fun update(id: Long, version: Int, request: SampleRequest, userId: String): SampleDetail
+    fun updateTranslations(id: Long, translations: List<SampleTranslationRequest>): List<SampleTranslation>
+    fun delete(id: Long, version: Int, userId: String)
+    fun streamAll(): Stream<SampleDetail>
+}
+
 @Repository
-class SampleRepository(private val jdbcClient: JdbcClient) {
+class SampleRepositoryImpl(private val jdbcClient: JdbcClient) : SampleRepository {
     @Transactional(readOnly = true)
-    fun page(queryRequest: QueryRequest, pageRequest: PageRequest): List<SampleList> {
+    override fun page(queryRequest: QueryRequest, pageRequest: PageRequest): List<SampleList> {
         return jdbcClient.sql(SQL_PAGE)
             .param("query", queryRequest.query)
             .param("limit", pageRequest.limit())
@@ -41,7 +55,7 @@ class SampleRepository(private val jdbcClient: JdbcClient) {
     }
 
     @Transactional(readOnly = true)
-    fun count(queryRequest: QueryRequest): Long {
+    override fun count(queryRequest: QueryRequest): Long {
         return jdbcClient.sql(SQL_COUNT)
             .param("query", queryRequest.query)
             .query(Long::class.java)
@@ -49,7 +63,7 @@ class SampleRepository(private val jdbcClient: JdbcClient) {
     }
 
     @Transactional(readOnly = true)
-    fun seek(queryRequest: QueryRequest, seekRequest: SeekRequest): MutableList<SampleList> {
+    override fun seek(queryRequest: QueryRequest, seekRequest: SeekRequest): MutableList<SampleList> {
         return jdbcClient.sql(SQL_SEEK)
             .param("id", seekRequest.id)
             .param("query", queryRequest.query)
@@ -60,7 +74,7 @@ class SampleRepository(private val jdbcClient: JdbcClient) {
             .list()
     }
 
-    fun create(request: SampleRequest, userId: String = requestContext.userIdOrSystem): SampleDetail {
+    override fun create(request: SampleRequest, userId: String): SampleDetail {
         return jdbcClient.sql(SQL_CREATE)
             .param("name", request.name)
             .param("description", request.description)
@@ -71,7 +85,7 @@ class SampleRepository(private val jdbcClient: JdbcClient) {
             .single()
     }
 
-    fun createTranslations(id: Long, translations: List<SampleTranslationRequest>): List<SampleTranslation> {
+    override fun createTranslations(id: Long, translations: List<SampleTranslationRequest>): List<SampleTranslation> {
         val binds = translations.toBinds()
 
         return jdbcClient.sql(SQL_TRANSLATIONS_CREATE)
@@ -85,7 +99,7 @@ class SampleRepository(private val jdbcClient: JdbcClient) {
     }
 
     @Transactional(readOnly = true)
-    fun get(id: Long, translate: Boolean): SampleDetail {
+    override fun get(id: Long, translate: Boolean): SampleDetail {
         return jdbcClient.sql(SQL_GET)
             .param("id", id)
             .param("language", requestContext.language)
@@ -96,19 +110,14 @@ class SampleRepository(private val jdbcClient: JdbcClient) {
     }
 
     @Transactional(readOnly = true)
-    fun listTranslations(id: Long): List<SampleTranslation> {
+    override fun listTranslations(id: Long): List<SampleTranslation> {
         return jdbcClient.sql(SQL_TRANSLATIONS_LIST)
             .param("id", id)
             .query(SampleTranslation::class.java)
             .list()
     }
 
-    fun update(
-        id: Long,
-        version: Int,
-        request: SampleRequest,
-        userId: String = requestContext.userIdOrSystem
-    ): SampleDetail {
+    override fun update(id: Long, version: Int, request: SampleRequest, userId: String): SampleDetail {
         return jdbcClient.sql(SQL_UPDATE)
             .param("id", id)
             .param("version", version)
@@ -122,7 +131,7 @@ class SampleRepository(private val jdbcClient: JdbcClient) {
     }
 
     @Transactional
-    fun updateTranslations(id: Long, translations: List<SampleTranslationRequest>): List<SampleTranslation> {
+    override fun updateTranslations(id: Long, translations: List<SampleTranslationRequest>): List<SampleTranslation> {
         val binds = translations.toBinds()
 
         jdbcClient.sql(SQL_TRANSLATIONS_DELETE_NOT)
@@ -140,7 +149,7 @@ class SampleRepository(private val jdbcClient: JdbcClient) {
             .list()
     }
 
-    fun delete(id: Long, version: Int, userId: String = requestContext.userIdOrSystem) {
+    override fun delete(id: Long, version: Int, userId: String) {
         val count = jdbcClient.sql(SQL_DELETE)
             .param("id", id)
             .param("version", version)
@@ -153,7 +162,7 @@ class SampleRepository(private val jdbcClient: JdbcClient) {
     }
 
     @Transactional(readOnly = true)
-    fun streamAll(): Stream<SampleDetail> {
+    override fun streamAll(): Stream<SampleDetail> {
         return jdbcClient.sql(SQL_STREAM).query(SampleDetail::class.java).stream()
     }
 }

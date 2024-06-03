@@ -17,14 +17,22 @@ private const val STREAM_CHUNK = 1000
 private const val ENTITY = "sampleSearch"
 private val SOURCE = ErrorSource(pointer = "/data/$ENTITY/id")
 
+interface SampleSearchService {
+    fun page(queryRequest: QueryRequest, pageRequest: PageRequest): Page<SampleList>
+    fun save(sample: SampleDetail)
+    fun update(sample: SampleDetail)
+    fun delete(id: Long)
+    fun reindex(): Int
+}
+
 @Service
-class SampleSearchService(
+class SampleSearchServiceImpl(
     private val sampleRepository: SampleRepository,
     private val sampleSearchRepository: SampleSearchRepository,
-) {
+) : SampleSearchService {
     private val log = logger()
 
-    fun page(queryRequest: QueryRequest, pageRequest: PageRequest): Page<SampleList> {
+    override fun page(queryRequest: QueryRequest, pageRequest: PageRequest): Page<SampleList> {
         if (queryRequest.query.isNullOrBlank()) {
             return empty(pageRequest)
         }
@@ -37,13 +45,13 @@ class SampleSearchService(
         return Page(pageRequest, samples.content, samples.totalElements)
     }
 
-    fun save(sample: SampleDetail) {
+    override fun save(sample: SampleDetail) {
         val search = map(sample)
 
         sampleSearchRepository.save(search)
     }
 
-    fun update(sample: SampleDetail) {
+    override fun update(sample: SampleDetail) {
         val exists = sampleSearchRepository.existsById(sample.id)
 
         if (!exists) {
@@ -53,7 +61,7 @@ class SampleSearchService(
         save(sample)
     }
 
-    fun delete(id: Long) {
+    override fun delete(id: Long) {
         val exists = sampleSearchRepository.existsById(id)
 
         if (!exists) {
@@ -64,7 +72,7 @@ class SampleSearchService(
     }
 
     @Transactional(readOnly = true)
-    fun reindex(): Int {
+    override fun reindex(): Int {
         val count = AtomicInteger()
 
         sampleRepository.streamAll().parallel().use { stream ->
