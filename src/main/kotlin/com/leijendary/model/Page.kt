@@ -23,6 +23,10 @@ data class PageRequest(
 
     @JsonIgnore
     fun pageable(): Pageable {
+        if (sort.isEmpty()) {
+            return Pageable.of(page.dec(), size)
+        }
+
         return Pageable.of(page.dec(), size, direction, *sort.toTypedArray())
     }
 }
@@ -32,6 +36,12 @@ data class Page<T>(private val request: PageRequest, val data: List<T>, val tota
     val size = request.size
     val direction = request.direction
     val sort = request.sort
+
+    fun <R> map(mapper: (T) -> R): Page<R> {
+        val mapped = data.map(mapper)
+
+        return Page(request, mapped, total)
+    }
 
     companion object {
         fun <T> empty(request: PageRequest): Page<T> {

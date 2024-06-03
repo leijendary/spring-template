@@ -4,7 +4,6 @@ import com.leijendary.error.exception.ResourceNotFoundException
 import com.leijendary.extension.logger
 import com.leijendary.model.ErrorSource
 import com.leijendary.model.Page
-import com.leijendary.model.Page.Companion.empty
 import com.leijendary.model.PageRequest
 import com.leijendary.model.QueryRequest
 import org.springframework.data.elasticsearch.core.suggest.Completion
@@ -33,16 +32,9 @@ class SampleSearchServiceImpl(
     private val log = logger()
 
     override fun page(queryRequest: QueryRequest, pageRequest: PageRequest): Page<SampleList> {
-        if (queryRequest.query.isNullOrBlank()) {
-            return empty(pageRequest)
-        }
-
-        val query = queryRequest.query
-        val samples = sampleSearchRepository
-            .findByTranslationsNameOrTranslationsDescription(query, query, pageRequest.pageable())
+        return sampleSearchRepository
+            .findByTranslations(queryRequest, pageRequest)
             .map(::mapToList)
-
-        return Page(pageRequest, samples.content, samples.totalElements)
     }
 
     override fun save(sample: SampleDetail) {
@@ -52,7 +44,7 @@ class SampleSearchServiceImpl(
     }
 
     override fun update(sample: SampleDetail) {
-        val exists = sampleSearchRepository.existsById(sample.id)
+        val exists = sampleSearchRepository.exists(sample.id)
 
         if (!exists) {
             throw ResourceNotFoundException(sample.id, ENTITY, SOURCE)
@@ -62,13 +54,13 @@ class SampleSearchServiceImpl(
     }
 
     override fun delete(id: Long) {
-        val exists = sampleSearchRepository.existsById(id)
+        val exists = sampleSearchRepository.exists(id)
 
         if (!exists) {
             throw ResourceNotFoundException(id, ENTITY, SOURCE)
         }
 
-        sampleSearchRepository.deleteById(id)
+        sampleSearchRepository.delete(id)
     }
 
     @Transactional(readOnly = true)

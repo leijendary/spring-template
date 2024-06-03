@@ -10,10 +10,12 @@ import java.time.OffsetDateTime
 import java.time.format.DateTimeFormatter.ISO_LOCAL_DATE_TIME
 import java.time.temporal.ChronoUnit.SECONDS
 
+private const val FUZZINESS_AUTO = "auto"
+
 fun Builder.shouldMatch(query: String, vararg fields: String) = apply {
     fields.forEach { field ->
         should { should ->
-            should.match { it.query(query).field(field) }
+            should.match { it.query(query).field(field).fuzziness(FUZZINESS_AUTO) }
         }
     }
 }
@@ -21,7 +23,7 @@ fun Builder.shouldMatch(query: String, vararg fields: String) = apply {
 fun Builder.mustMatch(query: String, vararg fields: String) = apply {
     fields.forEach { field ->
         must { must ->
-            must.match { it.query(query).field(field) }
+            must.match { it.query(query).field(field).fuzziness(FUZZINESS_AUTO) }
         }
     }
 }
