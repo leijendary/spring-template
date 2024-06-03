@@ -20,6 +20,15 @@ fun Builder.shouldMatch(query: String, vararg fields: String) = apply {
     }
 }
 
+/**
+ * Usually used to boost matched phrase and move exact match to the top
+ */
+fun Builder.shouldMatchPhrase(query: String, field: String, boost: Float = 2f) = apply {
+    should { should ->
+        should.matchPhrase { it.query(query).field(field).boost(boost) }
+    }
+}
+
 fun Builder.mustMatch(query: String, vararg fields: String) = apply {
     fields.forEach { field ->
         must { must ->

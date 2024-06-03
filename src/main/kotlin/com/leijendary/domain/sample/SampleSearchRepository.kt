@@ -3,6 +3,7 @@ package com.leijendary.domain.sample
 import co.elastic.clients.elasticsearch._types.query_dsl.Query
 import co.elastic.clients.util.ObjectBuilder
 import com.leijendary.extension.shouldMatch
+import com.leijendary.extension.shouldMatchPhrase
 import com.leijendary.model.Page
 import com.leijendary.model.PageRequest
 import com.leijendary.model.QueryRequest
@@ -73,6 +74,8 @@ class SampleSearchRepositoryImpl(private val elasticsearchTemplate: Elasticsearc
         return query.bool {
             queryRequest.query?.run {
                 it.shouldMatch(this, FIELD_TRANSLATIONS_NAME, FIELD_TRANSLATIONS_DESCRIPTION)
+                // Additional boost for the exact match
+                it.shouldMatchPhrase(this, FIELD_TRANSLATIONS_NAME)
             }
         }
     }
