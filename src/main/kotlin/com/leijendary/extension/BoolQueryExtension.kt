@@ -21,11 +21,11 @@ fun Builder.shouldMatch(query: String, vararg fields: String) = apply {
 }
 
 /**
- * Usually used to boost matched phrase and move exact match to the top
+ * Usually used to boost records with exact match to the top
  */
-fun Builder.shouldMatchPhrase(query: String, field: String, boost: Float = 2f) = apply {
+fun Builder.shouldTerm(query: String, field: String, boost: Float = 2.0f) = apply {
     should { should ->
-        should.matchPhrase { it.query(query).field(field).boost(boost) }
+        should.term { it.value(query).field(field).boost(boost).caseInsensitive(true) }
     }
 }
 

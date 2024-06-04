@@ -50,7 +50,7 @@ data class SampleSearch(
 }
 
 data class SampleSearchTranslation(
-    @Field(type = Text)
+    @MultiField(mainField = Field(type = Text), otherFields = [InnerField(suffix = "keyword", type = Keyword)])
     val name: String,
 
     @Field(type = Text)
