@@ -1,6 +1,7 @@
 package com.leijendary.extension
 
 import com.fasterxml.jackson.core.type.TypeReference
+import com.fasterxml.jackson.databind.JsonNode
 import com.leijendary.util.objectMapper
 import org.springframework.core.io.ClassPathResource
 import org.springframework.util.StreamUtils
@@ -17,6 +18,14 @@ inline fun <reified T> String.toClass(): T {
 
 fun <T> String.toClass(reference: TypeReference<T>): T {
     return objectMapper.readValue(this, reference)
+}
+
+fun String.json(): JsonNode {
+    return toClass<JsonNode>()
+}
+
+fun String.jsonString(): String {
+    return json().toString()
 }
 
 fun String.snakeCaseToCamelCase(capitalizeFirst: Boolean = false): String {
