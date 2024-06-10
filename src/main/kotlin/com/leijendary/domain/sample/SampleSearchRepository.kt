@@ -3,6 +3,7 @@ package com.leijendary.domain.sample
 import co.elastic.clients.elasticsearch._types.ScriptLanguage
 import co.elastic.clients.elasticsearch._types.query_dsl.Query
 import co.elastic.clients.util.ObjectBuilder
+import com.leijendary.extension.content
 import com.leijendary.extension.shouldMatch
 import com.leijendary.extension.shouldTerm
 import com.leijendary.model.ErrorSource
@@ -35,12 +36,12 @@ val SEARCH_SOURCE = ErrorSource(pointer = "/data/$SEARCH_ENTITY/id")
 private val INDEX = IndexCoordinates.of(SampleSearch.INDEX_NAME)
 private val SCRIPT_IMAGE_SET = Script.builder()
     .withId("sample-image-set")
-    .withSource("ctx._source.image = params.image")
+    .withSource("elasticsearch/sample/image.set.script".content())
     .withLanguage(ScriptLanguage.Painless.jsonValue())
     .build()
 private val SCRIPT_IMAGE_DELETE = Script.builder()
     .withId("sample-image-delete")
-    .withSource("ctx._source.remove('image')")
+    .withSource("elasticsearch/sample/image.delete.script".content())
     .withLanguage(ScriptLanguage.Painless.jsonValue())
     .build()
 private const val FIELD_TRANSLATIONS_NAME = "translations.name"
