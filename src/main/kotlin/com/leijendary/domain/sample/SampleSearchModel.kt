@@ -1,5 +1,6 @@
 package com.leijendary.domain.sample
 
+import com.leijendary.domain.image.ImageResponse
 import com.leijendary.domain.sample.SampleSearch.Companion.INDEX_NAME
 import com.leijendary.projection.LocaleProjection
 import com.leijendary.projection.LocalizedProjection
@@ -37,6 +38,8 @@ data class SampleSearch(
 
     @Field(type = Nested, includeInParent = true)
     override var translations: List<SampleSearchTranslation> = emptyList(),
+
+    var image: ImageResponse?,
 
     @Field(type = Date, format = [date_time])
     var createdAt: OffsetDateTime,

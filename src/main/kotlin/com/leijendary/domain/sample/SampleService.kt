@@ -1,5 +1,8 @@
 package com.leijendary.domain.sample
 
+import com.leijendary.domain.image.ImageRequest
+import com.leijendary.domain.image.ImageService
+import com.leijendary.error.exception.ResourceNotFoundException
 import com.leijendary.extension.transactional
 import com.leijendary.model.Page
 import com.leijendary.model.PageRequest
@@ -17,12 +20,16 @@ interface SampleService {
     fun get(id: Long, translate: Boolean): SampleDetail
     fun update(id: Long, version: Int, request: SampleRequest): SampleDetail
     fun delete(id: Long, version: Int)
+    fun saveImage(id: Long, request: ImageRequest)
+    fun deleteImage(id: Long)
 }
 
 @Service
 class SampleServiceImpl(
+    private val imageService: ImageService,
     private val sampleMessageProducer: SampleMessageProducer,
-    private val sampleRepository: SampleRepository
+    private val sampleRepository: SampleRepository,
+    private val sampleSearchRepository: SampleSearchRepository,
 ) : SampleService {
     override fun page(queryRequest: QueryRequest, pageRequest: PageRequest): Page<SampleList> {
         val samplesFuture = supplyAsync { sampleRepository.page(queryRequest, pageRequest) }
@@ -52,6 +59,8 @@ class SampleServiceImpl(
 
     override fun get(id: Long, translate: Boolean): SampleDetail {
         val sample = sampleRepository.get(id, translate)
+        val image = sampleRepository.getImage(id)
+        sample.image = image?.let(imageService::getPublicUrl)
 
         // Translation is already enabled, just return the translated record itself
         if (translate) {
@@ -80,5 +89,28 @@ class SampleServiceImpl(
     override fun delete(id: Long, version: Int) {
         sampleRepository.delete(id, version, requestContext.userIdOrSystem)
         sampleMessageProducer.deleted(id)
+    }
+
+    override fun saveImage(id: Long, request: ImageRequest) {
+        val exists = sampleRepository.exists(id)
+
+        if (!exists) {
+            throw ResourceNotFoundException(id, ENTITY, SOURCE)
+        }
+
+        val originalFuture = supplyAsync { imageService.validate(request.original) }
+        val previewFuture = supplyAsync { imageService.validate(request.preview) }
+        val thumbnailFuture = supplyAsync { imageService.validate(request.thumbnail) }
+        val originalId = originalFuture.get().id
+        val previewId = previewFuture.get().id
+        val thumbnailId = thumbnailFuture.get().id
+
+        sampleRepository.upsertImage(id, originalId, previewId, thumbnailId)
+        sampleSearchRepository.setImage(id, request)
+    }
+
+    override fun deleteImage(id: Long) {
+        sampleRepository.deleteImage(id)
+        sampleSearchRepository.deleteImage(id)
     }
 }

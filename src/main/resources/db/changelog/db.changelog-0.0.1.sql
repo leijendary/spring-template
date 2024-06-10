@@ -33,5 +33,37 @@ create table sample_translation (
     constraint sample_translation_pkey primary key (id, language)
 );
 
+-- changeset leijendary:create-sample-image-table
+create table sample_image (
+    id bigint references sample(id) primary key,
+    original_id bigint not null references image(id),
+    preview_id bigint not null references image(id),
+    thumbnail_id bigint not null references image(id)
+);
+
 --changeset leijendary:create-sample-translation-id-index
 create index sample_translation_id_idx on sample_translation(id);
+
+--changeset leijendary:create-image-table
+create table image (
+    id bigint generated always as identity primary key,
+    name character varying(250) not null,
+    media_type character varying(15),
+    validated boolean not null default false,
+    created_at timestamp with time zone not null default now(),
+    created_by text not null
+);
+
+--changeset leijendary:create-image-name-lower-unique-index
+create unique index image_name_key on image(lower(name));
+
+--changeset leijendary:create-image-metadata-table
+create table image_metadata (
+    id bigint references image(id),
+    name character varying(100) not null,
+    value text not null,
+    constraint image_metadata_pkey primary key (id, name)
+);
+
+--changeset leijendary:create-image-metadata-id-index
+create index image_metadata_id_idx on image_metadata(id);

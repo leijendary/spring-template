@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestControllerAdvice
 
+private const val CODE_BINDING_INVALID_VALUE = "validation.binding.invalidValue"
+
 @RestControllerAdvice
 @Order(4)
 class BindExceptionHandler(private val messageSource: MessageSource) {
@@ -38,9 +40,9 @@ class BindExceptionHandler(private val messageSource: MessageSource) {
             .joinToString("/", prefix = prefix)
         val source = if (isBindingFailure) ErrorSource(parameter = location) else ErrorSource(pointer = location)
         val code = if (!error.shouldRenderDefaultMessage()) {
-            error.defaultMessage ?: "validation.binding.invalidValue"
+            error.defaultMessage ?: CODE_BINDING_INVALID_VALUE
         } else {
-            "validation.binding.invalidValue"
+            CODE_BINDING_INVALID_VALUE
         }
         val message = messageSource.getMessage(code, error.arguments, code, requestContext.locale)
 

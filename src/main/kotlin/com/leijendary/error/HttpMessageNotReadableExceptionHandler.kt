@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestControllerAdvice
 
+private const val MESSAGE_BODY_MISSING = "Required request body is missing"
+private const val MESSAGE_DECODING_ERROR = "JSON decoding error: "
 private val SOURCE = ErrorSource(pointer = "/body")
 
 @RestControllerAdvice
@@ -27,7 +29,7 @@ class HttpMessageNotReadableExceptionHandler(private val messageSource: MessageS
         var message = exception.message?.split(":".toRegex())?.toTypedArray()?.get(0) ?: ""
         val error: ErrorModel
 
-        if (message.startsWith("Required request body is missing")) {
+        if (message.startsWith(MESSAGE_BODY_MISSING)) {
             error = ErrorModel(code = code, message = message, source = SOURCE)
 
             return listOf(error)
@@ -38,7 +40,7 @@ class HttpMessageNotReadableExceptionHandler(private val messageSource: MessageS
             is MismatchedInputException -> error(cause)
             is JsonMappingException -> error(cause)
             else -> {
-                message = exception.message?.replace("JSON decoding error: ", "") ?: ""
+                message = exception.message?.replace(MESSAGE_DECODING_ERROR, "") ?: ""
 
                 ErrorModel(code = code, message = message, source = SOURCE)
             }

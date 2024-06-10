@@ -1,8 +1,8 @@
 package com.leijendary.domain.sample
 
+import com.leijendary.domain.image.ImageService
 import com.leijendary.error.exception.ResourceNotFoundException
 import com.leijendary.extension.logger
-import com.leijendary.model.ErrorSource
 import com.leijendary.model.Page
 import com.leijendary.model.PageRequest
 import com.leijendary.model.QueryRequest
@@ -12,10 +12,6 @@ import org.springframework.transaction.annotation.Transactional
 import java.util.concurrent.atomic.AtomicInteger
 import kotlin.streams.asSequence
 
-private const val STREAM_CHUNK = 1000
-private const val ENTITY = "sampleSearch"
-private val SOURCE = ErrorSource(pointer = "/data/$ENTITY/id")
-
 interface SampleSearchService {
     fun page(queryRequest: QueryRequest, pageRequest: PageRequest): Page<SampleList>
     fun save(sample: SampleDetail)
@@ -24,8 +20,11 @@ interface SampleSearchService {
     fun reindex(): Int
 }
 
+private const val STREAM_CHUNK = 1000
+
 @Service
 class SampleSearchServiceImpl(
+    private val imageService: ImageService,
     private val sampleRepository: SampleRepository,
     private val sampleSearchRepository: SampleSearchRepository,
 ) : SampleSearchService {
@@ -47,7 +46,7 @@ class SampleSearchServiceImpl(
         val exists = sampleSearchRepository.exists(sample.id)
 
         if (!exists) {
-            throw ResourceNotFoundException(sample.id, ENTITY, SOURCE)
+            throw ResourceNotFoundException(sample.id, SEARCH_ENTITY, SEARCH_SOURCE)
         }
 
         save(sample)
@@ -57,7 +56,7 @@ class SampleSearchServiceImpl(
         val exists = sampleSearchRepository.exists(id)
 
         if (!exists) {
-            throw ResourceNotFoundException(id, ENTITY, SOURCE)
+            throw ResourceNotFoundException(id, SEARCH_ENTITY, SEARCH_SOURCE)
         }
 
         sampleSearchRepository.delete(id)
@@ -96,6 +95,7 @@ class SampleSearchServiceImpl(
                 ordinal = it.ordinal,
             )
         },
+        image = sample.image,
         createdAt = sample.createdAt,
         completion = sample.translations
             .map { it.name }
@@ -104,14 +104,16 @@ class SampleSearchServiceImpl(
 
     private fun mapToList(search: SampleSearch): SampleList {
         val translation = search.translation
-
-        return SampleList(
+        val result = SampleList(
             id = search.id,
             name = translation.name,
             description = translation.description,
             amount = search.amount,
             createdAt = search.createdAt,
         )
+        result.image = search.image?.let(imageService::getPublicUrl)
+
+        return result
     }
 
     private fun mapStream(sample: SampleDetail): SampleSearch {

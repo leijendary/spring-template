@@ -2,13 +2,11 @@ package com.leijendary.storage
 
 import com.leijendary.config.properties.AwsCloudFrontProperties
 import com.leijendary.config.properties.AwsS3Properties
-import com.leijendary.extension.rsaPrivateKey
 import com.leijendary.projection.ImageProjection
 import com.leijendary.storage.BlockStorage.Request.GET
 import com.leijendary.storage.BlockStorage.Request.PUT
 import jakarta.servlet.http.HttpServletResponse
-import org.bouncycastle.jce.provider.BouncyCastleProvider
-import org.springframework.stereotype.Service
+import org.springframework.stereotype.Component
 import software.amazon.awssdk.core.ResponseInputStream
 import software.amazon.awssdk.core.sync.RequestBody
 import software.amazon.awssdk.services.cloudfront.CloudFrontClient
@@ -17,15 +15,27 @@ import software.amazon.awssdk.services.cloudfront.model.CannedSignerRequest
 import software.amazon.awssdk.services.cloudfront.model.CreateInvalidationRequest
 import software.amazon.awssdk.services.cloudfront.model.InvalidationBatch
 import software.amazon.awssdk.services.s3.S3Client
-import software.amazon.awssdk.services.s3.model.*
+import software.amazon.awssdk.services.s3.model.CopyObjectRequest
+import software.amazon.awssdk.services.s3.model.CopyObjectResponse
+import software.amazon.awssdk.services.s3.model.DeleteObjectRequest
+import software.amazon.awssdk.services.s3.model.DeleteObjectResponse
+import software.amazon.awssdk.services.s3.model.DeleteObjectsRequest
+import software.amazon.awssdk.services.s3.model.DeleteObjectsResponse
+import software.amazon.awssdk.services.s3.model.GetObjectRequest
+import software.amazon.awssdk.services.s3.model.GetObjectResponse
+import software.amazon.awssdk.services.s3.model.HeadObjectRequest
+import software.amazon.awssdk.services.s3.model.HeadObjectResponse
+import software.amazon.awssdk.services.s3.model.NoSuchKeyException
+import software.amazon.awssdk.services.s3.model.ObjectIdentifier
+import software.amazon.awssdk.services.s3.model.PutObjectRequest
+import software.amazon.awssdk.services.s3.model.PutObjectResponse
 import software.amazon.awssdk.services.s3.presigner.S3Presigner
 import software.amazon.awssdk.services.s3.presigner.model.PutObjectPresignRequest
 import java.io.File
-import java.security.KeyFactory
 import java.time.Instant
 import java.util.concurrent.CompletableFuture.supplyAsync
 
-@Service
+@Component
 class BlockStorage(
     private val awsCloudFrontProperties: AwsCloudFrontProperties,
     private val awsS3Properties: AwsS3Properties,
@@ -34,24 +44,22 @@ class BlockStorage(
     private val s3Presigner: S3Presigner
 ) {
     private val cloudFrontUtilities = CloudFrontUtilities.create()
-    private val privateKey = KeyFactory.getInstance("RSA", BouncyCastleProvider())
-        .rsaPrivateKey(awsCloudFrontProperties.privateKey)
 
     enum class Request {
         GET,
         PUT
     }
 
-    fun <T : ImageProjection> cdn(image: T) = image.apply {
-        thumbnail = "${awsCloudFrontProperties.url}/${thumbnail}"
-        preview = "${awsCloudFrontProperties.url}/${preview}"
-        original = "${awsCloudFrontProperties.url}/${original}"
+    fun <T : ImageProjection> cdn(image: T, prefix: String = "") = image.apply {
+        thumbnail = "${awsCloudFrontProperties.url}/$prefix$thumbnail"
+        preview = "${awsCloudFrontProperties.url}/$prefix$preview"
+        original = "${awsCloudFrontProperties.url}/$prefix$original"
     }
 
-    fun <T : ImageProjection> sign(image: T, request: Request = GET): T {
-        val original = supplyAsync { sign(image.original, request) }
-        val preview = supplyAsync { sign(image.preview, request) }
-        val thumbnail = supplyAsync { sign(image.thumbnail, request) }
+    fun <T : ImageProjection> sign(image: T, prefix: String = "", request: Request = GET): T {
+        val original = supplyAsync { sign("$prefix${image.original}", request) }
+        val preview = supplyAsync { sign("$prefix${image.preview}", request) }
+        val thumbnail = supplyAsync { sign("$prefix${image.thumbnail}", request) }
 
         return image.apply {
             this.original = original.get()
@@ -66,12 +74,11 @@ class BlockStorage(
     }
 
     fun signGet(key: String): String {
-        val resourceUrl = "${awsCloudFrontProperties.url}/$key"
         val expiry = Instant.now().plus(awsCloudFrontProperties.signatureDuration)
         val signerRequest = CannedSignerRequest.builder()
+            .resourceUrl("${awsCloudFrontProperties.url}/$key")
             .keyPairId(awsCloudFrontProperties.publicKeyId)
-            .resourceUrl(resourceUrl)
-            .privateKey(privateKey)
+            .privateKey(awsCloudFrontProperties.rsaPrivateKey)
             .expirationDate(expiry)
             .build()
 
@@ -161,12 +168,9 @@ class BlockStorage(
     fun render(key: String, servletResponse: HttpServletResponse) {
         val objectStream = stream(key)
         val s3Object = objectStream.response()
-        val contentType = s3Object.contentType()
-        val outputStream = servletResponse.outputStream
+        servletResponse.contentType = s3Object.contentType()
 
-        servletResponse.contentType = contentType
-
-        objectStream.transferTo(outputStream)
+        objectStream.transferTo(servletResponse.outputStream)
     }
 
     fun delete(key: String): DeleteObjectResponse {
