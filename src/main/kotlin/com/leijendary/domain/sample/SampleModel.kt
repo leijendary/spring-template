@@ -32,7 +32,7 @@ class SampleRequest {
     val amount: BigDecimal = ZERO
 
     @field:Valid
-    @field:UniqueFields(["name", "language", "ordinal"])
+    @field:UniqueFields(["language", "ordinal"])
     @field:NotEmpty(message = "validation.required")
     val translations = arrayListOf<SampleTranslationRequest>()
 }
