@@ -18,7 +18,11 @@ fun Any.reflectField(property: String): Field {
     return field
 }
 
-fun Any.reflectGet(property: String): Any? = reflectField(property).get(this)
+fun Any.reflectGet(property: String): Any? {
+    val field = reflectField(property)
+
+    return field[this]
+}
 
 fun Any.reflectSet(property: String, value: Any?): Any? {
     val field = reflectField(property)
