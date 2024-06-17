@@ -43,41 +43,41 @@ class SampleSearchServiceImpl(
     }
 
     override fun update(sample: SampleDetail) {
-        val exists = sampleSearchRepository.exists(sample.id)
+        val exists = sampleSearchRepository.existsById(sample.id)
 
         if (!exists) {
-            throw ResourceNotFoundException(sample.id, SEARCH_ENTITY, SEARCH_SOURCE)
+            throw ResourceNotFoundException(sample.id, ENTITY_SEARCH, SOURCE_SEARCH)
         }
 
         save(sample)
     }
 
     override fun delete(id: Long) {
-        val exists = sampleSearchRepository.exists(id)
+        val exists = sampleSearchRepository.existsById(id)
 
         if (!exists) {
-            throw ResourceNotFoundException(id, SEARCH_ENTITY, SEARCH_SOURCE)
+            throw ResourceNotFoundException(id, ENTITY_SEARCH, SOURCE_SEARCH)
         }
 
-        sampleSearchRepository.delete(id)
+        sampleSearchRepository.deleteById(id)
     }
 
     @Transactional(readOnly = true)
     override fun reindex(): Int {
         val count = AtomicInteger()
 
-        sampleRepository.streamAll().parallel().use { stream ->
-            stream.map(::mapStream)
-                .asSequence()
-                .chunked(STREAM_CHUNK)
-                .forEach {
-                    sampleSearchRepository.saveAll(it)
+        sampleRepository.streamAll()
+            .parallel()
+            .asSequence()
+            .map(::mapStream)
+            .chunked(STREAM_CHUNK)
+            .forEach {
+                sampleSearchRepository.saveAll(it)
 
-                    val current = count.addAndGet(it.size)
+                val current = count.addAndGet(it.size)
 
-                    log.info("Synced $current samples.")
-                }
-        }
+                log.info("Synced $current samples.")
+            }
 
         return count.get()
     }
@@ -88,7 +88,7 @@ class SampleSearchServiceImpl(
         description = sample.description,
         amount = sample.amount,
         translations = sample.translations.map {
-            SampleSearchTranslation(
+            SampleTranslationSearch(
                 name = it.name,
                 description = it.description,
                 language = it.language,

@@ -59,8 +59,8 @@ class SampleRepositoryImpl(private val jdbcClient: JdbcClient) : SampleRepositor
     override fun page(queryRequest: QueryRequest, pageRequest: PageRequest): List<SampleList> {
         return jdbcClient.sql(SQL_PAGE)
             .param("query", queryRequest.query)
-            .param("limit", pageRequest.limit())
-            .param("offset", pageRequest.offset())
+            .param("limit", pageRequest.limit)
+            .param("offset", pageRequest.offset)
             .query(SampleList::class.java)
             .list()
     }
@@ -77,7 +77,7 @@ class SampleRepositoryImpl(private val jdbcClient: JdbcClient) : SampleRepositor
             .param("query", queryRequest.query)
             .param("language", requestContext.language)
             .param("createdAt", seekRequest.createdAt)
-            .param("limit", seekRequest.limit())
+            .param("limit", seekRequest.limit)
             .query(SampleList::class.java)
             .list()
     }

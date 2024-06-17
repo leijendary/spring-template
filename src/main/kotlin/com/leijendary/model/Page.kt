@@ -9,26 +9,25 @@ data class PageRequest(
     val page: Int = 1,
     val size: Int = 20,
     val direction: Direction = DESC,
-    val sort: List<String> = emptyList(),
+    val sort: List<String> = emptyList()
 ) {
-    @JsonIgnore
-    fun limit(): Int {
-        return size
-    }
+    @get:JsonIgnore
+    val limit: Int
+        get() = size
 
-    @JsonIgnore
-    fun offset(): Int {
-        return page.dec() * size
-    }
+    @get:JsonIgnore
+    val offset: Int
+        get() = page.dec() * size
 
-    @JsonIgnore
-    fun pageable(): Pageable {
-        if (sort.isEmpty()) {
-            return Pageable.of(page.dec(), size)
+    @get:JsonIgnore
+    val pageable: Pageable
+        get() {
+            if (sort.isEmpty()) {
+                return Pageable.of(page.dec(), size)
+            }
+
+            return Pageable.of(page.dec(), size, direction, *sort.toTypedArray())
         }
-
-        return Pageable.of(page.dec(), size, direction, *sort.toTypedArray())
-    }
 }
 
 data class Page<T>(private val request: PageRequest, val data: List<T>, val total: Long) {

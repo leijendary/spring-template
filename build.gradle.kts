@@ -72,10 +72,12 @@ repositories {
 dependencies {
     // Kotlin
     implementation(kotlin("reflect"))
+    implementation(kotlin("stdlib"))
     testImplementation(kotlin("test"))
 
     // Spring Boot Starter
     implementation("org.springframework.boot:spring-boot-starter-actuator")
+    implementation("org.springframework.boot:spring-boot-starter-aop")
     implementation("org.springframework.boot:spring-boot-starter-cache")
     implementation("org.springframework.boot:spring-boot-starter-data-elasticsearch")
     implementation("org.springframework.boot:spring-boot-starter-data-redis")
@@ -85,7 +87,7 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 
     // Spring Cloud Starter
-    implementation(platform("org.springframework.cloud:spring-cloud-dependencies:2023.0.1"))
+    implementation(platform("org.springframework.cloud:spring-cloud-dependencies:2023.0.2"))
     implementation("org.springframework.cloud:spring-cloud-starter-openfeign")
 
     // Spring Kafka
@@ -96,7 +98,7 @@ dependencies {
     implementation("org.springframework.retry:spring-retry")
 
     // AWS
-    implementation(platform("software.amazon.awssdk:bom:2.25.29"))
+    implementation(platform("software.amazon.awssdk:bom:2.26.1"))
     implementation("software.amazon.awssdk:cloudfront")
 
     // AWS Cloud
@@ -115,7 +117,7 @@ dependencies {
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 
     // Observability and Metrics
-    implementation(platform("io.micrometer:micrometer-tracing-bom:1.2.5"))
+    implementation(platform("io.micrometer:micrometer-tracing-bom:1.3.1"))
     implementation("io.github.openfeign:feign-micrometer")
     implementation("io.micrometer:micrometer-registry-prometheus")
     implementation("io.micrometer:micrometer-tracing-bridge-otel")
@@ -130,7 +132,7 @@ dependencies {
     testImplementation("org.mockito:mockito-inline:5.2.0")
 
     // Test Containers
-    testImplementation(platform("org.testcontainers:testcontainers-bom:1.19.7"))
+    testImplementation(platform("org.testcontainers:testcontainers-bom:1.19.8"))
     testImplementation("org.testcontainers:junit-jupiter")
     testImplementation("org.testcontainers:elasticsearch")
     testImplementation("org.testcontainers:kafka")

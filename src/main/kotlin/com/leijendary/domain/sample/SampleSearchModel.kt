@@ -37,7 +37,7 @@ data class SampleSearch(
     var amount: BigDecimal,
 
     @Field(type = Nested, includeInParent = true)
-    override var translations: List<SampleSearchTranslation> = emptyList(),
+    override var translations: List<SampleTranslationSearch> = emptyList(),
 
     var image: ImageResponse?,
 
@@ -46,13 +46,13 @@ data class SampleSearch(
 
     @CompletionField
     var completion: Completion,
-) : LocalizedProjection<SampleSearchTranslation> {
+) : LocalizedProjection<SampleTranslationSearch> {
     companion object {
         const val INDEX_NAME = "sample"
     }
 }
 
-data class SampleSearchTranslation(
+data class SampleTranslationSearch(
     @MultiField(mainField = Field(type = Text), otherFields = [InnerField(suffix = "keyword", type = Keyword)])
     val name: String,
 
