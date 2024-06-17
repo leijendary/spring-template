@@ -13,6 +13,10 @@ import java.time.temporal.ChronoUnit.SECONDS
 @EnableConfigurationProperties(OpenApiProperties::class)
 class OpenApiConfiguration {
     init {
+        replaceLocalDateTime()
+    }
+
+    private fun replaceLocalDateTime() {
         val schema = Schema<LocalDateTime>()
             .type("string")
             .format("yyyyMMdd'T'HH:mm:ss")
