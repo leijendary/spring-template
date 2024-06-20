@@ -1,6 +1,6 @@
 aws:
   cloudFront:
     distributionId:
-    url: https://cdn.staging.leijendary.com
+    url: https://cdn.sandbox.leijendary.com
   s3:
-    bucketName: leijendary-api-staging
+    bucketName: leijendary-api-sandbox

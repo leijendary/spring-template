@@ -8,25 +8,25 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  # Staging environment
-  tag-staging:
-    name: Tag staging
+  # Sandbox environment
+  tag-sandbox:
+    name: Tag sandbox
     uses: ./.github/workflows/tag.yaml
     with:
-      environment: staging
+      environment: sandbox
     secrets: inherit
-  deploy-staging:
-    needs: tag-staging
-    name: Deploy staging
+  deploy-sandbox:
+    needs: tag-sandbox
+    name: Deploy sandbox
     uses: ./.github/workflows/deploy.yaml
     with:
-      environment: staging
+      environment: sandbox
       image-tag: ${{ github.ref_name }}
     secrets: inherit
 
   # Production environment
   tag-prod:
-    needs: deploy-staging
+    needs: deploy-sandbox
     name: Tag production
     uses: ./.github/workflows/tag.yaml
     with:

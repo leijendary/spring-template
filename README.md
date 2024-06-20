@@ -89,7 +89,7 @@ different git workflow, and this is what I think is the fastest for most teams.
 - `main` **deploys to dev**. This is ALWAYS updated. The sole purpose of this is for developer's testing.
 - `release/*` **deploys to test**. Whatever is going to be placed here, means that this is a candidate for
   release. Only used by QA testers. This is where you start tagging.
-- `tags` **deploys to staging AND prod**.
+- `tags` **deploys to sandbox AND prod**.
 - **No** long-lived branches, except for `release/*`, `fix/*`, and `hotfix/*`.
 - Changes from `main` **may** be cherry-picked to `release/*`.
 - `fix/*` and `hotfix/*` merges to a `release/*` branch that is created from the production tag.
