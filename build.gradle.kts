@@ -31,10 +31,10 @@ val openApiTasks = File("$rootDir/src/main/resources/specs").listFiles()?.map {
 plugins {
     val kotlinVersion = "2.0.0"
 
-    id("org.springframework.boot") version "3.3.0"
+    id("org.springframework.boot") version "3.3.1"
     id("io.spring.dependency-management") version "1.1.5"
     id("org.graalvm.buildtools.native") version "0.10.2"
-    id("org.openapi.generator") version "7.0.1"
+    id("org.openapi.generator") version "7.6.0"
     kotlin("jvm") version kotlinVersion
     kotlin("plugin.spring") version kotlinVersion
 }
