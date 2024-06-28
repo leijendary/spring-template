@@ -1,6 +1,7 @@
 package com.leijendary.domain.sample
 
 import com.leijendary.client.PetStoreClient
+import com.leijendary.extension.transactional
 import com.leijendary.model.QueryRequest
 import com.leijendary.model.Seek
 import com.leijendary.model.SeekRequest
@@ -8,12 +9,17 @@ import com.leijendary.util.requestContext
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.openapi.petstore.v2.model.Pet
+import org.springframework.data.redis.core.StringRedisTemplate
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
+import java.time.Instant
 import java.util.*
+
+private const val PREFIX_COUNT = "sample::count"
+private const val PREFIX_TIMESTAMP = "sample::timestamp"
 
 /**
  * This is an example of a controller that will be created in microservices.
@@ -32,7 +38,11 @@ import java.util.*
 @RestController
 @RequestMapping("api/v1/samples")
 @Tag(name = "Sample")
-class SampleController(private val petStoreClient: PetStoreClient, private val sampleService: SampleService) {
+class SampleController(
+    private val petStoreClient: PetStoreClient,
+    private val redisTemplate: StringRedisTemplate,
+    private val sampleService: SampleService
+) {
     @GetMapping
     @Operation(
         summary = """
@@ -76,5 +86,26 @@ class SampleController(private val petStoreClient: PetStoreClient, private val s
         assert(a == b)
 
         return a to b
+    }
+
+    @GetMapping("counter")
+    fun counter(): Map<String, Any> {
+        val timestamp = Instant.now()
+        val counter = redisTemplate.transactional {
+            it.multi()
+
+            val opsForValue = it.opsForValue()
+            opsForValue.increment(PREFIX_COUNT)
+            opsForValue.set(PREFIX_TIMESTAMP, timestamp.toString())
+
+            val result = it.exec()
+
+            result[0] as Long
+        }
+
+        return mapOf(
+            "counter" to counter,
+            "timestamp" to timestamp
+        )
     }
 }
