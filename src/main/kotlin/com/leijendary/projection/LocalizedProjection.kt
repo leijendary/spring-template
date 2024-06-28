@@ -1,6 +1,6 @@
 package com.leijendary.projection
 
-import com.leijendary.util.requestContext
+import com.leijendary.context.requestContext
 
 interface LocalizedProjection<T : LocaleProjection> {
     val translations: List<T>

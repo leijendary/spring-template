@@ -2,7 +2,7 @@ package com.leijendary.error
 
 import com.leijendary.model.ErrorModel
 import com.leijendary.model.ErrorSource
-import com.leijendary.util.requestContext
+import com.leijendary.context.requestContext
 import org.springframework.context.MessageSource
 import org.springframework.core.annotation.Order
 import org.springframework.http.HttpStatus.METHOD_NOT_ALLOWED

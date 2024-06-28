@@ -5,7 +5,7 @@ import com.leijendary.extension.transactional
 import com.leijendary.model.QueryRequest
 import com.leijendary.model.Seek
 import com.leijendary.model.SeekRequest
-import com.leijendary.util.requestContext
+import com.leijendary.context.requestContext
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.openapi.petstore.v2.model.Pet

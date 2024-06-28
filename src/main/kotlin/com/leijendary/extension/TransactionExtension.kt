@@ -1,7 +1,7 @@
 package com.leijendary.extension
 
-import com.leijendary.util.readOnlyTransactionalTemplate
-import com.leijendary.util.transactionTemplate
+import com.leijendary.context.readOnlyTransactionalTemplate
+import com.leijendary.context.transactionTemplate
 import org.springframework.transaction.TransactionStatus
 import org.springframework.transaction.support.TransactionSynchronization
 import org.springframework.transaction.support.TransactionSynchronizationManager.registerSynchronization

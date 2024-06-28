@@ -9,7 +9,7 @@ import com.leijendary.model.PageRequest
 import com.leijendary.model.QueryRequest
 import com.leijendary.model.Seek
 import com.leijendary.model.SeekRequest
-import com.leijendary.util.requestContext
+import com.leijendary.context.requestContext
 import org.springframework.stereotype.Service
 import java.util.concurrent.CompletableFuture.supplyAsync
 

@@ -5,7 +5,7 @@ import com.leijendary.extension.logger
 import com.leijendary.extension.snakeCaseToCamelCase
 import com.leijendary.model.ErrorModel
 import com.leijendary.model.ErrorSource
-import com.leijendary.util.requestContext
+import com.leijendary.context.requestContext
 import org.postgresql.util.PSQLException
 import org.springframework.context.MessageSource
 import org.springframework.core.annotation.Order

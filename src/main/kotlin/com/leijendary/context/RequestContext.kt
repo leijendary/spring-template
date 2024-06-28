@@ -1,4 +1,4 @@
-package com.leijendary.util
+package com.leijendary.context
 
 import com.leijendary.error.exception.StatusException
 import com.leijendary.model.ErrorSource
