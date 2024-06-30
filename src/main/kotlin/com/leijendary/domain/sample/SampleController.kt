@@ -82,7 +82,7 @@ class SampleController(
         val a = requestContext.attribute(simpleName) { mapOf("value" to value) }
         val b = requestContext.attribute(simpleName) { mapOf("differentValue" to UUID.randomUUID()) }
 
-        assert(value == a?.get("value"))
+        assert(value == a["value"])
         assert(a == b)
 
         return a to b
