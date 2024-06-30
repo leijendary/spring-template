@@ -89,22 +89,24 @@ class SampleController(
     }
 
     @GetMapping("counter")
-    fun counter(): Map<String, Any> {
+    fun counter(): Map<String, Any?> {
         val timestamp = Instant.now()
-        val counter = redisTemplate.transactional {
+        val (counter, previousTimestamp) = redisTemplate.transactional {
             it.multi()
 
             val ops = it.opsForValue()
             ops.increment(CACHE_KEY_COUNT)
+            ops.get(CACHE_KEY_TIMESTAMP)
             ops.set(CACHE_KEY_TIMESTAMP, timestamp.toString())
 
             val result = it.exec()
 
-            result[0] as Long
+            result[0] as Long to (result[1] as? String)?.let(Instant::parse)
         }
 
         return mapOf(
             "counter" to counter,
+            "previousTimestamp" to previousTimestamp,
             "timestamp" to timestamp
         )
     }
