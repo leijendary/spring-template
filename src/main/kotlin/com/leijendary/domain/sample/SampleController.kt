@@ -96,8 +96,7 @@ class SampleController(
 
             val ops = it.opsForValue()
             ops.increment(CACHE_KEY_COUNT)
-            ops.get(CACHE_KEY_TIMESTAMP)
-            ops.set(CACHE_KEY_TIMESTAMP, timestamp.toString())
+            ops.getAndSet(CACHE_KEY_TIMESTAMP, timestamp.toString())
 
             val result = it.exec()
 
