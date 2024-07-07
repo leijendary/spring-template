@@ -13,52 +13,52 @@ val IMAGE_MEDIA_TYPES = arrayOf(IMAGE_PNG_VALUE, IMAGE_JPEG_VALUE)
 private const val PATTERN_NAME = "^[\\w,\\s-]+\\.(jpeg|jpg|png)\$"
 private const val MESSAGE_NAME = "validation.image.name"
 
-data class ImageCreateUrlRequest(
+class ImageCreateUrlRequest {
     @field:NotBlank(message = "validation.required")
     @field:Size(max = 250, message = "validation.maxLength")
     @field:Pattern(regexp = PATTERN_NAME, message = MESSAGE_NAME)
-    val name: String = "",
+    val name: String = ""
 
     @field:Valid
-    val metadata: List<ImageMetadataRequest>
-)
+    val metadata = arrayListOf<ImageMetadataRequest>()
+}
 
-data class ImageMetadataRequest(
+class ImageMetadataRequest {
     @field:NotBlank(message = "validation.required")
     @field:Size(max = 100, message = "validation.maxLength")
-    val name: String = "",
+    val name: String = ""
 
     @field:NotBlank(message = "validation.required")
     val value: String = ""
-)
+}
 
-data class ImageValidateRequest(
+class ImageValidateRequest {
     @field:NotBlank(message = "validation.required")
     @field:Size(max = 250, message = "validation.maxLength")
     @field:Pattern(regexp = PATTERN_NAME, message = MESSAGE_NAME)
     val name: String = ""
-)
+}
 
-data class ImageDeleteRequest(
+class ImageDeleteRequest {
     @field:NotBlank(message = "validation.required")
     @field:Size(max = 250, message = "validation.maxLength")
     @field:Pattern(regexp = PATTERN_NAME, message = MESSAGE_NAME)
     val name: String = ""
-)
+}
 
-data class ImageRequest(
+class ImageRequest : ImageProjection {
     @field:NotBlank(message = "validation.required")
     @field:Pattern(regexp = PATTERN_NAME, message = MESSAGE_NAME)
-    override var original: String = "",
+    override var original: String = ""
 
     @field:NotBlank(message = "validation.required")
     @field:Pattern(regexp = PATTERN_NAME, message = MESSAGE_NAME)
-    override var preview: String = "",
+    override var preview: String = ""
 
     @field:NotBlank(message = "validation.required")
     @field:Pattern(regexp = PATTERN_NAME, message = MESSAGE_NAME)
     override var thumbnail: String = ""
-) : ImageProjection
+}
 
 data class ImageResult(val id: Long, val name: String, val validated: Boolean)
 
