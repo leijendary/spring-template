@@ -68,15 +68,17 @@ class SampleSearchServiceImpl(
 
         sampleRepository.streamAll()
             .parallel()
-            .asSequence()
             .map(::mapStream)
-            .chunked(STREAM_CHUNK)
-            .forEach {
-                sampleSearchRepository.saveAll(it)
+            .use {
+                it.asSequence()
+                    .chunked(STREAM_CHUNK)
+                    .forEach { list ->
+                        sampleSearchRepository.saveAll(list)
 
-                val current = count.addAndGet(it.size)
+                        val current = count.addAndGet(list.size)
 
-                log.info("Synced $current samples.")
+                        log.info("Synced $current samples.")
+                    }
             }
 
         return count.get()
