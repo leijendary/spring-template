@@ -64,7 +64,7 @@ data class ImageResult(val id: Long, val name: String, val validated: Boolean)
 
 data class ImageCreateUrlResponse(val url: String)
 
-data class ImageValidateResponse(val id: Long)
+data class ImageValidateResponse(val id: Long, val name: String, val path: String)
 
 data class ImageResponse(
     override var original: String,

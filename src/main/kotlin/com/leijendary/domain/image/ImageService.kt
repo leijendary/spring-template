@@ -47,24 +47,24 @@ class ImageServiceImpl(
 
     override fun validate(name: String): ImageValidateResponse {
         val image = imageRepository.getByName(name)
+        val path = "$PREFIX$name"
 
         if (image.validated) {
-            return ImageValidateResponse(image.id)
+            return ImageValidateResponse(image.id, name, path)
         }
 
-        val key = "$PREFIX$name"
-        val exists = blockStorage.exists(key)
+        val exists = blockStorage.exists(path)
 
         if (!exists) {
             throw ResourceNotFoundException(name, ENTITY, SOURCE_STORAGE_NAME)
         }
 
-        val response = blockStorage.head(key)
+        val response = blockStorage.head(path)
         val contentType = response.contentType()
 
         if (contentType !in IMAGE_MEDIA_TYPES) {
             supplyAsync {
-                blockStorage.delete(key)
+                blockStorage.delete(path)
                 delete(name)
             }
 
@@ -73,7 +73,7 @@ class ImageServiceImpl(
 
         val id = imageRepository.setValidated(name, contentType)
 
-        return ImageValidateResponse(id)
+        return ImageValidateResponse(id, name, path)
     }
 
     override fun <T : ImageProjection> getPublicUrl(image: T): T {
