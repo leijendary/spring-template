@@ -1,5 +1,6 @@
 package com.leijendary.domain.sample
 
+import com.leijendary.context.requestContext
 import com.leijendary.domain.image.ImageRequest
 import com.leijendary.domain.image.ImageService
 import com.leijendary.error.exception.ResourceNotFoundException
@@ -9,7 +10,6 @@ import com.leijendary.model.PageRequest
 import com.leijendary.model.QueryRequest
 import com.leijendary.model.Seek
 import com.leijendary.model.SeekRequest
-import com.leijendary.context.requestContext
 import org.springframework.stereotype.Service
 import java.util.concurrent.CompletableFuture.supplyAsync
 
@@ -45,12 +45,13 @@ class SampleServiceImpl(
     }
 
     override fun create(request: SampleRequest): SampleDetail {
-        val sample = transactional {
+        val (sample, translations) = transactional {
             val sample = sampleRepository.create(request, requestContext.userIdOrSystem)
             val translations = sampleRepository.createTranslations(sample.id, request.translations)
-            sample.translations.addAll(translations)
-            sample
+
+            sample to translations
         }
+        sample.translations.addAll(translations)
 
         sampleMessageProducer.created(sample)
 
@@ -74,12 +75,13 @@ class SampleServiceImpl(
     }
 
     override fun update(id: Long, version: Int, request: SampleRequest): SampleDetail {
-        val sample = transactional {
+        val (sample, translations) = transactional {
             val sample = sampleRepository.update(id, version, request, requestContext.userIdOrSystem)
             val translations = sampleRepository.updateTranslations(id, request.translations)
-            sample.translations.addAll(translations)
-            sample
+
+            sample to translations
         }
+        sample.translations.addAll(translations)
 
         sampleMessageProducer.updated(sample)
 
