@@ -1,11 +1,11 @@
 package com.leijendary.domain.image
 
+import com.leijendary.context.RequestContext
 import com.leijendary.error.exception.ResourceNotFoundException
 import com.leijendary.error.exception.StatusException
 import com.leijendary.extension.transactional
 import com.leijendary.projection.ImageProjection
 import com.leijendary.storage.BlockStorage
-import com.leijendary.context.RequestContext
 import org.springframework.http.HttpStatus.BAD_REQUEST
 import org.springframework.http.HttpStatus.CONFLICT
 import org.springframework.stereotype.Service
@@ -71,7 +71,7 @@ class ImageServiceImpl(
             throw StatusException("validation.image.mediaType", BAD_REQUEST, SOURCE_STORAGE_NAME)
         }
 
-        val id = imageRepository.setValidated(name)
+        val id = imageRepository.setValidated(name, contentType)
 
         return ImageValidateResponse(id)
     }

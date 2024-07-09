@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository
 
 interface ImageRepository {
     fun create(name: String, userId: String): ImageResult
-    fun setValidated(name: String): Long
+    fun setValidated(name: String, mediaType: String): Long
     fun getByName(name: String): ImageResult
     fun getIdByName(name: String): Long
     fun delete(id: Long)
@@ -39,15 +39,21 @@ class ImageRepositoryImpl(private val jdbcClient: JdbcClient) : ImageRepository 
             .single()
     }
 
-    override fun setValidated(name: String): Long {
-        return jdbcClient.sql(SQL_SET_VALIDATED).param("name", name).query(Long::class.java).single()
+    override fun setValidated(name: String, mediaType: String): Long {
+        return jdbcClient.sql(SQL_SET_VALIDATED)
+            .param("name", name)
+            .param("mediaType", mediaType)
+            .query(Long::class.java)
+            .optional()
+            .orElseThrow { ResourceNotFoundException(name, ENTITY, SOURCE_NAME) }
     }
 
     override fun getByName(name: String): ImageResult {
         return jdbcClient.sql(SQL_GET_BY_NAME)
             .param("name", name)
             .query(ImageResult::class.java)
-            .single()
+            .optional()
+            .orElseThrow { ResourceNotFoundException(name, ENTITY, SOURCE_NAME) }
     }
 
     override fun getIdByName(name: String): Long {
