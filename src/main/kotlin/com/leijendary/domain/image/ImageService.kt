@@ -13,6 +13,7 @@ import java.util.concurrent.CompletableFuture.supplyAsync
 
 interface ImageService {
     fun createUploadUrl(request: ImageCreateUrlRequest): ImageCreateUrlResponse
+    fun validate(request: ImageRequest): ImageResponse
     fun validate(name: String): ImageValidateResponse
     fun <T : ImageProjection> getPublicUrl(image: T): T
     fun <T : ImageProjection> getPrivateUrl(image: T): T
@@ -43,6 +44,17 @@ class ImageServiceImpl(
         val url = blockStorage.signPut("$PREFIX${image.name}")
 
         return ImageCreateUrlResponse(url)
+    }
+
+    override fun validate(request: ImageRequest): ImageResponse {
+        val originalFuture = supplyAsync { validate(request.original) }
+        val previewFuture = supplyAsync { validate(request.preview) }
+        val thumbnailFuture = supplyAsync { validate(request.thumbnail) }
+        val originalPath = originalFuture.get().path
+        val previewPath = previewFuture.get().path
+        val thumbnailPath = thumbnailFuture.get().path
+
+        return ImageResponse(originalPath, previewPath, thumbnailPath)
     }
 
     override fun validate(name: String): ImageValidateResponse {
