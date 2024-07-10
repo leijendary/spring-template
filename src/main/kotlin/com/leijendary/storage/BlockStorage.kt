@@ -115,20 +115,15 @@ class BlockStorage(
         return s3Object.response()
     }
 
-    fun head(key: String): HeadObjectResponse {
+    fun head(key: String): HeadObjectResponse? = try {
         val request = HeadObjectRequest.builder()
             .bucket(awsS3Properties.bucketName)
             .key(key)
             .build()
 
-        return s3Client.headObject(request)
-    }
-
-    fun exists(key: String): Boolean = try {
-        head(key)
-        true
+        s3Client.headObject(request)
     } catch (_: NoSuchKeyException) {
-        false
+        null
     }
 
     fun invalidateCache(reference: String, vararg keys: String) {

@@ -65,13 +65,7 @@ class ImageServiceImpl(
             return ImageValidateResponse(image.id, name, path)
         }
 
-        val exists = blockStorage.exists(path)
-
-        if (!exists) {
-            throw ResourceNotFoundException(name, ENTITY, SOURCE_STORAGE_NAME)
-        }
-
-        val response = blockStorage.head(path)
+        val response = blockStorage.head(path) ?: throw ResourceNotFoundException(name, ENTITY, SOURCE_STORAGE_NAME)
         val contentType = response.contentType()
 
         if (contentType !in IMAGE_MEDIA_TYPES) {
