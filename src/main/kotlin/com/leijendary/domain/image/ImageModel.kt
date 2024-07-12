@@ -66,6 +66,12 @@ data class ImageCreateUrlResponse(val url: String)
 
 data class ImageValidateResponse(val id: Long, val name: String, val path: String)
 
+data class ImageMultiValidateResponse(
+    val original: ImageValidateResponse,
+    val preview: ImageValidateResponse,
+    val thumbnail: ImageValidateResponse
+)
+
 data class ImageResponse(
     override var original: String,
     override var preview: String,

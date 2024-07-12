@@ -100,14 +100,9 @@ class SampleServiceImpl(
             throw ResourceNotFoundException(id, ENTITY, SOURCE)
         }
 
-        val originalFuture = supplyAsync { imageService.validate(request.original) }
-        val previewFuture = supplyAsync { imageService.validate(request.preview) }
-        val thumbnailFuture = supplyAsync { imageService.validate(request.thumbnail) }
-        val originalId = originalFuture.get().id
-        val previewId = previewFuture.get().id
-        val thumbnailId = thumbnailFuture.get().id
+        val response = imageService.validate(request)
 
-        sampleRepository.upsertImage(id, originalId, previewId, thumbnailId)
+        sampleRepository.upsertImage(id, response.original.id, response.preview.id, response.thumbnail.id)
         sampleSearchRepository.setImage(id, request)
     }
 
