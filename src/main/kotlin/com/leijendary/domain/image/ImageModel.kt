@@ -62,7 +62,7 @@ class ImageRequest : ImageProjection {
 
 data class ImageResult(val id: Long, val name: String, val validated: Boolean)
 
-data class ImageCreateUrlResponse(val url: String)
+data class ImageCreateUrlResponse(val url: String, val validated: Boolean = false)
 
 data class ImageValidateResponse(val id: Long, val name: String, val path: String)
 

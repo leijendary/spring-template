@@ -7,7 +7,6 @@ import com.leijendary.extension.transactional
 import com.leijendary.projection.ImageProjection
 import com.leijendary.storage.BlockStorage
 import org.springframework.http.HttpStatus.BAD_REQUEST
-import org.springframework.http.HttpStatus.CONFLICT
 import org.springframework.stereotype.Service
 import java.util.concurrent.CompletableFuture.supplyAsync
 
@@ -29,19 +28,17 @@ class ImageServiceImpl(
     private val requestContext: RequestContext
 ) : ImageService {
     override fun createUploadUrl(request: ImageCreateUrlRequest): ImageCreateUrlResponse {
-        val image = transactional {
-            val image = imageRepository.create(request.name, requestContext.userIdOrThrow)
+        val image = imageRepository.create(request.name, requestContext.userIdOrThrow)
+        val key = "$PREFIX${image.name}"
 
-            if (image.validated) {
-                throw StatusException("error.image.conflict", CONFLICT, SOURCE_NAME)
-            }
-
-            val metadata = request.metadata.associate { it.name to it.value }
-            imageRepository.createMetadata(image.id, metadata)
-
-            image
+        if (image.validated) {
+            return ImageCreateUrlResponse(key, true)
         }
-        val url = blockStorage.signPut("$PREFIX${image.name}")
+
+        val metadata = request.metadata.associate { it.name to it.value }
+        imageRepository.createMetadata(image.id, metadata)
+
+        val url = blockStorage.signPut(key)
 
         return ImageCreateUrlResponse(url)
     }
