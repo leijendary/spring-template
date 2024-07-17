@@ -3,7 +3,6 @@ package com.leijendary.domain.image
 import com.leijendary.context.RequestContext
 import com.leijendary.error.exception.ResourceNotFoundException
 import com.leijendary.error.exception.StatusException
-import com.leijendary.extension.transactional
 import com.leijendary.projection.ImageProjection
 import com.leijendary.storage.BlockStorage
 import org.springframework.http.HttpStatus.BAD_REQUEST
@@ -85,13 +84,7 @@ class ImageServiceImpl(
     }
 
     override fun delete(name: String) {
-        val id = imageRepository.getIdByName(name)
-
-        transactional {
-            imageRepository.deleteMetadata(id)
-            imageRepository.delete(id)
-        }
-
+        imageRepository.deleteByName(name)
         blockStorage.delete("$PREFIX$name")
     }
 }

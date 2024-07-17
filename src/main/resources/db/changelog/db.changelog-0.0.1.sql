@@ -51,7 +51,7 @@ create unique index image_name_key on image(lower(name));
 
 --changeset leijendary:create-image-metadata-table
 create table image_metadata (
-    id bigint references image(id),
+    id bigint references image(id) on delete cascade,
     name character varying(100) not null,
     value text not null,
     constraint image_metadata_pkey primary key (id, name)
