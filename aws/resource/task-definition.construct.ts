@@ -67,6 +67,8 @@ const memory = isProd ? 1024 : 512;
 const cpu = isProd ? 512 : 256;
 
 export class TaskDefinitionConstruct extends TaskDefinition {
+  logGroup: LogGroup;
+
   constructor(scope: Construct, props: TaskDefinitionConstructProps) {
     const { repository, image, bucket, distribution, credentials } = props;
     const logGroup = createLogGroup(scope, logPrefix);

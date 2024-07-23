@@ -3,6 +3,7 @@ import { Distribution, DistributionAttributes } from "aws-cdk-lib/aws-cloudfront
 import { ISecurityGroup, IVpc, SecurityGroup, Vpc, VpcLookupOptions } from "aws-cdk-lib/aws-ec2";
 import { IRepository, Repository } from "aws-cdk-lib/aws-ecr";
 import { Cluster, ClusterAttributes, ContainerImage, Secret } from "aws-cdk-lib/aws-ecs";
+import { LogGroup } from "aws-cdk-lib/aws-logs";
 import { DatabaseSecret } from "aws-cdk-lib/aws-rds";
 import { Bucket } from "aws-cdk-lib/aws-s3";
 import { Secret as SecretManager } from "aws-cdk-lib/aws-secretsmanager";
@@ -13,6 +14,7 @@ import {
 } from "aws-cdk-lib/aws-servicediscovery";
 import { Construct } from "constructs";
 import env from "../env";
+import CloudWatchConstruct, { CloudWatchConstructProps } from "../resource/cloud-watch.construct";
 import { FargateServiceConstruct, FargateServiceConstructProps } from "../resource/fargate-service.construct";
 import { TaskDefinitionConstruct, TaskDefinitionConstructProps } from "../resource/task-definition.construct";
 
@@ -27,7 +29,16 @@ export class ApplicationStack extends Stack {
 
     const taskDefinition = this.createTaskDefinition();
 
+    this.createCloudWatch(taskDefinition.logGroup);
     this.createFargateService(taskDefinition);
+  }
+
+  private createCloudWatch(logGroup: LogGroup) {
+    const config: CloudWatchConstructProps = {
+      logGroup,
+    };
+
+    new CloudWatchConstruct(this, config);
   }
 
   private createTaskDefinition() {
