@@ -1,6 +1,7 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 import org.openapitools.generator.gradle.plugin.tasks.GenerateTask
+import org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES
 
 val openApiTasks = File("$rootDir/src/main/resources/specs").listFiles()?.map {
     val name = it.name.replace(".yaml", "")
@@ -31,10 +32,9 @@ val openApiTasks = File("$rootDir/src/main/resources/specs").listFiles()?.map {
 plugins {
     val kotlinVersion = "2.0.0"
 
-    id("org.springframework.boot") version "3.3.1"
-    id("io.spring.dependency-management") version "1.1.5"
+    id("org.springframework.boot") version "3.3.2"
     id("org.graalvm.buildtools.native") version "0.10.2"
-    id("org.openapi.generator") version "7.6.0"
+    id("org.openapi.generator") version "7.7.0"
     kotlin("jvm") version kotlinVersion
     kotlin("plugin.spring") version kotlinVersion
 }
@@ -70,6 +70,8 @@ repositories {
 }
 
 dependencies {
+    implementation(platform(BOM_COORDINATES))
+
     // Kotlin
     implementation(kotlin("reflect"))
     implementation(kotlin("stdlib"))
@@ -87,7 +89,7 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 
     // Spring Cloud Starter
-    implementation(platform("org.springframework.cloud:spring-cloud-dependencies:2023.0.2"))
+    implementation(platform("org.springframework.cloud:spring-cloud-dependencies:2023.0.3"))
     implementation("org.springframework.cloud:spring-cloud-starter-openfeign")
 
     // Spring Kafka
@@ -98,7 +100,7 @@ dependencies {
     implementation("org.springframework.retry:spring-retry")
 
     // AWS
-    implementation(platform("software.amazon.awssdk:bom:2.26.1"))
+    implementation(platform("software.amazon.awssdk:bom:2.26.22"))
     implementation("software.amazon.awssdk:cloudfront")
 
     // AWS Cloud
@@ -117,22 +119,22 @@ dependencies {
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 
     // Observability and Metrics
-    implementation(platform("io.micrometer:micrometer-tracing-bom:1.3.1"))
+    implementation(platform("io.micrometer:micrometer-tracing-bom:1.3.2"))
     implementation("io.github.openfeign:feign-micrometer")
     implementation("io.micrometer:micrometer-registry-prometheus")
     implementation("io.micrometer:micrometer-tracing-bridge-otel")
     implementation("io.opentelemetry:opentelemetry-exporter-otlp")
-    implementation("net.ttddyy.observation:datasource-micrometer-spring-boot:1.0.3")
+    implementation("net.ttddyy.observation:datasource-micrometer-spring-boot:1.0.5")
 
     // OpenAPI
-    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.5.0")
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.0")
 
     // Test
-    testImplementation("org.mockito.kotlin:mockito-kotlin:5.3.1")
+    testImplementation("org.mockito.kotlin:mockito-kotlin:5.4.0")
     testImplementation("org.mockito:mockito-inline:5.2.0")
 
     // Test Containers
-    testImplementation(platform("org.testcontainers:testcontainers-bom:1.19.8"))
+    testImplementation(platform("org.testcontainers:testcontainers-bom:1.20.0"))
     testImplementation("org.testcontainers:junit-jupiter")
     testImplementation("org.testcontainers:elasticsearch")
     testImplementation("org.testcontainers:kafka")
