@@ -12,7 +12,7 @@ services:
       - postgres
       - redis
       - kafka
-      - jaeger
+      - zipkin
     ports:
       - "80:80"
     env_file: .docker.env
@@ -59,8 +59,6 @@ services:
       KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
       KAFKA_HEAP_OPTS: -Xms128m -Xmx256m
       CLUSTER_ID: DwulslKcTFOZ1R8bCya7Vg
-  jaeger:
-    image: jaegertracing/all-in-one:1
-    container_name: jaeger-template
-    depends_on:
-      - elasticsearch
+  zipkin:
+    image: openzipkin/zipkin-slim:3
+    container_name: zipkin-template

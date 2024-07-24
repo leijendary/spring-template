@@ -4,8 +4,7 @@ metadata:
   name: spring-template-config
   namespace: template
 data:
-  MANAGEMENT_OTLP_METRICS_EXPORT_URL: "http://jaeger-service.monitoring.svc.cluster.local:4318/v1/metrics"
-  MANAGEMENT_OTLP_TRACING_ENDPOINT: "http://jaeger-service.monitoring.svc.cluster.local:4318/v1/traces"
+  MANAGEMENT_ZIPKIN_TRACING_ENDPOINT: "http://zipkin-service.monitoring.svc.cluster.local:9411/api/v2/spans"
   SPRING_CLOUD_AWS_CREDENTIALS_INSTANCE_PROFILE: "false"
   SPRING_CLOUD_AWS_REGION_INSTANCE_PROFILE: "false"
   SPRING_CLOUD_AWS_REGION_STATIC: "eu-central-1"

@@ -1,6 +1,10 @@
 package com.leijendary
 
-import com.leijendary.container.*
+import com.leijendary.container.ElasticsearchContainerInitializer
+import com.leijendary.container.KafkaContainerInitializer
+import com.leijendary.container.PostgresContainerInitializer
+import com.leijendary.container.RedisContainerInitializer
+import com.leijendary.container.ZipkinContainerInitializer
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
 import org.testcontainers.junit.jupiter.Container
@@ -17,18 +21,15 @@ class ApplicationTestCase {
     @Test
     fun `containers are running`() {
         assertTrue(ELASTICSEARCH.isRunning)
-        assertTrue(JAEGER.isRunning)
         assertTrue(DATABASE.isRunning)
         assertTrue(KAFKA.isRunning)
         assertTrue(REDIS.isRunning)
+        assertTrue(ZIPKIN.isRunning)
     }
 
     companion object {
         @Container
         private val ELASTICSEARCH = ElasticsearchContainerInitializer.INSTANCE
-
-        @Container
-        private val JAEGER = JaegerContainerInitializer.INSTANCE
 
         @Container
         private val DATABASE = PostgresContainerInitializer.INSTANCE
@@ -38,5 +39,8 @@ class ApplicationTestCase {
 
         @Container
         private val REDIS = RedisContainerInitializer.INSTANCE
+
+        @Container
+        private val ZIPKIN = ZipkinContainerInitializer.INSTANCE
     }
 }
