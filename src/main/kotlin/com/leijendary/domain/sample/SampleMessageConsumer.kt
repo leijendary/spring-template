@@ -6,6 +6,7 @@ import com.leijendary.config.properties.Topic.SAMPLE_UPDATED
 import com.leijendary.extension.toClass
 import com.leijendary.model.IdentityModel
 import org.springframework.kafka.annotation.KafkaListener
+import org.springframework.kafka.annotation.RetryableTopic
 import org.springframework.stereotype.Component
 
 @Component
@@ -14,6 +15,7 @@ class SampleMessageConsumer(
     private val sampleSearchService: SampleSearchService
 ) {
     @KafkaListener(topics = [SAMPLE_CREATED])
+    @RetryableTopic
     fun created(json: String) {
         val sample = json.toClass<SampleDetail>()
         sample.image = sampleRepository.getImage(sample.id)
@@ -22,6 +24,7 @@ class SampleMessageConsumer(
     }
 
     @KafkaListener(topics = [SAMPLE_UPDATED])
+    @RetryableTopic
     fun updated(json: String) {
         val sample = json.toClass<SampleDetail>()
 
@@ -29,6 +32,7 @@ class SampleMessageConsumer(
     }
 
     @KafkaListener(topics = [SAMPLE_DELETED])
+    @RetryableTopic
     fun deleted(json: String) {
         val model = json.toClass<IdentityModel>()
 
