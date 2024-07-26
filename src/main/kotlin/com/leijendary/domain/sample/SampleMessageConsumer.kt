@@ -10,15 +10,11 @@ import org.springframework.kafka.annotation.RetryableTopic
 import org.springframework.stereotype.Component
 
 @Component
-class SampleMessageConsumer(
-    private val sampleRepository: SampleRepository,
-    private val sampleSearchService: SampleSearchService
-) {
+class SampleMessageConsumer(private val sampleSearchService: SampleSearchService) {
     @KafkaListener(topics = [SAMPLE_CREATED])
     @RetryableTopic
     fun created(json: String) {
         val sample = json.toClass<SampleDetail>()
-        sample.image = sampleRepository.getImage(sample.id)
 
         sampleSearchService.save(sample)
     }
