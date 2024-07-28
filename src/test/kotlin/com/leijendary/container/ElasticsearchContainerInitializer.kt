@@ -17,6 +17,6 @@ class ElasticsearchContainerInitializer : ElasticsearchContainer(image) {
     companion object {
         val INSTANCE: ElasticsearchContainerInitializer by lazy { ElasticsearchContainerInitializer() }
 
-        private val image = DockerImageName.parse("docker.elastic.co/elasticsearch/elasticsearch:8.8.2")
+        private val image = DockerImageName.parse("docker.elastic.co/elasticsearch/elasticsearch:8.14.3")
     }
 }

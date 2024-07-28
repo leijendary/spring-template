@@ -16,6 +16,6 @@ class PostgresContainerInitializer : PostgreSQLContainer<PostgresContainerInitia
     companion object {
         val INSTANCE: PostgresContainerInitializer by lazy { PostgresContainerInitializer() }
 
-        private val image = DockerImageName.parse("postgres:15-alpine")
+        private val image = DockerImageName.parse("postgres:16-alpine")
     }
 }

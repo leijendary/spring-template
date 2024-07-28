@@ -16,6 +16,6 @@ class RedisContainerInitializer : GenericContainer<RedisContainerInitializer>(im
     companion object {
         val INSTANCE: RedisContainerInitializer by lazy { RedisContainerInitializer() }
 
-        private val image = DockerImageName.parse("redis:6-alpine")
+        private val image = DockerImageName.parse("redis:7-alpine")
     }
 }

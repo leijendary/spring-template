@@ -15,6 +15,6 @@ class KafkaContainerInitializer : KafkaContainer(image) {
     companion object {
         val INSTANCE: KafkaContainerInitializer by lazy { KafkaContainerInitializer() }
 
-        private val image = DockerImageName.parse("confluentinc/cp-kafka:7.5.3")
+        private val image = DockerImageName.parse("confluentinc/cp-kafka:7.7.0")
     }
 }
