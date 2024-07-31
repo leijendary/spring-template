@@ -75,7 +75,7 @@ openApi:
     - url: https://api.test.leijendary.com
       description: Testing
     - url: https://api.sandbox.leijendary.com
-      description: Staging
+      description: Sandbox
     - url: https://api.leijendary.com
       description: Production
 

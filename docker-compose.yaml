@@ -27,7 +27,7 @@ services:
           memory: 512M
           cpus: "0.25"
   elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:8.8.2
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.14.3
     container_name: elasticsearch-template
     environment:
       ELASTIC_PASSWORD: 12345678
@@ -36,16 +36,16 @@ services:
       bootstrap.memory_lock: true
       xpack.security.transport.ssl.enabled: false
   postgres:
-    image: postgres:15-alpine
+    image: postgres:16-alpine
     container_name: postgres-template
     environment:
       POSTGRES_DB: spring_template
       POSTGRES_PASSWORD: 12345678
   redis:
-    image: redis:6-alpine
+    image: redis:7-alpine
     container_name: redis-template
   kafka:
-    image: confluentinc/cp-kafka:7.5.3
+    image: confluentinc/cp-kafka:7.7.0
     container_name: kafka-template
     environment:
       KAFKA_NODE_ID: 1
