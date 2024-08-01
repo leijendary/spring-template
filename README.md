@@ -29,7 +29,6 @@
 - JUnit
 - Kubernetes
 - Liquibase
-- MapStruct
 - Micrometer Tracing
 - OpenAPI
 - OpenTelemetry
