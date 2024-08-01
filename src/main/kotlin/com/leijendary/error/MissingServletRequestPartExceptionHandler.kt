@@ -16,7 +16,7 @@ import org.springframework.web.multipart.support.MissingServletRequestPartExcept
 class MissingServletRequestPartExceptionHandler(private val messageSource: MessageSource) {
     @ExceptionHandler(MissingServletRequestPartException::class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    fun catchHttpMessageNotReadable(exception: MissingServletRequestPartException): List<ErrorModel> {
+    fun catchMissingServletRequestPart(exception: MissingServletRequestPartException): List<ErrorModel> {
         val code = "error.badRequest"
         val message = messageSource.getMessage(code, emptyArray(), requestContext.locale)
         val source = ErrorSource(pointer = "/body/${exception.requestPartName}")
