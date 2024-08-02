@@ -28,16 +28,10 @@ kafka:
 logging:
   includeApplicationName: false
   level:
-    liquibase:
-      util: ERROR
-    org:
-      apache:
-        kafka: ERROR
-      springframework:
-        context:
-          support:
-            # Disable warning messages from spring retry bean configurations.
-            PostProcessorRegistrationDelegate: ERROR
+    liquibase.util: ERROR
+    org.apache.kafka: ERROR
+    # Disable warning messages from spring retry bean configurations.
+    org.springframework.context.support.PostProcessorRegistrationDelegate: ERROR
 
 management:
   endpoint:
