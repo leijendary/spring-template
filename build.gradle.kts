@@ -67,6 +67,7 @@ configurations {
 
 repositories {
     mavenCentral()
+    maven { url = uri("https://repo.spring.io/milestone") }
 }
 
 dependencies {
@@ -98,6 +99,10 @@ dependencies {
 
     // Spring Retry
     implementation("org.springframework.retry:spring-retry")
+
+    // AI
+    implementation(platform("org.springframework.ai:spring-ai-bom:1.0.0-M1"))
+    implementation("org.springframework.ai:spring-ai-ollama-spring-boot-starter")
 
     // AWS
     implementation(platform("software.amazon.awssdk:bom:2.26.22"))

@@ -88,6 +88,11 @@ server:
   port: 80
 
 spring:
+  ai:
+    ollama:
+      chat:
+        options:
+          model: llama3.1
   application:
     name: ${name}
   autoconfigure:
