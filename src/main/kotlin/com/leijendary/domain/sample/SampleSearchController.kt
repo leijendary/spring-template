@@ -1,11 +1,11 @@
 package com.leijendary.domain.sample
 
 import com.leijendary.extension.elapsedTime
-import com.leijendary.model.Page
-import com.leijendary.model.PageRequest
 import com.leijendary.model.QueryRequest
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
@@ -18,8 +18,8 @@ import kotlin.system.measureTimeMillis
 class SampleSearchController(private val sampleSearchService: SampleSearchService) {
     @GetMapping
     @Operation(summary = "List all the objects based on the query parameter")
-    fun list(queryRequest: QueryRequest, pageRequest: PageRequest): Page<SampleList> {
-        return sampleSearchService.page(queryRequest, pageRequest)
+    fun list(queryRequest: QueryRequest, pageable: Pageable): Page<SampleResponse> {
+        return sampleSearchService.page(queryRequest, pageable)
     }
 
     @PostMapping("reindex")

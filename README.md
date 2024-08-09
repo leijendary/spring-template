@@ -17,8 +17,8 @@
 - Spring Cloud OpenFeign
 - Spring Configuration Processor
 - Spring Data Elasticsearch
+- Spring Data JDBC
 - Spring Data Redis
-- Spring JDBC
 - Spring Kafka
 - Spring Native
 - Spring Retry
@@ -78,7 +78,7 @@
 
 ### To build native docker image:
 
-`./gradlew bootBuildImage`
+`docker compose up`
 
 # Branching Strategy
 

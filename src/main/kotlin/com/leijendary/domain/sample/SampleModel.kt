@@ -4,37 +4,43 @@ import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY
 import com.leijendary.domain.image.ImageResponse
 import com.leijendary.model.TranslationRequest
+import com.leijendary.projection.CursorProjection
 import com.leijendary.projection.LocaleProjection
-import com.leijendary.projection.SeekProjection
 import com.leijendary.validator.annotation.UniqueFields
 import jakarta.validation.Valid
 import jakarta.validation.constraints.DecimalMax
 import jakarta.validation.constraints.DecimalMin
+import jakarta.validation.constraints.Min
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.NotEmpty
 import jakarta.validation.constraints.NotNull
 import jakarta.validation.constraints.Size
+import org.springframework.data.annotation.Transient
 import java.math.BigDecimal
 import java.math.BigDecimal.ZERO
-import java.time.OffsetDateTime
+import java.time.Instant
 
 class SampleRequest {
     @field:NotBlank(message = "validation.required")
     @field:Size(max = 100, message = "validation.maxLength")
-    val name: String = ""
+    var name: String = ""
 
     @field:NotNull(message = "validation.required")
-    val description: String? = null
+    var description: String? = null
 
     @field:NotNull(message = "validation.required")
     @field:DecimalMin(value = "0.01", message = "validation.decimal.min")
     @field:DecimalMax(value = "9999999999.99", message = "validation.decimal.max")
-    val amount: BigDecimal = ZERO
+    var amount: BigDecimal = ZERO
 
     @field:Valid
     @field:UniqueFields(["language", "ordinal"])
     @field:NotEmpty(message = "validation.required")
-    val translations = arrayListOf<SampleTranslationRequest>()
+    var translations = arrayListOf<SampleTranslationRequest>()
+
+    @field:NotNull(message = "validation.required")
+    @field:Min(value = 1, message = "validation.min")
+    var version: Int = 1
 }
 
 class SampleTranslationRequest : TranslationRequest() {
@@ -43,55 +49,39 @@ class SampleTranslationRequest : TranslationRequest() {
     var name = ""
 
     @field:Size(max = 200, message = "validation.maxLength")
-    val description: String? = null
+    var description: String? = null
 }
 
-data class SampleList(
+data class SampleResponse(
     override val id: Long,
     val name: String,
     val description: String?,
     val amount: BigDecimal,
-    override val createdAt: OffsetDateTime
-) : SeekProjection {
+    override val createdAt: Instant
+) : CursorProjection {
+    @Transient
     var image: ImageResponse? = null
 }
 
-data class SampleDetail(
+data class SampleDetailResponse(
     val id: Long,
-    val name: String,
-    val description: String?,
+    var name: String,
+    var description: String?,
     val amount: BigDecimal,
     val version: Int,
-    val createdAt: OffsetDateTime,
+    val createdAt: Instant,
 ) {
+    @Transient
     @JsonInclude(NON_EMPTY)
-    val translations: MutableList<SampleTranslation> = mutableListOf()
+    var translations: MutableList<SampleTranslationResponse> = mutableListOf()
+
+    @Transient
     var image: ImageResponse? = null
 }
 
-data class SampleTranslation(
-    val name: String,
-    val description: String?,
-    override val language: String,
-    override val ordinal: Int
+data class SampleTranslationResponse(
+    var name: String,
+    var description: String?,
+    override var language: String,
+    override var ordinal: Int
 ) : LocaleProjection
-
-data class SampleTranslationsBinds(private val size: Int) {
-    val names = arrayOfNulls<String>(size)
-    val descriptions = arrayOfNulls<String?>(size)
-    val languages = arrayOfNulls<String>(size)
-    val ordinals = arrayOfNulls<Int>(size)
-}
-
-fun List<SampleTranslationRequest>.toBinds(): SampleTranslationsBinds {
-    val binds = SampleTranslationsBinds(size)
-
-    forEachIndexed { i, v ->
-        binds.names[i] = v.name
-        binds.descriptions[i] = v.description
-        binds.languages[i] = v.language
-        binds.ordinals[i] = v.ordinal
-    }
-
-    return binds
-}

@@ -2,6 +2,7 @@ package com.leijendary.domain.sample
 
 import com.leijendary.domain.image.ImageResponse
 import com.leijendary.domain.sample.SampleSearch.Companion.INDEX_NAME
+import com.leijendary.model.ErrorSource
 import com.leijendary.projection.LocaleProjection
 import com.leijendary.projection.LocalizedProjection
 import org.springframework.data.annotation.Id
@@ -19,7 +20,7 @@ import org.springframework.data.elasticsearch.annotations.InnerField
 import org.springframework.data.elasticsearch.annotations.MultiField
 import org.springframework.data.elasticsearch.core.suggest.Completion
 import java.math.BigDecimal
-import java.time.OffsetDateTime
+import java.time.Instant
 
 @Document(indexName = INDEX_NAME)
 data class SampleSearch(
@@ -42,13 +43,14 @@ data class SampleSearch(
     var image: ImageResponse?,
 
     @Field(type = Date, format = [date_time])
-    var createdAt: OffsetDateTime,
+    var createdAt: Instant,
 
     @CompletionField
     var completion: Completion,
 ) : LocalizedProjection<SampleTranslationSearch> {
     companion object {
         const val INDEX_NAME = "sample"
+        val ERROR_SOURCE_SEARCH = ErrorSource(pointer = "/search/$INDEX_NAME/id")
     }
 }
 
@@ -63,5 +65,5 @@ data class SampleTranslationSearch(
     override val language: String,
 
     @Field(type = Integer)
-    override val ordinal: Int = 0
+    override val ordinal: Int
 ) : LocaleProjection

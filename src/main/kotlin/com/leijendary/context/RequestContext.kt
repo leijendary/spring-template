@@ -22,10 +22,7 @@ private val SESSION_NOT_FOUND_EXCEPTION = StatusException(
 @Component
 @RequestScope
 class RequestContext {
-    val currentRequest by lazy {
-        val attributes = RequestContextHolder.getRequestAttributes() as? ServletRequestAttributes
-        attributes?.request
-    }
+    val currentRequest by lazy { (RequestContextHolder.getRequestAttributes() as? ServletRequestAttributes)?.request }
     val userIdOrNull: String? by lazy { currentRequest?.getHeader(HEADER_USER_ID) }
     val userIdOrSystem: String by lazy { userIdOrNull ?: USER_SYSTEM }
     val userIdOrThrow: String by lazy { userIdOrNull ?: throw SESSION_NOT_FOUND_EXCEPTION }
