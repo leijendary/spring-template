@@ -155,10 +155,6 @@ graalvmNative {
             imageName = "app"
         }
     }
-
-    metadataRepository {
-        enabled = true
-    }
 }
 
 tasks {
