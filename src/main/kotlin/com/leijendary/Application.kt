@@ -2,6 +2,7 @@ package com.leijendary
 
 import com.leijendary.config.properties.KafkaTopicProperties.KafkaTopic
 import com.leijendary.model.IdentityModel
+import com.leijendary.model.QueryRequest
 import com.leijendary.validator.UniqueFieldsValidator
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeIn.HEADER
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeType.HTTP
@@ -28,14 +29,17 @@ import org.springframework.aot.hint.MemberCategory.INVOKE_DECLARED_CONSTRUCTORS
 import org.springframework.aot.hint.MemberCategory.INVOKE_DECLARED_METHODS
 import org.springframework.aot.hint.RuntimeHints
 import org.springframework.aot.hint.RuntimeHintsRegistrar
-import org.springframework.aot.hint.registerType
+import org.springframework.aot.hint.annotation.RegisterReflectionForBinding
 import org.springframework.boot.SpringBootVersion
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 import org.springframework.cloud.openfeign.EnableFeignClients
 import org.springframework.context.annotation.ImportRuntimeHints
 import org.springframework.core.env.get
+import org.springframework.data.web.PagedModel
+import org.springframework.data.web.config.SpringDataJacksonConfiguration
 import org.springframework.http.HttpHeaders.AUTHORIZATION
+import org.springframework.kafka.retrytopic.RetryTopicConfigurer
 import org.springframework.retry.annotation.EnableRetry
 import org.springframework.scheduling.annotation.EnableAsync
 import javax.security.auth.spi.LoginModule
@@ -43,6 +47,32 @@ import javax.security.sasl.SaslClient
 
 @SpringBootApplication(proxyBeanMethods = false)
 @ImportRuntimeHints(ApplicationRuntimeHints::class)
+@RegisterReflectionForBinding(
+    value = [
+        ChangeLogHistoryServiceFactory::class,
+        CooperativeStickyAssignor::class,
+        DefaultLogin::class,
+        DefaultLoginCallbackHandler::class,
+        KafkaTopic::class,
+        KeyFactorySpi::class,
+        LiquibaseTableNamesFactory::class,
+        LoggerUIService::class,
+        LoginModule::class,
+        Mappings::class,
+        PagedModel::class,
+        QueryRequest::class,
+        SaslClient::class,
+        SaslClientAuthenticator::class,
+        SaslClientCallbackHandler::class,
+        ScramFormatter::class,
+        ScramLoginModule::class,
+        ScramSaslClient::class,
+        ScramSaslClientFactory::class,
+        ShowSummaryGeneratorFactory::class,
+        SqlParserFactory::class,
+        UniqueFieldsValidator::class,
+    ]
+)
 @SecurityScheme(name = AUTHORIZATION, type = HTTP, `in` = HEADER, scheme = "bearer", bearerFormat = "JWT")
 @EnableAsync
 @EnableFeignClients
@@ -51,42 +81,34 @@ class Application
 
 class ApplicationRuntimeHints : RuntimeHintsRegistrar {
     override fun registerHints(hints: RuntimeHints, classLoader: ClassLoader?) {
-        val categories = arrayOf(INVOKE_DECLARED_CONSTRUCTORS, INVOKE_DECLARED_METHODS, DECLARED_CLASSES)
+        val memberCategories = arrayOf(INVOKE_DECLARED_CONSTRUCTORS, INVOKE_DECLARED_METHODS, DECLARED_CLASSES)
+        // Classes to be registered for reflection
+        val reflections = arrayOf(
+            Class.forName("${RetryTopicConfigurer::class.qualifiedName}\$LoggingDltListenerHandlerMethod"),
+            Class.forName("${SpringDataJacksonConfiguration::class.qualifiedName}\$PageModule\$PageModelConverter"),
+            Class.forName("${SpringDataJacksonConfiguration::class.qualifiedName}\$PageModule\$PlainPageSerializationWarning")
+        )
+        // Paths to be registered as resources
+        val resources = arrayOf(
+            "messages/*",
+            "io/awspring/cloud/core/SpringCloudClientConfiguration.properties",
+            "io/awspring/cloud/s3/S3ObjectContentTypeResolver.properties"
+        )
+        // Classes to be registered for serialization
+        val serializations = arrayOf(IdentityModel::class.java)
 
         // Reflection
-        hints.reflection()
-            .registerType<ChangeLogHistoryServiceFactory> { it.withConstructor(emptyList(), INVOKE) }
-            .registerType<CooperativeStickyAssignor>(*categories)
-            .registerType<DefaultLogin>(*categories)
-            .registerType<DefaultLoginCallbackHandler>(*categories)
-            .registerType<KafkaTopic>(*categories)
-            .registerType<KeyFactorySpi>(*categories)
-            .registerType<LiquibaseTableNamesFactory> { it.withConstructor(emptyList(), INVOKE) }
-            .registerType<LoggerUIService> { it.withConstructor(emptyList(), INVOKE) }
-            .registerType<LoginModule>(*categories)
-            .registerType<Mappings>(*categories)
-            .registerType<SaslClient>(*categories)
-            .registerType<SaslClientAuthenticator>(*categories)
-            .registerType<SaslClientCallbackHandler>(*categories)
-            .registerType<ScramFormatter>(*categories)
-            .registerType<ScramLoginModule>(*categories)
-            .registerType<ScramSaslClient>(*categories)
-            .registerType<ScramSaslClientFactory>(*categories)
-            .registerType<ShowSummaryGeneratorFactory> { it.withConstructor(emptyList(), INVOKE) }
-            .registerType<SqlParserFactory> { it.withConstructor(emptyList(), INVOKE) }
-            .registerType<UniqueFieldsValidator> { it.withConstructor(emptyList(), INVOKE) }
+        reflections.forEach { type ->
+            hints.reflection().registerType(type) {
+                it.withMembers(*memberCategories).withConstructor(emptyList(), INVOKE)
+            }
+        }
 
         // Resources
-        hints.resources()
-            .registerPattern("db/sql/*")
-            .registerPattern("elasticsearch/*")
-            .registerPattern("messages/*")
-            .registerPattern("io/awspring/cloud/core/SpringCloudClientConfiguration.properties")
-            .registerPattern("io/awspring/cloud/s3/S3ObjectContentTypeResolver.properties")
+        resources.forEach(hints.resources()::registerPattern)
 
         // Serialization
-        hints.serialization()
-            .registerType(IdentityModel::class.java)
+        serializations.forEach(hints.serialization()::registerType)
     }
 }
 

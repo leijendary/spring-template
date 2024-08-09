@@ -1,11 +1,15 @@
 package com.leijendary.domain.sample
 
+import com.leijendary.context.requestContext
+import com.leijendary.domain.image.ImageResponse
 import com.leijendary.domain.image.ImageService
+import com.leijendary.domain.sample.SampleSearch.Companion.ERROR_SOURCE_SEARCH
+import com.leijendary.domain.sample.SampleSearch.Companion.INDEX_NAME
 import com.leijendary.error.exception.ResourceNotFoundException
 import com.leijendary.extension.logger
-import com.leijendary.model.Page
-import com.leijendary.model.PageRequest
 import com.leijendary.model.QueryRequest
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.data.elasticsearch.core.suggest.Completion
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -13,9 +17,9 @@ import java.util.concurrent.atomic.AtomicInteger
 import kotlin.streams.asSequence
 
 interface SampleSearchService {
-    fun page(queryRequest: QueryRequest, pageRequest: PageRequest): Page<SampleList>
-    fun save(sample: SampleDetail)
-    fun update(sample: SampleDetail)
+    fun page(queryRequest: QueryRequest, pageable: Pageable): Page<SampleResponse>
+    fun save(sample: SampleDetailResponse)
+    fun update(sample: SampleDetailResponse)
     fun delete(id: Long)
     fun reindex(): Int
 }
@@ -25,28 +29,34 @@ private const val STREAM_CHUNK = 1000
 @Service
 class SampleSearchServiceImpl(
     private val imageService: ImageService,
+    private val sampleImageRepository: SampleImageRepository,
     private val sampleRepository: SampleRepository,
     private val sampleSearchRepository: SampleSearchRepository,
+    private val sampleTranslationRepository: SampleTranslationRepository,
 ) : SampleSearchService {
     private val log = logger()
 
-    override fun page(queryRequest: QueryRequest, pageRequest: PageRequest): Page<SampleList> {
-        return sampleSearchRepository
-            .findByTranslations(queryRequest, pageRequest)
-            .map(::mapToList)
+    override fun page(queryRequest: QueryRequest, pageable: Pageable): Page<SampleResponse> {
+        val page = if (queryRequest.query !== null) {
+            sampleSearchRepository.findByTranslations(queryRequest.query, pageable)
+        } else {
+            sampleSearchRepository.findAll(pageable)
+        }
+
+        return page.map(::mapToList)
     }
 
-    override fun save(sample: SampleDetail) {
+    override fun save(sample: SampleDetailResponse) {
         val search = map(sample)
 
         sampleSearchRepository.save(search)
     }
 
-    override fun update(sample: SampleDetail) {
+    override fun update(sample: SampleDetailResponse) {
         val exists = sampleSearchRepository.existsById(sample.id)
 
         if (!exists) {
-            throw ResourceNotFoundException(sample.id, ENTITY_SEARCH, SOURCE_SEARCH)
+            throw ResourceNotFoundException(sample.id, INDEX_NAME, ERROR_SOURCE_SEARCH)
         }
 
         save(sample)
@@ -56,7 +66,7 @@ class SampleSearchServiceImpl(
         val exists = sampleSearchRepository.existsById(id)
 
         if (!exists) {
-            throw ResourceNotFoundException(id, ENTITY_SEARCH, SOURCE_SEARCH)
+            throw ResourceNotFoundException(id, INDEX_NAME, ERROR_SOURCE_SEARCH)
         }
 
         sampleSearchRepository.deleteById(id)
@@ -66,7 +76,7 @@ class SampleSearchServiceImpl(
     override fun reindex(): Int {
         val count = AtomicInteger()
 
-        sampleRepository.streamAll()
+        sampleRepository.streamBy(SampleDetailResponse::class.java)
             .parallel()
             .map(::mapStream)
             .use {
@@ -84,7 +94,7 @@ class SampleSearchServiceImpl(
         return count.get()
     }
 
-    private fun map(sample: SampleDetail) = SampleSearch(
+    private fun map(sample: SampleDetailResponse) = SampleSearch(
         id = sample.id,
         name = sample.name,
         description = sample.description,
@@ -104,9 +114,9 @@ class SampleSearchServiceImpl(
             .let(::Completion),
     )
 
-    private fun mapToList(search: SampleSearch): SampleList {
-        val translation = search.translation
-        val result = SampleList(
+    private fun mapToList(search: SampleSearch): SampleResponse {
+        val translation = search.getTranslation(requestContext.language)
+        val result = SampleResponse(
             id = search.id,
             name = translation.name,
             description = translation.description,
@@ -118,8 +128,11 @@ class SampleSearchServiceImpl(
         return result
     }
 
-    private fun mapStream(sample: SampleDetail): SampleSearch {
-        val translations = sampleRepository.listTranslations(sample.id)
+    private fun mapStream(sample: SampleDetailResponse): SampleSearch {
+        sample.image = sampleImageRepository.findByIdOrNull(sample.id, ImageResponse::class.java)
+
+        // Add the translations of the entity
+        val translations = sampleTranslationRepository.findById(sample.id, SampleTranslationResponse::class.java)
         sample.translations.addAll(translations)
 
         return map(sample)

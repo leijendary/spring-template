@@ -2,24 +2,27 @@ package com.leijendary.domain.sample
 
 import com.leijendary.context.requestContext
 import com.leijendary.domain.image.ImageRequest
+import com.leijendary.domain.image.ImageResponse
 import com.leijendary.domain.image.ImageService
+import com.leijendary.domain.sample.Sample.Companion.ENTITY
+import com.leijendary.domain.sample.Sample.Companion.ERROR_SOURCE
 import com.leijendary.error.exception.ResourceNotFoundException
 import com.leijendary.extension.transactional
-import com.leijendary.model.Page
-import com.leijendary.model.PageRequest
+import com.leijendary.model.Cursorable
+import com.leijendary.model.CursoredModel
 import com.leijendary.model.QueryRequest
-import com.leijendary.model.Seek
-import com.leijendary.model.SeekRequest
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
-import java.util.concurrent.CompletableFuture.supplyAsync
 
 interface SampleService {
-    fun page(queryRequest: QueryRequest, pageRequest: PageRequest): Page<SampleList>
-    fun seek(queryRequest: QueryRequest, seekRequest: SeekRequest): Seek<SampleList>
-    fun create(request: SampleRequest): SampleDetail
-    fun get(id: Long, translate: Boolean): SampleDetail
-    fun update(id: Long, version: Int, request: SampleRequest): SampleDetail
-    fun delete(id: Long, version: Int)
+    fun page(queryRequest: QueryRequest, pageable: Pageable): Page<SampleResponse>
+    fun cursor(queryRequest: QueryRequest, cursorable: Cursorable): CursoredModel<SampleResponse>
+    fun create(request: SampleRequest): SampleDetailResponse
+    fun get(id: Long, translate: Boolean): SampleDetailResponse
+    fun update(id: Long, request: SampleRequest): SampleDetailResponse
+    fun delete(id: Long)
     fun saveImage(id: Long, request: ImageRequest)
     fun deleteImage(id: Long)
 }
@@ -27,87 +30,103 @@ interface SampleService {
 @Service
 class SampleServiceImpl(
     private val imageService: ImageService,
+    private val sampleImageRepository: SampleImageRepository,
     private val sampleMessageProducer: SampleMessageProducer,
     private val sampleRepository: SampleRepository,
     private val sampleSearchRepository: SampleSearchRepository,
+    private val sampleTranslationRepository: SampleTranslationRepository,
 ) : SampleService {
-    override fun page(queryRequest: QueryRequest, pageRequest: PageRequest): Page<SampleList> {
-        val samplesFuture = supplyAsync { sampleRepository.page(queryRequest, pageRequest) }
-        val countFuture = supplyAsync { sampleRepository.count(queryRequest) }
-
-        return Page(pageRequest, samplesFuture.get(), countFuture.get())
-    }
-
-    override fun seek(queryRequest: QueryRequest, seekRequest: SeekRequest): Seek<SampleList> {
-        val samples = sampleRepository.seek(queryRequest, seekRequest)
-
-        return Seek(seekRequest, samples)
-    }
-
-    override fun create(request: SampleRequest): SampleDetail {
-        val (sample, translations) = transactional {
-            val sample = sampleRepository.create(request, requestContext.userIdOrSystem)
-            val translations = sampleRepository.createTranslations(sample.id, request.translations)
-
-            sample to translations
+    override fun page(queryRequest: QueryRequest, pageable: Pageable): Page<SampleResponse> {
+        return if (queryRequest.query !== null) {
+            sampleRepository.findByNameContainingIgnoreCase(queryRequest.query, pageable, SampleResponse::class.java)
+        } else {
+            sampleRepository.findBy(pageable, SampleResponse::class.java)
         }
-        sample.translations.addAll(translations)
-
-        sampleMessageProducer.created(sample)
-
-        return sample
     }
 
-    override fun get(id: Long, translate: Boolean): SampleDetail {
-        val sample = sampleRepository.get(id, translate)
-        val image = sampleRepository.getImage(id)
-        sample.image = image?.let(imageService::getPublicUrl)
+    override fun cursor(queryRequest: QueryRequest, cursorable: Cursorable): CursoredModel<SampleResponse> {
+        val samples = sampleRepository
+            .cursor(queryRequest.query, cursorable, requestContext.language, SampleResponse::class.java)
 
-        // Translation is already enabled, just return the translated record itself
+        return CursoredModel(samples, cursorable)
+    }
+
+    override fun create(request: SampleRequest): SampleDetailResponse {
+        val response = transactional {
+            val sample = sampleRepository.save(request.toEntity())
+            val translations = sampleTranslationRepository.saveAll(request.translations.toEntities(sample.id))
+
+            sample.toDetailResponse(translations)
+        }
+
+        sampleMessageProducer.created(response)
+
+        return response
+    }
+
+    override fun get(id: Long, translate: Boolean): SampleDetailResponse {
+        val response = sampleRepository.findByIdOrThrow(id, SampleDetailResponse::class.java)
+        val image = sampleImageRepository.findByIdOrNull(id, ImageResponse::class.java)
+        response.image = image?.let(imageService::getPublicUrl)
+
         if (translate) {
-            return sample
+            val translation = sampleTranslationRepository.findFirstByIdAndLanguage(id, requestContext.language)
+            translation?.let(response::applyTranslation)
+
+            // Translation is already enabled, just return the translated record itself
+            return response
         }
 
-        val translations = sampleRepository.listTranslations(sample.id)
-        sample.translations.addAll(translations)
+        val translations = sampleTranslationRepository.findById(id, SampleTranslationResponse::class.java)
+        response.translations.addAll(translations)
 
-        return sample
+        return response
     }
 
-    override fun update(id: Long, version: Int, request: SampleRequest): SampleDetail {
-        val (sample, translations) = transactional {
-            val sample = sampleRepository.update(id, version, request, requestContext.userIdOrSystem)
-            val translations = sampleRepository.updateTranslations(id, request.translations)
+    override fun update(id: Long, request: SampleRequest): SampleDetailResponse {
+        val response = transactional {
+            var sample = sampleRepository.findByIdOrThrow(id)
+            sample.updateWith(request)
+            sample = sampleRepository.save(sample)
 
-            sample to translations
+            // Remove all translations from the database, and re-save them afterward.
+            sampleTranslationRepository.deleteById(id)
+
+            var translations = request.translations.toEntities(id)
+            translations = sampleTranslationRepository.saveAll(translations)
+
+            sample.toDetailResponse(translations)
         }
-        sample.translations.addAll(translations)
+        val image = sampleImageRepository.findByIdOrNull(id, ImageResponse::class.java)
+        response.image = image?.let(imageService::getPublicUrl)
 
-        sampleMessageProducer.updated(sample)
+        sampleMessageProducer.updated(response)
 
-        return sample
+        return response
     }
 
-    override fun delete(id: Long, version: Int) {
-        sampleRepository.delete(id, version, requestContext.userIdOrSystem)
+    override fun delete(id: Long) {
+        sampleRepository.deleteById(id)
         sampleMessageProducer.deleted(id)
     }
 
     override fun saveImage(id: Long, request: ImageRequest) {
-        val exists = sampleRepository.exists(id)
+        val exists = sampleRepository.existsById(id)
 
         if (!exists) {
-            throw ResourceNotFoundException(id, ENTITY, SOURCE)
+            throw ResourceNotFoundException(id, ENTITY, ERROR_SOURCE)
         }
 
         val response = imageService.validate(request)
+        val image = sampleImageRepository.findByIdOrNull(id)
+            ?: SampleImage(id, response.original.name, response.preview.name, response.thumbnail.name)
 
-        sampleRepository.upsertImage(id, response.original.id, response.preview.id, response.thumbnail.id)
+        sampleImageRepository.save(image)
         sampleSearchRepository.setImage(id, request)
     }
 
     override fun deleteImage(id: Long) {
-        sampleRepository.deleteImage(id)
+        sampleImageRepository.deleteById(id)
         sampleSearchRepository.deleteImage(id)
     }
 }

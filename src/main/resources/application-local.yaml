@@ -5,6 +5,9 @@ aws:
   s3:
     bucketName: leijendary-api-dev
 
+logging:
+  includeApplicationName: false
+
 management:
   tracing:
     sampling:

@@ -48,9 +48,8 @@ class MethodExceptionHandler(private val messageSource: MessageSource) {
     @ExceptionHandler(MethodArgumentTypeMismatchException::class)
     @ResponseStatus(BAD_REQUEST)
     fun catchMethodArgumentTypeMismatch(exception: MethodArgumentTypeMismatchException): List<ErrorModel> {
-        val name = exception.name
         val message = messageSource.getMessage(CODE_BINDING_INVALID_VALUE, arrayOf(), requestContext.locale)
-        val source = ErrorSource(pointer = "/param/$name")
+        val source = ErrorSource(parameter = exception.name)
         val error = ErrorModel(code = CODE_BINDING_INVALID_VALUE, message = message, source = source)
 
         return listOf(error)

@@ -16,14 +16,14 @@ class SampleMessageProducer(
     private val kafkaTopicProperties: KafkaTopicProperties
 ) {
     @Retryable
-    fun created(sample: SampleDetail) {
+    fun created(sample: SampleDetailResponse) {
         val topic = kafkaTopicProperties.nameOf(SAMPLE_CREATED)
 
         kafkaTemplate.send(topic, sample.toJson())
     }
 
     @Retryable
-    fun updated(sample: SampleDetail) {
+    fun updated(sample: SampleDetailResponse) {
         val topic = kafkaTopicProperties.nameOf(SAMPLE_UPDATED)
 
         kafkaTemplate.send(topic, sample.toJson())

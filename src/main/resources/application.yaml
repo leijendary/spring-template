@@ -26,7 +26,6 @@ kafka:
       partitions: 1
 
 logging:
-  includeApplicationName: false
   level:
     liquibase.util: ERROR
     org.apache.kafka: ERROR

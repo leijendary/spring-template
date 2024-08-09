@@ -3,9 +3,9 @@ package com.leijendary.domain.sample
 import com.leijendary.client.PetStoreClient
 import com.leijendary.context.requestContext
 import com.leijendary.extension.transactional
+import com.leijendary.model.Cursorable
+import com.leijendary.model.CursoredModel
 import com.leijendary.model.QueryRequest
-import com.leijendary.model.Seek
-import com.leijendary.model.SeekRequest
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.openapi.petstore.v2.model.Pet
@@ -51,13 +51,13 @@ class SampleController(
            uses the index to get the next page of the result.
         """
     )
-    fun seek(queryRequest: QueryRequest, seekRequest: SeekRequest): Seek<SampleList> {
-        return sampleService.seek(queryRequest, seekRequest)
+    fun cursor(queryRequest: QueryRequest, cursorable: Cursorable): CursoredModel<SampleResponse> {
+        return sampleService.cursor(queryRequest, cursorable)
     }
 
     @GetMapping("{id}")
     @Operation(summary = "Retrieves the translated sample record from the database.")
-    fun get(@PathVariable id: Long): SampleDetail {
+    fun get(@PathVariable id: Long): SampleDetailResponse {
         return sampleService.get(id, true)
     }
 

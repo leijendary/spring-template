@@ -14,7 +14,7 @@ class SampleMessageConsumer(private val sampleSearchService: SampleSearchService
     @KafkaListener(topics = [SAMPLE_CREATED])
     @RetryableTopic
     fun created(json: String) {
-        val sample = json.toClass<SampleDetail>()
+        val sample = json.toClass<SampleDetailResponse>()
 
         sampleSearchService.save(sample)
     }
@@ -22,7 +22,7 @@ class SampleMessageConsumer(private val sampleSearchService: SampleSearchService
     @KafkaListener(topics = [SAMPLE_UPDATED])
     @RetryableTopic
     fun updated(json: String) {
-        val sample = json.toClass<SampleDetail>()
+        val sample = json.toClass<SampleDetailResponse>()
 
         sampleSearchService.update(sample)
     }
