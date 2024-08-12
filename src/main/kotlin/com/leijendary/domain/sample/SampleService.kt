@@ -118,8 +118,7 @@ class SampleServiceImpl(
         }
 
         val response = imageService.validate(request)
-        val image = sampleImageRepository.findByIdOrNull(id)
-            ?: SampleImage(id, response.original.name, response.preview.name, response.thumbnail.name)
+        val image = sampleImageRepository.findByIdOrNull(id) ?: response.toSampleEntity(id)
 
         sampleImageRepository.save(image)
         sampleSearchRepository.setImage(id, request)
