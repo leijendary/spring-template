@@ -11,6 +11,7 @@
 - Kotlin
 - Spring Boot 3
 - Spring Actuator
+- Spring AI
 - Spring Cache
 - Spring Cloud AWS
 - Spring Cloud AWS S3
@@ -93,7 +94,7 @@ different git workflow, and this is what I think is the fastest for most teams.
 - Changes from `main` **may** be cherry-picked to `release/*`.
 - `fix/*` and `hotfix/*` merges to a `release/*` branch that is created from the production tag.
 - When the `release/*` branch that contains the `fix/*` or `hotfix/*` is tagged and deployed to production, this release
-  branch will be merged to `main`.
+  branch will be merged back to `main`.
 
 # Load Testing
 
