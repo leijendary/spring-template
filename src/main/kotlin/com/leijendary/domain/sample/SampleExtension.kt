@@ -1,5 +1,6 @@
 package com.leijendary.domain.sample
 
+import com.leijendary.domain.image.ImageMultiValidateResponse
 import com.leijendary.domain.sample.Sample.Companion.ENTITY
 import com.leijendary.domain.sample.Sample.Companion.ERROR_SOURCE
 import com.leijendary.error.exception.ResourceNotFoundException
@@ -47,3 +48,5 @@ fun Sample.updateWith(request: SampleRequest) {
     amount = request.amount
     version = request.version
 }
+
+fun ImageMultiValidateResponse.toSampleEntity(id: Long) = SampleImage(id, original.name, preview.name, thumbnail.name)

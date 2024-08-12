@@ -23,31 +23,9 @@ interface SampleSearchRepository : SampleSearchCustomRepository, ElasticsearchRe
         {
           "bool": {
             "should": [
-              {
-                "match": {
-                  "translations.name": {
-                    "query": "#{#query}",
-                    "fuzziness": "auto"
-                  }
-                }
-              },
-              {
-                "match": {
-                  "translations.description": {
-                    "query": "#{#query}",
-                    "fuzziness": "auto"
-                  }
-                }
-              },
-              {
-                "term": {
-                  "translations.name.keyword": {
-                    "value": "#{#query}",
-                    "boost": 2.0,
-                    "case_insensitive": true
-                  }
-                }
-              }
+              { "match": { "translations.name": { "query": "#{#query}", "fuzziness": "auto" } } },
+              { "match": { "translations.description": { "query": "#{#query}", "fuzziness": "auto" } } },
+              { "term": { "translations.name.keyword": { "value": "#{#query}", "boost": 2.0, "case_insensitive": true } } }
             ],
             "minimum_should_match": "1"
           }
