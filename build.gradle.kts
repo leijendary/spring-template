@@ -44,7 +44,7 @@ description = "Spring boot template for the microservices architecture."
 version = "0.0.1"
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_21
+    sourceCompatibility = JavaVersion.VERSION_22
 }
 
 kotlin {
@@ -52,7 +52,7 @@ kotlin {
         apiVersion.set(KotlinVersion.KOTLIN_2_1)
         freeCompilerArgs.addAll("-Xjsr305=strict")
         languageVersion.set(KotlinVersion.KOTLIN_2_1)
-        jvmTarget.set(JvmTarget.JVM_21)
+        jvmTarget.set(JvmTarget.JVM_22)
     }
 }
 
