@@ -13,47 +13,47 @@ class ImageCreateUrlRequest {
     @field:NotBlank(message = "validation.required")
     @field:Size(max = 250, message = "validation.maxLength")
     @field:Pattern(regexp = PATTERN_NAME, message = MESSAGE_NAME)
-    var name: String = ""
+    lateinit var name: String
 
     @field:Valid
-    var metadata = arrayListOf<ImageMetadataRequest>()
+    lateinit var metadata: List<ImageMetadataRequest>
 }
 
 class ImageMetadataRequest {
     @field:NotBlank(message = "validation.required")
     @field:Size(max = 100, message = "validation.maxLength")
-    var name: String = ""
+    lateinit var name: String
 
     @field:NotBlank(message = "validation.required")
-    var value: String = ""
+    lateinit var value: String
 }
 
 class ImageValidateRequest {
     @field:NotBlank(message = "validation.required")
     @field:Size(max = 250, message = "validation.maxLength")
     @field:Pattern(regexp = PATTERN_NAME, message = MESSAGE_NAME)
-    var name: String = ""
+    lateinit var name: String
 }
 
 class ImageDeleteRequest {
     @field:NotBlank(message = "validation.required")
     @field:Size(max = 250, message = "validation.maxLength")
     @field:Pattern(regexp = PATTERN_NAME, message = MESSAGE_NAME)
-    var name: String = ""
+    lateinit var name: String
 }
 
 class ImageRequest : ImageProjection {
     @field:NotBlank(message = "validation.required")
     @field:Pattern(regexp = PATTERN_NAME, message = MESSAGE_NAME)
-    override var original: String = ""
+    override lateinit var original: String
 
     @field:NotBlank(message = "validation.required")
     @field:Pattern(regexp = PATTERN_NAME, message = MESSAGE_NAME)
-    override var preview: String = ""
+    override lateinit var preview: String
 
     @field:NotBlank(message = "validation.required")
     @field:Pattern(regexp = PATTERN_NAME, message = MESSAGE_NAME)
-    override var thumbnail: String = ""
+    override lateinit var thumbnail: String
 }
 
 data class ImageCreateUrlResponse(val url: String, val validated: Boolean = false)
