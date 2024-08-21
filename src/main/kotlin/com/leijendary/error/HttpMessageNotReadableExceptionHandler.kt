@@ -4,9 +4,9 @@ import com.fasterxml.jackson.databind.JsonMappingException
 import com.fasterxml.jackson.databind.JsonMappingException.Reference
 import com.fasterxml.jackson.databind.exc.InvalidFormatException
 import com.fasterxml.jackson.databind.exc.MismatchedInputException
+import com.leijendary.context.requestContext
 import com.leijendary.model.ErrorModel
 import com.leijendary.model.ErrorSource
-import com.leijendary.context.requestContext
 import org.springframework.context.MessageSource
 import org.springframework.core.annotation.Order
 import org.springframework.http.HttpStatus.BAD_REQUEST
@@ -14,6 +14,7 @@ import org.springframework.http.converter.HttpMessageNotReadableException
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestControllerAdvice
+import java.lang.NullPointerException
 
 private const val MESSAGE_BODY_MISSING = "Required request body is missing"
 private const val MESSAGE_DECODING_ERROR = "JSON decoding error: "
@@ -71,8 +72,13 @@ class HttpMessageNotReadableExceptionHandler(private val messageSource: MessageS
 
     private fun error(exception: JsonMappingException): ErrorModel {
         val source = source(exception.path)
-        val code = "error.format.invalid"
-        val message = exception.originalMessage
+        val (code, message) = if (exception.cause is NullPointerException) {
+            val code = "validation.required"
+            code to messageSource.getMessage(code, emptyArray(), requestContext.locale)
+        } else {
+            val code = "error.format.invalid"
+            code to exception.originalMessage
+        }
 
         return ErrorModel(code = code, message = message, source = source)
     }

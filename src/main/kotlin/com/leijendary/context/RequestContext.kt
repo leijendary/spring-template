@@ -40,6 +40,7 @@ class RequestContext {
      */
     fun <T : Any> attribute(name: String, default: () -> T): T {
         val request = currentRequest ?: throw IllegalStateException("No thread-bound request found")
+
         @Suppress("UNCHECKED_CAST")
         var value = request.getAttribute(name) as? T
 

@@ -17,13 +17,12 @@ import jakarta.validation.constraints.NotNull
 import jakarta.validation.constraints.Size
 import org.springframework.data.annotation.Transient
 import java.math.BigDecimal
-import java.math.BigDecimal.ZERO
 import java.time.Instant
 
 class SampleRequest {
     @field:NotBlank(message = "validation.required")
     @field:Size(max = 100, message = "validation.maxLength")
-    var name: String = ""
+    lateinit var name: String
 
     @field:NotNull(message = "validation.required")
     var description: String? = null
@@ -31,12 +30,12 @@ class SampleRequest {
     @field:NotNull(message = "validation.required")
     @field:DecimalMin(value = "0.01", message = "validation.decimal.min")
     @field:DecimalMax(value = "9999999999.99", message = "validation.decimal.max")
-    var amount: BigDecimal = ZERO
+    lateinit var amount: BigDecimal
 
     @field:Valid
     @field:UniqueFields(["language", "ordinal"])
     @field:NotEmpty(message = "validation.required")
-    var translations = arrayListOf<SampleTranslationRequest>()
+    lateinit var translations: List<SampleTranslationRequest>
 
     @field:NotNull(message = "validation.required")
     @field:Min(value = 1, message = "validation.min")
@@ -46,7 +45,7 @@ class SampleRequest {
 class SampleTranslationRequest : TranslationRequest() {
     @field:NotBlank(message = "validation.required")
     @field:Size(max = 100, message = "validation.maxLength")
-    var name = ""
+    lateinit var name: String
 
     @field:Size(max = 200, message = "validation.maxLength")
     var description: String? = null
