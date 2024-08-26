@@ -118,8 +118,9 @@ fun main(args: Array<String>) {
             val name = environment["openApi.info.title"]
             val version = environment["openApi.info.version"]
             val springVersion = SpringBootVersion.getVersion()
+            val kotlinVersion = KotlinVersion.CURRENT
 
-            out.print("Running $name v$version on Spring Boot v$springVersion")
+            out.print("Running $name v$version on Spring Boot v$springVersion and Kotlin v$kotlinVersion")
         }
     }
 }
