@@ -1,11 +1,11 @@
 package com.leijendary.error
 
+import com.leijendary.context.RequestContext
 import com.leijendary.extension.indexOfReverse
 import com.leijendary.extension.logger
 import com.leijendary.extension.snakeCaseToCamelCase
 import com.leijendary.model.ErrorModel
 import com.leijendary.model.ErrorSource
-import com.leijendary.context.requestContext
 import org.postgresql.util.PSQLException
 import org.springframework.context.MessageSource
 import org.springframework.core.annotation.Order
@@ -25,7 +25,7 @@ private const val DETAIL_STILL_REFERENCED = "is still referenced"
 
 @RestControllerAdvice
 @Order(3)
-class PSQLExceptionHandler(private val messageSource: MessageSource) {
+class PSQLExceptionHandler(private val messageSource: MessageSource, private val requestContext: RequestContext) {
     private val log = logger()
 
     @ExceptionHandler(PSQLException::class)

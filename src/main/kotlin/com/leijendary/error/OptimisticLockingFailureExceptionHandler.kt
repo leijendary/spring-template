@@ -1,6 +1,6 @@
 package com.leijendary.error
 
-import com.leijendary.context.requestContext
+import com.leijendary.context.RequestContext
 import com.leijendary.extension.lowerCaseFirst
 import com.leijendary.model.ErrorModel
 import com.leijendary.model.ErrorSource
@@ -14,7 +14,10 @@ import org.springframework.web.bind.annotation.RestControllerAdvice
 
 @RestControllerAdvice
 @Order(3)
-class OptimisticLockingFailureExceptionHandler(private val messageSource: MessageSource) {
+class OptimisticLockingFailureExceptionHandler(
+    private val messageSource: MessageSource,
+    private val requestContext: RequestContext
+) {
     @ExceptionHandler(OptimisticLockingFailureException::class)
     @ResponseStatus(CONFLICT)
     fun catchVersionConflict(exception: OptimisticLockingFailureException): List<ErrorModel> {

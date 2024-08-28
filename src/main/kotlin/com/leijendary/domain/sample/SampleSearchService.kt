@@ -1,6 +1,6 @@
 package com.leijendary.domain.sample
 
-import com.leijendary.context.requestContext
+import com.leijendary.context.RequestContext
 import com.leijendary.domain.image.ImageResponse
 import com.leijendary.domain.image.ImageService
 import com.leijendary.domain.sample.SampleSearch.Companion.ERROR_SOURCE_SEARCH
@@ -29,6 +29,7 @@ private const val STREAM_CHUNK = 1000
 @Service
 class SampleSearchServiceImpl(
     private val imageService: ImageService,
+    private val requestContext: RequestContext,
     private val sampleImageRepository: SampleImageRepository,
     private val sampleRepository: SampleRepository,
     private val sampleSearchRepository: SampleSearchRepository,

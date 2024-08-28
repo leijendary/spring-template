@@ -1,8 +1,8 @@
 package com.leijendary.error
 
+import com.leijendary.context.RequestContext
 import com.leijendary.error.exception.ResourceNotFoundException
 import com.leijendary.model.ErrorModel
-import com.leijendary.context.requestContext
 import org.springframework.context.MessageSource
 import org.springframework.core.annotation.Order
 import org.springframework.http.HttpStatus.NOT_FOUND
@@ -12,7 +12,10 @@ import org.springframework.web.bind.annotation.RestControllerAdvice
 
 @RestControllerAdvice
 @Order(3)
-class ResourceNotFoundExceptionHandler(private val messageSource: MessageSource) {
+class ResourceNotFoundExceptionHandler(
+    private val messageSource: MessageSource,
+    private val requestContext: RequestContext
+) {
     @ExceptionHandler(ResourceNotFoundException::class)
     @ResponseStatus(NOT_FOUND)
     fun catchResourceNotFound(exception: ResourceNotFoundException): List<ErrorModel> {

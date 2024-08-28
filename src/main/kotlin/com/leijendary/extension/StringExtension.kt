@@ -2,7 +2,7 @@ package com.leijendary.extension
 
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.JsonNode
-import com.leijendary.context.objectMapper
+import com.leijendary.context.SpringContext.Companion.objectMapper
 import org.springframework.core.io.ClassPathResource
 import org.springframework.util.StreamUtils
 import java.lang.Character.toLowerCase

@@ -1,10 +1,10 @@
 package com.leijendary.error
 
+import com.leijendary.context.RequestContext
+import com.leijendary.context.SpringContext.Companion.isProd
 import com.leijendary.extension.logger
 import com.leijendary.model.ErrorModel
 import com.leijendary.model.ErrorSource
-import com.leijendary.context.SpringContext.Companion.isProd
-import com.leijendary.context.requestContext
 import org.springframework.context.MessageSource
 import org.springframework.core.annotation.Order
 import org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR
@@ -17,7 +17,7 @@ val SOURCE_SERVER_INTERNAL = ErrorSource(pointer = "/server/internal")
 
 @RestControllerAdvice
 @Order
-class GlobalExceptionHandler(private val messageSource: MessageSource) {
+class GlobalExceptionHandler(private val messageSource: MessageSource, private val requestContext: RequestContext) {
     private val log = logger()
 
     @ExceptionHandler(Exception::class)
