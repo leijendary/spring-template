@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.JsonMappingException
 import com.fasterxml.jackson.databind.JsonMappingException.Reference
 import com.fasterxml.jackson.databind.exc.InvalidFormatException
 import com.fasterxml.jackson.databind.exc.MismatchedInputException
-import com.leijendary.context.requestContext
+import com.leijendary.context.RequestContext
 import com.leijendary.model.ErrorModel
 import com.leijendary.model.ErrorSource
 import org.springframework.context.MessageSource
@@ -22,7 +22,10 @@ private val SOURCE = ErrorSource(pointer = "/body")
 
 @RestControllerAdvice
 @Order(2)
-class HttpMessageNotReadableExceptionHandler(private val messageSource: MessageSource) {
+class HttpMessageNotReadableExceptionHandler(
+    private val messageSource: MessageSource,
+    private val requestContext: RequestContext
+) {
     @ExceptionHandler(HttpMessageNotReadableException::class)
     @ResponseStatus(BAD_REQUEST)
     fun catchHttpMessageNotReadable(exception: HttpMessageNotReadableException): List<ErrorModel> {

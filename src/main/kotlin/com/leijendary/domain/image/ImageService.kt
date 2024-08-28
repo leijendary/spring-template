@@ -1,10 +1,10 @@
 package com.leijendary.domain.image
 
+import com.leijendary.context.DatabaseContext
 import com.leijendary.domain.image.Image.Companion.ENTITY
 import com.leijendary.domain.image.Image.Companion.ERROR_SOURCE_STORAGE_NAME
 import com.leijendary.error.exception.ResourceNotFoundException
 import com.leijendary.error.exception.StatusException
-import com.leijendary.extension.transactional
 import com.leijendary.projection.ImageProjection
 import com.leijendary.storage.BlockStorage
 import org.springframework.http.HttpStatus.BAD_REQUEST
@@ -28,11 +28,12 @@ private val IMAGE_MEDIA_TYPES = arrayOf(IMAGE_PNG_VALUE, IMAGE_JPEG_VALUE)
 @Service
 class ImageServiceImpl(
     private val blockStorage: BlockStorage,
+    private val databaseContext: DatabaseContext,
     private val imageMetadataRepository: ImageMetadataRepository,
     private val imageRepository: ImageRepository,
 ) : ImageService {
     override fun createUploadUrl(request: ImageCreateUrlRequest): ImageCreateUrlResponse {
-        val (image, key) = transactional {
+        val (image, key) = databaseContext.transactional {
             val image = imageRepository.findByName(request.name).orElseGet { imageRepository.save(Image(request.name)) }
 
             // Remove all existing metadata first

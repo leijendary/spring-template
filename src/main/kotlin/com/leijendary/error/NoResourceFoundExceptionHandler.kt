@@ -1,8 +1,8 @@
 package com.leijendary.error
 
+import com.leijendary.context.RequestContext
 import com.leijendary.model.ErrorModel
 import com.leijendary.model.ErrorSource
-import com.leijendary.context.requestContext
 import org.springframework.context.MessageSource
 import org.springframework.core.annotation.Order
 import org.springframework.http.HttpStatus.NOT_FOUND
@@ -15,7 +15,10 @@ private val SOURCE = ErrorSource(pointer = "/path")
 
 @RestControllerAdvice
 @Order(1)
-class NoResourceFoundExceptionHandler(private val messageSource: MessageSource) {
+class NoResourceFoundExceptionHandler(
+    private val messageSource: MessageSource,
+    private val requestContext: RequestContext
+) {
     @ExceptionHandler(NoResourceFoundException::class)
     @ResponseStatus(NOT_FOUND)
     fun catchNoResourceFound(exception: NoResourceFoundException): List<ErrorModel> {

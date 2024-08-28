@@ -1,8 +1,8 @@
 package com.leijendary.error
 
+import com.leijendary.context.RequestContext
 import com.leijendary.error.exception.ResourceNotUniqueException
 import com.leijendary.model.ErrorModel
-import com.leijendary.context.requestContext
 import org.springframework.context.MessageSource
 import org.springframework.core.annotation.Order
 import org.springframework.http.HttpStatus.CONFLICT
@@ -12,7 +12,10 @@ import org.springframework.web.bind.annotation.RestControllerAdvice
 
 @RestControllerAdvice
 @Order(3)
-class ResourceNotUniqueExceptionHandler(private val messageSource: MessageSource) {
+class ResourceNotUniqueExceptionHandler(
+    private val messageSource: MessageSource,
+    private val requestContext: RequestContext
+) {
     @ExceptionHandler(ResourceNotUniqueException::class)
     @ResponseStatus(CONFLICT)
     fun catchResourceNotUnique(exception: ResourceNotUniqueException): List<ErrorModel> {

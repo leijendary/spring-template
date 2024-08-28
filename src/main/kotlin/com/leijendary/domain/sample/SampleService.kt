@@ -1,13 +1,13 @@
 package com.leijendary.domain.sample
 
-import com.leijendary.context.requestContext
+import com.leijendary.context.DatabaseContext
+import com.leijendary.context.RequestContext
 import com.leijendary.domain.image.ImageRequest
 import com.leijendary.domain.image.ImageResponse
 import com.leijendary.domain.image.ImageService
 import com.leijendary.domain.sample.Sample.Companion.ENTITY
 import com.leijendary.domain.sample.Sample.Companion.ERROR_SOURCE
 import com.leijendary.error.exception.ResourceNotFoundException
-import com.leijendary.extension.transactional
 import com.leijendary.model.Cursorable
 import com.leijendary.model.CursoredModel
 import com.leijendary.model.QueryRequest
@@ -29,7 +29,9 @@ interface SampleService {
 
 @Service
 class SampleServiceImpl(
+    private val databaseContext: DatabaseContext,
     private val imageService: ImageService,
+    private val requestContext: RequestContext,
     private val sampleImageRepository: SampleImageRepository,
     private val sampleMessageProducer: SampleMessageProducer,
     private val sampleRepository: SampleRepository,
@@ -52,7 +54,7 @@ class SampleServiceImpl(
     }
 
     override fun create(request: SampleRequest): SampleDetailResponse {
-        val response = transactional {
+        val response = databaseContext.transactional {
             val sample = sampleRepository.save(request.toEntity())
             val translations = sampleTranslationRepository.saveAll(request.translations.toEntities(sample.id))
 
@@ -84,7 +86,7 @@ class SampleServiceImpl(
     }
 
     override fun update(id: Long, request: SampleRequest): SampleDetailResponse {
-        val response = transactional {
+        val response = databaseContext.transactional {
             var sample = sampleRepository.findByIdOrThrow(id)
             sample.updateWith(request)
             sample = sampleRepository.save(sample)

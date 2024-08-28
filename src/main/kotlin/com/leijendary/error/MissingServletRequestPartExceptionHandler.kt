@@ -1,6 +1,6 @@
 package com.leijendary.error
 
-import com.leijendary.context.requestContext
+import com.leijendary.context.RequestContext
 import com.leijendary.model.ErrorModel
 import com.leijendary.model.ErrorSource
 import org.springframework.context.MessageSource
@@ -13,7 +13,10 @@ import org.springframework.web.multipart.support.MissingServletRequestPartExcept
 
 @RestControllerAdvice
 @Order(2)
-class MissingServletRequestPartExceptionHandler(private val messageSource: MessageSource) {
+class MissingServletRequestPartExceptionHandler(
+    private val messageSource: MessageSource,
+    private val requestContext: RequestContext
+) {
     @ExceptionHandler(MissingServletRequestPartException::class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     fun catchMissingServletRequestPart(exception: MissingServletRequestPartException): List<ErrorModel> {

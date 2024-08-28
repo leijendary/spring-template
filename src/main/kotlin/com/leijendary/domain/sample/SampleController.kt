@@ -1,7 +1,7 @@
 package com.leijendary.domain.sample
 
 import com.leijendary.client.PetStoreClient
-import com.leijendary.context.requestContext
+import com.leijendary.context.RequestContext
 import com.leijendary.extension.transactional
 import com.leijendary.model.Cursorable
 import com.leijendary.model.CursoredModel
@@ -40,6 +40,7 @@ private const val CACHE_KEY_TIMESTAMP = "sample::timestamp"
 @Tag(name = "Sample")
 class SampleController(
     private val petStoreClient: PetStoreClient,
+    private val requestContext: RequestContext,
     private val redisTemplate: StringRedisTemplate,
     private val sampleService: SampleService
 ) {

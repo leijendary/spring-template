@@ -1,6 +1,6 @@
 package com.leijendary.error
 
-import com.leijendary.context.requestContext
+import com.leijendary.context.RequestContext
 import com.leijendary.model.ErrorModel
 import com.leijendary.model.ErrorSource
 import org.springframework.context.MessageSource
@@ -19,7 +19,7 @@ private const val CODE_BINDING_INVALID_VALUE = "validation.binding.invalidValue"
 
 @RestControllerAdvice
 @Order(4)
-class MethodExceptionHandler(private val messageSource: MessageSource) {
+class MethodExceptionHandler(private val messageSource: MessageSource, private val requestContext: RequestContext) {
     @ExceptionHandler(BindException::class)
     @ResponseStatus(BAD_REQUEST)
     fun catchBind(exception: BindException): List<ErrorModel> {
