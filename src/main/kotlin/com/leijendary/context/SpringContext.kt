@@ -1,7 +1,6 @@
 package com.leijendary.context
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import jakarta.annotation.PostConstruct
 import org.springframework.context.ApplicationContext
 import org.springframework.context.ApplicationContextAware
 import org.springframework.core.env.Profiles
@@ -10,9 +9,8 @@ import kotlin.properties.Delegates.notNull
 
 @Component
 class SpringContext(private val objectMapper: ObjectMapper) : ApplicationContextAware {
-    @PostConstruct
-    fun init() {
-        SpringContext.objectMapper = objectMapper
+    init {
+        Companion.objectMapper = objectMapper
     }
 
     override fun setApplicationContext(applicationContext: ApplicationContext) {
