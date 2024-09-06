@@ -3,7 +3,6 @@ package com.leijendary.context
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.springframework.context.ApplicationContext
 import org.springframework.context.ApplicationContextAware
-import org.springframework.core.env.Profiles
 import org.springframework.stereotype.Component
 import kotlin.properties.Delegates.notNull
 
@@ -14,7 +13,7 @@ class SpringContext(private val objectMapper: ObjectMapper) : ApplicationContext
     }
 
     override fun setApplicationContext(applicationContext: ApplicationContext) {
-        isProd = applicationContext.environment.acceptsProfiles(Profiles.of("prod"))
+        isProd = applicationContext.environment.matchesProfiles("prod")
     }
 
     companion object {
