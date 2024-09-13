@@ -14,6 +14,13 @@ kafka:
     sampleDeleted:
       partitions: 2
 
+spring:
+  datasource:
+    primary:
+      maximumPoolSize: 500
+    readOnly:
+      maximumPoolSize: 1000
+
 springdoc:
   apiDocs:
     enabled: false
