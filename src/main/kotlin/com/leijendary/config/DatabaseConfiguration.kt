@@ -70,8 +70,8 @@ class DatabaseConfiguration(private val requestContext: RequestContext) {
     }
 
     @Bean
-    fun auditorAware(): AuditorAware<String> {
-        return AuditorAware { Optional.ofNullable(requestContext.userIdOrSystem) }
+    fun auditorAware() = AuditorAware {
+        Optional.ofNullable(requestContext.userIdOrSystem)
     }
 
     companion object {
