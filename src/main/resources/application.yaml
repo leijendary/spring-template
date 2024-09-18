@@ -159,6 +159,9 @@ spring:
     bannerMode: LOG
   messages:
     basename: messages.access, messages.error, messages.validation
+  mvc:
+    async:
+      requestTimeout: -1
   threads:
     virtual:
       enabled: true
