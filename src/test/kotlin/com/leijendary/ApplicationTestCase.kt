@@ -2,6 +2,7 @@ package com.leijendary
 
 import com.leijendary.container.ElasticsearchContainerInitializer
 import com.leijendary.container.KafkaContainerInitializer
+import com.leijendary.container.OllamaContainerInitializer
 import com.leijendary.container.PostgresContainerInitializer
 import com.leijendary.container.RedisContainerInitializer
 import com.leijendary.container.ZipkinContainerInitializer
@@ -23,6 +24,7 @@ class ApplicationTestCase {
         assertTrue(ELASTICSEARCH.isRunning)
         assertTrue(DATABASE.isRunning)
         assertTrue(KAFKA.isRunning)
+        assertTrue(OLLAMA.isRunning)
         assertTrue(REDIS.isRunning)
         assertTrue(ZIPKIN.isRunning)
     }
@@ -36,6 +38,9 @@ class ApplicationTestCase {
 
         @Container
         private val KAFKA = KafkaContainerInitializer.INSTANCE
+
+        @Container
+        private val OLLAMA = OllamaContainerInitializer.INSTANCE
 
         @Container
         private val REDIS = RedisContainerInitializer.INSTANCE

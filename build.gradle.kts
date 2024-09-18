@@ -143,6 +143,7 @@ dependencies {
     testImplementation("org.testcontainers:junit-jupiter")
     testImplementation("org.testcontainers:elasticsearch")
     testImplementation("org.testcontainers:kafka")
+    testImplementation("org.testcontainers:ollama")
     testImplementation("org.testcontainers:postgresql")
 }
 
