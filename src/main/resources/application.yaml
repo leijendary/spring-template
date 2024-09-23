@@ -86,6 +86,9 @@ spring:
       chat:
         options:
           model: llama3.1
+    vectorstore:
+      pgvector:
+        initializeSchema: true
   application:
     name: ${name}
   autoconfigure:

@@ -32,8 +32,8 @@ val openApiTasks = File("$rootDir/src/main/resources/specs").listFiles()?.map {
 plugins {
     val kotlinVersion = "2.0.20"
 
-    id("org.springframework.boot") version "3.3.3"
-    id("org.graalvm.buildtools.native") version "0.10.2"
+    id("org.springframework.boot") version "3.3.4"
+    id("org.graalvm.buildtools.native") version "0.10.3"
     id("org.openapi.generator") version "7.7.0"
     kotlin("jvm") version kotlinVersion
     kotlin("plugin.spring") version kotlinVersion
@@ -44,7 +44,9 @@ description = "Spring boot template for the microservices architecture."
 version = "0.0.1"
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_22
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(22)
+    }
 }
 
 kotlin {
@@ -68,6 +70,7 @@ configurations {
 repositories {
     mavenCentral()
     maven { url = uri("https://repo.spring.io/milestone") }
+    maven { url = uri("https://repo.spring.io/snapshot") }
 }
 
 dependencies {
@@ -101,7 +104,8 @@ dependencies {
     implementation("org.springframework.retry:spring-retry")
 
     // AI
-    implementation(platform("org.springframework.ai:spring-ai-bom:1.0.0-M1"))
+    implementation(platform("org.springframework.ai:spring-ai-bom:1.0.0-SNAPSHOT"))
+    implementation("org.springframework.ai:spring-ai-pgvector-store-spring-boot-starter")
     implementation("org.springframework.ai:spring-ai-ollama-spring-boot-starter")
 
     // AWS
