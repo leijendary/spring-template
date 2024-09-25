@@ -1,6 +1,6 @@
 package com.leijendary.error
 
-import com.leijendary.context.RequestContext
+import com.leijendary.context.RequestContext.locale
 import com.leijendary.error.exception.StatusException
 import com.leijendary.model.ErrorModel
 import org.springframework.context.MessageSource
@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.RestControllerAdvice
 
 @RestControllerAdvice
 @Order(3)
-class StatusExceptionHandler(private val messageSource: MessageSource, private val requestContext: RequestContext) {
+class StatusExceptionHandler(private val messageSource: MessageSource) {
     @ExceptionHandler(StatusException::class)
     fun catchStatus(exception: StatusException): ResponseEntity<List<ErrorModel>> {
-        val message = messageSource.getMessage(exception.code, exception.arguments, requestContext.locale)
+        val message = messageSource.getMessage(exception.code, exception.arguments, locale)
         val error = ErrorModel(code = exception.code, message = message, source = exception.source)
         val errors = listOf(error)
 

@@ -33,7 +33,7 @@ interface SampleRepository : CrudRepository<Sample, Long>, PagingAndSortingRepos
         limit :#{#cursorable.limit}
         """
     )
-    fun <T> cursor(query: String?, cursorable: Cursorable, language: String, type: Class<T>): MutableList<T>
+    fun <T> cursor(query: String?, cursorable: Cursorable, type: Class<T>): MutableList<T>
 
     fun <T> streamBy(type: Class<T>): Stream<T>
 }

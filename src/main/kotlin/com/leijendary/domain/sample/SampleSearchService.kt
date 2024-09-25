@@ -1,6 +1,6 @@
 package com.leijendary.domain.sample
 
-import com.leijendary.context.RequestContext
+import com.leijendary.context.RequestContext.language
 import com.leijendary.domain.image.ImageResponse
 import com.leijendary.domain.image.ImageService
 import com.leijendary.domain.sample.SampleSearch.Companion.ERROR_SOURCE_SEARCH
@@ -29,7 +29,6 @@ private const val STREAM_CHUNK = 1000
 @Service
 class SampleSearchServiceImpl(
     private val imageService: ImageService,
-    private val requestContext: RequestContext,
     private val sampleImageRepository: SampleImageRepository,
     private val sampleRepository: SampleRepository,
     private val sampleSearchRepository: SampleSearchRepository,
@@ -116,7 +115,7 @@ class SampleSearchServiceImpl(
     )
 
     private fun mapToList(search: SampleSearch): SampleResponse {
-        val translation = search.getTranslation(requestContext.language)
+        val translation = search.getTranslation(language)
         val result = SampleResponse(
             id = search.id,
             name = translation.name,

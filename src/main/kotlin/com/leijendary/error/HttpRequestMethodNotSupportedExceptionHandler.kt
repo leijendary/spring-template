@@ -1,6 +1,6 @@
 package com.leijendary.error
 
-import com.leijendary.context.RequestContext
+import com.leijendary.context.RequestContext.locale
 import com.leijendary.model.ErrorModel
 import com.leijendary.model.ErrorSource
 import org.springframework.context.MessageSource
@@ -15,16 +15,13 @@ private val SOURCE = ErrorSource(pointer = "/method")
 
 @RestControllerAdvice
 @Order(4)
-class HttpRequestMethodNotSupportedExceptionHandler(
-    private val messageSource: MessageSource,
-    private val requestContext: RequestContext
-) {
+class HttpRequestMethodNotSupportedExceptionHandler(private val messageSource: MessageSource) {
     @ExceptionHandler(HttpRequestMethodNotSupportedException::class)
     @ResponseStatus(METHOD_NOT_ALLOWED)
     fun catchHttpRequestMethodNotSupported(exception: HttpRequestMethodNotSupportedException): List<ErrorModel> {
         val code = "error.method.notSupported"
         val arguments = arrayOf(exception.method, exception.supportedHttpMethods)
-        val message = messageSource.getMessage(code, arguments, requestContext.locale)
+        val message = messageSource.getMessage(code, arguments, locale)
         val error = ErrorModel(code = code, message = message, source = SOURCE)
 
         return listOf(error)

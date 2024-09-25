@@ -4,7 +4,7 @@ import com.leijendary.config.DataSourceType.READ_ONLY
 import com.leijendary.config.DataSourceType.READ_WRITE
 import com.leijendary.config.properties.DataSourcePrimaryProperties
 import com.leijendary.config.properties.DataSourceReadOnlyProperties
-import com.leijendary.context.RequestContext
+import com.leijendary.context.RequestContext.userIdOrSystem
 import com.zaxxer.hikari.HikariDataSource
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean
@@ -36,7 +36,7 @@ enum class DataSourceType {
 @EnableConfigurationProperties(DataSourcePrimaryProperties::class, DataSourceReadOnlyProperties::class)
 @EnableJdbcAuditing(auditorAwareRef = "auditorAware")
 @EnableSpringDataWebSupport(pageSerializationMode = VIA_DTO)
-class DatabaseConfiguration(private val requestContext: RequestContext) {
+class DatabaseConfiguration {
     @Bean
     @Primary
     fun dataSource(primaryDataSource: DataSource, readOnlyDataSource: DataSource): DataSource {
@@ -71,7 +71,7 @@ class DatabaseConfiguration(private val requestContext: RequestContext) {
 
     @Bean
     fun auditorAware() = AuditorAware {
-        Optional.ofNullable(requestContext.userIdOrSystem)
+        Optional.ofNullable(userIdOrSystem)
     }
 
     companion object {

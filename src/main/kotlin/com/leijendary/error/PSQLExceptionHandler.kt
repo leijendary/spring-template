@@ -1,6 +1,6 @@
 package com.leijendary.error
 
-import com.leijendary.context.RequestContext
+import com.leijendary.context.RequestContext.locale
 import com.leijendary.extension.indexOfReverse
 import com.leijendary.extension.logger
 import com.leijendary.extension.snakeCaseToCamelCase
@@ -25,7 +25,7 @@ private const val DETAIL_STILL_REFERENCED = "is still referenced"
 
 @RestControllerAdvice
 @Order(3)
-class PSQLExceptionHandler(private val messageSource: MessageSource, private val requestContext: RequestContext) {
+class PSQLExceptionHandler(private val messageSource: MessageSource) {
     private val log = logger()
 
     @ExceptionHandler(PSQLException::class)
@@ -69,7 +69,7 @@ class PSQLExceptionHandler(private val messageSource: MessageSource, private val
             else -> CODE_DATA_INTEGRITY to BAD_REQUEST
         }
         val arguments = arrayOf(column, value)
-        val message = messageSource.getMessage(code, arguments, requestContext.locale)
+        val message = messageSource.getMessage(code, arguments, locale)
         val source = ErrorSource(pointer = "/data/$table/$column")
         val error = ErrorModel(code = code, message = message, source = source)
         val errors = listOf(error)
@@ -82,7 +82,7 @@ class PSQLExceptionHandler(private val messageSource: MessageSource, private val
     private fun internalServerError(exception: PSQLException): ResponseEntity<List<ErrorModel>> {
         log.error("Got an unknown database exception", exception)
 
-        val message = messageSource.getMessage(CODE_SERVER_ERROR, emptyArray(), requestContext.locale)
+        val message = messageSource.getMessage(CODE_SERVER_ERROR, emptyArray(), locale)
         val error = ErrorModel(code = CODE_SERVER_ERROR, message = message, source = SOURCE_SERVER_INTERNAL)
         val errors = listOf(error)
 

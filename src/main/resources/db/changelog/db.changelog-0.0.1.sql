@@ -55,7 +55,7 @@ create table image_metadata (
 --changeset leijendary:create-image-metadata-id-index
 create index image_metadata_id_idx on image_metadata(id);
 
--- changeset leijendary:create-sample-image-table
+--changeset leijendary:create-sample-image-table
 create table sample_image (
     id bigint references sample(id) on delete cascade primary key,
     original character varying(250) not null references image(name),

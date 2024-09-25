@@ -1,7 +1,7 @@
 package com.leijendary.domain.sample
 
 import com.leijendary.context.DatabaseContext
-import com.leijendary.context.RequestContext
+import com.leijendary.context.RequestContext.language
 import com.leijendary.domain.image.ImageRequest
 import com.leijendary.domain.image.ImageResponse
 import com.leijendary.domain.image.ImageService
@@ -31,12 +31,11 @@ interface SampleService {
 class SampleServiceImpl(
     private val databaseContext: DatabaseContext,
     private val imageService: ImageService,
-    private val requestContext: RequestContext,
     private val sampleImageRepository: SampleImageRepository,
     private val sampleMessageProducer: SampleMessageProducer,
     private val sampleRepository: SampleRepository,
     private val sampleSearchRepository: SampleSearchRepository,
-    private val sampleTranslationRepository: SampleTranslationRepository,
+    private val sampleTranslationRepository: SampleTranslationRepository
 ) : SampleService {
     override fun page(queryRequest: QueryRequest, pageable: Pageable): Page<SampleResponse> {
         return if (queryRequest.query !== null) {
@@ -47,8 +46,7 @@ class SampleServiceImpl(
     }
 
     override fun cursor(queryRequest: QueryRequest, cursorable: Cursorable): CursoredModel<SampleResponse> {
-        val samples = sampleRepository
-            .cursor(queryRequest.query, cursorable, requestContext.language, SampleResponse::class.java)
+        val samples = sampleRepository.cursor(queryRequest.query, cursorable, SampleResponse::class.java)
 
         return CursoredModel(samples, cursorable)
     }
@@ -72,7 +70,7 @@ class SampleServiceImpl(
         response.image = image?.let(imageService::getPublicUrl)
 
         if (translate) {
-            val translation = sampleTranslationRepository.findFirstByIdAndLanguage(id, requestContext.language)
+            val translation = sampleTranslationRepository.findFirstByIdAndLanguage(id, language)
             translation?.let(response::applyTranslation)
 
             // Translation is already enabled, just return the translated record itself

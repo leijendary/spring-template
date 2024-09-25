@@ -1,7 +1,7 @@
 package com.leijendary.domain.sample
 
 import com.leijendary.client.PetStoreClient
-import com.leijendary.context.RequestContext
+import com.leijendary.context.RequestContext.attribute
 import com.leijendary.extension.transactional
 import com.leijendary.model.Cursorable
 import com.leijendary.model.CursoredModel
@@ -40,7 +40,6 @@ private const val CACHE_KEY_TIMESTAMP = "sample::timestamp"
 @Tag(name = "Sample")
 class SampleController(
     private val petStoreClient: PetStoreClient,
-    private val requestContext: RequestContext,
     private val redisTemplate: StringRedisTemplate,
     private val sampleService: SampleService
 ) {
@@ -80,8 +79,8 @@ class SampleController(
     @GetMapping("request-scoped")
     fun requestScoped(@RequestParam value: UUID): Pair<Map<String, UUID>?, Map<String, UUID>?> {
         val simpleName = UUID::class.qualifiedName!!
-        val a = requestContext.attribute(simpleName) { mapOf("value" to value) }
-        val b = requestContext.attribute(simpleName) { mapOf("differentValue" to UUID.randomUUID()) }
+        val a = attribute(simpleName) { mapOf("value" to value) }
+        val b = attribute(simpleName) { mapOf("differentValue" to UUID.randomUUID()) }
 
         assert(value == a["value"])
         assert(a == b)

@@ -4,8 +4,6 @@ import com.leijendary.error.exception.StatusException
 import com.leijendary.model.ErrorSource
 import org.springframework.context.i18n.LocaleContextHolder
 import org.springframework.http.HttpStatus.UNAUTHORIZED
-import org.springframework.stereotype.Component
-import org.springframework.web.context.annotation.RequestScope
 import org.springframework.web.context.request.RequestContextHolder
 import org.springframework.web.context.request.ServletRequestAttributes
 import java.time.ZoneId
@@ -19,17 +17,30 @@ private val SESSION_NOT_FOUND_EXCEPTION = StatusException(
     source = ErrorSource(header = HEADER_USER_ID)
 )
 
-@Component
-@RequestScope
-class RequestContext {
-    val currentRequest by lazy { (RequestContextHolder.getRequestAttributes() as? ServletRequestAttributes)?.request }
-    val userIdOrNull: String? by lazy { currentRequest?.getHeader(HEADER_USER_ID) }
-    val userIdOrSystem: String by lazy { userIdOrNull ?: USER_SYSTEM }
-    val userIdOrThrow: String by lazy { userIdOrNull ?: throw SESSION_NOT_FOUND_EXCEPTION }
-    val timeZone: TimeZone by lazy { LocaleContextHolder.getTimeZone() }
-    val zoneId: ZoneId by lazy { timeZone.toZoneId() }
-    val locale: Locale by lazy { LocaleContextHolder.getLocale() }
-    val language: String by lazy { locale.language }
+object RequestContext {
+    val currentRequest
+        get() = (RequestContextHolder.getRequestAttributes() as? ServletRequestAttributes)?.request
+
+    val userIdOrNull: String?
+        get() = currentRequest?.getHeader(HEADER_USER_ID)
+
+    val userIdOrSystem: String
+        get() = userIdOrNull ?: USER_SYSTEM
+
+    val userIdOrThrow: String
+        get() = userIdOrNull ?: throw SESSION_NOT_FOUND_EXCEPTION
+
+    val timeZone: TimeZone
+        get() = LocaleContextHolder.getTimeZone()
+
+    val zoneId: ZoneId
+        get() = timeZone.toZoneId()
+
+    val locale: Locale
+        get() = LocaleContextHolder.getLocale()
+
+    val language: String
+        get() = locale.language
 
     /**
      * Added this here as a utility function to cache objects in to the request scope.
