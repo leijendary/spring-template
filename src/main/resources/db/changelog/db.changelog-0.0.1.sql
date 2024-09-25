@@ -62,3 +62,14 @@ create table sample_image (
     preview character varying(250) not null references image(name),
     thumbnail character varying(250) not null references image(name)
 );
+
+--changeset leijendary:create-ai-chat-table
+create table ai_chat (
+    id bigint generated always as identity primary key,
+    title character varying(100) not null,
+    created_at timestamp without time zone not null default now(),
+    created_by text not null
+);
+
+--changeset leijendary:set-ai-chat-id-initial-value
+select setval('ai_chat_id_seq', (select floor(random() * 1999999 + 31000000)::bigint));
