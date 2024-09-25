@@ -1,15 +1,13 @@
 package com.leijendary.json
 
-import com.fasterxml.jackson.core.JsonGenerator
-import com.fasterxml.jackson.databind.JsonSerializer
-import com.fasterxml.jackson.databind.SerializerProvider
+import com.fasterxml.jackson.core.JsonParser
+import com.fasterxml.jackson.databind.DeserializationContext
+import com.fasterxml.jackson.databind.JsonDeserializer
 import org.springframework.boot.jackson.JsonComponent
 
 @JsonComponent
-class StringTrimSerde : JsonSerializer<String>() {
-    override fun serialize(value: String, generator: JsonGenerator, provider: SerializerProvider) {
-        val value = value.trim()
-
-        generator.writeString(value)
+class StringDeserializer : JsonDeserializer<String>() {
+    override fun deserialize(parser: JsonParser, context: DeserializationContext): String? {
+        return parser.text?.trim()
     }
 }
