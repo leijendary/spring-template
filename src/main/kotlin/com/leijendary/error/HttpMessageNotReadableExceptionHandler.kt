@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.JsonMappingException
 import com.fasterxml.jackson.databind.JsonMappingException.Reference
 import com.fasterxml.jackson.databind.exc.InvalidFormatException
 import com.fasterxml.jackson.databind.exc.MismatchedInputException
-import com.leijendary.context.RequestContext
+import com.leijendary.context.RequestContext.locale
 import com.leijendary.model.ErrorModel
 import com.leijendary.model.ErrorSource
 import org.springframework.context.MessageSource
@@ -22,10 +22,7 @@ private val SOURCE = ErrorSource(pointer = "/body")
 
 @RestControllerAdvice
 @Order(2)
-class HttpMessageNotReadableExceptionHandler(
-    private val messageSource: MessageSource,
-    private val requestContext: RequestContext
-) {
+class HttpMessageNotReadableExceptionHandler(private val messageSource: MessageSource) {
     @ExceptionHandler(HttpMessageNotReadableException::class)
     @ResponseStatus(BAD_REQUEST)
     fun catchHttpMessageNotReadable(exception: HttpMessageNotReadableException): List<ErrorModel> {
@@ -58,7 +55,7 @@ class HttpMessageNotReadableExceptionHandler(
         val code = "error.format.invalid"
         val field = exception.path.lastOrNull()?.fieldName ?: "body"
         val arguments = arrayOf(field, exception.value, exception.targetType.simpleName)
-        val message = messageSource.getMessage(code, arguments, requestContext.locale)
+        val message = messageSource.getMessage(code, arguments, locale)
 
         return ErrorModel(code = code, message = message, source = source)
     }
@@ -68,7 +65,7 @@ class HttpMessageNotReadableExceptionHandler(
         val code = "error.format.incompatible"
         val field = exception.path.lastOrNull()?.fieldName ?: "body"
         val arguments = arrayOf(field, exception.targetType.simpleName)
-        val message = messageSource.getMessage(code, arguments, requestContext.locale)
+        val message = messageSource.getMessage(code, arguments, locale)
 
         return ErrorModel(code = code, message = message, source = source)
     }
@@ -77,7 +74,7 @@ class HttpMessageNotReadableExceptionHandler(
         val source = source(exception.path)
         val (code, message) = if (exception.cause is NullPointerException) {
             val code = "validation.required"
-            code to messageSource.getMessage(code, emptyArray(), requestContext.locale)
+            code to messageSource.getMessage(code, emptyArray(), locale)
         } else {
             val code = "error.format.invalid"
             code to exception.originalMessage

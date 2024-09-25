@@ -1,6 +1,6 @@
 package com.leijendary.error
 
-import com.leijendary.context.RequestContext
+import com.leijendary.context.RequestContext.locale
 import com.leijendary.context.SpringContext.Companion.isProd
 import com.leijendary.extension.logger
 import com.leijendary.model.ErrorModel
@@ -17,7 +17,7 @@ val SOURCE_SERVER_INTERNAL = ErrorSource(pointer = "/server/internal")
 
 @RestControllerAdvice
 @Order
-class GlobalExceptionHandler(private val messageSource: MessageSource, private val requestContext: RequestContext) {
+class GlobalExceptionHandler(private val messageSource: MessageSource) {
     private val log = logger()
 
     @ExceptionHandler(Exception::class)
@@ -26,7 +26,7 @@ class GlobalExceptionHandler(private val messageSource: MessageSource, private v
         log.error("Global Exception", exception)
 
         val message = if (isProd) {
-            messageSource.getMessage(CODE_SERVER_ERROR, emptyArray(), requestContext.locale)
+            messageSource.getMessage(CODE_SERVER_ERROR, emptyArray(), locale)
         } else {
             exception.message
         }

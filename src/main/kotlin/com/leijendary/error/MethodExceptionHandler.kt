@@ -1,6 +1,6 @@
 package com.leijendary.error
 
-import com.leijendary.context.RequestContext
+import com.leijendary.context.RequestContext.locale
 import com.leijendary.model.ErrorModel
 import com.leijendary.model.ErrorSource
 import org.springframework.context.MessageSource
@@ -19,7 +19,7 @@ private const val CODE_BINDING_INVALID_VALUE = "validation.binding.invalidValue"
 
 @RestControllerAdvice
 @Order(4)
-class MethodExceptionHandler(private val messageSource: MessageSource, private val requestContext: RequestContext) {
+class MethodExceptionHandler(private val messageSource: MessageSource) {
     @ExceptionHandler(BindException::class)
     @ResponseStatus(BAD_REQUEST)
     fun catchBind(exception: BindException): List<ErrorModel> {
@@ -37,7 +37,7 @@ class MethodExceptionHandler(private val messageSource: MessageSource, private v
                     map(it)
                 } else {
                     val code = it.defaultMessage ?: "error.badRequest"
-                    val message = messageSource.getMessage(code, it.arguments, requestContext.locale)
+                    val message = messageSource.getMessage(code, it.arguments, locale)
 
                     ErrorModel(code = code, message = message, source = source)
                 }
@@ -48,7 +48,7 @@ class MethodExceptionHandler(private val messageSource: MessageSource, private v
     @ExceptionHandler(MethodArgumentTypeMismatchException::class)
     @ResponseStatus(BAD_REQUEST)
     fun catchMethodArgumentTypeMismatch(exception: MethodArgumentTypeMismatchException): List<ErrorModel> {
-        val message = messageSource.getMessage(CODE_BINDING_INVALID_VALUE, arrayOf(), requestContext.locale)
+        val message = messageSource.getMessage(CODE_BINDING_INVALID_VALUE, arrayOf(), locale)
         val source = ErrorSource(parameter = exception.name)
         val error = ErrorModel(code = CODE_BINDING_INVALID_VALUE, message = message, source = source)
 
@@ -75,7 +75,7 @@ class MethodExceptionHandler(private val messageSource: MessageSource, private v
         } else {
             CODE_BINDING_INVALID_VALUE
         }
-        val message = messageSource.getMessage(code, error.arguments, code, requestContext.locale)
+        val message = messageSource.getMessage(code, error.arguments, code, locale)
 
         return ErrorModel(code = code, message = message, source = source)
     }
