@@ -87,7 +87,7 @@ spring:
         options:
           model: llama3.1
     vectorstore:
-      pgvector:
+      cassandra:
         initializeSchema: true
   application:
     name: ${name}
@@ -98,6 +98,9 @@ spring:
     type: REDIS
     redis:
       timeToLive: 5h
+  cassandra:
+    contactPoints:
+    localDatacenter:
   cloud:
     openfeign:
       client:
