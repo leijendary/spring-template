@@ -12,6 +12,7 @@ import org.springframework.ai.chat.client.advisor.AbstractChatMemoryAdvisor.DEFA
 import org.springframework.ai.chat.memory.ChatMemory
 import org.springframework.stereotype.Service
 import reactor.core.publisher.Flux
+import java.util.concurrent.CompletableFuture.supplyAsync
 
 interface AiChatService {
     fun list(cursorable: Cursorable): List<AiChatResponse>
@@ -33,7 +34,7 @@ class AiChatServiceImpl(
 
     override fun create(request: AiChatRequest): Flux<AiChatCreateResponse> {
         val aiChat = if (request.id <= 0) {
-            aiChatRepository.save(AiChat())
+            aiChatRepository.save(AiChat()).also { updateTitle(it, request.prompt) }
         } else {
             aiChatRepository.findFirstByIdAndCreatedBy(request.id, userIdOrThrow, AiChat::class.java)
                 .orElseThrow { ResourceNotFoundException(request.id, ENTITY, ERROR_SOURCE) }
@@ -48,13 +49,6 @@ class AiChatServiceImpl(
             .stream()
             .content()
             .map { AiChatCreateResponse(aiChat.id, it) }
-            .doFinally {
-                if (aiChat.isNew) {
-                    aiChat.title = generateTitle(request.prompt)
-
-                    aiChatRepository.save(aiChat)
-                }
-            }
     }
 
     override fun get(id: Long): AiChatResponse {
@@ -69,10 +63,12 @@ class AiChatServiceImpl(
         return AiChatHistoryResponse(id, messages)
     }
 
-    private fun generateTitle(prompt: String): String {
-        return titleChatClient.prompt()
+    private fun updateTitle(aiChat: AiChat, prompt: String) = supplyAsync {
+        aiChat.title = titleChatClient.prompt()
             .user(prompt)
             .call()
             .content()
+
+        aiChatRepository.save(aiChat)
     }
 }

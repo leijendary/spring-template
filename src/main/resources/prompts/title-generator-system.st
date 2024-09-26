@@ -1,1 +1,1 @@
-You will create a short title for the prompt. The title should only have a maximum of 5 words. Do not wrap the text in double quotes.
+You will create a one-line short title with a maximum of only 100 characters. Do not wrap the text in double quotes and only return the exact title.

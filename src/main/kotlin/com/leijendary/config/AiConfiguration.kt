@@ -13,6 +13,9 @@ import org.springframework.core.io.Resource
 
 @Configuration(proxyBeanMethods = false)
 class AiConfiguration {
+    @Value("classpath:prompts/general-instruction-system.st")
+    private lateinit var generalInstructionSystem: Resource
+
     @Value("classpath:prompts/title-generator-system.st")
     private lateinit var titleGeneratorSystem: Resource
 
@@ -25,6 +28,7 @@ class AiConfiguration {
         )
 
         return builder
+            .defaultSystem(generalInstructionSystem)
             .defaultAdvisors(advisors)
             .build()
     }
