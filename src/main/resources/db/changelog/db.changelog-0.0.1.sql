@@ -73,3 +73,6 @@ create table ai_chat (
 
 --changeset leijendary:set-ai-chat-id-initial-value
 select setval('ai_chat_id_seq', (select floor(random() * 1999999 + 31000000)::bigint));
+
+--changeset leijendary:create-ai-chat-created-by-created-at-id-index
+create index ai_chat_created_by_created_at_id_idx on ai_chat(created_by, created_at desc, id desc);
