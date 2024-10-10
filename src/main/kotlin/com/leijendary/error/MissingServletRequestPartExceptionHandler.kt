@@ -18,7 +18,7 @@ class MissingServletRequestPartExceptionHandler(private val messageSource: Messa
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     fun catchMissingServletRequestPart(exception: MissingServletRequestPartException): List<ErrorModel> {
         val code = "error.badRequest"
-        val message = messageSource.getMessage(code, emptyArray(), locale)
+        val message = messageSource.getMessage(code, null, locale)
         val source = ErrorSource(pointer = "/body/${exception.requestPartName}")
         val errorModel = ErrorModel(code = code, message = message, source = source)
 

@@ -14,7 +14,6 @@ import org.springframework.http.converter.HttpMessageNotReadableException
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestControllerAdvice
-import java.lang.NullPointerException
 
 private const val MESSAGE_BODY_MISSING = "Required request body is missing"
 private const val MESSAGE_DECODING_ERROR = "JSON decoding error: "
@@ -74,7 +73,7 @@ class HttpMessageNotReadableExceptionHandler(private val messageSource: MessageS
         val source = source(exception.path)
         val (code, message) = if (exception.cause is NullPointerException) {
             val code = "validation.required"
-            code to messageSource.getMessage(code, emptyArray(), locale)
+            code to messageSource.getMessage(code, null, locale)
         } else {
             val code = "error.format.invalid"
             code to exception.originalMessage

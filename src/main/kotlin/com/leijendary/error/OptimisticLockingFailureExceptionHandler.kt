@@ -20,7 +20,7 @@ class OptimisticLockingFailureExceptionHandler(private val messageSource: Messag
     fun catchVersionConflict(exception: OptimisticLockingFailureException): List<ErrorModel> {
         val entity = exception.message!!.substringAfterLast(".").lowerCaseFirst()
         val code = "error.data.version.conflict"
-        val message = messageSource.getMessage(code, emptyArray(), locale)
+        val message = messageSource.getMessage(code, null, locale)
         val source = ErrorSource(pointer = "/data/$entity/version")
         val error = ErrorModel(code = code, message = message, source = source)
 

@@ -82,7 +82,7 @@ class PSQLExceptionHandler(private val messageSource: MessageSource) {
     private fun internalServerError(exception: PSQLException): ResponseEntity<List<ErrorModel>> {
         log.error("Got an unknown database exception", exception)
 
-        val message = messageSource.getMessage(CODE_SERVER_ERROR, emptyArray(), locale)
+        val message = messageSource.getMessage(CODE_SERVER_ERROR, null, locale)
         val error = ErrorModel(code = CODE_SERVER_ERROR, message = message, source = SOURCE_SERVER_INTERNAL)
         val errors = listOf(error)
 
