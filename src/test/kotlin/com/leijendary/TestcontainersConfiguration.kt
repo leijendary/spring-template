@@ -29,7 +29,7 @@ class TestcontainersConfiguration {
     @Bean
     @ServiceConnection
     fun ollamaContainer() = object : OllamaContainer("ollama/ollama:0.3.11") {
-        override fun containerIsStarted(containerInfo: InspectContainerResponse?) {
+        override fun containerIsStarted(containerInfo: InspectContainerResponse) {
             super.containerIsStarted(containerInfo)
 
             val result = execInContainer("ollama", "pull", "all-minilm")
