@@ -8,4 +8,4 @@ class StatusException(
     val status: HttpStatus,
     val source: ErrorSource,
     val arguments: Array<Any> = emptyArray()
-) : RuntimeException()
+) : RuntimeException("$status: $code $source $arguments")
