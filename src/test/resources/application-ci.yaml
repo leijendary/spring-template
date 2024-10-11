@@ -13,8 +13,10 @@ spring:
         enabled: false
   datasource:
     primary:
+      jdbcUrl: \${spring.datasource.url}
       maximumPoolSize: 5
     readonly:
+      jdbcUrl: \${spring.datasource.url}
       maximumPoolSize: 1
   kafka:
     jaas:

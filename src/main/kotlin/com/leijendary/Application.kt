@@ -37,7 +37,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients
 import org.springframework.context.annotation.ImportRuntimeHints
 import org.springframework.core.env.get
 import org.springframework.data.web.PagedModel
-import org.springframework.data.web.config.SpringDataJacksonConfiguration
+import org.springframework.data.web.config.SpringDataJacksonConfiguration.PageModule
 import org.springframework.http.HttpHeaders.AUTHORIZATION
 import org.springframework.kafka.retrytopic.RetryTopicConfigurer
 import org.springframework.retry.annotation.EnableRetry
@@ -60,6 +60,7 @@ import javax.security.sasl.SaslClient
         LoginModule::class,
         Mappings::class,
         PagedModel::class,
+        PageModule::class,
         QueryRequest::class,
         SaslClient::class,
         SaslClientAuthenticator::class,
@@ -85,8 +86,6 @@ class ApplicationRuntimeHints : RuntimeHintsRegistrar {
         // Classes to be registered for reflection
         val reflections = arrayOf(
             Class.forName("${RetryTopicConfigurer::class.qualifiedName}\$LoggingDltListenerHandlerMethod"),
-            Class.forName("${SpringDataJacksonConfiguration::class.qualifiedName}\$PageModule\$PageModelConverter"),
-            Class.forName("${SpringDataJacksonConfiguration::class.qualifiedName}\$PageModule\$PlainPageSerializationWarning")
         )
         // Paths to be registered as resources
         val resources = arrayOf(

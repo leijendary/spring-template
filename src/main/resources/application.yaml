@@ -173,6 +173,7 @@ spring:
   mvc:
     async:
       requestTimeout: -1
+    logResolvedException: false
   threads:
     virtual:
       enabled: true
