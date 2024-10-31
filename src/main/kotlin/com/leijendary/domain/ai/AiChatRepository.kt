@@ -5,11 +5,11 @@ import org.springframework.data.jdbc.repository.query.Query
 import org.springframework.data.repository.CrudRepository
 import org.springframework.data.repository.PagingAndSortingRepository
 import org.springframework.transaction.annotation.Transactional
-import java.util.Optional
+import java.util.*
 
 @Transactional(readOnly = true)
-interface AiChatRepository : CrudRepository<AiChat, Long>, PagingAndSortingRepository<AiChat, Long> {
-    fun <T> findFirstByIdAndCreatedBy(id: Long, createdBy: String, type: Class<T>): Optional<T>
+interface AiChatRepository : CrudRepository<AiChat, String>, PagingAndSortingRepository<AiChat, String> {
+    fun <T> findFirstByIdAndCreatedBy(id: String, createdBy: String, type: Class<T>): Optional<T>
 
     @Query(
         """
@@ -19,10 +19,10 @@ interface AiChatRepository : CrudRepository<AiChat, Long>, PagingAndSortingRepos
             created_by = :createdBy
             and (
                 :#{#cursorable.timestamp}::timestamp is null
-                or :#{#cursorable.id}::bigint is null
+                or :#{#cursorable.id}::text is null
                 or (created_at, id) < (:#{#cursorable.timestamp}, :#{#cursorable.id})
             )
-        order by created_at desc, id desc
+        order by created_at desc
         limit :#{#cursorable.limit}
         """
     )

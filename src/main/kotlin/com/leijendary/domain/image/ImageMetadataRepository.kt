@@ -4,4 +4,4 @@ import org.springframework.data.repository.ListCrudRepository
 import org.springframework.transaction.annotation.Transactional
 
 @Transactional(readOnly = true)
-interface ImageMetadataRepository : ListCrudRepository<ImageMetadata, Long>
+interface ImageMetadataRepository : ListCrudRepository<ImageMetadata, String>

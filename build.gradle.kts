@@ -143,12 +143,15 @@ dependencies {
     testImplementation("org.mockito.kotlin:mockito-kotlin:5.4.0")
     testImplementation("org.mockito:mockito-inline:5.2.0")
 
-    // Test Containers
+    // Test Container
     testImplementation("org.testcontainers:junit-jupiter")
     testImplementation("org.testcontainers:elasticsearch")
     testImplementation("org.testcontainers:kafka")
     testImplementation("org.testcontainers:ollama")
     testImplementation("org.testcontainers:postgresql")
+
+    // Utility
+    implementation("io.github.thibaultmeyer:cuid:2.0.3")
 }
 
 sourceSets {

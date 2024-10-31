@@ -6,17 +6,17 @@ import org.springframework.ai.chat.messages.MessageType
 import java.time.Instant
 
 class AiChatRequest {
-    var id: Long = 0
+    var id: String? = null
 
     @field:NotBlank(message = "validation.required")
     @field:Size(max = 1000, message = "validation.maxLength")
     lateinit var prompt: String
 }
 
-data class AiChatResponse(val id: Long, val title: String, val createdAt: Instant)
+data class AiChatResponse(val id: String, val title: String, val createdAt: Instant)
 
-data class AiChatCreateResponse(val id: Long, val text: String)
+data class AiChatCreateResponse(val id: String, val text: String)
 
-data class AiChatHistoryResponse(val id: Long, val messages: List<AiChatMessage>)
+data class AiChatHistoryResponse(val id: String, val messages: List<AiChatMessage>)
 
 data class AiChatMessage(val text: String, val type: MessageType)

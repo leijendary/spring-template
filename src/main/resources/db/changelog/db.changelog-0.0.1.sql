@@ -1,7 +1,7 @@
 --liquibase formatted sql
 --changeset leijendary:create-sample-table
 create table sample (
-    id bigint generated always as identity primary key,
+    id character varying(28) primary key,
     name character varying(100) not null,
     description character varying(2000),
     amount numeric(12,2) not null,
@@ -12,18 +12,15 @@ create table sample (
     last_modified_by text not null
 );
 
---changeset leijendary:set-sample-id-initial-value
-select setval('sample_id_seq', (select floor(random() * 1999999 + 31000000)::bigint));
-
 --changeset leijendary:create-sample-name-lower-unique-index
 create unique index sample_name_key on sample(lower(name));
 
 --changeset leijendary:create-sample-created-at-id-index
-create index sample_created_at_id_idx on sample(created_at desc, id desc);
+create index sample_created_at_id_idx on sample(created_at desc, id);
 
 --changeset leijendary:create-sample-translation-table
 create table sample_translation (
-    id bigint references sample(id) on delete cascade,
+    id character varying(28) references sample(id) on delete cascade,
     name character varying(100) not null,
     description character varying(200),
     language character varying(4),
@@ -36,7 +33,7 @@ create index sample_translation_id_idx on sample_translation(id);
 
 --changeset leijendary:create-image-table
 create table image (
-    id bigint generated always as identity primary key,
+    id character varying(28) primary key,
     name character varying(250) not null unique,
     media_type character varying(15),
     validated boolean not null default false,
@@ -46,7 +43,7 @@ create table image (
 
 --changeset leijendary:create-image-metadata-table
 create table image_metadata (
-    id bigint references image(id) on delete cascade,
+    id character varying(28) references image(id) on delete cascade,
     name character varying(100) not null,
     value text not null,
     constraint image_metadata_pkey primary key (id, name)
@@ -57,7 +54,7 @@ create index image_metadata_id_idx on image_metadata(id);
 
 --changeset leijendary:create-sample-image-table
 create table sample_image (
-    id bigint references sample(id) on delete cascade primary key,
+    id character varying(28) references sample(id) on delete cascade primary key,
     original character varying(250) not null references image(name),
     preview character varying(250) not null references image(name),
     thumbnail character varying(250) not null references image(name)
@@ -65,14 +62,11 @@ create table sample_image (
 
 --changeset leijendary:create-ai-chat-table
 create table ai_chat (
-    id bigint generated always as identity primary key,
+    id character varying(28) primary key,
     title character varying(100) not null,
     created_at timestamp without time zone not null default now(),
     created_by text not null
 );
 
---changeset leijendary:set-ai-chat-id-initial-value
-select setval('ai_chat_id_seq', (select floor(random() * 1999999 + 31000000)::bigint));
-
 --changeset leijendary:create-ai-chat-created-by-created-at-id-index
-create index ai_chat_created_by_created_at_id_idx on ai_chat(created_by, created_at desc, id desc);
+create index ai_chat_created_by_created_at_id_idx on ai_chat(created_by, created_at desc, id);

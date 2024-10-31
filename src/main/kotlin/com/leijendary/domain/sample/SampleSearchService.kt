@@ -20,7 +20,7 @@ interface SampleSearchService {
     fun page(queryRequest: QueryRequest, pageable: Pageable): Page<SampleResponse>
     fun save(sample: SampleDetailResponse)
     fun update(sample: SampleDetailResponse)
-    fun delete(id: Long)
+    fun delete(id: String)
     fun reindex(): Int
 }
 
@@ -62,7 +62,7 @@ class SampleSearchServiceImpl(
         save(sample)
     }
 
-    override fun delete(id: Long) {
+    override fun delete(id: String) {
         val exists = sampleSearchRepository.existsById(id)
 
         if (!exists) {

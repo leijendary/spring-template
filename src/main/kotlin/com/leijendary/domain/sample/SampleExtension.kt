@@ -7,17 +7,17 @@ import com.leijendary.error.exception.ResourceNotFoundException
 import org.springframework.transaction.annotation.Transactional
 
 @Transactional(readOnly = true)
-fun <T> SampleRepository.findByIdOrThrow(id: Long, type: Class<T>): T {
+fun <T> SampleRepository.findByIdOrThrow(id: String, type: Class<T>): T {
     return findById(id, type).orElseThrow { ResourceNotFoundException(id, ENTITY, ERROR_SOURCE) }
 }
 
 @Transactional(readOnly = true)
-fun SampleRepository.findByIdOrThrow(id: Long): Sample {
+fun SampleRepository.findByIdOrThrow(id: String): Sample {
     return findById(id).orElseThrow { ResourceNotFoundException(id, ENTITY, ERROR_SOURCE) }
 }
 
 @Transactional(readOnly = true)
-fun <T> SampleImageRepository.findByIdOrNull(id: Long, type: Class<T>): T? {
+fun <T> SampleImageRepository.findByIdOrNull(id: String, type: Class<T>): T? {
     return findById(id, type).orElse(null)
 }
 
@@ -33,9 +33,11 @@ fun SampleTranslation.toResponse() = SampleTranslationResponse(name, description
 
 fun SampleRequest.toEntity() = Sample(name, description, amount)
 
-fun List<SampleTranslationRequest>.toEntities(id: Long) = map { it.toEntity(id) }
+fun List<SampleTranslationRequest>.toEntities(id: String) = map { it.toEntity(id) }
 
-fun SampleTranslationRequest.toEntity(id: Long) = SampleTranslation(id, name, description, language, ordinal)
+fun SampleTranslationRequest.toEntity(id: String): SampleTranslation {
+    return SampleTranslation(name, description, language, ordinal).apply { this.id = id }
+}
 
 fun SampleDetailResponse.applyTranslation(translation: SampleTranslation) {
     name = translation.name
@@ -49,4 +51,6 @@ fun Sample.updateWith(request: SampleRequest) {
     version = request.version
 }
 
-fun ImageMultiValidateResponse.toSampleEntity(id: Long) = SampleImage(id, original.name, preview.name, thumbnail.name)
+fun ImageMultiValidateResponse.toSampleEntity(id: String): SampleImage {
+    return SampleImage(original.name, preview.name, thumbnail.name).apply { this.id = id }
+}

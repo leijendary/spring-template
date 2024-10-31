@@ -5,13 +5,16 @@ import com.leijendary.config.DataSourceType.READ_WRITE
 import com.leijendary.config.properties.DataSourcePrimaryProperties
 import com.leijendary.config.properties.DataSourceReadOnlyProperties
 import com.leijendary.context.RequestContext.userIdOrSystem
+import com.leijendary.projection.PrefixedIDProjection
 import com.zaxxer.hikari.HikariDataSource
+import io.github.thibaultmeyer.cuid.CUID
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Primary
 import org.springframework.data.domain.AuditorAware
 import org.springframework.data.jdbc.repository.config.EnableJdbcAuditing
+import org.springframework.data.relational.core.mapping.event.BeforeConvertCallback
 import org.springframework.data.web.config.EnableSpringDataWebSupport
 import org.springframework.data.web.config.EnableSpringDataWebSupport.PageSerializationMode.VIA_DTO
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource
@@ -72,6 +75,15 @@ class DatabaseConfiguration {
     @Bean
     fun auditorAware() = AuditorAware {
         Optional.ofNullable(userIdOrSystem)
+    }
+
+    @Bean
+    fun prefixedIDBeforeConvertCallback() = BeforeConvertCallback<PrefixedIDProjection> {
+        if (it.isNew) {
+            it.setId("${it.getPrefix()}_${CUID.randomCUID2()}")
+        }
+
+        it
     }
 
     companion object {

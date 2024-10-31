@@ -11,12 +11,12 @@ import java.util.*
 import java.util.stream.Stream
 
 @Transactional(readOnly = true)
-interface SampleRepository : CrudRepository<Sample, Long>, PagingAndSortingRepository<Sample, Long> {
+interface SampleRepository : CrudRepository<Sample, String>, PagingAndSortingRepository<Sample, String> {
     fun <T> findByNameContainingIgnoreCase(name: String, pageable: Pageable, type: Class<T>): Page<T>
 
     fun <T> findBy(pageable: Pageable, type: Class<T>): Page<T>
 
-    fun <T> findById(id: Long, type: Class<T>): Optional<T>
+    fun <T> findById(id: String, type: Class<T>): Optional<T>
 
     @Query(
         """
@@ -26,10 +26,10 @@ interface SampleRepository : CrudRepository<Sample, Long>, PagingAndSortingRepos
             name ilike concat('%%', :query::text, '%%')
             and (
                 :#{#cursorable.timestamp}::timestamp is null
-                or :#{#cursorable.id}::bigint is null
+                or :#{#cursorable.id}::text is null
                 or (created_at, id) < (:#{#cursorable.timestamp}, :#{#cursorable.id})
             )
-        order by created_at desc, id desc
+        order by created_at desc
         limit :#{#cursorable.limit}
         """
     )

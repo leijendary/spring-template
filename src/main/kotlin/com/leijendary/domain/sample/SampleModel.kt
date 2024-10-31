@@ -52,7 +52,7 @@ class SampleTranslationRequest : TranslationRequest() {
 }
 
 data class SampleResponse(
-    override val id: Long,
+    override val id: String,
     val name: String,
     val description: String?,
     val amount: BigDecimal,
@@ -63,7 +63,7 @@ data class SampleResponse(
 }
 
 data class SampleDetailResponse(
-    val id: Long,
+    val id: String,
     var name: String,
     var description: String?,
     val amount: BigDecimal,

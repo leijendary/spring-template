@@ -26,12 +26,12 @@ class AiChatController(private val aiChatService: AiChatService) {
     }
 
     @GetMapping("{id}")
-    fun get(@PathVariable id: Long): AiChatResponse {
+    fun get(@PathVariable id: String): AiChatResponse {
         return aiChatService.get(id)
     }
 
     @GetMapping("{id}/history")
-    fun history(@PathVariable id: Long): AiChatHistoryResponse {
+    fun history(@PathVariable id: String): AiChatHistoryResponse {
         return aiChatService.history(id)
     }
 }

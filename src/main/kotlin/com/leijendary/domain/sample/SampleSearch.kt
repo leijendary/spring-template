@@ -25,8 +25,8 @@ import java.time.Instant
 @Document(indexName = INDEX_NAME)
 data class SampleSearch(
     @Id
-    @Field(type = FieldType.Long)
-    var id: Long,
+    @Field(type = Keyword)
+    var id: String,
 
     @MultiField(mainField = Field(type = Text), otherFields = [InnerField(suffix = "keyword", type = Keyword)])
     var name: String,

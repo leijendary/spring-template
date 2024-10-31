@@ -7,12 +7,12 @@ import org.springframework.transaction.annotation.Transactional
 import java.util.*
 
 @Transactional(readOnly = true)
-interface ImageRepository : CrudRepository<Image, Long> {
+interface ImageRepository : CrudRepository<Image, String> {
     fun findByName(name: String): Optional<Image>
 
     @Transactional
     @Query("update image set media_type = :mediaType, validated = true where name = :name returning id")
-    fun setValidated(name: String, mediaType: String): Long
+    fun setValidated(name: String, mediaType: String): String
 
     @Transactional
     @Modifying

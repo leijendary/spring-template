@@ -30,7 +30,7 @@ class SampleMessageProducer(
     }
 
     @Retryable
-    fun deleted(id: Long) {
+    fun deleted(id: String) {
         val model = IdentityModel(id)
         val topic = kafkaTopicProperties.nameOf(SAMPLE_DELETED)
 
