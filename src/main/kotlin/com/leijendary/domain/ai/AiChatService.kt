@@ -64,11 +64,15 @@ class AiChatServiceImpl(
     }
 
     private fun updateTitle(aiChat: AiChat, prompt: String) = supplyAsync {
-        aiChat.title = titleChatClient.prompt()
+        val title = titleChatClient.prompt()
             .user(prompt)
             .call()
             .content()
 
-        aiChatRepository.save(aiChat)
+        if (title !== null) {
+            aiChat.title = title
+
+            aiChatRepository.save(aiChat)
+        }
     }
 }
