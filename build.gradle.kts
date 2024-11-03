@@ -105,8 +105,9 @@ dependencies {
 
     // AI
     implementation(platform("org.springframework.ai:spring-ai-bom:1.0.0-SNAPSHOT"))
-    implementation("org.springframework.ai:spring-ai-cassandra-store-spring-boot-starter")
     implementation("org.springframework.ai:spring-ai-ollama-spring-boot-starter")
+    implementation("org.springframework.ai:spring-ai-pgvector-store-spring-boot-starter")
+    testImplementation("org.springframework.ai:spring-ai-spring-boot-testcontainers")
 
     // AWS
     implementation(platform("software.amazon.awssdk:bom:2.26.22"))

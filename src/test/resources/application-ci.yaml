@@ -7,6 +7,12 @@ encrypt:
   salt: 08dbf175cbeb91f3
 
 spring:
+  ai:
+    ollama:
+      chat:
+        model: all-minilm
+      embedding:
+        model: all-minilm
   data:
     redis:
       ssl:

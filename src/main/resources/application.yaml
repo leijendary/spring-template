@@ -84,10 +84,11 @@ spring:
   ai:
     ollama:
       chat:
-        options:
-          model: llama3.1
+        model: llama3.1
+      embedding:
+        model: all-minilm
     vectorstore:
-      cassandra:
+      pgvector:
         initializeSchema: true
   application:
     name: ${name}
@@ -98,9 +99,6 @@ spring:
     type: REDIS
     redis:
       timeToLive: 5h
-  cassandra:
-    contactPoints:
-    localDatacenter:
   cloud:
     openfeign:
       client:
