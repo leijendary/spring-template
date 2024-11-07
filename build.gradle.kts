@@ -15,6 +15,7 @@ val openApiTasks = File("$rootDir/src/main/resources/specs").listFiles()?.map {
         generateModelDocumentation.set(false)
         generateModelTests.set(false)
         additionalProperties.set(mapOf("removeEnumValuePrefix" to "false"))
+        globalProperties.set(mapOf("models" to ""))
         configOptions.set(
             mapOf(
                 "documentationProvider" to "none",
@@ -24,16 +25,15 @@ val openApiTasks = File("$rootDir/src/main/resources/specs").listFiles()?.map {
                 "useSpringBoot3" to "true"
             )
         )
-        globalProperties.set(mapOf("models" to ""))
     }
 }
 
 plugins {
-    val kotlinVersion = "2.0.20"
+    val kotlinVersion = "2.0.21"
 
     kotlin("jvm") version kotlinVersion
     kotlin("plugin.spring") version kotlinVersion
-    id("org.springframework.boot") version "3.3.4"
+    id("org.springframework.boot") version "3.3.5"
     id("io.spring.dependency-management") version "1.1.6"
     id("org.graalvm.buildtools.native") version "0.10.3"
     id("org.openapi.generator") version "7.8.0"

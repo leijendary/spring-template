@@ -18,8 +18,6 @@ val SOURCE_SERVER_INTERNAL = ErrorSource(pointer = "/server/internal")
 @RestControllerAdvice
 @Order
 class GlobalExceptionHandler(private val messageSource: MessageSource) {
-    private val log = logger()
-
     @ExceptionHandler(Exception::class)
     @ResponseStatus(INTERNAL_SERVER_ERROR)
     fun catchException(exception: Exception): List<ErrorModel> {
@@ -29,5 +27,9 @@ class GlobalExceptionHandler(private val messageSource: MessageSource) {
         val error = ErrorModel(code = CODE_SERVER_ERROR, message = message, source = SOURCE_SERVER_INTERNAL)
 
         return listOf(error)
+    }
+
+    companion object {
+        private val log = logger()
     }
 }
