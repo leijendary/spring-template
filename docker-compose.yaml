@@ -66,6 +66,14 @@ services:
   ollama:
     image: ollama/ollama:0.3.11
     container_name: ollama-template
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities:
+                - gpu
     entrypoint:
       - /bin/sh
       - -c
