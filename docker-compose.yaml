@@ -79,6 +79,8 @@ services:
       - -c
       - |
         ollama serve &
+        pid=$!
         sleep 5
         ollama pull llama3.1
         ollama pull all-minilm
+        wait $pid
