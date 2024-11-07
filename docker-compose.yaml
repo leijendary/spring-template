@@ -37,7 +37,7 @@ services:
       bootstrap.memory_lock: true
       xpack.security.transport.ssl.enabled: false
   postgres:
-    image: postgres:16-alpine
+    image: pgvector/pgvector:pg16
     container_name: postgres-template
     environment:
       POSTGRES_DB: spring_template
