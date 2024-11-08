@@ -95,7 +95,7 @@ export class FargateServiceConstruct extends FargateService {
       ruleName: `${clusterName}-${name}-ecs-service-start-scheduler`,
       schedule: Schedule.cron({
         minute: "0",
-        hour: "10",
+        hour: "8",
       }),
       targets: [target],
     });
@@ -129,7 +129,7 @@ export class FargateServiceConstruct extends FargateService {
       ruleName: `${clusterName}-${name}-ecs-service-stop-scheduler`,
       schedule: Schedule.cron({
         minute: "0",
-        hour: "22",
+        hour: "18",
       }),
       targets: [target],
     });
