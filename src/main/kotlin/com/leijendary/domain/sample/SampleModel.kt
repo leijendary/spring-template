@@ -84,3 +84,16 @@ data class SampleTranslationResponse(
     override var language: String,
     override var ordinal: Int
 ) : LocaleProjection
+
+fun SampleRequest.toEntity() = Sample(name, description, amount)
+
+fun List<SampleTranslationRequest>.toEntities(id: String) = map { it.toEntity(id) }
+
+fun SampleTranslationRequest.toEntity(id: String): SampleTranslation {
+    return SampleTranslation(name, description, language, ordinal).apply { this.id = id }
+}
+
+fun SampleDetailResponse.applyTranslation(translation: SampleTranslation) {
+    name = translation.name
+    description = translation.description ?: description
+}

@@ -2,6 +2,7 @@ package com.leijendary.domain.sample
 
 import com.leijendary.context.DatabaseContext
 import com.leijendary.context.RequestContext.language
+import com.leijendary.domain.image.ImageMultiValidateResponse
 import com.leijendary.domain.image.ImageRequest
 import com.leijendary.domain.image.ImageResponse
 import com.leijendary.domain.image.ImageService
@@ -118,7 +119,7 @@ class SampleServiceImpl(
         }
 
         val response = imageService.validate(request)
-        val image = sampleImageRepository.findByIdOrNull(id) ?: response.toSampleEntity(id)
+        val image = sampleImageRepository.findByIdOrNull(id) ?: response.toImage(id)
 
         sampleImageRepository.save(image)
         sampleSearchRepository.setImage(id, request)
@@ -128,4 +129,8 @@ class SampleServiceImpl(
         sampleImageRepository.deleteById(id)
         sampleSearchRepository.deleteImage(id)
     }
+}
+
+fun ImageMultiValidateResponse.toImage(id: String): SampleImage {
+    return SampleImage(original.name, preview.name, thumbnail.name).apply { this.id = id }
 }

@@ -103,3 +103,20 @@ data class SampleImage(
         return true
     }
 }
+
+fun Sample.toDetailResponse(translations: List<SampleTranslation>): SampleDetailResponse {
+    return SampleDetailResponse(id, name, description, amount, version, createdAt).apply {
+        this.translations.addAll(translations.toResponses())
+    }
+}
+
+fun Sample.updateWith(request: SampleRequest) {
+    name = request.name
+    description = request.description
+    amount = request.amount
+    version = request.version
+}
+
+fun List<SampleTranslation>.toResponses() = map { it.toResponse() }
+
+fun SampleTranslation.toResponse() = SampleTranslationResponse(name, description, language, ordinal)

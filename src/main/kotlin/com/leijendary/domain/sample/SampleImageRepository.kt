@@ -8,3 +8,8 @@ import java.util.*
 interface SampleImageRepository : CrudRepository<SampleImage, String> {
     fun <T> findById(id: String, type: Class<T>): Optional<T>
 }
+
+@Transactional(readOnly = true)
+fun <T> SampleImageRepository.findByIdOrNull(id: String, type: Class<T>): T? {
+    return findById(id, type).orElse(null)
+}

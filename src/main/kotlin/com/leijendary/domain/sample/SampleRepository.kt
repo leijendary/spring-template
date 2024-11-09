@@ -1,5 +1,8 @@
 package com.leijendary.domain.sample
 
+import com.leijendary.domain.sample.Sample.Companion.ENTITY
+import com.leijendary.domain.sample.Sample.Companion.ERROR_SOURCE
+import com.leijendary.error.exception.ResourceNotFoundException
 import com.leijendary.model.Cursorable
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
@@ -36,4 +39,14 @@ interface SampleRepository : CrudRepository<Sample, String>, PagingAndSortingRep
     fun <T> cursor(query: String?, cursorable: Cursorable, type: Class<T>): MutableList<T>
 
     fun <T> streamBy(type: Class<T>): Stream<T>
+}
+
+@Transactional(readOnly = true)
+fun <T> SampleRepository.findByIdOrThrow(id: String, type: Class<T>): T {
+    return findById(id, type).orElseThrow { ResourceNotFoundException(id, ENTITY, ERROR_SOURCE) }
+}
+
+@Transactional(readOnly = true)
+fun SampleRepository.findByIdOrThrow(id: String): Sample {
+    return findById(id).orElseThrow { ResourceNotFoundException(id, ENTITY, ERROR_SOURCE) }
 }
