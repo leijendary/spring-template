@@ -2,8 +2,9 @@ package com.leijendary.config
 
 import org.springframework.ai.chat.client.ChatClient
 import org.springframework.ai.chat.client.advisor.PromptChatMemoryAdvisor
-import org.springframework.ai.chat.client.advisor.QuestionAnswerAdvisor
+import org.springframework.ai.chat.client.advisor.RetrievalAugmentationAdvisor
 import org.springframework.ai.chat.memory.ChatMemory
+import org.springframework.ai.rag.retrieval.source.VectorStoreDocumentRetriever
 import org.springframework.ai.vectorstore.VectorStore
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
@@ -20,12 +21,17 @@ class AiConfiguration {
 
     @Bean
     fun chatClient(builder: ChatClient.Builder, vectorStore: VectorStore, chatMemory: ChatMemory): ChatClient {
+        val memoryAdvisor = PromptChatMemoryAdvisor(chatMemory)
+        val documentRetriever = VectorStoreDocumentRetriever.builder()
+            .vectorStore(vectorStore)
+            .build()
+        val ragAdvisor = RetrievalAugmentationAdvisor.builder()
+            .documentRetriever(documentRetriever)
+            .build()
+
         return builder
             .defaultSystem(generalInstructionSystem)
-            .defaultAdvisors(
-                PromptChatMemoryAdvisor(chatMemory),
-                QuestionAnswerAdvisor(vectorStore),
-            )
+            .defaultAdvisors(memoryAdvisor, ragAdvisor)
             .build()
     }
 
