@@ -32,6 +32,7 @@ interface AiChatRepository : CrudRepository<AiChat, String>, PagingAndSortingRep
     fun <T> cursor(createdBy: String, cursorable: Cursorable, type: Class<T>): MutableList<T>
 }
 
+@Transactional(readOnly = true)
 fun <T> AiChatRepository.findFirstByIdAndCreatedByOrThrow(id: String, createdBy: String, type: Class<T>): T {
     return findFirstByIdAndCreatedBy(id, createdBy, type)
         .orElseThrow { ResourceNotFoundException(id, ENTITY, ERROR_SOURCE) }
