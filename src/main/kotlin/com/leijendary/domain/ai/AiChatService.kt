@@ -1,10 +1,8 @@
 package com.leijendary.domain.ai
 
 import com.leijendary.context.RequestContext.userIdOrThrow
-import com.leijendary.domain.ai.AiChat.Companion.ENTITY
-import com.leijendary.domain.ai.AiChat.Companion.ERROR_SOURCE
-import com.leijendary.error.exception.ResourceNotFoundException
 import com.leijendary.model.Cursorable
+import com.leijendary.model.CursoredModel
 import org.springframework.ai.chat.client.ChatClient
 import org.springframework.ai.chat.client.advisor.AbstractChatMemoryAdvisor.CHAT_MEMORY_CONVERSATION_ID_KEY
 import org.springframework.ai.chat.client.advisor.AbstractChatMemoryAdvisor.CHAT_MEMORY_RETRIEVE_SIZE_KEY
@@ -15,7 +13,7 @@ import reactor.core.publisher.Flux
 import java.util.concurrent.CompletableFuture.supplyAsync
 
 interface AiChatService {
-    fun list(cursorable: Cursorable): List<AiChatResponse>
+    fun cursor(cursorable: Cursorable): CursoredModel<AiChatResponse>
     fun create(request: AiChatRequest): Flux<AiChatCreateResponse>
     fun get(id: String): AiChatResponse
     fun history(id: String): AiChatHistoryResponse
@@ -28,14 +26,15 @@ class AiChatServiceImpl(
     private val chatMemory: ChatMemory,
     private val titleChatClient: ChatClient,
 ) : AiChatService {
-    override fun list(cursorable: Cursorable): List<AiChatResponse> {
-        return aiChatRepository.cursor(userIdOrThrow, cursorable, AiChatResponse::class.java)
+    override fun cursor(cursorable: Cursorable): CursoredModel<AiChatResponse> {
+        val chats = aiChatRepository.cursor(userIdOrThrow, cursorable, AiChatResponse::class.java)
+
+        return CursoredModel(chats, cursorable)
     }
 
     override fun create(request: AiChatRequest): Flux<AiChatCreateResponse> {
-        val aiChat = if (request.id !== null) {
-            aiChatRepository.findFirstByIdAndCreatedBy(request.id!!, userIdOrThrow, AiChat::class.java)
-                .orElseThrow { ResourceNotFoundException(request.id!!, ENTITY, ERROR_SOURCE) }
+        val aiChat = if (!request.id.isNullOrBlank()) {
+            aiChatRepository.findFirstByIdAndCreatedByOrThrow(request.id!!, userIdOrThrow, AiChat::class.java)
         } else {
             aiChatRepository.save(AiChat()).also { updateTitle(it, request.prompt) }
         }
@@ -52,8 +51,7 @@ class AiChatServiceImpl(
     }
 
     override fun get(id: String): AiChatResponse {
-        return aiChatRepository.findFirstByIdAndCreatedBy(id, userIdOrThrow, AiChatResponse::class.java)
-            .orElseThrow { ResourceNotFoundException(id, ENTITY, ERROR_SOURCE) }
+        return aiChatRepository.findFirstByIdAndCreatedByOrThrow(id, userIdOrThrow, AiChatResponse::class.java)
     }
 
     override fun history(id: String): AiChatHistoryResponse {
@@ -69,7 +67,7 @@ class AiChatServiceImpl(
             .call()
             .content()
 
-        if (title !== null) {
+        if (!title.isNullOrBlank()) {
             aiChat.title = title
 
             aiChatRepository.save(aiChat)

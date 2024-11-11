@@ -37,7 +37,7 @@ class SampleServiceImpl(
     private val sampleTranslationRepository: SampleTranslationRepository
 ) : SampleService {
     override fun page(queryRequest: QueryRequest, pageable: Pageable): Page<SampleResponse> {
-        return if (queryRequest.query !== null) {
+        return if (!queryRequest.query.isNullOrBlank()) {
             sampleRepository.findByNameContainingIgnoreCase(queryRequest.query, pageable, SampleResponse::class.java)
         } else {
             sampleRepository.findBy(pageable, SampleResponse::class.java)

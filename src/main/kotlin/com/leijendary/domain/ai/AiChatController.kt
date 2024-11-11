@@ -1,6 +1,7 @@
 package com.leijendary.domain.ai
 
 import com.leijendary.model.Cursorable
+import com.leijendary.model.CursoredModel
 import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.validation.Valid
 import org.springframework.web.bind.annotation.GetMapping
@@ -16,8 +17,8 @@ import reactor.core.publisher.Flux
 @Tag(name = "AI Chat")
 class AiChatController(private val aiChatService: AiChatService) {
     @GetMapping
-    fun list(cursorable: Cursorable): List<AiChatResponse> {
-        return aiChatService.list(cursorable)
+    fun cursor(cursorable: Cursorable): CursoredModel<AiChatResponse> {
+        return aiChatService.cursor(cursorable)
     }
 
     @PostMapping

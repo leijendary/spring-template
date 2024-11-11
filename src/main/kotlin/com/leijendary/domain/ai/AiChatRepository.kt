@@ -1,5 +1,8 @@
 package com.leijendary.domain.ai
 
+import com.leijendary.domain.sample.Sample.Companion.ENTITY
+import com.leijendary.domain.sample.Sample.Companion.ERROR_SOURCE
+import com.leijendary.error.exception.ResourceNotFoundException
 import com.leijendary.model.Cursorable
 import org.springframework.data.jdbc.repository.query.Query
 import org.springframework.data.repository.CrudRepository
@@ -27,4 +30,9 @@ interface AiChatRepository : CrudRepository<AiChat, String>, PagingAndSortingRep
         """
     )
     fun <T> cursor(createdBy: String, cursorable: Cursorable, type: Class<T>): MutableList<T>
+}
+
+fun <T> AiChatRepository.findFirstByIdAndCreatedByOrThrow(id: String, createdBy: String, type: Class<T>): T {
+    return findFirstByIdAndCreatedBy(id, createdBy, type)
+        .orElseThrow { ResourceNotFoundException(id, ENTITY, ERROR_SOURCE) }
 }

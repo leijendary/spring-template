@@ -35,7 +35,7 @@ class SampleSearchServiceImpl(
     private val sampleTranslationRepository: SampleTranslationRepository,
 ) : SampleSearchService {
     override fun page(queryRequest: QueryRequest, pageable: Pageable): Page<SampleResponse> {
-        val page = if (queryRequest.query !== null) {
+        val page = if (!queryRequest.query.isNullOrBlank()) {
             sampleSearchRepository.findByTranslations(queryRequest.query, pageable)
         } else {
             sampleSearchRepository.findAll(pageable)

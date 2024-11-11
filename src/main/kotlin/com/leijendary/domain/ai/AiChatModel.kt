@@ -1,5 +1,6 @@
 package com.leijendary.domain.ai
 
+import com.leijendary.projection.CursorProjection
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.Size
 import org.springframework.ai.chat.messages.MessageType
@@ -13,7 +14,11 @@ class AiChatRequest {
     lateinit var prompt: String
 }
 
-data class AiChatResponse(val id: String, val title: String, val createdAt: Instant)
+data class AiChatResponse(
+    override val id: String,
+    val title: String,
+    override val createdAt: Instant
+) : CursorProjection
 
 data class AiChatCreateResponse(val id: String, val text: String)
 
