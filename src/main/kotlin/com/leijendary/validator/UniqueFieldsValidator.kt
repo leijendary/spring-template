@@ -29,7 +29,7 @@ class UniqueFieldsValidator : ConstraintValidator<UniqueFields, List<Any>> {
         list.forEachIndexed { index, target ->
             for (field in fields) {
                 val value = target.reflectGet(field) ?: continue
-                val set = fieldSets.getOrDefault(field, mutableSetOf())
+                val set = fieldSets.getOrElse(field) { mutableSetOf() }
                 val added = set.add(value)
 
                 if (!added) {
