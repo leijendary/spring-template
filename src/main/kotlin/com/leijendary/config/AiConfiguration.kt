@@ -1,7 +1,7 @@
 package com.leijendary.config
 
 import org.springframework.ai.chat.client.ChatClient
-import org.springframework.ai.chat.client.advisor.PromptChatMemoryAdvisor
+import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor
 import org.springframework.ai.chat.client.advisor.RetrievalAugmentationAdvisor
 import org.springframework.ai.chat.memory.ChatMemory
 import org.springframework.ai.rag.retrieval.source.VectorStoreDocumentRetriever
@@ -21,7 +21,7 @@ class AiConfiguration {
 
     @Bean
     fun chatClient(builder: ChatClient.Builder, vectorStore: VectorStore, chatMemory: ChatMemory): ChatClient {
-        val memoryAdvisor = PromptChatMemoryAdvisor(chatMemory)
+        val memoryAdvisor = MessageChatMemoryAdvisor(chatMemory)
         val documentRetriever = VectorStoreDocumentRetriever.builder()
             .vectorStore(vectorStore)
             .build()
