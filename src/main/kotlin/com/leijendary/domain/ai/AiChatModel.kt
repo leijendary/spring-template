@@ -6,13 +6,13 @@ import jakarta.validation.constraints.Size
 import org.springframework.ai.chat.messages.MessageType
 import java.time.Instant
 
-class AiChatRequest {
-    var id: String? = null
+data class AiChatRequest(
+    val id: String? = null,
 
     @field:NotBlank(message = "validation.required")
     @field:Size(max = 1000, message = "validation.maxLength")
-    lateinit var prompt: String
-}
+    val prompt: String = ""
+)
 
 data class AiChatResponse(
     override val id: String,

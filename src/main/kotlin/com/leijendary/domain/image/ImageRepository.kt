@@ -14,12 +14,12 @@ interface ImageRepository : CrudRepository<Image, String> {
     fun findByName(name: String): Optional<Image>
 
     @Transactional
-    @Query("update image set media_type = :mediaType, validated = true where name = :name returning id")
+    @Query("UPDATE image SET media_type = :mediaType, validated = true WHERE name = :name RETURNING id")
     fun setValidated(name: String, mediaType: String): String
 
     @Transactional
     @Modifying
-    @Query("delete from image where name = :name")
+    @Query("DELETE FROM image WHERE name = :name")
     fun deleteByName(name: String)
 }
 

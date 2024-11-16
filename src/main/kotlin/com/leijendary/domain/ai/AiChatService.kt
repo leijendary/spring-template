@@ -34,7 +34,7 @@ class AiChatServiceImpl(
 
     override fun create(request: AiChatRequest): Flux<AiChatCreateResponse> {
         val aiChat = if (!request.id.isNullOrBlank()) {
-            aiChatRepository.findFirstByIdAndCreatedByOrThrow(request.id!!, userIdOrThrow, AiChat::class.java)
+            aiChatRepository.findFirstByIdAndCreatedByOrThrow(request.id, userIdOrThrow, AiChat::class.java)
         } else {
             aiChatRepository.save(AiChat()).also { updateTitle(it, request.prompt) }
         }

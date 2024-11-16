@@ -23,17 +23,17 @@ interface SampleRepository : CrudRepository<Sample, String>, PagingAndSortingRep
 
     @Query(
         """
-        select id, name, description, amount, created_at
-        from sample
-        where
-            name ilike concat('%%', :query::text, '%%')
-            and (
-                :#{#cursorable.timestamp}::timestamp is null
-                or :#{#cursorable.id}::text is null
-                or (created_at, id) < (:#{#cursorable.timestamp}, :#{#cursorable.id})
+        SELECT id, name, description, amount, created_at
+        FROM sample
+        WHERE
+            name ILIKE CONCAT('%%', :query::text, '%%')
+            AND (
+                :#{#cursorable.timestamp}::timestamp IS NULL
+                OR :#{#cursorable.id}::text IS NULL
+                OR (created_at, id) < (:#{#cursorable.timestamp}, :#{#cursorable.id})
             )
-        order by created_at desc
-        limit :#{#cursorable.limit}
+        ORDER BY created_at desc
+        LIMIT :#{#cursorable.limit}
         """
     )
     fun <T> cursor(query: String?, cursorable: Cursorable, type: Class<T>): MutableList<T>

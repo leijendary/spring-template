@@ -16,17 +16,17 @@ interface AiChatRepository : CrudRepository<AiChat, String>, PagingAndSortingRep
 
     @Query(
         """
-        select id, title, created_at
-        from ai_chat
-        where
+        SELECT id, title, created_at
+        FROM ai_chat
+        WHERE
             created_by = :createdBy
-            and (
-                :#{#cursorable.timestamp}::timestamp is null
-                or :#{#cursorable.id}::text is null
-                or (created_at, id) < (:#{#cursorable.timestamp}, :#{#cursorable.id})
+            AND (
+                :#{#cursorable.timestamp}::timestamp IS NULL
+                OR :#{#cursorable.id}::text IS NULL
+                OR (created_at, id) < (:#{#cursorable.timestamp}, :#{#cursorable.id})
             )
-        order by created_at desc
-        limit :#{#cursorable.limit}
+        ORDER BY created_at desc
+        LIMIT :#{#cursorable.limit}
         """
     )
     fun <T> cursor(createdBy: String, cursorable: Cursorable, type: Class<T>): MutableList<T>
