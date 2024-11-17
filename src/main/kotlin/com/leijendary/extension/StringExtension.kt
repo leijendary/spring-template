@@ -80,14 +80,17 @@ fun String.content(compact: Boolean = true): String {
 }
 
 fun String.indexOfReverse(char: Char, count: Int = 1): Int {
-    var i = length
     var current = 0
 
-    while (i >= 0 && current != count) {
-        if (this[--i] == char) {
+    for (i in length - 1 downTo 0) {
+        if (this[i] == char) {
             current++
+        }
+
+        if (current == count) {
+            return i
         }
     }
 
-    return i
+    return -1
 }
