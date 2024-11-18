@@ -5,9 +5,9 @@ import org.springframework.data.repository.ListCrudRepository
 import org.springframework.transaction.annotation.Transactional
 
 @Transactional(readOnly = true)
-interface SampleTranslationRepository : ListCrudRepository<SampleTranslation, Long> {
-    @Query("select * from sample_translation where id = :id order by (language = :language)::int desc, ordinal limit 1")
-    fun findFirstByIdAndLanguage(id: Long, language: String): SampleTranslation?
+interface SampleTranslationRepository : ListCrudRepository<SampleTranslation, String> {
+    @Query("SELECT * FROM sample_translation WHERE id = :id ORDER BY (language = :language)::int DESC, ordinal LIMIT 1")
+    fun findFirstByIdAndLanguage(id: String, language: String): SampleTranslation?
 
-    fun <T> findById(id: Long, type: Class<T>): List<T>
+    fun <T> findById(id: String, type: Class<T>): List<T>
 }

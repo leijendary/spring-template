@@ -38,33 +38,33 @@ class SampleAdminController(private val sampleService: SampleService) {
 
     @GetMapping("{id}")
     @Operation(summary = "Retrieves the translated sample record from the database.")
-    fun get(@PathVariable id: Long): SampleDetailResponse {
+    fun get(@PathVariable id: String): SampleDetailResponse {
         return sampleService.get(id, false)
     }
 
     @PutMapping("{id}")
     @Operation(summary = "Updates the sample record into the database.")
-    fun update(@PathVariable id: Long, @Valid @RequestBody request: SampleRequest): SampleDetailResponse {
+    fun update(@PathVariable id: String, @Valid @RequestBody request: SampleRequest): SampleDetailResponse {
         return sampleService.update(id, request)
     }
 
     @DeleteMapping("{id}")
     @ResponseStatus(NO_CONTENT)
     @Operation(summary = "Removes the sample record from the database.")
-    fun delete(@PathVariable id: Long) {
+    fun delete(@PathVariable id: String) {
         sampleService.delete(id)
     }
 
     @PostMapping("{id}/image")
     @Operation(summary = "Validates and applies the image to the sample entity. Each request field is the image name.")
-    fun saveImage(@PathVariable id: Long, @Valid @RequestBody request: ImageRequest) {
+    fun saveImage(@PathVariable id: String, @Valid @RequestBody request: ImageRequest) {
         sampleService.saveImage(id, request)
     }
 
     @DeleteMapping("{id}/image")
     @ResponseStatus(NO_CONTENT)
     @Operation(summary = "Deletes the image from the sample entity. This will not actually delete the image.")
-    fun deleteImage(@PathVariable id: Long) {
+    fun deleteImage(@PathVariable id: String) {
         sampleService.deleteImage(id)
     }
 }

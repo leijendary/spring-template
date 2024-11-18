@@ -81,6 +81,15 @@ server:
   port: 80
 
 spring:
+  ai:
+    ollama:
+      chat:
+        model: llama3.1
+      embedding:
+        model: all-minilm
+    vectorstore:
+      pgvector:
+        initializeSchema: true
   application:
     name: ${name}
   autoconfigure:
@@ -162,6 +171,7 @@ spring:
   mvc:
     async:
       requestTimeout: -1
+    logResolvedException: false
   threads:
     virtual:
       enabled: true

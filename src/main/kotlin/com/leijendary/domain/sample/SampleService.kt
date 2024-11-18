@@ -13,18 +13,17 @@ import com.leijendary.model.CursoredModel
 import com.leijendary.model.QueryRequest
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
-import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 
 interface SampleService {
     fun page(queryRequest: QueryRequest, pageable: Pageable): Page<SampleResponse>
     fun cursor(queryRequest: QueryRequest, cursorable: Cursorable): CursoredModel<SampleResponse>
     fun create(request: SampleRequest): SampleDetailResponse
-    fun get(id: Long, translate: Boolean): SampleDetailResponse
-    fun update(id: Long, request: SampleRequest): SampleDetailResponse
-    fun delete(id: Long)
-    fun saveImage(id: Long, request: ImageRequest)
-    fun deleteImage(id: Long)
+    fun get(id: String, translate: Boolean): SampleDetailResponse
+    fun update(id: String, request: SampleRequest): SampleDetailResponse
+    fun delete(id: String)
+    fun saveImage(id: String, request: ImageRequest)
+    fun deleteImage(id: String)
 }
 
 @Service
@@ -38,7 +37,7 @@ class SampleServiceImpl(
     private val sampleTranslationRepository: SampleTranslationRepository
 ) : SampleService {
     override fun page(queryRequest: QueryRequest, pageable: Pageable): Page<SampleResponse> {
-        return if (queryRequest.query !== null) {
+        return if (!queryRequest.query.isNullOrBlank()) {
             sampleRepository.findByNameContainingIgnoreCase(queryRequest.query, pageable, SampleResponse::class.java)
         } else {
             sampleRepository.findBy(pageable, SampleResponse::class.java)
@@ -64,7 +63,7 @@ class SampleServiceImpl(
         return response
     }
 
-    override fun get(id: Long, translate: Boolean): SampleDetailResponse {
+    override fun get(id: String, translate: Boolean): SampleDetailResponse {
         val response = sampleRepository.findByIdOrThrow(id, SampleDetailResponse::class.java)
         val image = sampleImageRepository.findByIdOrNull(id, ImageResponse::class.java)
         response.image = image?.let(imageService::getPublicUrl)
@@ -83,7 +82,7 @@ class SampleServiceImpl(
         return response
     }
 
-    override fun update(id: Long, request: SampleRequest): SampleDetailResponse {
+    override fun update(id: String, request: SampleRequest): SampleDetailResponse {
         val response = databaseContext.transactional {
             var sample = sampleRepository.findByIdOrThrow(id)
             sample.updateWith(request)
@@ -105,12 +104,12 @@ class SampleServiceImpl(
         return response
     }
 
-    override fun delete(id: Long) {
+    override fun delete(id: String) {
         sampleRepository.deleteById(id)
         sampleMessageProducer.deleted(id)
     }
 
-    override fun saveImage(id: Long, request: ImageRequest) {
+    override fun saveImage(id: String, request: ImageRequest) {
         val exists = sampleRepository.existsById(id)
 
         if (!exists) {
@@ -118,13 +117,15 @@ class SampleServiceImpl(
         }
 
         val response = imageService.validate(request)
-        val image = sampleImageRepository.findByIdOrNull(id) ?: response.toSampleEntity(id)
+        val image = sampleImageRepository.findById(id).orElseGet {
+            SampleImage(response.original.name, response.preview.name, response.thumbnail.name).apply { this.id = id }
+        }
 
         sampleImageRepository.save(image)
         sampleSearchRepository.setImage(id, request)
     }
 
-    override fun deleteImage(id: Long) {
+    override fun deleteImage(id: String) {
         sampleImageRepository.deleteById(id)
         sampleSearchRepository.deleteImage(id)
     }

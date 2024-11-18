@@ -40,7 +40,10 @@ class ImageServiceImpl(
             imageMetadataRepository.deleteById(image.id)
 
             // Then replace with new ones
-            val metadata = request.metadata.map { ImageMetadata(image.id, it.name, it.value) }
+            val metadata = request.metadata.map {
+                ImageMetadata(it.name, it.value).apply { this.id = image.id }
+            }
+
             imageMetadataRepository.saveAll(metadata)
 
             image to "$PREFIX${image.name}"

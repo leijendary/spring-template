@@ -22,30 +22,30 @@ class UniqueFieldsValidator : ConstraintValidator<UniqueFields, List<Any>> {
         }
 
         val fieldSets = mutableMapOf<String, MutableSet<Any>>()
-        var hasDuplicate = false
+        var isUnique = true
 
         context.disableDefaultConstraintViolation()
 
         list.forEachIndexed { index, target ->
             for (field in fields) {
-                val value = target.reflectGet(field) ?: continue
-                val set = fieldSets.getOrDefault(field, mutableSetOf())
-                val added = set.add(value)
+                val fieldValue = target.reflectGet(field) ?: continue
+                val fieldSet = fieldSets.getOrElse(field) { mutableSetOf() }
+                val isAdded = fieldSet.add(fieldValue)
 
-                if (!added) {
-                    val existingIndex = set.indexOf(value)
+                if (!isAdded) {
+                    val existingIndex = fieldSet.indexOf(fieldValue)
 
                     addViolation(existingIndex, context, field)
                     addViolation(index, context, field)
 
-                    hasDuplicate = true
+                    isUnique = false
                 }
 
-                fieldSets[field] = set
+                fieldSets[field] = fieldSet
             }
         }
 
-        return !hasDuplicate
+        return isUnique
     }
 
     private fun addViolation(index: Int, context: ConstraintValidatorContext, field: String) {

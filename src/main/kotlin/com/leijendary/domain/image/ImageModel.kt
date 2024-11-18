@@ -9,56 +9,56 @@ import jakarta.validation.constraints.Size
 private const val PATTERN_NAME = "^[\\w,\\s-]+\\.(jpeg|jpg|png)\$"
 private const val MESSAGE_NAME = "validation.image.name"
 
-class ImageCreateUrlRequest {
+data class ImageCreateUrlRequest(
     @field:NotBlank(message = "validation.required")
     @field:Size(max = 250, message = "validation.maxLength")
     @field:Pattern(regexp = PATTERN_NAME, message = MESSAGE_NAME)
-    lateinit var name: String
+    val name: String = "",
 
     @field:Valid
-    lateinit var metadata: List<ImageMetadataRequest>
-}
+    val metadata: List<ImageMetadataRequest> = emptyList<ImageMetadataRequest>()
+)
 
-class ImageMetadataRequest {
+data class ImageMetadataRequest(
     @field:NotBlank(message = "validation.required")
     @field:Size(max = 100, message = "validation.maxLength")
-    lateinit var name: String
+    val name: String = "",
 
     @field:NotBlank(message = "validation.required")
-    lateinit var value: String
-}
+    val value: String = ""
+)
 
-class ImageValidateRequest {
-    @field:NotBlank(message = "validation.required")
-    @field:Size(max = 250, message = "validation.maxLength")
-    @field:Pattern(regexp = PATTERN_NAME, message = MESSAGE_NAME)
-    lateinit var name: String
-}
-
-class ImageDeleteRequest {
+data class ImageValidateRequest(
     @field:NotBlank(message = "validation.required")
     @field:Size(max = 250, message = "validation.maxLength")
     @field:Pattern(regexp = PATTERN_NAME, message = MESSAGE_NAME)
-    lateinit var name: String
-}
+    val name: String = ""
+)
 
-class ImageRequest : ImageProjection {
+data class ImageDeleteRequest(
+    @field:NotBlank(message = "validation.required")
+    @field:Size(max = 250, message = "validation.maxLength")
+    @field:Pattern(regexp = PATTERN_NAME, message = MESSAGE_NAME)
+    val name: String = ""
+)
+
+data class ImageRequest(
     @field:NotBlank(message = "validation.required")
     @field:Pattern(regexp = PATTERN_NAME, message = MESSAGE_NAME)
-    override lateinit var original: String
+    override var original: String = "",
 
     @field:NotBlank(message = "validation.required")
     @field:Pattern(regexp = PATTERN_NAME, message = MESSAGE_NAME)
-    override lateinit var preview: String
+    override var preview: String = "",
 
     @field:NotBlank(message = "validation.required")
     @field:Pattern(regexp = PATTERN_NAME, message = MESSAGE_NAME)
-    override lateinit var thumbnail: String
-}
+    override var thumbnail: String = "",
+) : ImageProjection
 
 data class ImageCreateUrlResponse(val url: String, val validated: Boolean = false)
 
-data class ImageValidateResponse(val id: Long, val name: String, val path: String)
+data class ImageValidateResponse(val id: String, val name: String, val path: String)
 
 data class ImageMultiValidateResponse(
     val original: ImageValidateResponse,

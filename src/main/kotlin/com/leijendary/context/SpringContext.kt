@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component
 import kotlin.properties.Delegates.notNull
 
 @Component
-class SpringContext(private val objectMapper: ObjectMapper) : ApplicationContextAware {
+class SpringContext(objectMapper: ObjectMapper) : ApplicationContextAware {
     init {
         Companion.objectMapper = objectMapper
     }

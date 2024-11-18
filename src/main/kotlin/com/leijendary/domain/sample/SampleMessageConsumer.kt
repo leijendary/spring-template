@@ -30,7 +30,7 @@ class SampleMessageConsumer(private val sampleSearchService: SampleSearchService
     @KafkaListener(topics = [SAMPLE_DELETED])
     @RetryableTopic
     fun deleted(json: String) {
-        val model = json.toClass<IdentityModel>()
+        val model = json.toClass<IdentityModel<String>>()
 
         sampleSearchService.delete(model.id)
     }

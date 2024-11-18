@@ -20,7 +20,7 @@ interface SampleSearchService {
     fun page(queryRequest: QueryRequest, pageable: Pageable): Page<SampleResponse>
     fun save(sample: SampleDetailResponse)
     fun update(sample: SampleDetailResponse)
-    fun delete(id: Long)
+    fun delete(id: String)
     fun reindex(): Int
 }
 
@@ -34,10 +34,8 @@ class SampleSearchServiceImpl(
     private val sampleSearchRepository: SampleSearchRepository,
     private val sampleTranslationRepository: SampleTranslationRepository,
 ) : SampleSearchService {
-    private val log = logger()
-
     override fun page(queryRequest: QueryRequest, pageable: Pageable): Page<SampleResponse> {
-        val page = if (queryRequest.query !== null) {
+        val page = if (!queryRequest.query.isNullOrBlank()) {
             sampleSearchRepository.findByTranslations(queryRequest.query, pageable)
         } else {
             sampleSearchRepository.findAll(pageable)
@@ -62,7 +60,7 @@ class SampleSearchServiceImpl(
         save(sample)
     }
 
-    override fun delete(id: Long) {
+    override fun delete(id: String) {
         val exists = sampleSearchRepository.existsById(id)
 
         if (!exists) {
@@ -136,5 +134,9 @@ class SampleSearchServiceImpl(
         sample.translations.addAll(translations)
 
         return map(sample)
+    }
+
+    companion object {
+        private val log = logger()
     }
 }

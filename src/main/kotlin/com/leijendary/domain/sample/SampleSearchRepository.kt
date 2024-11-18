@@ -17,7 +17,7 @@ private const val SCRIPT_IMAGE_SET = "ctx._source.image = params.image"
 private const val SCRIPT_IMAGE_DELETE = "ctx._source.remove('image')"
 private const val PARAM_IMAGE = "image"
 
-interface SampleSearchRepository : SampleSearchCustomRepository, ElasticsearchRepository<SampleSearch, Long> {
+interface SampleSearchRepository : SampleSearchCustomRepository, ElasticsearchRepository<SampleSearch, String> {
     @Query(
         """
         {
@@ -36,16 +36,16 @@ interface SampleSearchRepository : SampleSearchCustomRepository, ElasticsearchRe
 }
 
 interface SampleSearchCustomRepository {
-    fun setImage(id: Long, image: ImageProjection)
-    fun deleteImage(id: Long)
+    fun setImage(id: String, image: ImageProjection)
+    fun deleteImage(id: String)
 }
 
 @Repository
 class SampleSearchCustomRepositoryImpl(private val elasticsearchTemplate: ElasticsearchTemplate) :
     SampleSearchCustomRepository {
-    override fun setImage(id: Long, image: ImageProjection) {
+    override fun setImage(id: String, image: ImageProjection) {
         val params = mapOf(PARAM_IMAGE to image)
-        val update = UpdateQuery.builder(id.toString())
+        val update = UpdateQuery.builder(id)
             .withParams(params)
             .withScript(SCRIPT_IMAGE_SET)
             .withScriptType(INLINE)
@@ -56,8 +56,8 @@ class SampleSearchCustomRepositoryImpl(private val elasticsearchTemplate: Elasti
         elasticsearchTemplate.update(update, INDEX)
     }
 
-    override fun deleteImage(id: Long) {
-        val update = UpdateQuery.builder(id.toString())
+    override fun deleteImage(id: String) {
+        val update = UpdateQuery.builder(id)
             .withScript(SCRIPT_IMAGE_DELETE)
             .withScriptType(INLINE)
             .withLang(ScriptLanguage.Painless.jsonValue())

@@ -26,6 +26,7 @@ services:
       - redis
       - kafka
       - zipkin
+      - ollama
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:8.14.3
     container_name: elasticsearch-template
@@ -36,7 +37,7 @@ services:
       bootstrap.memory_lock: true
       xpack.security.transport.ssl.enabled: false
   postgres:
-    image: postgres:16-alpine
+    image: pgvector/pgvector:pg16
     container_name: postgres-template
     environment:
       POSTGRES_DB: spring_template
@@ -62,3 +63,24 @@ services:
   zipkin:
     image: openzipkin/zipkin-slim:3
     container_name: zipkin-template
+  ollama:
+    image: ollama/ollama:0.3.11
+    container_name: ollama-template
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities:
+                - gpu
+    entrypoint:
+      - /bin/sh
+      - -c
+      - |
+        ollama serve &
+        pid=$!
+        sleep 5
+        ollama pull llama3.1
+        ollama pull all-minilm
+        wait $pid

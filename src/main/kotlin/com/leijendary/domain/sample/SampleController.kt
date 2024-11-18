@@ -57,7 +57,7 @@ class SampleController(
 
     @GetMapping("{id}")
     @Operation(summary = "Retrieves the translated sample record from the database.")
-    fun get(@PathVariable id: Long): SampleDetailResponse {
+    fun get(@PathVariable id: String): SampleDetailResponse {
         return sampleService.get(id, true)
     }
 
