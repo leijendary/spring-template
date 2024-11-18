@@ -1,7 +1,7 @@
-package com.leijendary.domain.ai
+package com.leijendary.domain.ai.chat
 
-import com.leijendary.domain.sample.Sample.Companion.ENTITY
-import com.leijendary.domain.sample.Sample.Companion.ERROR_SOURCE
+import com.leijendary.domain.ai.chat.AiChat.Companion.ENTITY
+import com.leijendary.domain.ai.chat.AiChat.Companion.ERROR_SOURCE
 import com.leijendary.error.exception.ResourceNotFoundException
 import com.leijendary.model.Cursorable
 import org.springframework.data.jdbc.repository.query.Query

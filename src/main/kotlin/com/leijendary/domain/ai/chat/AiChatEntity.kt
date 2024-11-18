@@ -1,4 +1,4 @@
-package com.leijendary.domain.ai
+package com.leijendary.domain.ai.chat
 
 import com.leijendary.model.ErrorSource
 import com.leijendary.projection.PrefixedIDProjection

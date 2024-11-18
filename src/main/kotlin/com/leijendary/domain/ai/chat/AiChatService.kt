@@ -1,4 +1,4 @@
-package com.leijendary.domain.ai
+package com.leijendary.domain.ai.chat
 
 import com.leijendary.context.RequestContext.userIdOrThrow
 import com.leijendary.model.Cursorable
@@ -17,6 +17,7 @@ interface AiChatService {
     fun create(request: AiChatRequest): Flux<AiChatCreateResponse>
     fun get(id: String): AiChatResponse
     fun history(id: String): AiChatHistoryResponse
+    fun delete(id: String)
 }
 
 @Service
@@ -59,6 +60,11 @@ class AiChatServiceImpl(
             .map { AiChatMessage(it.content, it.messageType) }
 
         return AiChatHistoryResponse(id, messages)
+    }
+
+    override fun delete(id: String) {
+        chatMemory.clear(id)
+        aiChatRepository.deleteById(id)
     }
 
     private fun updateTitle(aiChat: AiChat, prompt: String) = supplyAsync {

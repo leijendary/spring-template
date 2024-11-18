@@ -4,7 +4,7 @@ import org.springframework.ai.chat.client.ChatClient
 import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor
 import org.springframework.ai.chat.client.advisor.RetrievalAugmentationAdvisor
 import org.springframework.ai.chat.memory.ChatMemory
-import org.springframework.ai.rag.retrieval.source.VectorStoreDocumentRetriever
+import org.springframework.ai.rag.retrieval.search.VectorStoreDocumentRetriever
 import org.springframework.ai.vectorstore.VectorStore
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean

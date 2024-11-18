@@ -70,3 +70,14 @@ CREATE TABLE ai_chat (
 
 --changeset leijendary:create-ai-chat-created-by-created-at-id-index
 CREATE INDEX ai_chat_created_by_created_at_id_idx ON ai_chat(created_by, created_at DESC, id);
+
+--changeset leijendary:create-ai-chat-memory-table
+CREATE TABLE ai_chat_memory (
+    session_id character varying(28) NOT NULL,
+    content text NOT NULL,
+    type character varying(10) NOT NULL,
+    "timestamp" timestamp without time zone NOT NULL DEFAULT NOW()
+);
+
+--changeset leijendary:create-ai-chat-memory-session-id-timestamp-index
+CREATE INDEX ai_chat_memory_session_id_timestamp_idx ON ai_chat_memory(session_id, "timestamp" DESC)
