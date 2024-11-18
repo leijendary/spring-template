@@ -90,6 +90,7 @@ class ApplicationRuntimeHints : RuntimeHintsRegistrar {
         // Paths to be registered as resources
         val resources = arrayOf(
             "messages/*",
+            "prompts/*",
             "io/awspring/cloud/core/SpringCloudClientConfiguration.properties",
             "io/awspring/cloud/s3/S3ObjectContentTypeResolver.properties"
         )
