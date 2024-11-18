@@ -12,6 +12,8 @@ import java.util.*
 
 @Transactional(readOnly = true)
 interface AiChatRepository : CrudRepository<AiChat, String>, PagingAndSortingRepository<AiChat, String> {
+    fun existsByIdAndCreatedBy(id: String, createdBy: String): Boolean
+
     fun <T> findFirstByIdAndCreatedBy(id: String, createdBy: String, type: Class<T>): Optional<T>
 
     @Query(

@@ -1,6 +1,9 @@
 package com.leijendary.domain.ai.chat
 
 import com.leijendary.context.RequestContext.userIdOrThrow
+import com.leijendary.domain.ai.chat.AiChat.Companion.ENTITY
+import com.leijendary.domain.ai.chat.AiChat.Companion.ERROR_SOURCE
+import com.leijendary.error.exception.ResourceNotFoundException
 import com.leijendary.model.Cursorable
 import com.leijendary.model.CursoredModel
 import org.springframework.ai.chat.client.ChatClient
@@ -56,6 +59,12 @@ class AiChatServiceImpl(
     }
 
     override fun history(id: String): AiChatHistoryResponse {
+        val exists = aiChatRepository.existsByIdAndCreatedBy(id, userIdOrThrow)
+
+        if (!exists) {
+            throw ResourceNotFoundException(id, ENTITY, ERROR_SOURCE)
+        }
+
         val messages = chatMemory.get(id, DEFAULT_CHAT_MEMORY_RESPONSE_SIZE)
             .map { AiChatMessage(it.content, it.messageType) }
 
