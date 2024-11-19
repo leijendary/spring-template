@@ -1,6 +1,6 @@
 package com.leijendary.filter
 
-import com.leijendary.context.RequestContext.getUserIdOrNull
+import com.leijendary.context.RequestContext.userIdOrNull
 import io.micrometer.tracing.Tracer
 import jakarta.servlet.FilterChain
 import jakarta.servlet.http.HttpServletRequest
@@ -23,7 +23,7 @@ class TraceFilter(private val tracer: Tracer) : OncePerRequestFilter() {
 
         response.addHeader(HEADER, "$VERSION-${context.traceId()}-${context.spanId()}-$flag")
 
-        val userId = getUserIdOrNull(request)
+        val userId = userIdOrNull(request)
 
         if (userId !== null) {
             span.tag(TAG_USER_ID, userId)

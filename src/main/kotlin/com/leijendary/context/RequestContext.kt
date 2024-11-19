@@ -23,7 +23,7 @@ object RequestContext {
         get() = (RequestContextHolder.getRequestAttributes() as? ServletRequestAttributes)?.request
 
     val userIdOrNull: String?
-        get() = currentRequest?.let(::getUserIdOrNull)
+        get() = currentRequest?.let(::userIdOrNull)
 
     val userIdOrSystem: String
         get() = userIdOrNull ?: USER_SYSTEM
@@ -43,7 +43,7 @@ object RequestContext {
     val language: String
         get() = locale.language
 
-    fun getUserIdOrNull(request: HttpServletRequest): String? {
+    fun userIdOrNull(request: HttpServletRequest): String? {
         return request.getHeader(HEADER_USER_ID)
     }
 
@@ -54,7 +54,7 @@ object RequestContext {
      * once and passing the result in to multiple functions, save the result in to this
      * function and reuse the value without passing it into multiple functions.
      */
-    fun <T : Any> getAttributeOrDefault(name: String, default: () -> T): T {
+    fun <T : Any> attribute(name: String, default: () -> T): T {
         val request = currentRequest ?: throw IllegalStateException("No thread-bound request found")
 
         @Suppress("UNCHECKED_CAST")
