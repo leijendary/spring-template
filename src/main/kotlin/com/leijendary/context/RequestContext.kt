@@ -2,6 +2,7 @@ package com.leijendary.context
 
 import com.leijendary.error.exception.StatusException
 import com.leijendary.model.ErrorSource
+import jakarta.servlet.http.HttpServletRequest
 import org.springframework.context.i18n.LocaleContextHolder
 import org.springframework.http.HttpStatus.UNAUTHORIZED
 import org.springframework.web.context.request.RequestContextHolder
@@ -22,7 +23,7 @@ object RequestContext {
         get() = (RequestContextHolder.getRequestAttributes() as? ServletRequestAttributes)?.request
 
     val userIdOrNull: String?
-        get() = currentRequest?.getHeader(HEADER_USER_ID)
+        get() = currentRequest?.let(::getUserIdOrNull)
 
     val userIdOrSystem: String
         get() = userIdOrNull ?: USER_SYSTEM
@@ -42,6 +43,10 @@ object RequestContext {
     val language: String
         get() = locale.language
 
+    fun getUserIdOrNull(request: HttpServletRequest): String? {
+        return request.getHeader(HEADER_USER_ID)
+    }
+
     /**
      * Added this here as a utility function to cache objects in to the request scope.
      * For example, you have an external API call that is being called multiple times
@@ -49,7 +54,7 @@ object RequestContext {
      * once and passing the result in to multiple functions, save the result in to this
      * function and reuse the value without passing it into multiple functions.
      */
-    fun <T : Any> attribute(name: String, default: () -> T): T {
+    fun <T : Any> getAttributeOrDefault(name: String, default: () -> T): T {
         val request = currentRequest ?: throw IllegalStateException("No thread-bound request found")
 
         @Suppress("UNCHECKED_CAST")

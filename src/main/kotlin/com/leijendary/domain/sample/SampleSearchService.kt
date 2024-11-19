@@ -34,6 +34,8 @@ class SampleSearchServiceImpl(
     private val sampleSearchRepository: SampleSearchRepository,
     private val sampleTranslationRepository: SampleTranslationRepository,
 ) : SampleSearchService {
+    private val log = logger()
+
     override fun page(queryRequest: QueryRequest, pageable: Pageable): Page<SampleResponse> {
         val page = if (!queryRequest.query.isNullOrBlank()) {
             sampleSearchRepository.findByTranslations(queryRequest.query, pageable)
@@ -134,9 +136,5 @@ class SampleSearchServiceImpl(
         sample.translations.addAll(translations)
 
         return map(sample)
-    }
-
-    companion object {
-        private val log = logger()
     }
 }

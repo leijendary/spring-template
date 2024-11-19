@@ -11,6 +11,8 @@ import org.springframework.http.HttpStatus
 import java.nio.charset.StandardCharsets.UTF_8
 
 class PropagateErrorFeignConfiguration(private val objectMapper: ObjectMapper) {
+    private val log = logger()
+
     @Bean
     fun errorDecoder() = ErrorDecoder { methodKey, response ->
         val status = HttpStatus.valueOf(response.status())
@@ -23,6 +25,5 @@ class PropagateErrorFeignConfiguration(private val objectMapper: ObjectMapper) {
 
     companion object {
         private val TYPE_REFERENCE = object : TypeReference<List<ErrorModel>>() {}
-        private val log = logger()
     }
 }

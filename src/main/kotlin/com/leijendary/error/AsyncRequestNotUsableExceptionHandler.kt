@@ -10,12 +10,10 @@ import org.springframework.web.context.request.async.AsyncRequestNotUsableExcept
 @RestControllerAdvice
 @Order(1)
 class AsyncRequestNotUsableExceptionHandler {
+    private val log = logger()
+
     @ExceptionHandler(AsyncRequestNotUsableException::class)
     fun handleAsyncRequestNotUsableException(request: HttpServletRequest) {
         log.warn("Request not usable for ${request.method} ${request.requestURI} from address ${request.remoteAddr}")
-    }
-
-    companion object {
-        private val log = logger()
     }
 }

@@ -11,6 +11,8 @@ import org.springframework.stereotype.Component
 
 @Component
 class KafkaInterceptor : ProducerInterceptor<String, String>, RecordInterceptor<String, String> {
+    private val log = logger()
+
     override fun onSend(record: ProducerRecord<String, String>): ProducerRecord<String, String> {
         val topic = record.topic()
         val partition = record.partition()
@@ -46,9 +48,5 @@ class KafkaInterceptor : ProducerInterceptor<String, String>, RecordInterceptor<
 
     override fun close() {
         // No configuration needed for this
-    }
-
-    companion object {
-        private val log = logger()
     }
 }

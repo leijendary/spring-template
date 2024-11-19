@@ -26,6 +26,8 @@ private const val DETAIL_STILL_REFERENCED = "is still referenced"
 @RestControllerAdvice
 @Order(3)
 class PSQLExceptionHandler(private val messageSource: MessageSource) {
+    private val log = logger()
+
     @ExceptionHandler(PSQLException::class)
     fun catchPSQLException(exception: PSQLException): ResponseEntity<List<ErrorModel>> {
         val errorMessage = exception.serverErrorMessage
@@ -87,9 +89,5 @@ class PSQLExceptionHandler(private val messageSource: MessageSource) {
         return ResponseEntity
             .status(INTERNAL_SERVER_ERROR)
             .body(errors)
-    }
-
-    companion object {
-        private val log = logger()
     }
 }
