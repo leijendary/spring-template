@@ -5,6 +5,7 @@ metadata:
   namespace: template
 data:
   MANAGEMENT_ZIPKIN_TRACING_ENDPOINT: "http://zipkin-service.monitoring.svc.cluster.local:9411/api/v2/spans"
+  SPRING_AI_OLLAMA_BASE_URL: "http://ollama-service.ai.svc.cluster.local:11434"
   SPRING_CLOUD_AWS_CREDENTIALS_INSTANCE_PROFILE: "false"
   SPRING_CLOUD_AWS_REGION_INSTANCE_PROFILE: "false"
   SPRING_CLOUD_AWS_REGION_STATIC: "eu-central-1"
