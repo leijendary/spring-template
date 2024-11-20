@@ -25,7 +25,7 @@ class TraceFilter(private val tracer: Tracer) : OncePerRequestFilter() {
 
         val userId = userIdOrNull(request)
 
-        if (userId !== null) {
+        if (!userId.isNullOrBlank()) {
             span.tag(TAG_USER_ID, userId)
         }
 

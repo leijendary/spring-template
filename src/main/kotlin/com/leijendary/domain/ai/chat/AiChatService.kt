@@ -4,8 +4,11 @@ import com.leijendary.context.RequestContext.userIdOrThrow
 import com.leijendary.domain.ai.chat.AiChat.Companion.ENTITY
 import com.leijendary.domain.ai.chat.AiChat.Companion.ERROR_SOURCE
 import com.leijendary.error.exception.ResourceNotFoundException
+import com.leijendary.extension.logger
 import com.leijendary.model.Cursorable
 import com.leijendary.model.CursoredModel
+import io.micrometer.tracing.Span
+import io.micrometer.tracing.Tracer
 import org.springframework.ai.chat.client.ChatClient
 import org.springframework.ai.chat.client.advisor.AbstractChatMemoryAdvisor.CHAT_MEMORY_CONVERSATION_ID_KEY
 import org.springframework.ai.chat.client.advisor.AbstractChatMemoryAdvisor.CHAT_MEMORY_RETRIEVE_SIZE_KEY
@@ -29,7 +32,10 @@ class AiChatServiceImpl(
     private val chatClient: ChatClient,
     private val chatMemory: ChatMemory,
     private val titleChatClient: ChatClient,
+    private val tracer: Tracer
 ) : AiChatService {
+    private val log = logger()
+
     override fun cursor(cursorable: Cursorable): CursoredModel<AiChatResponse> {
         val chats = aiChatRepository.cursor(userIdOrThrow, cursorable, AiChatResponse::class.java)
 
@@ -37,11 +43,7 @@ class AiChatServiceImpl(
     }
 
     override fun create(request: AiChatRequest): Flux<AiChatCreateResponse> {
-        val aiChat = if (!request.id.isNullOrBlank()) {
-            aiChatRepository.findFirstByIdAndCreatedByOrThrow(request.id, userIdOrThrow, AiChat::class.java)
-        } else {
-            aiChatRepository.save(AiChat()).also { updateTitle(it, request.prompt) }
-        }
+        val aiChat = getOrCreateChat(request)
 
         return chatClient.prompt()
             .user(request.prompt)
@@ -73,19 +75,44 @@ class AiChatServiceImpl(
 
     override fun delete(id: String) {
         chatMemory.clear(id)
+
+        log.info("Deleted $ENTITY history {}", id)
+
         aiChatRepository.deleteById(id)
+
+        log.info("Deleted $ENTITY {}", id)
     }
 
-    private fun updateTitle(aiChat: AiChat, prompt: String) = supplyAsync {
-        val title = titleChatClient.prompt()
-            .user(prompt)
-            .call()
-            .content()
+    private fun getOrCreateChat(request: AiChatRequest): AiChat {
+        if (!request.id.isNullOrBlank()) {
+            return aiChatRepository.findFirstByIdAndCreatedByOrThrow(request.id, userIdOrThrow, AiChat::class.java)
+        }
 
-        if (!title.isNullOrBlank()) {
-            aiChat.title = title
+        val aiChat = aiChatRepository.save(AiChat())
 
-            aiChatRepository.save(aiChat)
+        log.info("Created $ENTITY {}", aiChat.id)
+
+        val span = tracer.currentSpan()
+
+        updateTitle(span, aiChat, request.prompt)
+
+        return aiChat
+    }
+
+    private fun updateTitle(span: Span?, aiChat: AiChat, prompt: String) = supplyAsync {
+        tracer.withSpan(span).use {
+            val title = titleChatClient.prompt()
+                .user(prompt)
+                .call()
+                .content()
+
+            if (!title.isNullOrBlank()) {
+                aiChat.title = title
+
+                aiChatRepository.save(aiChat)
+            }
+
+            log.info("Updated $ENTITY title of {} to {}", aiChat.id, title)
         }
     }
 }

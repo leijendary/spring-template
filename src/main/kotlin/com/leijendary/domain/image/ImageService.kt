@@ -5,6 +5,7 @@ import com.leijendary.domain.image.Image.Companion.ENTITY
 import com.leijendary.domain.image.Image.Companion.ERROR_SOURCE_STORAGE_NAME
 import com.leijendary.error.exception.ResourceNotFoundException
 import com.leijendary.error.exception.StatusException
+import com.leijendary.extension.logger
 import com.leijendary.projection.ImageProjection
 import com.leijendary.storage.BlockStorage
 import org.springframework.http.HttpStatus.BAD_REQUEST
@@ -32,6 +33,8 @@ class ImageServiceImpl(
     private val imageMetadataRepository: ImageMetadataRepository,
     private val imageRepository: ImageRepository,
 ) : ImageService {
+    private val log = logger()
+
     override fun createUploadUrl(request: ImageCreateUrlRequest): ImageCreateUrlResponse {
         val (image, key) = databaseContext.transactional {
             val image = imageRepository.findByName(request.name).orElseGet { imageRepository.save(Image(request.name)) }
@@ -54,6 +57,8 @@ class ImageServiceImpl(
         }
 
         val url = blockStorage.signPut(key)
+
+        log.info("Created upload URL {} for request {}", url, request)
 
         return ImageCreateUrlResponse(url)
     }
@@ -79,6 +84,8 @@ class ImageServiceImpl(
         val contentType = response.contentType()
 
         if (contentType !in IMAGE_MEDIA_TYPES) {
+            log.info("$ENTITY {} with type {} is not in {}. Deleting.", name, contentType, IMAGE_MEDIA_TYPES)
+
             supplyAsync {
                 blockStorage.delete(path)
                 delete(name)
@@ -102,6 +109,11 @@ class ImageServiceImpl(
 
     override fun delete(name: String) {
         imageRepository.deleteByName(name)
+
+        log.info("Deleted $ENTITY name {} from database", name)
+
         blockStorage.delete("$PREFIX$name")
+
+        log.info("Deleted $ENTITY name {} from storage", name)
     }
 }

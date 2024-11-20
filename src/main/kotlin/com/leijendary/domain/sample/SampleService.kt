@@ -8,6 +8,7 @@ import com.leijendary.domain.image.ImageService
 import com.leijendary.domain.sample.Sample.Companion.ENTITY
 import com.leijendary.domain.sample.Sample.Companion.ERROR_SOURCE
 import com.leijendary.error.exception.ResourceNotFoundException
+import com.leijendary.extension.logger
 import com.leijendary.model.Cursorable
 import com.leijendary.model.CursoredModel
 import com.leijendary.model.QueryRequest
@@ -36,6 +37,8 @@ class SampleServiceImpl(
     private val sampleSearchRepository: SampleSearchRepository,
     private val sampleTranslationRepository: SampleTranslationRepository
 ) : SampleService {
+    private val log = logger()
+
     override fun page(queryRequest: QueryRequest, pageable: Pageable): Page<SampleResponse> {
         return if (!queryRequest.query.isNullOrBlank()) {
             sampleRepository.findByNameContainingIgnoreCase(queryRequest.query, pageable, SampleResponse::class.java)
@@ -51,12 +54,16 @@ class SampleServiceImpl(
     }
 
     override fun create(request: SampleRequest): SampleDetailResponse {
+        log.info("Creating $ENTITY from request {}", request)
+
         val response = databaseContext.transactional {
             val sample = sampleRepository.save(request.toEntity())
             val translations = sampleTranslationRepository.saveAll(request.translations.toEntities(sample.id))
 
             sample.toDetailResponse(translations)
         }
+
+        log.info("Created $ENTITY {} from request {}", response.id, request)
 
         sampleMessageProducer.created(response)
 
@@ -83,6 +90,8 @@ class SampleServiceImpl(
     }
 
     override fun update(id: String, request: SampleRequest): SampleDetailResponse {
+        log.info("Updating $ENTITY {} with request {}", id, request)
+
         val response = databaseContext.transactional {
             var sample = sampleRepository.findByIdOrThrow(id)
             sample.updateWith(request)
@@ -96,6 +105,9 @@ class SampleServiceImpl(
 
             sample.toDetailResponse(translations)
         }
+
+        log.info("Updated $ENTITY {} with request {}", id, request)
+
         val image = sampleImageRepository.findByIdOrNull(id, ImageResponse::class.java)
         response.image = image?.let(imageService::getPublicUrl)
 
@@ -105,7 +117,12 @@ class SampleServiceImpl(
     }
 
     override fun delete(id: String) {
+        log.info("Deleting $ENTITY {}", id)
+
         sampleRepository.deleteById(id)
+
+        log.info("Deleted $ENTITY {}", id)
+
         sampleMessageProducer.deleted(id)
     }
 
@@ -122,11 +139,21 @@ class SampleServiceImpl(
         }
 
         sampleImageRepository.save(image)
+
+        log.info("Saved image for $ENTITY {} with request {}", id, request)
+
         sampleSearchRepository.setImage(id, request)
+
+        log.info("Saved image in search for $ENTITY {} id with request {}", id, request)
     }
 
     override fun deleteImage(id: String) {
         sampleImageRepository.deleteById(id)
+
+        log.info("Deleted image of $ENTITY {}", id)
+
         sampleSearchRepository.deleteImage(id)
+
+        log.info("Deleted image in search of $ENTITY {}", id)
     }
 }

@@ -50,6 +50,8 @@ class SampleSearchServiceImpl(
         val search = map(sample)
 
         sampleSearchRepository.save(search)
+
+        log.info("Saved $INDEX_NAME {} with payload {}", search.id, search)
     }
 
     override fun update(sample: SampleDetailResponse) {
@@ -60,6 +62,8 @@ class SampleSearchServiceImpl(
         }
 
         save(sample)
+
+        log.info("Updated $INDEX_NAME {} with payload {}", sample.id, sample)
     }
 
     override fun delete(id: String) {
@@ -70,6 +74,8 @@ class SampleSearchServiceImpl(
         }
 
         sampleSearchRepository.deleteById(id)
+
+        log.info("Deleted $INDEX_NAME {}", id)
     }
 
     @Transactional(readOnly = true)
