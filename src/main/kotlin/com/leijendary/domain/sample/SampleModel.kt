@@ -35,7 +35,7 @@ data class SampleRequest(
     @field:Valid
     @field:NotEmpty(message = "validation.required")
     @field:UniqueFields(["language", "ordinal"])
-    val translations: List<SampleTranslationRequest> = emptyList<SampleTranslationRequest>(),
+    val translations: List<SampleTranslationRequest> = emptyList(),
 
     @field:NotNull(message = "validation.required")
     @field:Min(value = 1, message = "validation.min")

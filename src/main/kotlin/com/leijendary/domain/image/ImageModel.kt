@@ -16,7 +16,7 @@ data class ImageCreateUrlRequest(
     val name: String = "",
 
     @field:Valid
-    val metadata: List<ImageMetadataRequest> = emptyList<ImageMetadataRequest>()
+    val metadata: List<ImageMetadataRequest> = emptyList()
 )
 
 data class ImageMetadataRequest(
