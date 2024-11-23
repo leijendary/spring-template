@@ -96,6 +96,8 @@ class ImageServiceImpl(
 
         val id = imageRepository.setValidated(name, contentType)
 
+        log.info("Validated $ENTITY name {}", name)
+
         return ImageValidateResponse(id, name, path)
     }
 
