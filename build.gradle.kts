@@ -110,12 +110,12 @@ dependencies {
     testImplementation("org.springframework.ai:spring-ai-spring-boot-testcontainers")
 
     // AWS
-    implementation(platform("software.amazon.awssdk:bom:2.26.22"))
+    implementation(platform("software.amazon.awssdk:bom:2.29.19"))
     implementation("software.amazon.awssdk:cloudfront")
 
     // AWS Cloud
     implementation(platform("io.awspring.cloud:spring-cloud-aws-dependencies:3.2.0"))
-    implementation("io.awspring.cloud:spring-cloud-aws-starter")
+    implementation("io.awspring.cloud:spring-cloud-aws-starter-metrics")
     implementation("io.awspring.cloud:spring-cloud-aws-starter-s3")
 
     // Database
@@ -130,12 +130,10 @@ dependencies {
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 
     // Observability and Metrics
-    implementation(platform("io.micrometer:micrometer-tracing-bom:1.3.4"))
     implementation("io.github.openfeign:feign-micrometer")
-    implementation("io.micrometer:micrometer-registry-prometheus")
     implementation("io.micrometer:micrometer-tracing-bridge-brave")
     implementation("io.zipkin.reporter2:zipkin-reporter-brave")
-    implementation("net.ttddyy.observation:datasource-micrometer-spring-boot:1.0.5")
+    implementation("net.ttddyy.observation:datasource-micrometer-spring-boot:1.0.6")
 
     // OpenAPI
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.0")

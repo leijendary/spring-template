@@ -9,7 +9,12 @@ logging:
   includeApplicationName: false
 
 management:
+  cloudwatch:
+    metrics:
+      export:
+        enabled: false
   tracing:
+    enabled: false
     sampling:
       probability: 1.0
 

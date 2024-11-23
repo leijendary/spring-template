@@ -13,7 +13,6 @@
 - Spring Actuator
 - Spring AI
 - Spring Cache
-- Spring Cloud AWS
 - Spring Cloud AWS S3
 - Spring Cloud OpenFeign
 - Spring Configuration Processor
@@ -30,11 +29,9 @@
 - JUnit
 - Kubernetes
 - Liquibase
-- Micrometer Tracing
+- Micrometer
 - OpenAPI
-- OpenTelemetry
 - PostgreSQL
-- Prometheus
 - Test Containers
 
 # Spring Microservice Template

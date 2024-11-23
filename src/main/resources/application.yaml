@@ -36,12 +36,14 @@ management:
   endpoint:
     health:
       showDetails: ALWAYS
-    prometheus:
-      enabled: true
   endpoints:
     web:
       exposure:
-        include: health,prometheus
+        include: health
+  cloudwatch:
+    metrics:
+      export:
+        namespace: Java/SpringBoot/${name}
   zipkin:
     tracing:
       endpoint:
