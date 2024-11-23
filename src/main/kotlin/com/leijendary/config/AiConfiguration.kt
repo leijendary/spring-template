@@ -20,7 +20,7 @@ class AiConfiguration {
     private lateinit var titleGeneratorSystem: Resource
 
     @Bean
-    fun chatClient(builder: ChatClient.Builder, vectorStore: VectorStore, chatMemory: ChatMemory): ChatClient {
+    fun chatClient(builder: ChatClient.Builder, chatMemory: ChatMemory, vectorStore: VectorStore): ChatClient {
         val memoryAdvisor = MessageChatMemoryAdvisor(chatMemory)
         val documentRetriever = VectorStoreDocumentRetriever.builder()
             .vectorStore(vectorStore)
