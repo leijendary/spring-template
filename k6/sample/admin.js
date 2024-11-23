@@ -107,6 +107,7 @@ function update(id) {
         ordinal: 3,
       },
     ],
+    version: 1,
   });
   const params = {
     headers: {
@@ -116,7 +117,7 @@ function update(id) {
       name: "UpdateSampleAdminURL",
     },
   };
-  const res = http.put(`${url}/${id}?version=0`, payload, params);
+  const res = http.put(`${url}/${id}`, payload, params);
 
   check(res, {
     "update status is 200": (r) => r.status === 200,
@@ -129,7 +130,7 @@ function remove(id) {
       name: "DeleteSampleAdminURL",
     },
   };
-  const res = http.del(`${url}/${id}?version=1`, null, params);
+  const res = http.del(`${url}/${id}`, null, params);
 
   check(res, {
     "delete status is 204": (r) => r.status === 204,
