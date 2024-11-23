@@ -7,8 +7,6 @@ aws:
 
 logging:
   includeApplicationName: false
-  level:
-    io.micrometer.cloudwatch2.CloudWatchMeterRegistry: DEBUG
 
 management:
   cloudwatch:
