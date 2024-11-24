@@ -33,7 +33,7 @@ plugins {
 
     kotlin("jvm") version kotlinVersion
     kotlin("plugin.spring") version kotlinVersion
-    id("org.springframework.boot") version "3.3.5"
+    id("org.springframework.boot") version "3.4.0"
     id("io.spring.dependency-management") version "1.1.6"
     id("org.graalvm.buildtools.native") version "0.10.3"
     id("org.openapi.generator") version "7.8.0"
@@ -93,7 +93,7 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-testcontainers")
 
     // Spring Cloud Starter
-    implementation(platform("org.springframework.cloud:spring-cloud-dependencies:2023.0.3"))
+    implementation(platform("org.springframework.cloud:spring-cloud-dependencies:2024.0.0-SNAPSHOT"))
     implementation("org.springframework.cloud:spring-cloud-starter-openfeign")
 
     // Spring Kafka

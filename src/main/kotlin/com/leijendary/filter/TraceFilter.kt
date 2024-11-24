@@ -19,7 +19,7 @@ class TraceFilter(private val tracer: Tracer) : OncePerRequestFilter() {
     override fun doFilterInternal(request: HttpServletRequest, response: HttpServletResponse, chain: FilterChain) {
         val span = tracer.currentSpan() ?: tracer.nextSpan()
         val context = span.context()
-        val flag = if (context.sampled()) SAMPLED else NOT_SAMPLED
+        val flag = if (context.sampled() == true) SAMPLED else NOT_SAMPLED
 
         response.addHeader(HEADER, "$VERSION-${context.traceId()}-${context.spanId()}-$flag")
 
