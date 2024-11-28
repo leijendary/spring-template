@@ -1,4 +1,4 @@
-package com.leijendary.domain.ai
+package com.leijendary.domain.ai.chat
 
 import org.springframework.ai.chat.memory.ChatMemory
 import org.springframework.ai.chat.messages.AssistantMessage
@@ -10,7 +10,7 @@ import org.springframework.data.domain.Sort
 import org.springframework.stereotype.Component
 
 @Component
-class PgVectorChatMemory(private val aiChatMemoryRepository: AiChatMemoryRepository) : ChatMemory {
+class PersistentChatMemory(private val aiChatMemoryRepository: AiChatMemoryRepository) : ChatMemory {
     override fun add(conversationId: String, messages: List<Message>) {
         val chats = messages.map { AiChatMemory(conversationId, it.content, it.messageType) }
 

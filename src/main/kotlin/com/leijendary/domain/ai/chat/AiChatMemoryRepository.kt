@@ -1,4 +1,4 @@
-package com.leijendary.domain.ai
+package com.leijendary.domain.ai.chat
 
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
