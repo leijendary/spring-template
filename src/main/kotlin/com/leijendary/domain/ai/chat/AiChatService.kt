@@ -43,7 +43,7 @@ class AiChatServiceImpl(
     }
 
     override fun create(request: AiChatRequest): Flux<AiChatCreateResponse> {
-        val aiChat = getOrCreateChat(request)
+        val aiChat = getOrCreate(request)
 
         return chatClient.prompt()
             .user(request.prompt)
@@ -83,7 +83,7 @@ class AiChatServiceImpl(
         log.info("Deleted $ENTITY {}", id)
     }
 
-    private fun getOrCreateChat(request: AiChatRequest): AiChat {
+    private fun getOrCreate(request: AiChatRequest): AiChat {
         if (!request.id.isNullOrBlank()) {
             return aiChatRepository.findFirstByIdAndCreatedByOrThrow(request.id, userIdOrThrow, AiChat::class.java)
         }
