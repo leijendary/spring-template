@@ -36,7 +36,7 @@ plugins {
     id("org.springframework.boot") version "3.4.0"
     id("io.spring.dependency-management") version "1.1.6"
     id("org.graalvm.buildtools.native") version "0.10.3"
-    id("org.openapi.generator") version "7.8.0"
+    id("org.openapi.generator") version "7.10.0"
 }
 
 group = "com.leijendary"
@@ -114,7 +114,7 @@ dependencies {
     implementation("software.amazon.awssdk:cloudfront")
 
     // AWS Cloud
-    implementation(platform("io.awspring.cloud:spring-cloud-aws-dependencies:3.2.0"))
+    implementation(platform("io.awspring.cloud:spring-cloud-aws-dependencies:3.2.1"))
     implementation("io.awspring.cloud:spring-cloud-aws-starter-metrics")
     implementation("io.awspring.cloud:spring-cloud-aws-starter-s3")
 
@@ -136,11 +136,10 @@ dependencies {
     implementation("net.ttddyy.observation:datasource-micrometer-spring-boot:1.0.6")
 
     // OpenAPI
-    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.0")
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.7.0")
 
     // Test
     testImplementation("org.mockito.kotlin:mockito-kotlin:5.4.0")
-    testImplementation("org.mockito:mockito-inline:5.2.0")
 
     // Test Container
     testImplementation("org.testcontainers:junit-jupiter")
