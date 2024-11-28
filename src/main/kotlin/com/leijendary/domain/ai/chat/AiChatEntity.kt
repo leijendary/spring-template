@@ -2,15 +2,13 @@ package com.leijendary.domain.ai.chat
 
 import com.leijendary.model.ErrorSource
 import com.leijendary.projection.PrefixedIDProjection
-import org.springframework.ai.chat.messages.MessageType
 import org.springframework.data.annotation.CreatedBy
 import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.Id
-import org.springframework.data.domain.Persistable
 import org.springframework.data.relational.core.mapping.Table
 import java.time.Instant
 
-@Table
+/*@Table
 data class AiChatMemory(
     @Id
     val sessionId: String,
@@ -28,7 +26,7 @@ data class AiChatMemory(
     override fun isNew(): Boolean {
         return true
     }
-}
+}*/
 
 @Table
 data class AiChat(var title: String = DEFAULT_TITLE) : PrefixedIDProjection {
