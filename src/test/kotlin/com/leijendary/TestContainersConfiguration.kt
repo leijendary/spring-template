@@ -15,14 +15,14 @@ import org.testcontainers.ollama.OllamaContainer
 
 @TestConfiguration(proxyBeanMethods = false)
 @Import(
-    TestcontainersConfiguration.Elasticsearch::class,
-    TestcontainersConfiguration.Kafka::class,
-    TestcontainersConfiguration.Ollama::class,
-    TestcontainersConfiguration.Postgres::class,
-    TestcontainersConfiguration.Redis::class,
-    TestcontainersConfiguration.Zipkin::class,
+    TestContainersConfiguration.Elasticsearch::class,
+    TestContainersConfiguration.Kafka::class,
+    TestContainersConfiguration.Ollama::class,
+    TestContainersConfiguration.Postgres::class,
+    TestContainersConfiguration.Redis::class,
+    TestContainersConfiguration.Zipkin::class,
 )
-class TestcontainersConfiguration {
+class TestContainersConfiguration {
     @TestConfiguration(proxyBeanMethods = false)
     class Elasticsearch {
         @Bean
