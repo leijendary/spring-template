@@ -28,7 +28,7 @@ class TestcontainersConfiguration {
         @Bean
         @ServiceConnection
         fun elasticsearchContainer(): ElasticsearchContainer {
-            return ElasticsearchContainer("docker.elastic.co/elasticsearch/elasticsearch:7.17.10")
+            return ElasticsearchContainer("docker.elastic.co/elasticsearch/elasticsearch:7.17.25")
         }
     }
 
@@ -37,7 +37,7 @@ class TestcontainersConfiguration {
         @Bean
         @ServiceConnection
         fun kafkaContainer(): ConfluentKafkaContainer {
-            return ConfluentKafkaContainer("confluentinc/cp-kafka:7.7.0")
+            return ConfluentKafkaContainer("confluentinc/cp-kafka:7.7.1")
         }
     }
 
@@ -45,7 +45,7 @@ class TestcontainersConfiguration {
     class Ollama {
         @Bean
         @ServiceConnection
-        fun ollamaContainer() = object : OllamaContainer("ollama/ollama:0.3.11") {
+        fun ollamaContainer() = object : OllamaContainer("ollama/ollama:0.4.5") {
             override fun containerIsStarted(containerInfo: InspectContainerResponse) {
                 super.containerIsStarted(containerInfo)
 
@@ -63,7 +63,7 @@ class TestcontainersConfiguration {
         @Bean
         @ServiceConnection
         fun postgresContainer(): PostgreSQLContainer<*> {
-            return PostgreSQLContainer("pgvector/pgvector:pg16")
+            return PostgreSQLContainer("pgvector/pgvector:pg17")
         }
 
         @Bean

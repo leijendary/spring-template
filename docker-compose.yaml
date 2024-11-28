@@ -28,7 +28,7 @@ services:
       - zipkin
       - ollama
   elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:8.14.3
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.16.1
     container_name: elasticsearch-template
     environment:
       ELASTIC_PASSWORD: 12345678
@@ -37,7 +37,7 @@ services:
       bootstrap.memory_lock: true
       xpack.security.transport.ssl.enabled: false
   postgres:
-    image: pgvector/pgvector:pg16
+    image: pgvector/pgvector:pg17
     container_name: postgres-template
     environment:
       POSTGRES_DB: spring_template
@@ -46,7 +46,7 @@ services:
     image: redis:7-alpine
     container_name: redis-template
   kafka:
-    image: confluentinc/cp-kafka:7.7.0
+    image: confluentinc/cp-kafka:7.7.1
     container_name: kafka-template
     environment:
       KAFKA_NODE_ID: 1
@@ -64,7 +64,7 @@ services:
     image: openzipkin/zipkin-slim:3
     container_name: zipkin-template
   ollama:
-    image: ollama/ollama:0.3.11
+    image: ollama/ollama:0.4.5
     container_name: ollama-template
     deploy:
       resources:
