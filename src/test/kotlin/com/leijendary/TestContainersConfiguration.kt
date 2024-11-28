@@ -71,9 +71,9 @@ class TestContainersConfiguration {
             it.add("spring.datasource.primary.jdbcUrl") { postgresContainer.jdbcUrl }
             it.add("spring.datasource.primary.username") { postgresContainer.username }
             it.add("spring.datasource.primary.password") { postgresContainer.password }
-            it.add("spring.datasource.readonly.jdbcUrl") { postgresContainer.jdbcUrl }
-            it.add("spring.datasource.readonly.username") { postgresContainer.username }
-            it.add("spring.datasource.readonly.password") { postgresContainer.password }
+            it.add("spring.datasource.readOnly.jdbcUrl") { postgresContainer.jdbcUrl }
+            it.add("spring.datasource.readOnly.username") { postgresContainer.username }
+            it.add("spring.datasource.readOnly.password") { postgresContainer.password }
         }
     }
 
