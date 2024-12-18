@@ -7,5 +7,5 @@ import org.springframework.transaction.annotation.Transactional
 
 @Transactional(readOnly = true)
 interface AiChatMemoryRepository : CrudRepository<AiChatMemory, String> {
-    fun findBySessionId(sessionId: String, pageable: Pageable): Page<AiChatMemory>
+    fun findByConversationId(conversationId: String, pageable: Pageable): Page<AiChatMemory>
 }

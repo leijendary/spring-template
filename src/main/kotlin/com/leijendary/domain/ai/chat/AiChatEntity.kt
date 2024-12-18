@@ -13,7 +13,7 @@ import java.time.Instant
 @Table
 data class AiChatMemory(
     @Id
-    val sessionId: String,
+    val conversationId: String,
 
     val content: String,
     val type: MessageType
@@ -22,7 +22,7 @@ data class AiChatMemory(
     lateinit var timestamp: Instant
 
     override fun getId(): String {
-        return sessionId
+        return conversationId
     }
 
     override fun isNew(): Boolean {

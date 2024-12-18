@@ -12,14 +12,14 @@ import org.springframework.stereotype.Component
 @Component
 class PersistentChatMemory(private val aiChatMemoryRepository: AiChatMemoryRepository) : ChatMemory {
     override fun add(conversationId: String, messages: List<Message>) {
-        val chats = messages.map { AiChatMemory(conversationId, it.content, it.messageType) }
+        val chats = messages.map { AiChatMemory(conversationId, it.text, it.messageType) }
 
         aiChatMemoryRepository.saveAll(chats)
     }
 
     override fun get(conversationId: String, lastN: Int): List<Message> {
         val pageable = PageRequest.of(0, lastN, SORT_DEFAULT)
-        val page = aiChatMemoryRepository.findBySessionId(conversationId, pageable)
+        val page = aiChatMemoryRepository.findByConversationId(conversationId, pageable)
 
         return page.mapNotNull {
             when (it.type) {
