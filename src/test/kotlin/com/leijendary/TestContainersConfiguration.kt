@@ -45,7 +45,7 @@ class TestContainersConfiguration {
     class Ollama {
         @Bean
         @ServiceConnection
-        fun ollamaContainer() = object : OllamaContainer("ollama/ollama:0.4.5") {
+        fun ollamaContainer() = object : OllamaContainer("ollama/ollama:0.5.1") {
             override fun containerIsStarted(containerInfo: InspectContainerResponse) {
                 super.containerIsStarted(containerInfo)
 
