@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.enums.SecuritySchemeIn.HEADER
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeType.HTTP
 import io.swagger.v3.oas.annotations.security.SecurityScheme
 import liquibase.changelog.ChangeLogHistoryServiceFactory
+import liquibase.changelog.visitor.ValidatingVisitorGeneratorFactory
 import liquibase.database.LiquibaseTableNamesFactory
 import liquibase.parser.SqlParserFactory
 import liquibase.report.ShowSummaryGeneratorFactory
@@ -59,8 +60,8 @@ import javax.security.sasl.SaslClient
         LoggerUIService::class,
         LoginModule::class,
         Mappings::class,
-        PagedModel::class,
         PageModule::class,
+        PagedModel::class,
         QueryRequest::class,
         SaslClient::class,
         SaslClientAuthenticator::class,
@@ -72,6 +73,7 @@ import javax.security.sasl.SaslClient
         ShowSummaryGeneratorFactory::class,
         SqlParserFactory::class,
         UniqueFieldsValidator::class,
+        ValidatingVisitorGeneratorFactory::class,
     ]
 )
 @SecurityScheme(name = AUTHORIZATION, type = HTTP, `in` = HEADER, scheme = "bearer", bearerFormat = "JWT")
