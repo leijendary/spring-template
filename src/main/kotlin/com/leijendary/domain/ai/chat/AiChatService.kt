@@ -68,7 +68,7 @@ class AiChatServiceImpl(
         }
 
         val messages = chatMemory.get(id, DEFAULT_CHAT_MEMORY_RESPONSE_SIZE)
-            .map { AiChatMessage(it.content, it.messageType) }
+            .map { AiChatMessage(it.text, it.messageType) }
 
         return AiChatHistoryResponse(id, messages)
     }
