@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.enums.SecuritySchemeIn.HEADER
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeType.HTTP
 import io.swagger.v3.oas.annotations.security.SecurityScheme
 import liquibase.changelog.ChangeLogHistoryServiceFactory
+import liquibase.changelog.FastCheckService
 import liquibase.changelog.visitor.ValidatingVisitorGeneratorFactory
 import liquibase.database.LiquibaseTableNamesFactory
 import liquibase.parser.SqlParserFactory
@@ -54,6 +55,7 @@ import javax.security.sasl.SaslClient
         CooperativeStickyAssignor::class,
         DefaultLogin::class,
         DefaultLoginCallbackHandler::class,
+        FastCheckService::class,
         KafkaTopic::class,
         KeyFactorySpi::class,
         LiquibaseTableNamesFactory::class,
