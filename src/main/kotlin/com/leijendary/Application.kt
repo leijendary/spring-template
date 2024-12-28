@@ -4,6 +4,7 @@ import com.leijendary.config.properties.KafkaTopicProperties.KafkaTopic
 import com.leijendary.model.IdentityModel
 import com.leijendary.model.QueryRequest
 import com.leijendary.validator.UniqueFieldsValidator
+import feign.Client
 import feign.micrometer.MicrometerObservationCapability
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeIn.HEADER
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeType.HTTP
@@ -45,6 +46,7 @@ import org.springframework.http.HttpHeaders.AUTHORIZATION
 import org.springframework.kafka.retrytopic.RetryTopicConfigurer
 import org.springframework.retry.annotation.EnableRetry
 import org.springframework.scheduling.annotation.EnableAsync
+import org.springframework.util.ReflectionUtils
 import javax.security.auth.spi.LoginModule
 import javax.security.sasl.SaslClient
 
@@ -63,7 +65,6 @@ import javax.security.sasl.SaslClient
         LoggerUIService::class,
         LoginModule::class,
         Mappings::class,
-        MicrometerObservationCapability::class,
         PageModule::class,
         PagedModel::class,
         QueryRequest::class,
@@ -90,8 +91,12 @@ class ApplicationRuntimeHints : RuntimeHintsRegistrar {
     override fun registerHints(hints: RuntimeHints, classLoader: ClassLoader?) {
         val memberCategories = arrayOf(INVOKE_DECLARED_CONSTRUCTORS, INVOKE_DECLARED_METHODS, DECLARED_CLASSES)
         // Classes to be registered for reflection
-        val reflections = arrayOf(
+        val types = arrayOf(
             Class.forName("${RetryTopicConfigurer::class.qualifiedName}\$LoggingDltListenerHandlerMethod"),
+        )
+        // Methods to be registered for reflection
+        val methods = arrayOf(
+            ReflectionUtils.findMethod(MicrometerObservationCapability::class.java, "enrich", Client::class.java)!!
         )
         // Paths to be registered as resources
         val resources = arrayOf(
@@ -103,11 +108,16 @@ class ApplicationRuntimeHints : RuntimeHintsRegistrar {
         // Classes to be registered for serialization
         val serializations = arrayOf(IdentityModel::class.java)
 
-        // Reflection
-        reflections.forEach { type ->
+        // Type reflection
+        types.forEach { type ->
             hints.reflection().registerType(type) {
                 it.withMembers(*memberCategories).withConstructor(emptyList(), INVOKE)
             }
+        }
+
+        // Method reflection
+        methods.forEach { method ->
+            hints.reflection().registerMethod(method, INVOKE)
         }
 
         // Resources
