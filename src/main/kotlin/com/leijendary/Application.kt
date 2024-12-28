@@ -4,6 +4,7 @@ import com.leijendary.config.properties.KafkaTopicProperties.KafkaTopic
 import com.leijendary.model.IdentityModel
 import com.leijendary.model.QueryRequest
 import com.leijendary.validator.UniqueFieldsValidator
+import feign.micrometer.MicrometerObservationCapability
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeIn.HEADER
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeType.HTTP
 import io.swagger.v3.oas.annotations.security.SecurityScheme
@@ -62,6 +63,7 @@ import javax.security.sasl.SaslClient
         LoggerUIService::class,
         LoginModule::class,
         Mappings::class,
+        MicrometerObservationCapability::class,
         PageModule::class,
         PagedModel::class,
         QueryRequest::class,
