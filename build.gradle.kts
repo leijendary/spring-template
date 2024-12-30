@@ -2,7 +2,7 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 import org.openapitools.generator.gradle.plugin.tasks.GenerateTask
 
-val openApiTasks = file("$rootDir/src/main/resources/specs").listFiles().map {
+val openApiTasks = File("$rootDir/src/main/resources/specs").listFiles().map {
     val name = it.name.replace(".yaml", "")
 
     tasks.register(name, GenerateTask::class.java) {
