@@ -27,6 +27,9 @@
     "interfaces":["com.leijendary.domain.sample.SampleTranslationRepository","org.springframework.data.repository.Repository","org.springframework.transaction.interceptor.TransactionalProxy","org.springframework.aop.framework.Advised","org.springframework.core.DecoratingProxy"]
   },
   {
+    "interfaces":["io.lettuce.core.api.sync.RedisCommands","io.lettuce.core.cluster.api.sync.RedisClusterCommands"]
+  },
+  {
     "interfaces":["java.lang.reflect.GenericArrayType","org.springframework.core.SerializableTypeWrapper$SerializableTypeProxy","java.io.Serializable"]
   },
   {
@@ -81,6 +84,9 @@
     "interfaces":["org.springframework.data.jdbc.core.convert.RelationResolver","org.springframework.aop.SpringProxy","org.springframework.aop.framework.Advised","org.springframework.core.DecoratingProxy"]
   },
   {
+    "interfaces":["org.springframework.data.redis.connection.StringRedisConnection","org.springframework.data.redis.connection.DecoratedRedisConnection"]
+  },
+  {
     "interfaces":["org.springframework.data.relational.core.mapping.Table"]
   },
   {
@@ -99,28 +105,13 @@
     "interfaces":["org.springframework.retry.annotation.Retryable"]
   },
   {
-    "interfaces":["org.springframework.stereotype.Controller"]
-  },
-  {
     "interfaces":["org.springframework.web.bind.annotation.ControllerAdvice"]
-  },
-  {
-    "interfaces":["org.springframework.web.bind.annotation.DeleteMapping"]
   },
   {
     "interfaces":["org.springframework.web.bind.annotation.ExceptionHandler"]
   },
   {
-    "interfaces":["org.springframework.web.bind.annotation.GetMapping"]
-  },
-  {
     "interfaces":["org.springframework.web.bind.annotation.PathVariable"]
-  },
-  {
-    "interfaces":["org.springframework.web.bind.annotation.PostMapping"]
-  },
-  {
-    "interfaces":["org.springframework.web.bind.annotation.PutMapping"]
   },
   {
     "interfaces":["org.springframework.web.bind.annotation.RequestMapping"]
@@ -130,8 +121,5 @@
   },
   {
     "interfaces":["org.springframework.web.bind.annotation.ResponseStatus"]
-  },
-  {
-    "interfaces":["org.springframework.web.bind.annotation.RestController"]
   }
 ]
