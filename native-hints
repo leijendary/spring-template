@@ -1,0 +1,11 @@
+#!/bin/sh
+
+./gradlew bootJar -x test
+
+set -a
+. ./.local.env
+set +a
+
+java -Dspring.aot.enabled=true \
+  -agentlib:native-image-agent=config-output-dir=src/main/resources/META-INF/native-image \
+  -jar build/libs/*[^-plain].jar

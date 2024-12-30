@@ -5,9 +5,53 @@
   }, {
     "pattern":"\\QMETA-INF/jdbc-named-queries.properties\\E"
   }, {
+    "pattern":"\\QMETA-INF/maven/org.webjars.npm/swagger-ui/pom.properties\\E"
+  }, {
+    "pattern":"\\QMETA-INF/maven/org.webjars/swagger-ui/pom.properties\\E"
+  }, {
+    "pattern":"\\QMETA-INF/resources/apple-touch-icon-precomposed.png\\E"
+  }, {
+    "pattern":"\\QMETA-INF/resources/apple-touch-icon.png\\E"
+  }, {
+    "pattern":"\\QMETA-INF/resources/favicon.ico\\E"
+  }, {
     "pattern":"\\QMETA-INF/resources/index.html\\E"
   }, {
     "pattern":"\\QMETA-INF/resources/webjars-locator.properties\\E"
+  }, {
+    "pattern":"\\QMETA-INF/resources/webjars/swagger-ui/5.18.2/favicon-16x16.png\\E"
+  }, {
+    "pattern":"\\QMETA-INF/resources/webjars/swagger-ui/5.18.2/favicon-32x32.png\\E"
+  }, {
+    "pattern":"\\QMETA-INF/resources/webjars/swagger-ui/5.18.2/index.css\\E"
+  }, {
+    "pattern":"\\QMETA-INF/resources/webjars/swagger-ui/5.18.2/index.html\\E"
+  }, {
+    "pattern":"\\QMETA-INF/resources/webjars/swagger-ui/5.18.2/swagger-initializer.js\\E"
+  }, {
+    "pattern":"\\QMETA-INF/resources/webjars/swagger-ui/5.18.2/swagger-ui-bundle.js\\E"
+  }, {
+    "pattern":"\\QMETA-INF/resources/webjars/swagger-ui/5.18.2/swagger-ui-standalone-preset.js\\E"
+  }, {
+    "pattern":"\\QMETA-INF/resources/webjars/swagger-ui/5.18.2/swagger-ui.css\\E"
+  }, {
+    "pattern":"\\QMETA-INF/resources/webjars/swagger-ui/5.18.2\\E"
+  }, {
+    "pattern":"\\QMETA-INF/resources/webjars/swagger-ui/favicon-16x16.png\\E"
+  }, {
+    "pattern":"\\QMETA-INF/resources/webjars/swagger-ui/favicon-32x32.png\\E"
+  }, {
+    "pattern":"\\QMETA-INF/resources/webjars/swagger-ui/index.css\\E"
+  }, {
+    "pattern":"\\QMETA-INF/resources/webjars/swagger-ui/index.html\\E"
+  }, {
+    "pattern":"\\QMETA-INF/resources/webjars/swagger-ui/swagger-initializer.js\\E"
+  }, {
+    "pattern":"\\QMETA-INF/resources/webjars/swagger-ui/swagger-ui-bundle.js\\E"
+  }, {
+    "pattern":"\\QMETA-INF/resources/webjars/swagger-ui/swagger-ui-standalone-preset.js\\E"
+  }, {
+    "pattern":"\\QMETA-INF/resources/webjars/swagger-ui/swagger-ui.css\\E"
   }, {
     "pattern":"\\QMETA-INF/services/ch.qos.logback.classic.spi.Configurator\\E"
   }, {
@@ -18,6 +62,8 @@
     "pattern":"\\QMETA-INF/services/io.swagger.v3.core.converter.ModelConverter\\E"
   }, {
     "pattern":"\\QMETA-INF/services/jakarta.el.ExpressionFactory\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/jakarta.json.spi.JsonProvider\\E"
   }, {
     "pattern":"\\QMETA-INF/services/jakarta.validation.ConstraintValidator\\E"
   }, {
@@ -44,6 +90,8 @@
     "pattern":"\\QMETA-INF/services/javax.xml.stream.XMLInputFactory\\E"
   }, {
     "pattern":"\\QMETA-INF/services/javax.xml.transform.TransformerFactory\\E"
+  }, {
+    "pattern":"\\QMETA-INF/services/kotlin.reflect.jvm.internal.impl.builtins.BuiltInsLoader\\E"
   }, {
     "pattern":"\\QMETA-INF/services/kotlin.reflect.jvm.internal.impl.resolve.ExternalOverridabilityCondition\\E"
   }, {
@@ -185,6 +233,8 @@
   }, {
     "pattern":"\\Qcom/fasterxml/jackson/databind/module/SimpleModule.class\\E"
   }, {
+    "pattern":"\\Qcom/fasterxml/jackson/databind/util/StdConverter.class\\E"
+  }, {
     "pattern":"\\Qcom/fasterxml/jackson/module/paramnames/ParameterNamesModule.class\\E"
   }, {
     "pattern":"\\Qcom/knuddels/jtokkit/cl100k_base.tiktoken\\E"
@@ -199,17 +249,17 @@
   }, {
     "pattern":"\\Qcom/leijendary/config/AwsConfiguration.class\\E"
   }, {
-    "pattern":"\\Qcom/leijendary/config/CacheConfiguration$$Lambda/0x00001ff001e417b8.class\\E"
+    "pattern":"\\Qcom/leijendary/config/CacheConfiguration$$Lambda/0x000000e001e52660.class\\E"
   }, {
     "pattern":"\\Qcom/leijendary/config/CacheConfiguration.class\\E"
   }, {
-    "pattern":"\\Qcom/leijendary/config/DatabaseConfiguration$$Lambda/0x00001ff001aea168.class\\E"
+    "pattern":"\\Qcom/leijendary/config/DatabaseConfiguration$$Lambda/0x000000e001b19178.class\\E"
   }, {
-    "pattern":"\\Qcom/leijendary/config/DatabaseConfiguration$$Lambda/0x00001ff001e42d20.class\\E"
+    "pattern":"\\Qcom/leijendary/config/DatabaseConfiguration$$Lambda/0x000000e001e53bc8.class\\E"
   }, {
     "pattern":"\\Qcom/leijendary/config/DatabaseConfiguration.class\\E"
   }, {
-    "pattern":"\\Qcom/leijendary/config/KafkaConfiguration$$Lambda/0x00001ff00163e868.class\\E"
+    "pattern":"\\Qcom/leijendary/config/KafkaConfiguration$$Lambda/0x000000e001637b60.class\\E"
   }, {
     "pattern":"\\Qcom/leijendary/config/KafkaConfiguration.class\\E"
   }, {
@@ -316,6 +366,8 @@
     "pattern":"\\Qcom/leijendary/security/Encryption.class\\E"
   }, {
     "pattern":"\\Qcom/leijendary/storage/BlockStorage.class\\E"
+  }, {
+    "pattern":"\\Qcom/leijendary/validator/UniqueFieldsValidator.class\\E"
   }, {
     "pattern":"\\Qcom/zaxxer/hikari/HikariConfig.class\\E"
   }, {
@@ -485,6 +537,12 @@
   }, {
     "pattern":"\\Qjakarta/servlet/GenericServlet.class\\E"
   }, {
+    "pattern":"\\Qjakarta/servlet/LocalStrings.properties\\E"
+  }, {
+    "pattern":"\\Qjakarta/servlet/LocalStrings_nl.properties\\E"
+  }, {
+    "pattern":"\\Qjakarta/servlet/LocalStrings_nl_NL.properties\\E"
+  }, {
     "pattern":"\\Qjakarta/servlet/MultipartConfigElement.class\\E"
   }, {
     "pattern":"\\Qjakarta/servlet/http/HttpServlet.class\\E"
@@ -494,6 +552,8 @@
     "pattern":"\\Qjakarta/servlet/http/LocalStrings_nl.properties\\E"
   }, {
     "pattern":"\\Qjakarta/servlet/http/LocalStrings_nl_NL.properties\\E"
+  }, {
+    "pattern":"\\Qjakarta/validation/ConstraintValidator.class\\E"
   }, {
     "pattern":"\\Qjava/lang/Enum.class\\E"
   }, {
@@ -581,13 +641,35 @@
   }, {
     "pattern":"\\Qlogback.xml\\E"
   }, {
+    "pattern":"\\Qmessages/access.properties\\E"
+  }, {
+    "pattern":"\\Qmessages/access_en.properties\\E"
+  }, {
+    "pattern":"\\Qmessages/access_nl.properties\\E"
+  }, {
+    "pattern":"\\Qmessages/access_nl_NL.properties\\E"
+  }, {
+    "pattern":"\\Qmessages/error.properties\\E"
+  }, {
+    "pattern":"\\Qmessages/error_en.properties\\E"
+  }, {
+    "pattern":"\\Qmessages/error_nl.properties\\E"
+  }, {
+    "pattern":"\\Qmessages/error_nl_NL.properties\\E"
+  }, {
+    "pattern":"\\Qmessages/validation.properties\\E"
+  }, {
+    "pattern":"\\Qmessages/validation_nl.properties\\E"
+  }, {
+    "pattern":"\\Qmessages/validation_nl_NL.properties\\E"
+  }, {
     "pattern":"\\Qmozilla/public-suffix-list.txt\\E"
   }, {
-    "pattern":"\\Qnet/ttddyy/observation/boot/autoconfigure/DataSourceObservationAutoConfiguration$$Lambda/0x00001ff00195dd28.class\\E"
+    "pattern":"\\Qnet/ttddyy/observation/boot/autoconfigure/DataSourceObservationAutoConfiguration$$Lambda/0x000000e00195ba18.class\\E"
   }, {
     "pattern":"\\Qnet/ttddyy/observation/boot/autoconfigure/DataSourceObservationAutoConfiguration$DataSourceTracing.class\\E"
   }, {
-    "pattern":"\\Qnet/ttddyy/observation/boot/autoconfigure/DataSourceObservationAutoConfiguration$Hikari$$Lambda/0x00001ff0018826e8.class\\E"
+    "pattern":"\\Qnet/ttddyy/observation/boot/autoconfigure/DataSourceObservationAutoConfiguration$Hikari$$Lambda/0x000000e001882158.class\\E"
   }, {
     "pattern":"\\Qnet/ttddyy/observation/boot/autoconfigure/DataSourceObservationAutoConfiguration$Hikari.class\\E"
   }, {
@@ -616,6 +698,12 @@
     "pattern":"\\Qorg/apache/catalina/authenticator/LocalStrings_nl.properties\\E"
   }, {
     "pattern":"\\Qorg/apache/catalina/authenticator/LocalStrings_nl_NL.properties\\E"
+  }, {
+    "pattern":"\\Qorg/apache/catalina/authenticator/jaspic/LocalStrings.properties\\E"
+  }, {
+    "pattern":"\\Qorg/apache/catalina/authenticator/jaspic/LocalStrings_nl.properties\\E"
+  }, {
+    "pattern":"\\Qorg/apache/catalina/authenticator/jaspic/LocalStrings_nl_NL.properties\\E"
   }, {
     "pattern":"\\Qorg/apache/catalina/connector/LocalStrings.properties\\E"
   }, {
@@ -719,6 +807,12 @@
   }, {
     "pattern":"\\Qorg/apache/coyote/http11/LocalStrings_nl_NL.properties\\E"
   }, {
+    "pattern":"\\Qorg/apache/coyote/http11/filters/LocalStrings.properties\\E"
+  }, {
+    "pattern":"\\Qorg/apache/coyote/http11/filters/LocalStrings_nl.properties\\E"
+  }, {
+    "pattern":"\\Qorg/apache/coyote/http11/filters/LocalStrings_nl_NL.properties\\E"
+  }, {
     "pattern":"\\Qorg/apache/coyote/http2/LocalStrings.properties\\E"
   }, {
     "pattern":"\\Qorg/apache/coyote/http2/LocalStrings_nl.properties\\E"
@@ -811,6 +905,26 @@
   }, {
     "pattern":"\\Qorg/elasticsearch/client/version.properties\\E"
   }, {
+    "pattern":"\\Qorg/hibernate/validator/internal/constraintvalidators/bv/NotBlankValidator.class\\E"
+  }, {
+    "pattern":"\\Qorg/hibernate/validator/internal/constraintvalidators/bv/NotNullValidator.class\\E"
+  }, {
+    "pattern":"\\Qorg/hibernate/validator/internal/constraintvalidators/bv/notempty/NotEmptyValidatorForCollection.class\\E"
+  }, {
+    "pattern":"\\Qorg/hibernate/validator/internal/constraintvalidators/bv/number/bound/AbstractMinValidator.class\\E"
+  }, {
+    "pattern":"\\Qorg/hibernate/validator/internal/constraintvalidators/bv/number/bound/MinValidatorForInteger.class\\E"
+  }, {
+    "pattern":"\\Qorg/hibernate/validator/internal/constraintvalidators/bv/number/bound/decimal/AbstractDecimalMaxValidator.class\\E"
+  }, {
+    "pattern":"\\Qorg/hibernate/validator/internal/constraintvalidators/bv/number/bound/decimal/AbstractDecimalMinValidator.class\\E"
+  }, {
+    "pattern":"\\Qorg/hibernate/validator/internal/constraintvalidators/bv/number/bound/decimal/DecimalMaxValidatorForBigDecimal.class\\E"
+  }, {
+    "pattern":"\\Qorg/hibernate/validator/internal/constraintvalidators/bv/number/bound/decimal/DecimalMinValidatorForBigDecimal.class\\E"
+  }, {
+    "pattern":"\\Qorg/hibernate/validator/internal/constraintvalidators/bv/size/SizeValidatorForCharSequence.class\\E"
+  }, {
     "pattern":"\\Qorg/postgresql/driverconfig.properties\\E"
   }, {
     "pattern":"\\Qorg/springdoc/api/AbstractOpenApiResource.class\\E"
@@ -829,7 +943,7 @@
   }, {
     "pattern":"\\Qorg/springdoc/core/configuration/SpringDocJacksonKotlinModuleConfiguration.class\\E"
   }, {
-    "pattern":"\\Qorg/springdoc/core/configuration/SpringDocKotlinConfiguration$$Lambda/0x00001ff001e92e28.class\\E"
+    "pattern":"\\Qorg/springdoc/core/configuration/SpringDocKotlinConfiguration$$Lambda/0x000000e001ea36e0.class\\E"
   }, {
     "pattern":"\\Qorg/springdoc/core/configuration/SpringDocKotlinConfiguration.class\\E"
   }, {
@@ -1059,7 +1173,7 @@
   }, {
     "pattern":"\\Qorg/springframework/beans/factory/support/NullBean.class\\E"
   }, {
-    "pattern":"\\Qorg/springframework/boot/LazyInitializationExcludeFilter$$Lambda/0x00001ff001ec14a8.class\\E"
+    "pattern":"\\Qorg/springframework/boot/LazyInitializationExcludeFilter$$Lambda/0x000000e001ed18c8.class\\E"
   }, {
     "pattern":"\\Qorg/springframework/boot/LazyInitializationExcludeFilter.class\\E"
   }, {
@@ -1079,7 +1193,7 @@
   }, {
     "pattern":"\\Qorg/springframework/boot/actuate/autoconfigure/endpoint/expose/IncludeExcludeEndpointFilter.class\\E"
   }, {
-    "pattern":"\\Qorg/springframework/boot/actuate/autoconfigure/endpoint/jackson/JacksonEndpointAutoConfiguration$$Lambda/0x00001ff001db2ac0.class\\E"
+    "pattern":"\\Qorg/springframework/boot/actuate/autoconfigure/endpoint/jackson/JacksonEndpointAutoConfiguration$$Lambda/0x000000e001dc3008.class\\E"
   }, {
     "pattern":"\\Qorg/springframework/boot/actuate/autoconfigure/endpoint/jackson/JacksonEndpointAutoConfiguration.class\\E"
   }, {
@@ -1145,11 +1259,11 @@
   }, {
     "pattern":"\\Qorg/springframework/boot/actuate/autoconfigure/metrics/JvmMetricsAutoConfiguration.class\\E"
   }, {
-    "pattern":"\\Qorg/springframework/boot/actuate/autoconfigure/metrics/KafkaMetricsAutoConfiguration$$Lambda/0x00001ff001cd8440.class\\E"
+    "pattern":"\\Qorg/springframework/boot/actuate/autoconfigure/metrics/KafkaMetricsAutoConfiguration$$Lambda/0x000000e001d08d28.class\\E"
   }, {
-    "pattern":"\\Qorg/springframework/boot/actuate/autoconfigure/metrics/KafkaMetricsAutoConfiguration$$Lambda/0x00001ff001e35a90.class\\E"
+    "pattern":"\\Qorg/springframework/boot/actuate/autoconfigure/metrics/KafkaMetricsAutoConfiguration$$Lambda/0x000000e001e47628.class\\E"
   }, {
-    "pattern":"\\Qorg/springframework/boot/actuate/autoconfigure/metrics/KafkaMetricsAutoConfiguration$KafkaStreamsMetricsConfiguration$$Lambda/0x00001ff001ebe5c0.class\\E"
+    "pattern":"\\Qorg/springframework/boot/actuate/autoconfigure/metrics/KafkaMetricsAutoConfiguration$KafkaStreamsMetricsConfiguration$$Lambda/0x000000e001ecea50.class\\E"
   }, {
     "pattern":"\\Qorg/springframework/boot/actuate/autoconfigure/metrics/KafkaMetricsAutoConfiguration$KafkaStreamsMetricsConfiguration.class\\E"
   }, {
@@ -1203,7 +1317,7 @@
   }, {
     "pattern":"\\Qorg/springframework/boot/actuate/autoconfigure/metrics/jdbc/DataSourcePoolMetricsAutoConfiguration.class\\E"
   }, {
-    "pattern":"\\Qorg/springframework/boot/actuate/autoconfigure/metrics/redis/LettuceMetricsAutoConfiguration$$Lambda/0x00001ff001dccee8.class\\E"
+    "pattern":"\\Qorg/springframework/boot/actuate/autoconfigure/metrics/redis/LettuceMetricsAutoConfiguration$$Lambda/0x000000e001ddd940.class\\E"
   }, {
     "pattern":"\\Qorg/springframework/boot/actuate/autoconfigure/metrics/redis/LettuceMetricsAutoConfiguration.class\\E"
   }, {
@@ -1261,9 +1375,9 @@
   }, {
     "pattern":"\\Qorg/springframework/boot/actuate/autoconfigure/tracing/BravePropagationConfigurations$NoPropagation.class\\E"
   }, {
-    "pattern":"\\Qorg/springframework/boot/actuate/autoconfigure/tracing/BravePropagationConfigurations$PropagationWithBaggage$$Lambda/0x00001ff00176c640.class\\E"
+    "pattern":"\\Qorg/springframework/boot/actuate/autoconfigure/tracing/BravePropagationConfigurations$PropagationWithBaggage$$Lambda/0x000000e001765000.class\\E"
   }, {
-    "pattern":"\\Qorg/springframework/boot/actuate/autoconfigure/tracing/BravePropagationConfigurations$PropagationWithBaggage$$Lambda/0x00001ff00176e428.class\\E"
+    "pattern":"\\Qorg/springframework/boot/actuate/autoconfigure/tracing/BravePropagationConfigurations$PropagationWithBaggage$$Lambda/0x000000e001768450.class\\E"
   }, {
     "pattern":"\\Qorg/springframework/boot/actuate/autoconfigure/tracing/BravePropagationConfigurations$PropagationWithBaggage.class\\E"
   }, {
@@ -1303,7 +1417,7 @@
   }, {
     "pattern":"\\Qorg/springframework/boot/actuate/autoconfigure/web/server/ManagementServerProperties.class\\E"
   }, {
-    "pattern":"\\Qorg/springframework/boot/actuate/autoconfigure/web/servlet/ServletManagementContextAutoConfiguration$$Lambda/0x00001ff001eb3838.class\\E"
+    "pattern":"\\Qorg/springframework/boot/actuate/autoconfigure/web/servlet/ServletManagementContextAutoConfiguration$$Lambda/0x000000e001ec1000.class\\E"
   }, {
     "pattern":"\\Qorg/springframework/boot/actuate/autoconfigure/web/servlet/ServletManagementContextAutoConfiguration.class\\E"
   }, {
@@ -1311,7 +1425,7 @@
   }, {
     "pattern":"\\Qorg/springframework/boot/actuate/data/redis/RedisReactiveHealthIndicator.class\\E"
   }, {
-    "pattern":"\\Qorg/springframework/boot/actuate/endpoint/OperationFilter$$Lambda/0x00001ff001eaced8.class\\E"
+    "pattern":"\\Qorg/springframework/boot/actuate/endpoint/OperationFilter$$Lambda/0x000000e001ebd620.class\\E"
   }, {
     "pattern":"\\Qorg/springframework/boot/actuate/endpoint/OperationFilter.class\\E"
   }, {
@@ -1515,11 +1629,11 @@
   }, {
     "pattern":"\\Qorg/springframework/boot/autoconfigure/http/client/HttpClientProperties.class\\E"
   }, {
-    "pattern":"\\Qorg/springframework/boot/autoconfigure/http/codec/CodecsAutoConfiguration$DefaultCodecsConfiguration$$Lambda/0x00001ff001b73338.class\\E"
+    "pattern":"\\Qorg/springframework/boot/autoconfigure/http/codec/CodecsAutoConfiguration$DefaultCodecsConfiguration$$Lambda/0x000000e001ba1718.class\\E"
   }, {
     "pattern":"\\Qorg/springframework/boot/autoconfigure/http/codec/CodecsAutoConfiguration$DefaultCodecsConfiguration.class\\E"
   }, {
-    "pattern":"\\Qorg/springframework/boot/autoconfigure/http/codec/CodecsAutoConfiguration$JacksonCodecConfiguration$$Lambda/0x00001ff001b73558.class\\E"
+    "pattern":"\\Qorg/springframework/boot/autoconfigure/http/codec/CodecsAutoConfiguration$JacksonCodecConfiguration$$Lambda/0x000000e001ba1938.class\\E"
   }, {
     "pattern":"\\Qorg/springframework/boot/autoconfigure/http/codec/CodecsAutoConfiguration$JacksonCodecConfiguration.class\\E"
   }, {
@@ -1563,7 +1677,7 @@
   }, {
     "pattern":"\\Qorg/springframework/boot/autoconfigure/jdbc/NamedParameterJdbcTemplateConfiguration.class\\E"
   }, {
-    "pattern":"\\Qorg/springframework/boot/autoconfigure/jdbc/metadata/DataSourcePoolMetadataProvidersConfiguration$HikariPoolDataSourceMetadataProviderConfiguration$$Lambda/0x00001ff001e888e0.class\\E"
+    "pattern":"\\Qorg/springframework/boot/autoconfigure/jdbc/metadata/DataSourcePoolMetadataProvidersConfiguration$HikariPoolDataSourceMetadataProviderConfiguration$$Lambda/0x000000e001e991a8.class\\E"
   }, {
     "pattern":"\\Qorg/springframework/boot/autoconfigure/jdbc/metadata/DataSourcePoolMetadataProvidersConfiguration$HikariPoolDataSourceMetadataProviderConfiguration.class\\E"
   }, {
@@ -1681,7 +1795,7 @@
   }, {
     "pattern":"\\Qorg/springframework/boot/autoconfigure/web/reactive/function/client/AutoConfiguredWebClientSsl.class\\E"
   }, {
-    "pattern":"\\Qorg/springframework/boot/autoconfigure/web/reactive/function/client/ClientHttpConnectorAutoConfiguration$$Lambda/0x00001ff001b73778.class\\E"
+    "pattern":"\\Qorg/springframework/boot/autoconfigure/web/reactive/function/client/ClientHttpConnectorAutoConfiguration$$Lambda/0x000000e001ba1b58.class\\E"
   }, {
     "pattern":"\\Qorg/springframework/boot/autoconfigure/web/reactive/function/client/ClientHttpConnectorAutoConfiguration.class\\E"
   }, {
@@ -1799,6 +1913,8 @@
   }, {
     "pattern":"\\Qorg/springframework/boot/web/server/ConfigurableWebServerFactory.class\\E"
   }, {
+    "pattern":"\\Qorg/springframework/boot/web/server/mime-mappings.properties\\E"
+  }, {
     "pattern":"\\Qorg/springframework/boot/web/servlet/AbstractFilterRegistrationBean.class\\E"
   }, {
     "pattern":"\\Qorg/springframework/boot/web/servlet/DynamicRegistrationBean.class\\E"
@@ -1891,7 +2007,7 @@
   }, {
     "pattern":"\\Qorg/springframework/cloud/client/discovery/simple/reactive/SimpleReactiveDiscoveryProperties.class\\E"
   }, {
-    "pattern":"\\Qorg/springframework/cloud/client/loadbalancer/LoadBalancerDefaultMappingsProviderAutoConfiguration$$Lambda/0x00001ff001635a28.class\\E"
+    "pattern":"\\Qorg/springframework/cloud/client/loadbalancer/LoadBalancerDefaultMappingsProviderAutoConfiguration$$Lambda/0x000000e0016309f8.class\\E"
   }, {
     "pattern":"\\Qorg/springframework/cloud/client/loadbalancer/LoadBalancerDefaultMappingsProviderAutoConfiguration.class\\E"
   }, {
@@ -2141,6 +2257,8 @@
   }, {
     "pattern":"\\Qorg/springframework/data/web/config/ProjectingArgumentResolverRegistrar.class\\E"
   }, {
+    "pattern":"\\Qorg/springframework/data/web/config/SpringDataJacksonConfiguration$PageModule$PageModelConverter.class\\E"
+  }, {
     "pattern":"\\Qorg/springframework/data/web/config/SpringDataJacksonConfiguration$PageModule.class\\E"
   }, {
     "pattern":"\\Qorg/springframework/data/web/config/SpringDataJacksonConfiguration.class\\E"
@@ -2222,8 +2340,6 @@
     "pattern":"\\Qorg/springframework/kafka/retrytopic/RetryTopicConfigurer.class\\E"
   }, {
     "pattern":"\\Qorg/springframework/kafka/retrytopic/RetryTopicSchedulerWrapper.class\\E"
-  }, {
-    "pattern":"\\Qorg/springframework/kafka/security/jaas/KafkaJaasLoginModuleInitializer.class\\E"
   }, {
     "pattern":"\\Qorg/springframework/kafka/support/LoggingProducerListener.class\\E"
   }, {
@@ -2373,7 +2489,19 @@
   }, {
     "pattern":"\\Qprompts/title-generator-system.st\\E"
   }, {
+    "pattern":"\\Qpublic/apple-touch-icon-precomposed.png\\E"
+  }, {
+    "pattern":"\\Qpublic/apple-touch-icon.png\\E"
+  }, {
+    "pattern":"\\Qpublic/favicon.ico\\E"
+  }, {
     "pattern":"\\Qpublic/index.html\\E"
+  }, {
+    "pattern":"\\Qresources/apple-touch-icon-precomposed.png\\E"
+  }, {
+    "pattern":"\\Qresources/apple-touch-icon.png\\E"
+  }, {
+    "pattern":"\\Qresources/favicon.ico\\E"
   }, {
     "pattern":"\\Qresources/index.html\\E"
   }, {
@@ -2437,6 +2565,12 @@
   }, {
     "pattern":"\\Qspringdoc.config.properties\\E"
   }, {
+    "pattern":"\\Qstatic/apple-touch-icon-precomposed.png\\E"
+  }, {
+    "pattern":"\\Qstatic/apple-touch-icon.png\\E"
+  }, {
+    "pattern":"\\Qstatic/favicon.ico\\E"
+  }, {
     "pattern":"\\Qstatic/index.html\\E"
   }, {
     "pattern":"\\Qversions.properties\\E"
@@ -2494,13 +2628,28 @@
     "pattern":"jdk.jfr:\\Qjdk/jfr/internal/query/view.ini\\E"
   }]},
   "bundles":[{
+    "name":"jakarta.servlet.LocalStrings",
+    "locales":["nl-NL"]
+  }, {
     "name":"jakarta.servlet.http.LocalStrings",
     "locales":["nl-NL"]
   }, {
     "name":"liquibase/i18n/liquibase-core",
     "locales":["nl-NL"]
   }, {
+    "name":"messages.access",
+    "locales":["en", "nl-NL"]
+  }, {
+    "name":"messages.error",
+    "locales":["en", "nl-NL"]
+  }, {
+    "name":"messages.validation",
+    "locales":["nl-NL"]
+  }, {
     "name":"org.apache.catalina.authenticator.LocalStrings",
+    "locales":["nl-NL"]
+  }, {
+    "name":"org.apache.catalina.authenticator.jaspic.LocalStrings",
     "locales":["nl-NL"]
   }, {
     "name":"org.apache.catalina.connector.LocalStrings",
@@ -2546,6 +2695,9 @@
     "locales":["nl-NL"]
   }, {
     "name":"org.apache.coyote.http11.LocalStrings",
+    "locales":["nl-NL"]
+  }, {
+    "name":"org.apache.coyote.http11.filters.LocalStrings",
     "locales":["nl-NL"]
   }, {
     "name":"org.apache.coyote.http2.LocalStrings",

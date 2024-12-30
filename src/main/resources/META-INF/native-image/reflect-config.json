@@ -36,6 +36,10 @@
   "name":"[Lcom.fasterxml.jackson.databind.ser.Serializers;"
 },
 {
+  "name":"[Lcom.leijendary.domain.ai.chat.AiChatCreateResponse;",
+  "allDeclaredFields":true
+},
+{
   "name":"[Ljava.lang.Class;",
   "queryAllDeclaredMethods":true,
   "methods":[{"name":"<init>","parameterTypes":["java.lang.String"] }, {"name":"<init>","parameterTypes":["java.lang.String[]"] }, {"name":"from","parameterTypes":["java.lang.String"] }, {"name":"from","parameterTypes":["java.lang.String[]"] }, {"name":"of","parameterTypes":["java.lang.String"] }, {"name":"of","parameterTypes":["java.lang.String[]"] }, {"name":"valueOf","parameterTypes":["java.lang.String"] }, {"name":"valueOf","parameterTypes":["java.lang.String[]"] }]
@@ -52,6 +56,9 @@
 },
 {
   "name":"[Ljava.sql.Statement;"
+},
+{
+  "name":"[Ljava.util.HashMap$Node;"
 },
 {
   "name":"[Ljavax.management.openmbean.CompositeData;"
@@ -94,6 +101,7 @@
 },
 {
   "name":"boolean",
+  "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
   "methods":[{"name":"<init>","parameterTypes":["java.lang.Boolean"] }, {"name":"from","parameterTypes":["java.lang.Boolean"] }, {"name":"of","parameterTypes":["java.lang.Boolean"] }, {"name":"valueOf","parameterTypes":["java.lang.Boolean"] }]
 },
@@ -882,7 +890,7 @@
   "name":"com.fasterxml.jackson.core.ObjectCodec",
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
-  "methods":[{"name":"getJsonFactory","parameterTypes":[] }, {"name":"readValues","parameterTypes":["com.fasterxml.jackson.core.JsonParser","com.fasterxml.jackson.core.type.ResolvedType"] }, {"name":"readValues","parameterTypes":["com.fasterxml.jackson.core.JsonParser","java.lang.Class"] }]
+  "methods":[{"name":"getJsonFactory","parameterTypes":[] }, {"name":"readValues","parameterTypes":["com.fasterxml.jackson.core.JsonParser","com.fasterxml.jackson.core.type.ResolvedType"] }, {"name":"readValues","parameterTypes":["com.fasterxml.jackson.core.JsonParser","com.fasterxml.jackson.core.type.TypeReference"] }, {"name":"readValues","parameterTypes":["com.fasterxml.jackson.core.JsonParser","java.lang.Class"] }]
 },
 {
   "name":"com.fasterxml.jackson.core.PrettyPrinter"
@@ -928,6 +936,10 @@
   "name":"com.fasterxml.jackson.databind.AnnotationIntrospector"
 },
 {
+  "name":"com.fasterxml.jackson.databind.BeanDescription",
+  "methods":[{"name":"findJsonValueAccessor","parameterTypes":[] }]
+},
+{
   "name":"com.fasterxml.jackson.databind.DatabindException"
 },
 {
@@ -949,7 +961,11 @@
   "name":"com.fasterxml.jackson.databind.JsonDeserializer"
 },
 {
-  "name":"com.fasterxml.jackson.databind.JsonMappingException"
+  "name":"com.fasterxml.jackson.databind.JsonMappingException",
+  "allDeclaredClasses":true
+},
+{
+  "name":"com.fasterxml.jackson.databind.JsonMappingException$Reference"
 },
 {
   "name":"com.fasterxml.jackson.databind.JsonNode"
@@ -1124,6 +1140,17 @@
   "name":"com.fasterxml.jackson.databind.type.TypeFactory"
 },
 {
+  "name":"com.fasterxml.jackson.databind.util.Converter",
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true
+},
+{
+  "name":"com.fasterxml.jackson.databind.util.StdConverter",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "methods":[{"name":"convert","parameterTypes":["java.lang.Object"] }, {"name":"getInputType","parameterTypes":["com.fasterxml.jackson.databind.type.TypeFactory"] }, {"name":"getOutputType","parameterTypes":["com.fasterxml.jackson.databind.type.TypeFactory"] }]
+},
+{
   "name":"com.fasterxml.jackson.dataformat.cbor.CBORFactory"
 },
 {
@@ -1191,7 +1218,8 @@
   "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
-  "name":"com.leijendary.ApplicationKt__EnvironmentPostProcessor"
+  "name":"com.leijendary.ApplicationKt__EnvironmentPostProcessor",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
   "name":"com.leijendary.client.PetStoreClient",
@@ -1292,7 +1320,8 @@
 {
   "name":"com.leijendary.config.properties.OpenApiProperties",
   "allDeclaredFields":true,
-  "queryAllDeclaredMethods":true
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true
 },
 {
   "name":"com.leijendary.context.DatabaseContext",
@@ -1321,13 +1350,21 @@
   "name":"com.leijendary.domain.ai.chat.AiChatController",
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
-  "methods":[{"name":"<init>","parameterTypes":["com.leijendary.domain.ai.chat.AiChatService"] }]
+  "methods":[{"name":"<init>","parameterTypes":["com.leijendary.domain.ai.chat.AiChatService"] }, {"name":"create","parameterTypes":["com.leijendary.domain.ai.chat.AiChatRequest"] }, {"name":"cursor","parameterTypes":["com.leijendary.model.Cursorable"] }, {"name":"delete","parameterTypes":["java.lang.String"] }, {"name":"get","parameterTypes":["java.lang.String"] }, {"name":"history","parameterTypes":["java.lang.String"] }]
 },
 {
-  "name":"com.leijendary.domain.ai.chat.AiChatCreateResponse"
+  "name":"com.leijendary.domain.ai.chat.AiChatCreateResponse",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.String","java.lang.String"] }, {"name":"getId","parameterTypes":[] }, {"name":"getText","parameterTypes":[] }]
 },
 {
-  "name":"com.leijendary.domain.ai.chat.AiChatHistoryResponse"
+  "name":"com.leijendary.domain.ai.chat.AiChatHistoryResponse",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.String","java.util.List"] }, {"name":"getId","parameterTypes":[] }, {"name":"getMessages","parameterTypes":[] }]
 },
 {
   "name":"com.leijendary.domain.ai.chat.AiChatMemory",
@@ -1344,16 +1381,31 @@
   "methods":[{"name":"findByConversationId","parameterTypes":["java.lang.String","org.springframework.data.domain.Pageable"] }]
 },
 {
+  "name":"com.leijendary.domain.ai.chat.AiChatMessage",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.String","org.springframework.ai.chat.messages.MessageType"] }, {"name":"getText","parameterTypes":[] }, {"name":"getType","parameterTypes":[] }]
+},
+{
   "name":"com.leijendary.domain.ai.chat.AiChatRepository",
   "queryAllDeclaredMethods":true,
   "queryAllPublicMethods":true,
   "methods":[{"name":"cursor","parameterTypes":["java.lang.String","com.leijendary.model.Cursorable","java.lang.Class"] }, {"name":"existsByIdAndCreatedBy","parameterTypes":["java.lang.String","java.lang.String"] }, {"name":"findFirstByIdAndCreatedBy","parameterTypes":["java.lang.String","java.lang.String","java.lang.Class"] }]
 },
 {
-  "name":"com.leijendary.domain.ai.chat.AiChatRequest"
+  "name":"com.leijendary.domain.ai.chat.AiChatRequest",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.String","java.lang.String"] }, {"name":"getId","parameterTypes":[] }, {"name":"getPrompt","parameterTypes":[] }]
 },
 {
-  "name":"com.leijendary.domain.ai.chat.AiChatResponse"
+  "name":"com.leijendary.domain.ai.chat.AiChatResponse",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.String","java.lang.String","java.time.Instant"] }, {"name":"getCreatedAt","parameterTypes":[] }, {"name":"getId","parameterTypes":[] }, {"name":"getTitle","parameterTypes":[] }]
 },
 {
   "name":"com.leijendary.domain.ai.chat.AiChatService",
@@ -1387,16 +1439,28 @@
   "name":"com.leijendary.domain.image.ImageController",
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
-  "methods":[{"name":"<init>","parameterTypes":["com.leijendary.domain.image.ImageService"] }]
+  "methods":[{"name":"<init>","parameterTypes":["com.leijendary.domain.image.ImageService"] }, {"name":"createUrl","parameterTypes":["com.leijendary.domain.image.ImageCreateUrlRequest"] }, {"name":"delete","parameterTypes":["com.leijendary.domain.image.ImageDeleteRequest"] }, {"name":"validate","parameterTypes":["com.leijendary.domain.image.ImageValidateRequest"] }]
 },
 {
-  "name":"com.leijendary.domain.image.ImageCreateUrlRequest"
+  "name":"com.leijendary.domain.image.ImageCreateUrlRequest",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.String","java.util.List"] }, {"name":"getMetadata","parameterTypes":[] }, {"name":"getName","parameterTypes":[] }]
 },
 {
-  "name":"com.leijendary.domain.image.ImageCreateUrlResponse"
+  "name":"com.leijendary.domain.image.ImageCreateUrlResponse",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.String","boolean"] }, {"name":"getUrl","parameterTypes":[] }, {"name":"getValidated","parameterTypes":[] }]
 },
 {
-  "name":"com.leijendary.domain.image.ImageDeleteRequest"
+  "name":"com.leijendary.domain.image.ImageDeleteRequest",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.String"] }, {"name":"getName","parameterTypes":[] }]
 },
 {
   "name":"com.leijendary.domain.image.ImageMetadata",
@@ -1412,6 +1476,13 @@
   "queryAllPublicMethods":true
 },
 {
+  "name":"com.leijendary.domain.image.ImageMetadataRequest",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.String","java.lang.String"] }, {"name":"getName","parameterTypes":[] }, {"name":"getValue","parameterTypes":[] }]
+},
+{
   "name":"com.leijendary.domain.image.ImageMultiValidateResponse"
 },
 {
@@ -1421,7 +1492,11 @@
   "methods":[{"name":"deleteByName","parameterTypes":["java.lang.String"] }, {"name":"findByName","parameterTypes":["java.lang.String"] }, {"name":"setValidated","parameterTypes":["java.lang.String","java.lang.String"] }]
 },
 {
-  "name":"com.leijendary.domain.image.ImageRequest"
+  "name":"com.leijendary.domain.image.ImageRequest",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.String","java.lang.String","java.lang.String"] }, {"name":"getOriginal","parameterTypes":[] }, {"name":"getPreview","parameterTypes":[] }, {"name":"getThumbnail","parameterTypes":[] }, {"name":"setOriginal","parameterTypes":["java.lang.String"] }, {"name":"setPreview","parameterTypes":["java.lang.String"] }]
 },
 {
   "name":"com.leijendary.domain.image.ImageResponse",
@@ -1443,10 +1518,18 @@
   "methods":[{"name":"<init>","parameterTypes":["com.leijendary.storage.BlockStorage","com.leijendary.context.DatabaseContext","com.leijendary.domain.image.ImageMetadataRepository","com.leijendary.domain.image.ImageRepository"] }, {"name":"createUploadUrl","parameterTypes":["com.leijendary.domain.image.ImageCreateUrlRequest"] }, {"name":"delete","parameterTypes":["java.lang.String"] }, {"name":"getPrivateUrl","parameterTypes":["com.leijendary.projection.ImageProjection"] }, {"name":"getPublicUrl","parameterTypes":["com.leijendary.projection.ImageProjection"] }, {"name":"validate","parameterTypes":["com.leijendary.domain.image.ImageRequest"] }, {"name":"validate","parameterTypes":["java.lang.String"] }]
 },
 {
-  "name":"com.leijendary.domain.image.ImageValidateRequest"
+  "name":"com.leijendary.domain.image.ImageValidateRequest",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.String"] }, {"name":"getName","parameterTypes":[] }]
 },
 {
-  "name":"com.leijendary.domain.image.ImageValidateResponse"
+  "name":"com.leijendary.domain.image.ImageValidateResponse",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.String","java.lang.String","java.lang.String"] }, {"name":"getId","parameterTypes":[] }, {"name":"getName","parameterTypes":[] }, {"name":"getPath","parameterTypes":[] }]
 },
 {
   "name":"com.leijendary.domain.sample.Sample",
@@ -1463,16 +1546,20 @@
   "name":"com.leijendary.domain.sample.SampleAdminController",
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
-  "methods":[{"name":"<init>","parameterTypes":["com.leijendary.domain.sample.SampleService"] }]
+  "methods":[{"name":"<init>","parameterTypes":["com.leijendary.domain.sample.SampleService"] }, {"name":"create","parameterTypes":["com.leijendary.domain.sample.SampleRequest"] }, {"name":"create$default","parameterTypes":["com.leijendary.domain.sample.SampleAdminController","com.leijendary.domain.sample.SampleRequest","int","java.lang.Object"] }, {"name":"delete","parameterTypes":["java.lang.String"] }, {"name":"delete$default","parameterTypes":["com.leijendary.domain.sample.SampleAdminController","java.lang.String","int","java.lang.Object"] }, {"name":"deleteImage","parameterTypes":["java.lang.String"] }, {"name":"get","parameterTypes":["java.lang.String"] }, {"name":"page","parameterTypes":["com.leijendary.model.QueryRequest","org.springframework.data.domain.Pageable"] }, {"name":"saveImage","parameterTypes":["java.lang.String","com.leijendary.domain.image.ImageRequest"] }, {"name":"update","parameterTypes":["java.lang.String","com.leijendary.domain.sample.SampleRequest"] }]
 },
 {
   "name":"com.leijendary.domain.sample.SampleController",
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
-  "methods":[{"name":"<init>","parameterTypes":["com.leijendary.client.PetStoreClient","org.springframework.data.redis.core.StringRedisTemplate","com.leijendary.domain.sample.SampleService"] }]
+  "methods":[{"name":"<init>","parameterTypes":["com.leijendary.client.PetStoreClient","org.springframework.data.redis.core.StringRedisTemplate","com.leijendary.domain.sample.SampleService"] }, {"name":"counter","parameterTypes":[] }, {"name":"cursor","parameterTypes":["com.leijendary.model.QueryRequest","com.leijendary.model.Cursorable"] }, {"name":"cursor$default","parameterTypes":["com.leijendary.domain.sample.SampleController","com.leijendary.model.QueryRequest","com.leijendary.model.Cursorable","int","java.lang.Object"] }, {"name":"get","parameterTypes":["java.lang.String"] }, {"name":"get$default","parameterTypes":["com.leijendary.domain.sample.SampleController","java.lang.String","int","java.lang.Object"] }, {"name":"openApiPets","parameterTypes":[] }, {"name":"openApiStoreInventory","parameterTypes":[] }, {"name":"openApiUserLogin","parameterTypes":[] }, {"name":"requestScoped","parameterTypes":["java.util.UUID"] }]
 },
 {
-  "name":"com.leijendary.domain.sample.SampleDetailResponse"
+  "name":"com.leijendary.domain.sample.SampleDetailResponse",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.String","java.lang.String","java.lang.String","java.math.BigDecimal","int","java.time.Instant"] }, {"name":"<init>","parameterTypes":["java.lang.String","java.lang.String","java.lang.String","java.math.BigDecimal","int","java.time.Instant","int","kotlin.jvm.internal.DefaultConstructorMarker"] }, {"name":"getAmount","parameterTypes":[] }, {"name":"getCreatedAt","parameterTypes":[] }, {"name":"getDescription","parameterTypes":[] }, {"name":"getId","parameterTypes":[] }, {"name":"getImage","parameterTypes":[] }, {"name":"getName","parameterTypes":[] }, {"name":"getTranslations","parameterTypes":[] }, {"name":"getVersion","parameterTypes":[] }, {"name":"setDescription","parameterTypes":["java.lang.String"] }, {"name":"setImage","parameterTypes":["com.leijendary.domain.image.ImageResponse"] }, {"name":"setName","parameterTypes":["java.lang.String"] }, {"name":"setTranslations","parameterTypes":["java.util.List"] }]
 },
 {
   "name":"com.leijendary.domain.sample.SampleImage",
@@ -1492,13 +1579,13 @@
   "name":"com.leijendary.domain.sample.SampleMessageConsumer",
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
-  "methods":[{"name":"<init>","parameterTypes":["com.leijendary.domain.sample.SampleSearchService"] }]
+  "methods":[{"name":"<init>","parameterTypes":["com.leijendary.domain.sample.SampleSearchService"] }, {"name":"created","parameterTypes":["java.lang.String"] }, {"name":"deleted","parameterTypes":["java.lang.String"] }]
 },
 {
   "name":"com.leijendary.domain.sample.SampleMessageProducer",
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
-  "methods":[{"name":"<init>","parameterTypes":["org.springframework.kafka.core.KafkaTemplate","com.leijendary.config.properties.KafkaTopicProperties"] }]
+  "methods":[{"name":"<init>","parameterTypes":["org.springframework.kafka.core.KafkaTemplate","com.leijendary.config.properties.KafkaTopicProperties"] }, {"name":"created","parameterTypes":["com.leijendary.domain.sample.SampleDetailResponse"] }, {"name":"deleted","parameterTypes":["java.lang.String"] }]
 },
 {
   "name":"com.leijendary.domain.sample.SampleMessageProducer$$SpringCGLIB$$0",
@@ -1512,10 +1599,18 @@
   "methods":[{"name":"cursor","parameterTypes":["java.lang.String","com.leijendary.model.Cursorable","java.lang.Class"] }, {"name":"findBy","parameterTypes":["org.springframework.data.domain.Pageable","java.lang.Class"] }, {"name":"findById","parameterTypes":["java.lang.String","java.lang.Class"] }, {"name":"findByNameContainingIgnoreCase","parameterTypes":["java.lang.String","org.springframework.data.domain.Pageable","java.lang.Class"] }, {"name":"streamBy","parameterTypes":["java.lang.Class"] }]
 },
 {
-  "name":"com.leijendary.domain.sample.SampleRequest"
+  "name":"com.leijendary.domain.sample.SampleRequest",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.String","java.lang.String","java.math.BigDecimal","java.util.List","int"] }, {"name":"<init>","parameterTypes":["java.lang.String","java.lang.String","java.math.BigDecimal","java.util.List","int","int","kotlin.jvm.internal.DefaultConstructorMarker"] }, {"name":"getAmount","parameterTypes":[] }, {"name":"getDescription","parameterTypes":[] }, {"name":"getName","parameterTypes":[] }, {"name":"getTranslations","parameterTypes":[] }, {"name":"getVersion","parameterTypes":[] }]
 },
 {
-  "name":"com.leijendary.domain.sample.SampleResponse"
+  "name":"com.leijendary.domain.sample.SampleResponse",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.String","java.lang.String","java.lang.String","java.math.BigDecimal","java.time.Instant"] }, {"name":"getAmount","parameterTypes":[] }, {"name":"getCreatedAt","parameterTypes":[] }, {"name":"getDescription","parameterTypes":[] }, {"name":"getId","parameterTypes":[] }, {"name":"getImage","parameterTypes":[] }, {"name":"getName","parameterTypes":[] }, {"name":"setImage","parameterTypes":["com.leijendary.domain.image.ImageResponse"] }]
 },
 {
   "name":"com.leijendary.domain.sample.SampleSearch",
@@ -1532,7 +1627,7 @@
   "name":"com.leijendary.domain.sample.SampleSearchController",
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
-  "methods":[{"name":"<init>","parameterTypes":["com.leijendary.domain.sample.SampleSearchService"] }]
+  "methods":[{"name":"<init>","parameterTypes":["com.leijendary.domain.sample.SampleSearchService"] }, {"name":"list","parameterTypes":["com.leijendary.model.QueryRequest","org.springframework.data.domain.Pageable"] }, {"name":"list$default","parameterTypes":["com.leijendary.domain.sample.SampleSearchController","com.leijendary.model.QueryRequest","org.springframework.data.domain.Pageable","int","java.lang.Object"] }, {"name":"reindex","parameterTypes":[] }]
 },
 {
   "name":"com.leijendary.domain.sample.SampleSearchCustomRepository",
@@ -1574,6 +1669,15 @@
   "methods":[{"name":"CGLIB$SET_THREAD_CALLBACKS","parameterTypes":["org.springframework.cglib.proxy.Callback[]"] }]
 },
 {
+  "name":"com.leijendary.domain.sample.SampleSearch_Accessor_m2yd68",
+  "queryAllPublicConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":["com.leijendary.domain.sample.SampleSearch"] }]
+},
+{
+  "name":"com.leijendary.domain.sample.SampleSearch_Instantiator_m2yd68",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
   "name":"com.leijendary.domain.sample.SampleService",
   "queryAllDeclaredMethods":true,
   "queryAllPublicMethods":true
@@ -1599,12 +1703,45 @@
   "methods":[{"name":"findById","parameterTypes":["java.lang.String","java.lang.Class"] }, {"name":"findFirstByIdAndLanguage","parameterTypes":["java.lang.String","java.lang.String"] }]
 },
 {
+  "name":"com.leijendary.domain.sample.SampleTranslationRequest",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.String","java.lang.String"] }, {"name":"<init>","parameterTypes":["java.lang.String","java.lang.String","int","kotlin.jvm.internal.DefaultConstructorMarker"] }, {"name":"getDescription","parameterTypes":[] }, {"name":"getName","parameterTypes":[] }]
+},
+{
+  "name":"com.leijendary.domain.sample.SampleTranslationResponse",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.String","java.lang.String","java.lang.String","int"] }, {"name":"<init>","parameterTypes":["java.lang.String","java.lang.String","java.lang.String","int","int","kotlin.jvm.internal.DefaultConstructorMarker"] }, {"name":"getDescription","parameterTypes":[] }, {"name":"getLanguage","parameterTypes":[] }, {"name":"getName","parameterTypes":[] }, {"name":"getOrdinal","parameterTypes":[] }, {"name":"setDescription","parameterTypes":["java.lang.String"] }, {"name":"setLanguage","parameterTypes":["java.lang.String"] }, {"name":"setName","parameterTypes":["java.lang.String"] }]
+},
+{
   "name":"com.leijendary.domain.sample.SampleTranslationSearch",
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
   "queryAllPublicMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[{"name":"<init>","parameterTypes":["java.lang.String","java.lang.String","java.lang.String","int"] }, {"name":"component1","parameterTypes":[] }, {"name":"component2","parameterTypes":[] }, {"name":"component3","parameterTypes":[] }, {"name":"component4","parameterTypes":[] }, {"name":"copy","parameterTypes":["java.lang.String","java.lang.String","java.lang.String","int"] }, {"name":"equals","parameterTypes":["java.lang.Object"] }, {"name":"getDescription","parameterTypes":[] }, {"name":"getLanguage","parameterTypes":[] }, {"name":"getName","parameterTypes":[] }, {"name":"getOrdinal","parameterTypes":[] }, {"name":"hashCode","parameterTypes":[] }, {"name":"toString","parameterTypes":[] }]
+},
+{
+  "name":"com.leijendary.domain.sample.SampleTranslationSearch_Accessor_2v5ulz",
+  "queryAllPublicConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":["com.leijendary.domain.sample.SampleTranslationSearch"] }]
+},
+{
+  "name":"com.leijendary.domain.sample.SampleTranslationSearch_Instantiator_2v5ulz",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"com.leijendary.domain.sample.SampleTranslation_Accessor_1blcsa",
+  "queryAllPublicConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":["com.leijendary.domain.sample.SampleTranslation"] }]
+},
+{
+  "name":"com.leijendary.domain.sample.Sample_Accessor_gade7b",
+  "queryAllPublicConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":["com.leijendary.domain.sample.Sample"] }]
 },
 {
   "name":"com.leijendary.error.AsyncRequestNotUsableExceptionHandler",
@@ -1625,7 +1762,7 @@
   "name":"com.leijendary.error.GlobalExceptionHandler",
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
-  "methods":[{"name":"<init>","parameterTypes":["org.springframework.context.MessageSource"] }]
+  "methods":[{"name":"<init>","parameterTypes":["org.springframework.context.MessageSource"] }, {"name":"catchException","parameterTypes":["java.lang.Exception"] }, {"name":"catchException$default","parameterTypes":["com.leijendary.error.GlobalExceptionHandler","java.lang.Exception","int","java.lang.Object"] }]
 },
 {
   "name":"com.leijendary.error.HttpClientErrorExceptionHandler",
@@ -1636,37 +1773,37 @@
   "name":"com.leijendary.error.HttpMessageNotReadableExceptionHandler",
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
-  "methods":[{"name":"<init>","parameterTypes":["org.springframework.context.MessageSource"] }]
+  "methods":[{"name":"<init>","parameterTypes":["org.springframework.context.MessageSource"] }, {"name":"catchHttpMessageNotReadable","parameterTypes":["org.springframework.http.converter.HttpMessageNotReadableException"] }]
 },
 {
   "name":"com.leijendary.error.HttpRequestMethodNotSupportedExceptionHandler",
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
-  "methods":[{"name":"<init>","parameterTypes":["org.springframework.context.MessageSource"] }]
+  "methods":[{"name":"<init>","parameterTypes":["org.springframework.context.MessageSource"] }, {"name":"catchHttpRequestMethodNotSupported","parameterTypes":["org.springframework.web.HttpRequestMethodNotSupportedException"] }]
 },
 {
   "name":"com.leijendary.error.MethodExceptionHandler",
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
-  "methods":[{"name":"<init>","parameterTypes":["org.springframework.context.MessageSource"] }]
+  "methods":[{"name":"<init>","parameterTypes":["org.springframework.context.MessageSource"] }, {"name":"catchBind","parameterTypes":["org.springframework.validation.BindException"] }, {"name":"catchHandlerMethodValidation","parameterTypes":["org.springframework.web.method.annotation.HandlerMethodValidationException"] }, {"name":"catchMethodArgumentTypeMismatch","parameterTypes":["org.springframework.web.method.annotation.MethodArgumentTypeMismatchException"] }]
 },
 {
   "name":"com.leijendary.error.MissingServletRequestPartExceptionHandler",
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
-  "methods":[{"name":"<init>","parameterTypes":["org.springframework.context.MessageSource"] }]
+  "methods":[{"name":"<init>","parameterTypes":["org.springframework.context.MessageSource"] }, {"name":"catchMissingServletRequestPart","parameterTypes":["org.springframework.web.multipart.support.MissingServletRequestPartException"] }]
 },
 {
   "name":"com.leijendary.error.NoResourceFoundExceptionHandler",
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
-  "methods":[{"name":"<init>","parameterTypes":["org.springframework.context.MessageSource"] }]
+  "methods":[{"name":"<init>","parameterTypes":["org.springframework.context.MessageSource"] }, {"name":"catchNoResourceFound","parameterTypes":["org.springframework.web.servlet.resource.NoResourceFoundException"] }, {"name":"catchNoResourceFound$default","parameterTypes":["com.leijendary.error.NoResourceFoundExceptionHandler","org.springframework.web.servlet.resource.NoResourceFoundException","int","java.lang.Object"] }]
 },
 {
   "name":"com.leijendary.error.OptimisticLockingFailureExceptionHandler",
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
-  "methods":[{"name":"<init>","parameterTypes":["org.springframework.context.MessageSource"] }]
+  "methods":[{"name":"<init>","parameterTypes":["org.springframework.context.MessageSource"] }, {"name":"catchVersionConflict","parameterTypes":["org.springframework.dao.OptimisticLockingFailureException"] }]
 },
 {
   "name":"com.leijendary.error.PSQLExceptionHandler",
@@ -1678,13 +1815,13 @@
   "name":"com.leijendary.error.ResourceNotFoundExceptionHandler",
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
-  "methods":[{"name":"<init>","parameterTypes":["org.springframework.context.MessageSource"] }]
+  "methods":[{"name":"<init>","parameterTypes":["org.springframework.context.MessageSource"] }, {"name":"catchResourceNotFound","parameterTypes":["com.leijendary.error.exception.ResourceNotFoundException"] }, {"name":"catchResourceNotFound$default","parameterTypes":["com.leijendary.error.ResourceNotFoundExceptionHandler","com.leijendary.error.exception.ResourceNotFoundException","int","java.lang.Object"] }]
 },
 {
   "name":"com.leijendary.error.ResourceNotUniqueExceptionHandler",
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
-  "methods":[{"name":"<init>","parameterTypes":["org.springframework.context.MessageSource"] }]
+  "methods":[{"name":"<init>","parameterTypes":["org.springframework.context.MessageSource"] }, {"name":"catchResourceNotUnique","parameterTypes":["com.leijendary.error.exception.ResourceNotUniqueException"] }]
 },
 {
   "name":"com.leijendary.error.StatusExceptionHandler",
@@ -1717,22 +1854,66 @@
   "methods":[{"name":"close","parameterTypes":[] }, {"name":"configure","parameterTypes":["java.util.Map"] }, {"name":"intercept","parameterTypes":["org.apache.kafka.clients.consumer.ConsumerRecord","org.apache.kafka.clients.consumer.Consumer"] }, {"name":"onAcknowledgement","parameterTypes":["org.apache.kafka.clients.producer.RecordMetadata","java.lang.Exception"] }, {"name":"onSend","parameterTypes":["org.apache.kafka.clients.producer.ProducerRecord"] }]
 },
 {
-  "name":"com.leijendary.model.Cursorable"
+  "name":"com.leijendary.model.CursorMetadata",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":["int","java.time.Instant","java.lang.String"] }, {"name":"getCreatedAt","parameterTypes":[] }, {"name":"getId","parameterTypes":[] }, {"name":"getSize","parameterTypes":[] }, {"name":"setCreatedAt","parameterTypes":["java.time.Instant"] }, {"name":"setId","parameterTypes":["java.lang.String"] }]
 },
 {
-  "name":"com.leijendary.model.CursoredModel"
+  "name":"com.leijendary.model.Cursorable",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":["int","java.time.Instant","java.lang.String"] }, {"name":"component1","parameterTypes":[] }, {"name":"component2","parameterTypes":[] }, {"name":"component3","parameterTypes":[] }, {"name":"copy","parameterTypes":["int","java.time.Instant","java.lang.String"] }, {"name":"equals","parameterTypes":["java.lang.Object"] }, {"name":"getCreatedAt","parameterTypes":[] }, {"name":"getId","parameterTypes":[] }, {"name":"getLimit","parameterTypes":[] }, {"name":"getSize","parameterTypes":[] }, {"name":"getTimestamp","parameterTypes":[] }, {"name":"hashCode","parameterTypes":[] }, {"name":"toString","parameterTypes":[] }]
 },
 {
-  "name":"com.leijendary.model.ErrorModel"
+  "name":"com.leijendary.model.CursoredModel",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":["java.util.List","com.leijendary.model.Cursorable"] }, {"name":"getContent","parameterTypes":[] }, {"name":"getCursor","parameterTypes":[] }]
 },
 {
-  "name":"com.leijendary.model.ErrorSource"
+  "name":"com.leijendary.model.ErrorModel",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.Object","java.lang.String","java.lang.String","com.leijendary.model.ErrorSource"] }, {"name":"getCode","parameterTypes":[] }, {"name":"getId","parameterTypes":[] }, {"name":"getMessage","parameterTypes":[] }, {"name":"getSource","parameterTypes":[] }]
 },
 {
-  "name":"com.leijendary.model.QueryRequest"
+  "name":"com.leijendary.model.ErrorSource",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.String","java.lang.String","java.lang.String","java.util.Map"] }, {"name":"getHeader","parameterTypes":[] }, {"name":"getMeta","parameterTypes":[] }, {"name":"getParameter","parameterTypes":[] }, {"name":"getPointer","parameterTypes":[] }]
 },
 {
-  "name":"com.leijendary.projection.CursorProjection"
+  "name":"com.leijendary.model.IdentityModel",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.Object"] }, {"name":"<init>","parameterTypes":["java.lang.Object","int","kotlin.jvm.internal.DefaultConstructorMarker"] }, {"name":"getId","parameterTypes":[] }]
+},
+{
+  "name":"com.leijendary.model.QueryRequest",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.String"] }, {"name":"<init>","parameterTypes":["java.lang.String","int","kotlin.jvm.internal.DefaultConstructorMarker"] }, {"name":"component1","parameterTypes":[] }, {"name":"copy","parameterTypes":["java.lang.String"] }, {"name":"equals","parameterTypes":["java.lang.Object"] }, {"name":"getQuery","parameterTypes":[] }, {"name":"hashCode","parameterTypes":[] }, {"name":"toString","parameterTypes":[] }]
+},
+{
+  "name":"com.leijendary.model.TranslationRequest",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"getLanguage","parameterTypes":[] }, {"name":"getOrdinal","parameterTypes":[] }, {"name":"setLanguage","parameterTypes":["java.lang.String"] }, {"name":"setOrdinal","parameterTypes":["int"] }]
+},
+{
+  "name":"com.leijendary.projection.CursorProjection",
+  "queryAllDeclaredMethods":true
 },
 {
   "name":"com.leijendary.projection.ImageProjection",
@@ -1769,6 +1950,17 @@
 },
 {
   "name":"com.leijendary.storage.BlockStorage$Request"
+},
+{
+  "name":"com.leijendary.validator.UniqueFieldsValidator",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"initialize","parameterTypes":["java.lang.annotation.Annotation"] }, {"name":"isValid","parameterTypes":["java.lang.Object","jakarta.validation.ConstraintValidatorContext"] }]
+},
+{
+  "name":"com.leijendary.validator.annotation.UniqueFields",
+  "queryAllDeclaredMethods":true,
+  "methods":[{"name":"fields","parameterTypes":[] }, {"name":"groups","parameterTypes":[] }, {"name":"message","parameterTypes":[] }, {"name":"payload","parameterTypes":[] }, {"name":"validationAppliesTo","parameterTypes":[] }]
 },
 {
   "name":"com.pgvector.PGvector"
@@ -2043,6 +2235,10 @@
 },
 {
   "name":"groovy.text.TemplateEngine"
+},
+{
+  "name":"int",
+  "allDeclaredFields":true
 },
 {
   "name":"io.awspring.cloud.autoconfigure.AwsClientProperties",
@@ -2887,6 +3083,74 @@
   "methods":[{"name":"filter","parameterTypes":["io.swagger.v3.oas.models.OpenAPI","io.swagger.v3.core.filter.OpenAPISpecFilter","java.util.Map","java.util.Map","java.util.Map"] }]
 },
 {
+  "name":"io.swagger.v3.core.jackson.ApiResponsesSerializer",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"io.swagger.v3.core.jackson.PathsSerializer",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"io.swagger.v3.core.jackson.mixin.ComponentsMixin",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true
+},
+{
+  "name":"io.swagger.v3.core.jackson.mixin.DiscriminatorMixin",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true
+},
+{
+  "name":"io.swagger.v3.core.jackson.mixin.ExampleMixin",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true
+},
+{
+  "name":"io.swagger.v3.core.jackson.mixin.ExtensionsMixin",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true
+},
+{
+  "name":"io.swagger.v3.core.jackson.mixin.InfoMixin",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true
+},
+{
+  "name":"io.swagger.v3.core.jackson.mixin.LicenseMixin",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true
+},
+{
+  "name":"io.swagger.v3.core.jackson.mixin.MediaTypeMixin",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true
+},
+{
+  "name":"io.swagger.v3.core.jackson.mixin.OpenAPIMixin",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true
+},
+{
+  "name":"io.swagger.v3.core.jackson.mixin.OperationMixin",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true
+},
+{
+  "name":"io.swagger.v3.core.jackson.mixin.SchemaMixin",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true
+},
+{
   "name":"io.swagger.v3.core.util.ObjectMapperFactory",
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true
@@ -2926,6 +3190,10 @@
 },
 {
   "name":"io.swagger.v3.oas.annotations.Webhooks"
+},
+{
+  "name":"io.swagger.v3.oas.annotations.callbacks.Callbacks",
+  "queryAllDeclaredMethods":true
 },
 {
   "name":"io.swagger.v3.oas.annotations.enums.SecuritySchemeIn"
@@ -2998,7 +3266,8 @@
   "queryAllDeclaredMethods":true
 },
 {
-  "name":"io.swagger.v3.oas.annotations.responses.ApiResponses"
+  "name":"io.swagger.v3.oas.annotations.responses.ApiResponses",
+  "queryAllDeclaredMethods":true
 },
 {
   "name":"io.swagger.v3.oas.annotations.security.OAuthFlow",
@@ -3017,7 +3286,15 @@
   "queryAllDeclaredMethods":true
 },
 {
+  "name":"io.swagger.v3.oas.annotations.security.SecurityRequirements",
+  "queryAllDeclaredMethods":true
+},
+{
   "name":"io.swagger.v3.oas.annotations.security.SecurityScheme",
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"io.swagger.v3.oas.annotations.security.SecuritySchemes",
   "queryAllDeclaredMethods":true
 },
 {
@@ -3036,102 +3313,330 @@
   "name":"io.swagger.v3.oas.annotations.tags.Tags"
 },
 {
-  "name":"io.swagger.v3.oas.models.Components"
+  "name":"io.swagger.v3.oas.models.Components",
+  "allDeclaredFields":true,
+  "allDeclaredClasses":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"getCallbacks","parameterTypes":[] }, {"name":"getExamples","parameterTypes":[] }, {"name":"getExtensions","parameterTypes":[] }, {"name":"getHeaders","parameterTypes":[] }, {"name":"getLinks","parameterTypes":[] }, {"name":"getParameters","parameterTypes":[] }, {"name":"getPathItems","parameterTypes":[] }, {"name":"getRequestBodies","parameterTypes":[] }, {"name":"getResponses","parameterTypes":[] }, {"name":"getSchemas","parameterTypes":[] }, {"name":"getSecuritySchemes","parameterTypes":[] }, {"name":"setCallbacks","parameterTypes":["java.util.Map"] }, {"name":"setExamples","parameterTypes":["java.util.Map"] }, {"name":"setExtensions","parameterTypes":["java.util.Map"] }, {"name":"setHeaders","parameterTypes":["java.util.Map"] }, {"name":"setLinks","parameterTypes":["java.util.Map"] }, {"name":"setParameters","parameterTypes":["java.util.Map"] }, {"name":"setPathItems","parameterTypes":["java.util.Map"] }, {"name":"setRequestBodies","parameterTypes":["java.util.Map"] }, {"name":"setResponses","parameterTypes":["java.util.Map"] }, {"name":"setSchemas","parameterTypes":["java.util.Map"] }, {"name":"setSecuritySchemes","parameterTypes":["java.util.Map"] }]
 },
 {
-  "name":"io.swagger.v3.oas.models.ExternalDocumentation"
+  "name":"io.swagger.v3.oas.models.ExternalDocumentation",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true
 },
 {
   "name":"io.swagger.v3.oas.models.OpenAPI",
   "allDeclaredFields":true,
+  "allDeclaredClasses":true,
   "queryAllDeclaredMethods":true,
-  "methods":[{"name":"addExtension","parameterTypes":["java.lang.String","java.lang.Object"] }, {"name":"addExtension31","parameterTypes":["java.lang.String","java.lang.Object"] }, {"name":"addSecurityItem","parameterTypes":["io.swagger.v3.oas.models.security.SecurityRequirement"] }, {"name":"addServersItem","parameterTypes":["io.swagger.v3.oas.models.servers.Server"] }, {"name":"addTagsItem","parameterTypes":["io.swagger.v3.oas.models.tags.Tag"] }, {"name":"addWebhooks","parameterTypes":["java.lang.String","io.swagger.v3.oas.models.PathItem"] }, {"name":"components","parameterTypes":["io.swagger.v3.oas.models.Components"] }, {"name":"equals","parameterTypes":["java.lang.Object"] }, {"name":"extensions","parameterTypes":["java.util.Map"] }, {"name":"externalDocs","parameterTypes":["io.swagger.v3.oas.models.ExternalDocumentation"] }, {"name":"getComponents","parameterTypes":[] }, {"name":"getExtensions","parameterTypes":[] }, {"name":"getExternalDocs","parameterTypes":[] }, {"name":"getInfo","parameterTypes":[] }, {"name":"getJsonSchemaDialect","parameterTypes":[] }, {"name":"getOpenapi","parameterTypes":[] }, {"name":"getPaths","parameterTypes":[] }, {"name":"getSecurity","parameterTypes":[] }, {"name":"getServers","parameterTypes":[] }, {"name":"getSpecVersion","parameterTypes":[] }, {"name":"getTags","parameterTypes":[] }, {"name":"getWebhooks","parameterTypes":[] }, {"name":"hashCode","parameterTypes":[] }, {"name":"info","parameterTypes":["io.swagger.v3.oas.models.info.Info"] }, {"name":"jsonSchemaDialect","parameterTypes":["java.lang.String"] }, {"name":"openapi","parameterTypes":["java.lang.String"] }, {"name":"path","parameterTypes":["java.lang.String","io.swagger.v3.oas.models.PathItem"] }, {"name":"paths","parameterTypes":["io.swagger.v3.oas.models.Paths"] }, {"name":"schema","parameterTypes":["java.lang.String","io.swagger.v3.oas.models.media.Schema"] }, {"name":"schemaRequirement","parameterTypes":["java.lang.String","io.swagger.v3.oas.models.security.SecurityScheme"] }, {"name":"security","parameterTypes":["java.util.List"] }, {"name":"servers","parameterTypes":["java.util.List"] }, {"name":"setComponents","parameterTypes":["io.swagger.v3.oas.models.Components"] }, {"name":"setExtensions","parameterTypes":["java.util.Map"] }, {"name":"setExternalDocs","parameterTypes":["io.swagger.v3.oas.models.ExternalDocumentation"] }, {"name":"setInfo","parameterTypes":["io.swagger.v3.oas.models.info.Info"] }, {"name":"setJsonSchemaDialect","parameterTypes":["java.lang.String"] }, {"name":"setOpenapi","parameterTypes":["java.lang.String"] }, {"name":"setPaths","parameterTypes":["io.swagger.v3.oas.models.Paths"] }, {"name":"setSecurity","parameterTypes":["java.util.List"] }, {"name":"setServers","parameterTypes":["java.util.List"] }, {"name":"setSpecVersion","parameterTypes":["io.swagger.v3.oas.models.SpecVersion"] }, {"name":"setTags","parameterTypes":["java.util.List"] }, {"name":"setWebhooks","parameterTypes":["java.util.Map"] }, {"name":"specVersion","parameterTypes":["io.swagger.v3.oas.models.SpecVersion"] }, {"name":"tags","parameterTypes":["java.util.List"] }, {"name":"toString","parameterTypes":[] }, {"name":"webhooks","parameterTypes":["java.util.Map"] }]
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"addExtension","parameterTypes":["java.lang.String","java.lang.Object"] }, {"name":"addExtension31","parameterTypes":["java.lang.String","java.lang.Object"] }, {"name":"addSecurityItem","parameterTypes":["io.swagger.v3.oas.models.security.SecurityRequirement"] }, {"name":"addServersItem","parameterTypes":["io.swagger.v3.oas.models.servers.Server"] }, {"name":"addTagsItem","parameterTypes":["io.swagger.v3.oas.models.tags.Tag"] }, {"name":"addWebhooks","parameterTypes":["java.lang.String","io.swagger.v3.oas.models.PathItem"] }, {"name":"components","parameterTypes":["io.swagger.v3.oas.models.Components"] }, {"name":"equals","parameterTypes":["java.lang.Object"] }, {"name":"extensions","parameterTypes":["java.util.Map"] }, {"name":"externalDocs","parameterTypes":["io.swagger.v3.oas.models.ExternalDocumentation"] }, {"name":"getComponents","parameterTypes":[] }, {"name":"getExtensions","parameterTypes":[] }, {"name":"getExternalDocs","parameterTypes":[] }, {"name":"getInfo","parameterTypes":[] }, {"name":"getJsonSchemaDialect","parameterTypes":[] }, {"name":"getOpenapi","parameterTypes":[] }, {"name":"getPaths","parameterTypes":[] }, {"name":"getSecurity","parameterTypes":[] }, {"name":"getServers","parameterTypes":[] }, {"name":"getSpecVersion","parameterTypes":[] }, {"name":"getTags","parameterTypes":[] }, {"name":"getWebhooks","parameterTypes":[] }, {"name":"hashCode","parameterTypes":[] }, {"name":"info","parameterTypes":["io.swagger.v3.oas.models.info.Info"] }, {"name":"jsonSchemaDialect","parameterTypes":["java.lang.String"] }, {"name":"openapi","parameterTypes":["java.lang.String"] }, {"name":"path","parameterTypes":["java.lang.String","io.swagger.v3.oas.models.PathItem"] }, {"name":"paths","parameterTypes":["io.swagger.v3.oas.models.Paths"] }, {"name":"schema","parameterTypes":["java.lang.String","io.swagger.v3.oas.models.media.Schema"] }, {"name":"schemaRequirement","parameterTypes":["java.lang.String","io.swagger.v3.oas.models.security.SecurityScheme"] }, {"name":"security","parameterTypes":["java.util.List"] }, {"name":"servers","parameterTypes":["java.util.List"] }, {"name":"setComponents","parameterTypes":["io.swagger.v3.oas.models.Components"] }, {"name":"setExtensions","parameterTypes":["java.util.Map"] }, {"name":"setExternalDocs","parameterTypes":["io.swagger.v3.oas.models.ExternalDocumentation"] }, {"name":"setInfo","parameterTypes":["io.swagger.v3.oas.models.info.Info"] }, {"name":"setJsonSchemaDialect","parameterTypes":["java.lang.String"] }, {"name":"setOpenapi","parameterTypes":["java.lang.String"] }, {"name":"setPaths","parameterTypes":["io.swagger.v3.oas.models.Paths"] }, {"name":"setSecurity","parameterTypes":["java.util.List"] }, {"name":"setServers","parameterTypes":["java.util.List"] }, {"name":"setSpecVersion","parameterTypes":["io.swagger.v3.oas.models.SpecVersion"] }, {"name":"setTags","parameterTypes":["java.util.List"] }, {"name":"setWebhooks","parameterTypes":["java.util.Map"] }, {"name":"specVersion","parameterTypes":["io.swagger.v3.oas.models.SpecVersion"] }, {"name":"tags","parameterTypes":["java.util.List"] }, {"name":"toString","parameterTypes":[] }, {"name":"webhooks","parameterTypes":["java.util.Map"] }]
 },
 {
-  "name":"io.swagger.v3.oas.models.Operation"
+  "name":"io.swagger.v3.oas.models.Operation",
+  "allDeclaredFields":true,
+  "allDeclaredClasses":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"getCallbacks","parameterTypes":[] }, {"name":"getDeprecated","parameterTypes":[] }, {"name":"getDescription","parameterTypes":[] }, {"name":"getExtensions","parameterTypes":[] }, {"name":"getExternalDocs","parameterTypes":[] }, {"name":"getOperationId","parameterTypes":[] }, {"name":"getParameters","parameterTypes":[] }, {"name":"getRequestBody","parameterTypes":[] }, {"name":"getResponses","parameterTypes":[] }, {"name":"getSecurity","parameterTypes":[] }, {"name":"getServers","parameterTypes":[] }, {"name":"getSummary","parameterTypes":[] }, {"name":"getTags","parameterTypes":[] }]
 },
 {
-  "name":"io.swagger.v3.oas.models.PathItem"
+  "name":"io.swagger.v3.oas.models.PathItem",
+  "allDeclaredFields":true,
+  "allDeclaredClasses":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"get$ref","parameterTypes":[] }, {"name":"getDelete","parameterTypes":[] }, {"name":"getDescription","parameterTypes":[] }, {"name":"getExtensions","parameterTypes":[] }, {"name":"getGet","parameterTypes":[] }, {"name":"getHead","parameterTypes":[] }, {"name":"getOptions","parameterTypes":[] }, {"name":"getParameters","parameterTypes":[] }, {"name":"getPatch","parameterTypes":[] }, {"name":"getPost","parameterTypes":[] }, {"name":"getPut","parameterTypes":[] }, {"name":"getServers","parameterTypes":[] }, {"name":"getSummary","parameterTypes":[] }, {"name":"getTrace","parameterTypes":[] }]
 },
 {
-  "name":"io.swagger.v3.oas.models.Paths"
+  "name":"io.swagger.v3.oas.models.PathItem$HttpMethod"
+},
+{
+  "name":"io.swagger.v3.oas.models.Paths",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
   "name":"io.swagger.v3.oas.models.SpecVersion"
 },
 {
-  "name":"io.swagger.v3.oas.models.examples.Example"
+  "name":"io.swagger.v3.oas.models.callbacks.Callback",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true
+},
+{
+  "name":"io.swagger.v3.oas.models.examples.Example",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true
+},
+{
+  "name":"io.swagger.v3.oas.models.headers.Header",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true
+},
+{
+  "name":"io.swagger.v3.oas.models.headers.Header$StyleEnum",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true
 },
 {
   "name":"io.swagger.v3.oas.models.info.Contact",
   "allDeclaredFields":true,
+  "allDeclaredClasses":true,
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
-  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"setEmail","parameterTypes":["java.lang.String"] }, {"name":"setName","parameterTypes":["java.lang.String"] }, {"name":"setUrl","parameterTypes":["java.lang.String"] }]
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"getEmail","parameterTypes":[] }, {"name":"getExtensions","parameterTypes":[] }, {"name":"getName","parameterTypes":[] }, {"name":"getUrl","parameterTypes":[] }, {"name":"setEmail","parameterTypes":["java.lang.String"] }, {"name":"setExtensions","parameterTypes":["java.util.Map"] }, {"name":"setName","parameterTypes":["java.lang.String"] }, {"name":"setUrl","parameterTypes":["java.lang.String"] }]
 },
 {
   "name":"io.swagger.v3.oas.models.info.Info",
   "allDeclaredFields":true,
+  "allDeclaredClasses":true,
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
-  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"getContact","parameterTypes":[] }, {"name":"getLicense","parameterTypes":[] }, {"name":"setContact","parameterTypes":["io.swagger.v3.oas.models.info.Contact"] }, {"name":"setDescription","parameterTypes":["java.lang.String"] }, {"name":"setLicense","parameterTypes":["io.swagger.v3.oas.models.info.License"] }, {"name":"setTitle","parameterTypes":["java.lang.String"] }, {"name":"setVersion","parameterTypes":["java.lang.String"] }]
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"getContact","parameterTypes":[] }, {"name":"getDescription","parameterTypes":[] }, {"name":"getExtensions","parameterTypes":[] }, {"name":"getLicense","parameterTypes":[] }, {"name":"getSummary","parameterTypes":[] }, {"name":"getTermsOfService","parameterTypes":[] }, {"name":"getTitle","parameterTypes":[] }, {"name":"getVersion","parameterTypes":[] }, {"name":"setContact","parameterTypes":["io.swagger.v3.oas.models.info.Contact"] }, {"name":"setDescription","parameterTypes":["java.lang.String"] }, {"name":"setExtensions","parameterTypes":["java.util.Map"] }, {"name":"setLicense","parameterTypes":["io.swagger.v3.oas.models.info.License"] }, {"name":"setSummary","parameterTypes":["java.lang.String"] }, {"name":"setTermsOfService","parameterTypes":["java.lang.String"] }, {"name":"setTitle","parameterTypes":["java.lang.String"] }, {"name":"setVersion","parameterTypes":["java.lang.String"] }]
 },
 {
   "name":"io.swagger.v3.oas.models.info.License",
   "allDeclaredFields":true,
+  "allDeclaredClasses":true,
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
-  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"setName","parameterTypes":["java.lang.String"] }, {"name":"setUrl","parameterTypes":["java.lang.String"] }]
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"getExtensions","parameterTypes":[] }, {"name":"getIdentifier","parameterTypes":[] }, {"name":"getName","parameterTypes":[] }, {"name":"getUrl","parameterTypes":[] }, {"name":"setExtensions","parameterTypes":["java.util.Map"] }, {"name":"setIdentifier","parameterTypes":["java.lang.String"] }, {"name":"setName","parameterTypes":["java.lang.String"] }, {"name":"setUrl","parameterTypes":["java.lang.String"] }]
+},
+{
+  "name":"io.swagger.v3.oas.models.links.Link",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true
+},
+{
+  "name":"io.swagger.v3.oas.models.media.ArraySchema",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"io.swagger.v3.oas.models.media.BooleanSchema",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
   "name":"io.swagger.v3.oas.models.media.ComposedSchema"
 },
 {
-  "name":"io.swagger.v3.oas.models.media.Content"
-},
-{
-  "name":"io.swagger.v3.oas.models.media.MediaType"
-},
-{
-  "name":"io.swagger.v3.oas.models.media.Schema"
-},
-{
-  "name":"io.swagger.v3.oas.models.parameters.Parameter"
-},
-{
-  "name":"io.swagger.v3.oas.models.parameters.RequestBody"
-},
-{
-  "name":"io.swagger.v3.oas.models.responses.ApiResponse"
-},
-{
-  "name":"io.swagger.v3.oas.models.responses.ApiResponses"
-},
-{
-  "name":"io.swagger.v3.oas.models.security.Scopes"
-},
-{
-  "name":"io.swagger.v3.oas.models.security.SecurityRequirement",
+  "name":"io.swagger.v3.oas.models.media.Content",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
   "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
-  "name":"io.swagger.v3.oas.models.security.SecurityScheme"
+  "name":"io.swagger.v3.oas.models.media.DateTimeSchema",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
-  "name":"io.swagger.v3.oas.models.security.SecurityScheme$In"
+  "name":"io.swagger.v3.oas.models.media.Discriminator",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true
 },
 {
-  "name":"io.swagger.v3.oas.models.security.SecurityScheme$Type"
+  "name":"io.swagger.v3.oas.models.media.Encoding",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true
+},
+{
+  "name":"io.swagger.v3.oas.models.media.Encoding$StyleEnum",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"io.swagger.v3.oas.models.media.IntegerSchema",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"io.swagger.v3.oas.models.media.MapSchema",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"io.swagger.v3.oas.models.media.MediaType",
+  "allDeclaredFields":true,
+  "allDeclaredClasses":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"getEncoding","parameterTypes":[] }, {"name":"getExample","parameterTypes":[] }, {"name":"getExamples","parameterTypes":[] }, {"name":"getExtensions","parameterTypes":[] }, {"name":"getSchema","parameterTypes":[] }, {"name":"setSchema","parameterTypes":["io.swagger.v3.oas.models.media.Schema"] }]
+},
+{
+  "name":"io.swagger.v3.oas.models.media.NumberSchema",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"io.swagger.v3.oas.models.media.ObjectSchema",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"io.swagger.v3.oas.models.media.Schema",
+  "allDeclaredFields":true,
+  "allDeclaredClasses":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"get$dynamicAnchor","parameterTypes":[] }, {"name":"get$ref","parameterTypes":[] }, {"name":"get$vocabulary","parameterTypes":[] }, {"name":"getAdditionalProperties","parameterTypes":[] }, {"name":"getAllOf","parameterTypes":[] }, {"name":"getAnyOf","parameterTypes":[] }, {"name":"getDefault","parameterTypes":[] }, {"name":"getDeprecated","parameterTypes":[] }, {"name":"getDescription","parameterTypes":[] }, {"name":"getDiscriminator","parameterTypes":[] }, {"name":"getEnum","parameterTypes":[] }, {"name":"getExample","parameterTypes":[] }, {"name":"getExclusiveMaximum","parameterTypes":[] }, {"name":"getExclusiveMinimum","parameterTypes":[] }, {"name":"getExtensions","parameterTypes":[] }, {"name":"getExternalDocs","parameterTypes":[] }, {"name":"getFormat","parameterTypes":[] }, {"name":"getItems","parameterTypes":[] }, {"name":"getMaxItems","parameterTypes":[] }, {"name":"getMaxLength","parameterTypes":[] }, {"name":"getMaxProperties","parameterTypes":[] }, {"name":"getMaximum","parameterTypes":[] }, {"name":"getMinItems","parameterTypes":[] }, {"name":"getMinLength","parameterTypes":[] }, {"name":"getMinProperties","parameterTypes":[] }, {"name":"getMinimum","parameterTypes":[] }, {"name":"getMultipleOf","parameterTypes":[] }, {"name":"getNot","parameterTypes":[] }, {"name":"getNullable","parameterTypes":[] }, {"name":"getOneOf","parameterTypes":[] }, {"name":"getPattern","parameterTypes":[] }, {"name":"getProperties","parameterTypes":[] }, {"name":"getReadOnly","parameterTypes":[] }, {"name":"getRequired","parameterTypes":[] }, {"name":"getTitle","parameterTypes":[] }, {"name":"getType","parameterTypes":[] }, {"name":"getUniqueItems","parameterTypes":[] }, {"name":"getWriteOnly","parameterTypes":[] }, {"name":"getXml","parameterTypes":[] }, {"name":"setEnum","parameterTypes":["java.util.List"] }, {"name":"setExclusiveMaximum","parameterTypes":["java.lang.Boolean"] }, {"name":"setExclusiveMinimum","parameterTypes":["java.lang.Boolean"] }, {"name":"setFormat","parameterTypes":["java.lang.String"] }, {"name":"setItems","parameterTypes":["io.swagger.v3.oas.models.media.Schema"] }, {"name":"setMaxLength","parameterTypes":["java.lang.Integer"] }, {"name":"setMaximum","parameterTypes":["java.math.BigDecimal"] }, {"name":"setMinLength","parameterTypes":["java.lang.Integer"] }, {"name":"setMinimum","parameterTypes":["java.math.BigDecimal"] }, {"name":"setPattern","parameterTypes":["java.lang.String"] }, {"name":"setType","parameterTypes":["java.lang.String"] }]
+},
+{
+  "name":"io.swagger.v3.oas.models.media.Schema$BynaryStringConversion"
+},
+{
+  "name":"io.swagger.v3.oas.models.media.Schema$SchemaResolution"
+},
+{
+  "name":"io.swagger.v3.oas.models.media.StringSchema",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"io.swagger.v3.oas.models.media.UUIDSchema",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"io.swagger.v3.oas.models.media.XML",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true
+},
+{
+  "name":"io.swagger.v3.oas.models.parameters.Parameter",
+  "allDeclaredFields":true,
+  "allDeclaredClasses":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"get$ref","parameterTypes":[] }, {"name":"getAllowEmptyValue","parameterTypes":[] }, {"name":"getAllowReserved","parameterTypes":[] }, {"name":"getContent","parameterTypes":[] }, {"name":"getDeprecated","parameterTypes":[] }, {"name":"getDescription","parameterTypes":[] }, {"name":"getExample","parameterTypes":[] }, {"name":"getExamples","parameterTypes":[] }, {"name":"getExplode","parameterTypes":[] }, {"name":"getExtensions","parameterTypes":[] }, {"name":"getIn","parameterTypes":[] }, {"name":"getName","parameterTypes":[] }, {"name":"getRequired","parameterTypes":[] }, {"name":"getSchema","parameterTypes":[] }, {"name":"getStyle","parameterTypes":[] }]
+},
+{
+  "name":"io.swagger.v3.oas.models.parameters.Parameter$StyleEnum",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"io.swagger.v3.oas.models.parameters.RequestBody",
+  "allDeclaredFields":true,
+  "allDeclaredClasses":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"get$ref","parameterTypes":[] }, {"name":"getContent","parameterTypes":[] }, {"name":"getDescription","parameterTypes":[] }, {"name":"getExtensions","parameterTypes":[] }, {"name":"getRequired","parameterTypes":[] }]
+},
+{
+  "name":"io.swagger.v3.oas.models.responses.ApiResponse",
+  "allDeclaredFields":true,
+  "allDeclaredClasses":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"get$ref","parameterTypes":[] }, {"name":"getContent","parameterTypes":[] }, {"name":"getDescription","parameterTypes":[] }, {"name":"getExtensions","parameterTypes":[] }, {"name":"getHeaders","parameterTypes":[] }, {"name":"getLinks","parameterTypes":[] }, {"name":"setContent","parameterTypes":["io.swagger.v3.oas.models.media.Content"] }, {"name":"setDescription","parameterTypes":["java.lang.String"] }]
+},
+{
+  "name":"io.swagger.v3.oas.models.responses.ApiResponses",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true
+},
+{
+  "name":"io.swagger.v3.oas.models.security.OAuthFlow",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true
+},
+{
+  "name":"io.swagger.v3.oas.models.security.OAuthFlows",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true
+},
+{
+  "name":"io.swagger.v3.oas.models.security.Scopes",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true
+},
+{
+  "name":"io.swagger.v3.oas.models.security.SecurityRequirement",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"io.swagger.v3.oas.models.security.SecurityScheme",
+  "allDeclaredFields":true,
+  "allDeclaredClasses":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"get$ref","parameterTypes":[] }, {"name":"getBearerFormat","parameterTypes":[] }, {"name":"getDescription","parameterTypes":[] }, {"name":"getExtensions","parameterTypes":[] }, {"name":"getFlows","parameterTypes":[] }, {"name":"getIn","parameterTypes":[] }, {"name":"getName","parameterTypes":[] }, {"name":"getOpenIdConnectUrl","parameterTypes":[] }, {"name":"getScheme","parameterTypes":[] }, {"name":"getType","parameterTypes":[] }]
+},
+{
+  "name":"io.swagger.v3.oas.models.security.SecurityScheme$In",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"io.swagger.v3.oas.models.security.SecurityScheme$Type",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true
 },
 {
   "name":"io.swagger.v3.oas.models.servers.Server",
   "allDeclaredFields":true,
+  "allDeclaredClasses":true,
   "queryAllDeclaredMethods":true,
   "queryAllDeclaredConstructors":true,
-  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"setDescription","parameterTypes":["java.lang.String"] }, {"name":"setUrl","parameterTypes":["java.lang.String"] }]
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"getDescription","parameterTypes":[] }, {"name":"getExtensions","parameterTypes":[] }, {"name":"getUrl","parameterTypes":[] }, {"name":"getVariables","parameterTypes":[] }, {"name":"setDescription","parameterTypes":["java.lang.String"] }, {"name":"setExtensions","parameterTypes":["java.util.Map"] }, {"name":"setUrl","parameterTypes":["java.lang.String"] }, {"name":"setVariables","parameterTypes":["io.swagger.v3.oas.models.servers.ServerVariables"] }]
 },
 {
-  "name":"io.swagger.v3.oas.models.tags.Tag"
+  "name":"io.swagger.v3.oas.models.servers.ServerVariable",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true
+},
+{
+  "name":"io.swagger.v3.oas.models.servers.ServerVariables",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true
+},
+{
+  "name":"io.swagger.v3.oas.models.tags.Tag",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true
 },
 {
   "name":"io.vavr.control.Option"
@@ -3272,6 +3777,15 @@
   "queryAllDeclaredMethods":true
 },
 {
+  "name":"jakarta.validation.ConstraintValidator",
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true,
+  "methods":[{"name":"initialize","parameterTypes":["java.lang.annotation.Annotation"] }]
+},
+{
+  "name":"jakarta.validation.ConstraintValidatorContext"
+},
+{
   "name":"jakarta.validation.ConstraintValidatorFactory"
 },
 {
@@ -3288,7 +3802,8 @@
 },
 {
   "name":"jakarta.validation.Valid",
-  "queryAllDeclaredMethods":true
+  "queryAllDeclaredMethods":true,
+  "methods":[{"name":"value","parameterTypes":[] }]
 },
 {
   "name":"jakarta.validation.ValidationProviderResolver"
@@ -3308,6 +3823,41 @@
 },
 {
   "name":"jakarta.validation.bootstrap.GenericBootstrap"
+},
+{
+  "name":"jakarta.validation.constraints.DecimalMax",
+  "queryAllDeclaredMethods":true,
+  "methods":[{"name":"groups","parameterTypes":[] }, {"name":"inclusive","parameterTypes":[] }, {"name":"message","parameterTypes":[] }, {"name":"payload","parameterTypes":[] }, {"name":"value","parameterTypes":[] }]
+},
+{
+  "name":"jakarta.validation.constraints.DecimalMin",
+  "queryAllDeclaredMethods":true,
+  "methods":[{"name":"groups","parameterTypes":[] }, {"name":"inclusive","parameterTypes":[] }, {"name":"message","parameterTypes":[] }, {"name":"payload","parameterTypes":[] }, {"name":"value","parameterTypes":[] }]
+},
+{
+  "name":"jakarta.validation.constraints.Min",
+  "queryAllDeclaredMethods":true,
+  "methods":[{"name":"groups","parameterTypes":[] }, {"name":"message","parameterTypes":[] }, {"name":"payload","parameterTypes":[] }, {"name":"value","parameterTypes":[] }]
+},
+{
+  "name":"jakarta.validation.constraints.NotBlank",
+  "queryAllDeclaredMethods":true,
+  "methods":[{"name":"groups","parameterTypes":[] }, {"name":"message","parameterTypes":[] }, {"name":"payload","parameterTypes":[] }]
+},
+{
+  "name":"jakarta.validation.constraints.NotEmpty",
+  "queryAllDeclaredMethods":true,
+  "methods":[{"name":"groups","parameterTypes":[] }, {"name":"message","parameterTypes":[] }, {"name":"payload","parameterTypes":[] }]
+},
+{
+  "name":"jakarta.validation.constraints.NotNull",
+  "queryAllDeclaredMethods":true,
+  "methods":[{"name":"groups","parameterTypes":[] }, {"name":"message","parameterTypes":[] }, {"name":"payload","parameterTypes":[] }]
+},
+{
+  "name":"jakarta.validation.constraints.Size",
+  "queryAllDeclaredMethods":true,
+  "methods":[{"name":"groups","parameterTypes":[] }, {"name":"max","parameterTypes":[] }, {"name":"message","parameterTypes":[] }, {"name":"min","parameterTypes":[] }, {"name":"payload","parameterTypes":[] }]
 },
 {
   "name":"jakarta.validation.executable.ExecutableValidator"
@@ -3382,8 +3932,11 @@
 },
 {
   "name":"java.io.Serializable",
+  "allDeclaredFields":true,
+  "allDeclaredClasses":true,
   "queryAllDeclaredMethods":true,
   "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
   "methods":[{"name":"<init>","parameterTypes":["java.lang.String"] }, {"name":"containsKey","parameterTypes":["java.lang.String"] }, {"name":"containsValue","parameterTypes":["com.leijendary.config.properties.KafkaTopicProperties$KafkaTopic"] }, {"name":"from","parameterTypes":["java.lang.String"] }, {"name":"get","parameterTypes":["java.lang.String"] }, {"name":"getOrDefault","parameterTypes":["java.lang.String","com.leijendary.config.properties.KafkaTopicProperties$KafkaTopic"] }, {"name":"of","parameterTypes":["java.lang.String"] }, {"name":"remove","parameterTypes":["java.lang.String"] }, {"name":"remove","parameterTypes":["java.lang.String","com.leijendary.config.properties.KafkaTopicProperties$KafkaTopic"] }, {"name":"valueOf","parameterTypes":["java.lang.String"] }]
 },
 {
@@ -3434,8 +3987,10 @@
 },
 {
   "name":"java.lang.Cloneable",
+  "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
   "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
   "methods":[{"name":"containsKey","parameterTypes":["java.lang.String"] }, {"name":"containsValue","parameterTypes":["com.leijendary.config.properties.KafkaTopicProperties$KafkaTopic"] }, {"name":"get","parameterTypes":["java.lang.String"] }, {"name":"getOrDefault","parameterTypes":["java.lang.String","com.leijendary.config.properties.KafkaTopicProperties$KafkaTopic"] }, {"name":"remove","parameterTypes":["java.lang.String"] }, {"name":"remove","parameterTypes":["java.lang.String","com.leijendary.config.properties.KafkaTopicProperties$KafkaTopic"] }]
 },
 {
@@ -3487,6 +4042,7 @@
 },
 {
   "name":"java.lang.Integer",
+  "allDeclaredFields":true,
   "fields":[{"name":"TYPE"}]
 },
 {
@@ -3494,12 +4050,16 @@
 },
 {
   "name":"java.lang.Iterable",
+  "allDeclaredFields":true,
+  "allDeclaredClasses":true,
   "queryAllDeclaredMethods":true,
   "queryAllPublicMethods":true,
+  "queryAllDeclaredConstructors":true,
   "methods":[{"name":"forEach","parameterTypes":["java.util.function.Consumer"] }, {"name":"spliterator","parameterTypes":[] }]
 },
 {
   "name":"java.lang.Long",
+  "allDeclaredFields":true,
   "fields":[{"name":"TYPE"}]
 },
 {
@@ -3518,7 +4078,7 @@
   "queryAllDeclaredMethods":true,
   "queryAllPublicMethods":true,
   "queryAllDeclaredConstructors":true,
-  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"<init>","parameterTypes":["com.leijendary.domain.sample.SampleSearchCustomRepositoryImpl$$SpringCGLIB$$0"] }, {"name":"equals","parameterTypes":["java.lang.Object"] }, {"name":"from","parameterTypes":["com.leijendary.domain.sample.SampleSearchCustomRepositoryImpl$$SpringCGLIB$$0"] }, {"name":"hashCode","parameterTypes":[] }, {"name":"of","parameterTypes":["com.leijendary.domain.sample.SampleSearchCustomRepositoryImpl$$SpringCGLIB$$0"] }, {"name":"toString","parameterTypes":[] }, {"name":"valueOf","parameterTypes":["com.leijendary.domain.sample.SampleSearchCustomRepositoryImpl$$SpringCGLIB$$0"] }]
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"<init>","parameterTypes":["com.leijendary.domain.sample.SampleSearchCustomRepositoryImpl$$SpringCGLIB$$0"] }, {"name":"catchException$default","parameterTypes":["java.lang.Object","java.lang.Exception","int","java.lang.Object"] }, {"name":"catchNoResourceFound$default","parameterTypes":["java.lang.Object","org.springframework.web.servlet.resource.NoResourceFoundException","int","java.lang.Object"] }, {"name":"catchResourceNotFound$default","parameterTypes":["java.lang.Object","com.leijendary.error.exception.ResourceNotFoundException","int","java.lang.Object"] }, {"name":"create$default","parameterTypes":["java.lang.Object","com.leijendary.domain.sample.SampleRequest","int","java.lang.Object"] }, {"name":"cursor$default","parameterTypes":["java.lang.Object","com.leijendary.model.QueryRequest","com.leijendary.model.Cursorable","int","java.lang.Object"] }, {"name":"delete$default","parameterTypes":["java.lang.Object","java.lang.String","int","java.lang.Object"] }, {"name":"equals","parameterTypes":["java.lang.Object"] }, {"name":"from","parameterTypes":["com.leijendary.domain.sample.SampleSearchCustomRepositoryImpl$$SpringCGLIB$$0"] }, {"name":"get$default","parameterTypes":["java.lang.Object","java.lang.String","int","java.lang.Object"] }, {"name":"hashCode","parameterTypes":[] }, {"name":"list$default","parameterTypes":["java.lang.Object","com.leijendary.model.QueryRequest","org.springframework.data.domain.Pageable","int","java.lang.Object"] }, {"name":"of","parameterTypes":["com.leijendary.domain.sample.SampleSearchCustomRepositoryImpl$$SpringCGLIB$$0"] }, {"name":"toString","parameterTypes":[] }, {"name":"valueOf","parameterTypes":["com.leijendary.domain.sample.SampleSearchCustomRepositoryImpl$$SpringCGLIB$$0"] }]
 },
 {
   "name":"java.lang.ObjectBeanInfo"
@@ -3561,6 +4121,7 @@
 },
 {
   "name":"java.lang.String",
+  "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
   "fields":[{"name":"TYPE"}],
   "methods":[{"name":"<init>","parameterTypes":["java.io.Serializable"] }, {"name":"<init>","parameterTypes":["java.lang.Comparable"] }, {"name":"<init>","parameterTypes":["java.lang.constant.Constable"] }]
@@ -3590,6 +4151,9 @@
 {
   "name":"java.lang.Throwable",
   "allDeclaredFields":true
+},
+{
+  "name":"java.lang.VirtualThread"
 },
 {
   "name":"java.lang.Void",
@@ -3753,7 +4317,10 @@
   "methods":[{"name":"getLowerBounds","parameterTypes":[] }, {"name":"getUpperBounds","parameterTypes":[] }]
 },
 {
-  "name":"java.math.BigDecimal"
+  "name":"java.math.BigDecimal",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true
 },
 {
   "name":"java.math.BigInteger"
@@ -3864,7 +4431,7 @@
 },
 {
   "name":"java.sql.Connection",
-  "methods":[{"name":"close","parameterTypes":[] }, {"name":"commit","parameterTypes":[] }, {"name":"createStatement","parameterTypes":[] }, {"name":"getAutoCommit","parameterTypes":[] }, {"name":"getCatalog","parameterTypes":[] }, {"name":"getMetaData","parameterTypes":[] }, {"name":"isClosed","parameterTypes":[] }, {"name":"prepareCall","parameterTypes":["java.lang.String"] }, {"name":"prepareStatement","parameterTypes":["java.lang.String"] }, {"name":"rollback","parameterTypes":[] }, {"name":"setAutoCommit","parameterTypes":["boolean"] }]
+  "methods":[{"name":"close","parameterTypes":[] }, {"name":"commit","parameterTypes":[] }, {"name":"createStatement","parameterTypes":[] }, {"name":"getAutoCommit","parameterTypes":[] }, {"name":"getCatalog","parameterTypes":[] }, {"name":"getMetaData","parameterTypes":[] }, {"name":"isClosed","parameterTypes":[] }, {"name":"prepareCall","parameterTypes":["java.lang.String"] }, {"name":"prepareStatement","parameterTypes":["java.lang.String"] }, {"name":"rollback","parameterTypes":[] }, {"name":"setAutoCommit","parameterTypes":["boolean"] }, {"name":"setReadOnly","parameterTypes":["boolean"] }]
 },
 {
   "name":"java.sql.ConnectionBuilder"
@@ -3880,7 +4447,7 @@
 },
 {
   "name":"java.sql.PreparedStatement",
-  "methods":[{"name":"execute","parameterTypes":[] }, {"name":"executeQuery","parameterTypes":[] }]
+  "methods":[{"name":"addBatch","parameterTypes":[] }, {"name":"execute","parameterTypes":[] }, {"name":"executeQuery","parameterTypes":[] }, {"name":"executeUpdate","parameterTypes":[] }, {"name":"setBigDecimal","parameterTypes":["int","java.math.BigDecimal"] }, {"name":"setNull","parameterTypes":["int","int"] }, {"name":"setObject","parameterTypes":["int","java.lang.Object","int"] }, {"name":"setString","parameterTypes":["int","java.lang.String"] }, {"name":"setTimestamp","parameterTypes":["int","java.sql.Timestamp"] }]
 },
 {
   "name":"java.sql.ResultSet",
@@ -3904,7 +4471,7 @@
 },
 {
   "name":"java.sql.Statement",
-  "methods":[{"name":"close","parameterTypes":[] }, {"name":"execute","parameterTypes":["java.lang.String"] }, {"name":"executeQuery","parameterTypes":["java.lang.String"] }, {"name":"getWarnings","parameterTypes":[] }, {"name":"setFetchSize","parameterTypes":["int"] }]
+  "methods":[{"name":"close","parameterTypes":[] }, {"name":"execute","parameterTypes":["java.lang.String"] }, {"name":"executeBatch","parameterTypes":[] }, {"name":"executeQuery","parameterTypes":["java.lang.String"] }, {"name":"getWarnings","parameterTypes":[] }, {"name":"setFetchSize","parameterTypes":["int"] }]
 },
 {
   "name":"java.sql.Time"
@@ -3946,7 +4513,8 @@
   "name":"java.time.DurationEditor"
 },
 {
-  "name":"java.time.Instant"
+  "name":"java.time.Instant",
+  "allDeclaredFields":true
 },
 {
   "name":"java.time.ZoneId"
@@ -3957,7 +4525,14 @@
 {
   "name":"java.util.AbstractCollection",
   "allDeclaredFields":true,
-  "queryAllDeclaredMethods":true
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true
+},
+{
+  "name":"java.util.AbstractList",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true
 },
 {
   "name":"java.util.AbstractMap",
@@ -3970,11 +4545,49 @@
 },
 {
   "name":"java.util.ArrayList",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
   "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
   "name":"java.util.Collection",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true
+},
+{
+  "name":"java.util.Collections$SingletonList",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true
+},
+{
+  "name":"java.util.Collections$SynchronizedMap",
+  "allDeclaredFields":true,
   "queryAllDeclaredMethods":true
+},
+{
+  "name":"java.util.Collections$SynchronizedSortedMap",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true
+},
+{
+  "name":"java.util.Collections$UnmodifiableCollection",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"java.util.Collections$UnmodifiableList",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"java.util.Collections$UnmodifiableRandomAccessList",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true
 },
 {
   "name":"java.util.Comparator"
@@ -4042,17 +4655,22 @@
   "name":"java.util.Iterator"
 },
 {
-  "name":"java.util.LinkedHashMap"
+  "name":"java.util.LinkedHashMap",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true
 },
 {
   "name":"java.util.List",
-  "queryAllDeclaredMethods":true
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true
 },
 {
   "name":"java.util.Locale"
 },
 {
   "name":"java.util.Map",
+  "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
   "queryAllPublicMethods":true,
   "methods":[{"name":"containsKey","parameterTypes":["java.lang.String"] }, {"name":"containsValue","parameterTypes":["com.leijendary.config.properties.KafkaTopicProperties$KafkaTopic"] }, {"name":"get","parameterTypes":["java.lang.String"] }, {"name":"getOrDefault","parameterTypes":["java.lang.String","com.leijendary.config.properties.KafkaTopicProperties$KafkaTopic"] }, {"name":"remove","parameterTypes":["java.lang.String"] }, {"name":"remove","parameterTypes":["java.lang.String","com.leijendary.config.properties.KafkaTopicProperties$KafkaTopic"] }]
@@ -4075,16 +4693,32 @@
 },
 {
   "name":"java.util.RandomAccess",
-  "queryAllDeclaredMethods":true
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true
 },
 {
   "name":"java.util.ResourceBundle"
+},
+{
+  "name":"java.util.SequencedCollection",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true
+},
+{
+  "name":"java.util.SequencedMap",
+  "queryAllDeclaredMethods":true
 },
 {
   "name":"java.util.ServiceLoader"
 },
 {
   "name":"java.util.Set"
+},
+{
+  "name":"java.util.SortedMap",
+  "queryAllDeclaredMethods":true
 },
 {
   "name":"java.util.SortedSet",
@@ -4100,16 +4734,23 @@
   "name":"java.util.TreeMap"
 },
 {
-  "name":"java.util.UUID"
+  "name":"java.util.UUID",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true
 },
 {
   "name":"java.util.concurrent.BlockingQueue"
 },
 {
-  "name":"java.util.concurrent.Callable"
+  "name":"java.util.concurrent.Callable",
+  "methods":[{"name":"call","parameterTypes":[] }]
 },
 {
   "name":"java.util.concurrent.CompletableFuture"
+},
+{
+  "name":"java.util.concurrent.CompletableFuture$AsyncRun"
 },
 {
   "name":"java.util.concurrent.ConcurrentHashMap"
@@ -4174,10 +4815,6 @@
   "fields":[{"name":"base"}, {"name":"cellsBusy"}]
 },
 {
-  "name":"java.util.concurrent.atomic.Striped64$Cell",
-  "fields":[{"name":"value"}]
-},
-{
   "name":"java.util.function.BiConsumer"
 },
 {
@@ -4208,6 +4845,8 @@
 },
 {
   "name":"java.util.function.Supplier",
+  "allDeclaredFields":true,
+  "allDeclaredClasses":true,
   "queryAllDeclaredMethods":true,
   "queryAllPublicMethods":true
 },
@@ -4240,6 +4879,14 @@
 },
 {
   "name":"java.util.stream.Stream"
+},
+{
+  "name":"java.util.zip.CRC32C",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"java.util.zip.Checksum",
+  "methods":[{"name":"update","parameterTypes":["java.nio.ByteBuffer"] }]
 },
 {
   "name":"javafx.beans.value.ObservableValue"
@@ -4356,6 +5003,9 @@
   "methods":[{"name":"getUnsafe","parameterTypes":[] }]
 },
 {
+  "name":"jdk.internal.reflect.DirectMethodHandleAccessor"
+},
+{
   "name":"jdk.internal.vm.annotation.IntrinsicCandidate"
 },
 {
@@ -4396,10 +5046,16 @@
   "name":"kotlin.Boolean"
 },
 {
+  "name":"kotlin.Cloneable"
+},
+{
   "name":"kotlin.Deprecated"
 },
 {
   "name":"kotlin.Double"
+},
+{
+  "name":"kotlin.Exception"
 },
 {
   "name":"kotlin.Float"
@@ -4417,10 +5073,14 @@
 {
   "name":"kotlin.Metadata",
   "queryAllDeclaredMethods":true,
-  "methods":[{"name":"bv","parameterTypes":[] }, {"name":"d1","parameterTypes":[] }, {"name":"d2","parameterTypes":[] }, {"name":"k","parameterTypes":[] }, {"name":"mv","parameterTypes":[] }, {"name":"pn","parameterTypes":[] }, {"name":"xi","parameterTypes":[] }, {"name":"xs","parameterTypes":[] }]
+  "methods":[{"name":"bv","parameterTypes":[] }, {"name":"d1","parameterTypes":[] }, {"name":"d2","parameterTypes":[] }, {"name":"k","parameterTypes":[] }, {"name":"mv","parameterTypes":[] }, {"name":"pn","parameterTypes":[] }, {"name":"value","parameterTypes":[] }, {"name":"xi","parameterTypes":[] }, {"name":"xs","parameterTypes":[] }]
 },
 {
-  "name":"kotlin.Pair"
+  "name":"kotlin.Pair",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.Object","java.lang.Object"] }, {"name":"getFirst","parameterTypes":[] }, {"name":"getSecond","parameterTypes":[] }]
 },
 {
   "name":"kotlin.SafePublicationLazyImpl",
@@ -4441,18 +5101,22 @@
 },
 {
   "name":"kotlin.annotation.Retention",
-  "queryAllDeclaredMethods":true
+  "queryAllDeclaredMethods":true,
+  "methods":[{"name":"value","parameterTypes":[] }]
 },
 {
   "name":"kotlin.annotation.Target",
   "queryAllDeclaredMethods":true,
-  "methods":[{"name":"allowedTargets","parameterTypes":[] }]
+  "methods":[{"name":"allowedTargets","parameterTypes":[] }, {"name":"value","parameterTypes":[] }]
 },
 {
   "name":"kotlin.collections.Collection"
 },
 {
   "name":"kotlin.collections.Iterable"
+},
+{
+  "name":"kotlin.collections.Iterator"
 },
 {
   "name":"kotlin.collections.List"
@@ -4465,6 +5129,9 @@
 },
 {
   "name":"kotlin.collections.MutableIterable"
+},
+{
+  "name":"kotlin.collections.MutableIterator"
 },
 {
   "name":"kotlin.collections.MutableList"
@@ -4480,6 +5147,9 @@
 },
 {
   "name":"kotlin.coroutines.Continuation"
+},
+{
+  "name":"kotlin.io.Serializable"
 },
 {
   "name":"kotlin.jvm.JvmInline"
@@ -4503,8 +5173,17 @@
   "name":"kotlin.reflect.full.KClasses"
 },
 {
+  "name":"kotlin.reflect.jvm.internal.KCallableImpl"
+},
+{
   "name":"kotlin.reflect.jvm.internal.ReflectionFactoryImpl",
   "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"kotlin.reflect.jvm.internal.calls.CallerImpl$Method"
+},
+{
+  "name":"kotlin.reflect.jvm.internal.calls.CallerImpl$Method$Instance"
 },
 {
   "name":"kotlin.reflect.jvm.internal.impl.load.java.ErasedOverridabilityCondition"
@@ -4518,6 +5197,9 @@
 {
   "name":"kotlin.reflect.jvm.internal.impl.resolve.scopes.DescriptorKindFilter",
   "allPublicFields":true
+},
+{
+  "name":"kotlin.reflect.jvm.internal.impl.serialization.deserialization.builtins.BuiltInsLoaderImpl"
 },
 {
   "name":"kotlinx.coroutines.flow.Flow"
@@ -5979,6 +6661,10 @@
   "name":"liquibase.ui.UIServiceEnum"
 },
 {
+  "name":"long",
+  "allDeclaredFields":true
+},
+{
   "name":"net.ttddyy.dsproxy.ExecutionInfo"
 },
 {
@@ -6162,12 +6848,33 @@
   "name":"org.apache.catalina.Valve"
 },
 {
+  "name":"org.apache.catalina.authenticator.AuthenticatorBase"
+},
+{
   "name":"org.apache.catalina.connector.Connector"
+},
+{
+  "name":"org.apache.catalina.connector.CoyoteAdapter"
 },
 {
   "name":"org.apache.catalina.core.ApplicationContextFacade",
   "queryAllDeclaredMethods":true,
   "methods":[{"name":"addFilter","parameterTypes":["java.lang.String","jakarta.servlet.Filter"] }, {"name":"addFilter","parameterTypes":["java.lang.String","java.lang.Class"] }, {"name":"addFilter","parameterTypes":["java.lang.String","java.lang.String"] }, {"name":"addJspFile","parameterTypes":["java.lang.String","java.lang.String"] }, {"name":"addListener","parameterTypes":["java.lang.Class"] }, {"name":"addListener","parameterTypes":["java.lang.String"] }, {"name":"addListener","parameterTypes":["java.util.EventListener"] }, {"name":"addServlet","parameterTypes":["java.lang.String","jakarta.servlet.Servlet"] }, {"name":"addServlet","parameterTypes":["java.lang.String","java.lang.Class"] }, {"name":"addServlet","parameterTypes":["java.lang.String","java.lang.String"] }, {"name":"createFilter","parameterTypes":["java.lang.Class"] }, {"name":"createListener","parameterTypes":["java.lang.Class"] }, {"name":"createServlet","parameterTypes":["java.lang.Class"] }, {"name":"declareRoles","parameterTypes":["java.lang.String[]"] }, {"name":"getAttribute","parameterTypes":["java.lang.String"] }, {"name":"getAttributeNames","parameterTypes":[] }, {"name":"getClassLoader","parameterTypes":[] }, {"name":"getContext","parameterTypes":["java.lang.String"] }, {"name":"getContextPath","parameterTypes":[] }, {"name":"getDefaultSessionTrackingModes","parameterTypes":[] }, {"name":"getEffectiveMajorVersion","parameterTypes":[] }, {"name":"getEffectiveMinorVersion","parameterTypes":[] }, {"name":"getEffectiveSessionTrackingModes","parameterTypes":[] }, {"name":"getFilterRegistration","parameterTypes":["java.lang.String"] }, {"name":"getFilterRegistrations","parameterTypes":[] }, {"name":"getInitParameter","parameterTypes":["java.lang.String"] }, {"name":"getInitParameterNames","parameterTypes":[] }, {"name":"getJspConfigDescriptor","parameterTypes":[] }, {"name":"getMajorVersion","parameterTypes":[] }, {"name":"getMimeType","parameterTypes":["java.lang.String"] }, {"name":"getMinorVersion","parameterTypes":[] }, {"name":"getNamedDispatcher","parameterTypes":["java.lang.String"] }, {"name":"getRealPath","parameterTypes":["java.lang.String"] }, {"name":"getRequestCharacterEncoding","parameterTypes":[] }, {"name":"getRequestDispatcher","parameterTypes":["java.lang.String"] }, {"name":"getResource","parameterTypes":["java.lang.String"] }, {"name":"getResourceAsStream","parameterTypes":["java.lang.String"] }, {"name":"getResourcePaths","parameterTypes":["java.lang.String"] }, {"name":"getResponseCharacterEncoding","parameterTypes":[] }, {"name":"getServerInfo","parameterTypes":[] }, {"name":"getServletContextName","parameterTypes":[] }, {"name":"getServletRegistration","parameterTypes":["java.lang.String"] }, {"name":"getServletRegistrations","parameterTypes":[] }, {"name":"getSessionCookieConfig","parameterTypes":[] }, {"name":"getSessionTimeout","parameterTypes":[] }, {"name":"getVirtualServerName","parameterTypes":[] }, {"name":"log","parameterTypes":["java.lang.String"] }, {"name":"log","parameterTypes":["java.lang.String","java.lang.Throwable"] }, {"name":"removeAttribute","parameterTypes":["java.lang.String"] }, {"name":"setAttribute","parameterTypes":["java.lang.String","java.lang.Object"] }, {"name":"setInitParameter","parameterTypes":["java.lang.String","java.lang.String"] }, {"name":"setRequestCharacterEncoding","parameterTypes":["java.lang.String"] }, {"name":"setResponseCharacterEncoding","parameterTypes":["java.lang.String"] }, {"name":"setSessionTimeout","parameterTypes":["int"] }, {"name":"setSessionTrackingModes","parameterTypes":["java.util.Set"] }]
+},
+{
+  "name":"org.apache.catalina.core.ApplicationFilterChain"
+},
+{
+  "name":"org.apache.catalina.core.StandardContextValve"
+},
+{
+  "name":"org.apache.catalina.core.StandardEngineValve"
+},
+{
+  "name":"org.apache.catalina.core.StandardHostValve"
+},
+{
+  "name":"org.apache.catalina.core.StandardWrapperValve"
 },
 {
   "name":"org.apache.catalina.loader.JdbcLeakPrevention",
@@ -6181,14 +6888,23 @@
   "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
+  "name":"org.apache.catalina.valves.ErrorReportValve"
+},
+{
   "name":"org.apache.commons.logging.Log"
 },
 {
   "name":"org.apache.commons.pool2.ObjectPool"
 },
 {
+  "name":"org.apache.coyote.AbstractProcessorLight"
+},
+{
   "name":"org.apache.coyote.AbstractProtocol",
   "methods":[{"name":"getAddress","parameterTypes":[] }, {"name":"getLocalPort","parameterTypes":[] }, {"name":"getProperty","parameterTypes":["java.lang.String"] }, {"name":"setPort","parameterTypes":["int"] }, {"name":"setProperty","parameterTypes":["java.lang.String","java.lang.String"] }]
+},
+{
+  "name":"org.apache.coyote.AbstractProtocol$ConnectionHandler"
 },
 {
   "name":"org.apache.coyote.ProtocolHandler"
@@ -6200,6 +6916,9 @@
 {
   "name":"org.apache.coyote.http11.Http11NioProtocol",
   "queryAllPublicMethods":true
+},
+{
+  "name":"org.apache.coyote.http11.Http11Processor"
 },
 {
   "name":"org.apache.derby.jdbc.EmbeddedDriver"
@@ -6329,6 +7048,10 @@
   "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
+  "name":"org.apache.kafka.common.serialization.StringSerializer",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
   "name":"org.apache.kafka.common.utils.AppInfoParser$AppInfo",
   "queryAllPublicConstructors":true
 },
@@ -6356,6 +7079,12 @@
 {
   "name":"org.apache.tomcat.util.net.NioEndpoint",
   "queryAllPublicMethods":true
+},
+{
+  "name":"org.apache.tomcat.util.net.NioEndpoint$SocketProcessor"
+},
+{
+  "name":"org.apache.tomcat.util.net.SocketProcessorBase"
 },
 {
   "name":"org.apache.tomcat.websocket.server.WsFilter",
@@ -6781,6 +7510,9 @@
   "name":"org.eclipse.jetty.client.HttpClient"
 },
 {
+  "name":"org.eclipse.parsson.JsonProviderImpl"
+},
+{
   "name":"org.elasticsearch.client.Cancellable"
 },
 {
@@ -6844,6 +7576,73 @@
   "name":"org.hibernate.validator.HibernateValidator"
 },
 {
+  "name":"org.hibernate.validator.internal.constraintvalidators.bv.NotBlankValidator",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"isValid","parameterTypes":["java.lang.Object","jakarta.validation.ConstraintValidatorContext"] }]
+},
+{
+  "name":"org.hibernate.validator.internal.constraintvalidators.bv.NotNullValidator",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"isValid","parameterTypes":["java.lang.Object","jakarta.validation.ConstraintValidatorContext"] }]
+},
+{
+  "name":"org.hibernate.validator.internal.constraintvalidators.bv.notempty.NotEmptyValidatorForCollection",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"isValid","parameterTypes":["java.lang.Object","jakarta.validation.ConstraintValidatorContext"] }]
+},
+{
+  "name":"org.hibernate.validator.internal.constraintvalidators.bv.number.bound.AbstractMinValidator",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "methods":[{"name":"compare","parameterTypes":["java.lang.Object"] }, {"name":"initialize","parameterTypes":["jakarta.validation.constraints.Min"] }, {"name":"initialize","parameterTypes":["java.lang.annotation.Annotation"] }, {"name":"isValid","parameterTypes":["java.lang.Object","jakarta.validation.ConstraintValidatorContext"] }]
+},
+{
+  "name":"org.hibernate.validator.internal.constraintvalidators.bv.number.bound.MinValidatorForInteger",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"org.hibernate.validator.internal.constraintvalidators.bv.number.bound.decimal.AbstractDecimalMaxValidator",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "methods":[{"name":"compare","parameterTypes":["java.lang.Object"] }, {"name":"initialize","parameterTypes":["jakarta.validation.constraints.DecimalMax"] }, {"name":"initialize","parameterTypes":["java.lang.annotation.Annotation"] }, {"name":"isValid","parameterTypes":["java.lang.Object","jakarta.validation.ConstraintValidatorContext"] }]
+},
+{
+  "name":"org.hibernate.validator.internal.constraintvalidators.bv.number.bound.decimal.AbstractDecimalMinValidator",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "methods":[{"name":"compare","parameterTypes":["java.lang.Object"] }, {"name":"initialize","parameterTypes":["jakarta.validation.constraints.DecimalMin"] }, {"name":"initialize","parameterTypes":["java.lang.annotation.Annotation"] }, {"name":"isValid","parameterTypes":["java.lang.Object","jakarta.validation.ConstraintValidatorContext"] }]
+},
+{
+  "name":"org.hibernate.validator.internal.constraintvalidators.bv.number.bound.decimal.DecimalMaxValidatorForBigDecimal",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"org.hibernate.validator.internal.constraintvalidators.bv.number.bound.decimal.DecimalMinValidatorForBigDecimal",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"org.hibernate.validator.internal.constraintvalidators.bv.size.SizeValidatorForCharSequence",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"initialize","parameterTypes":["java.lang.annotation.Annotation"] }, {"name":"isValid","parameterTypes":["java.lang.Object","jakarta.validation.ConstraintValidatorContext"] }]
+},
+{
   "name":"org.hibernate.validator.internal.engine.AbstractConfigurationImpl",
   "methods":[{"name":"externalClassLoader","parameterTypes":["java.lang.ClassLoader"] }]
 },
@@ -6892,10 +7691,32 @@
   "name":"org.jruby.runtime.Constants"
 },
 {
-  "name":"org.openapi.petstore.v2.model.Pet"
+  "name":"org.openapi.petstore.v2.model.Category",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.Long","java.lang.String"] }, {"name":"getId","parameterTypes":[] }, {"name":"getName","parameterTypes":[] }]
 },
 {
-  "name":"org.openapi.petstore.v2.model.Pet$Status"
+  "name":"org.openapi.petstore.v2.model.Pet",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.String","java.util.List","java.lang.Long","org.openapi.petstore.v2.model.Category","java.util.List","org.openapi.petstore.v2.model.Pet$Status"] }, {"name":"getCategory","parameterTypes":[] }, {"name":"getId","parameterTypes":[] }, {"name":"getName","parameterTypes":[] }, {"name":"getPhotoUrls","parameterTypes":[] }, {"name":"getStatus","parameterTypes":[] }, {"name":"getTags","parameterTypes":[] }]
+},
+{
+  "name":"org.openapi.petstore.v2.model.Pet$Status",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "fields":[{"name":"AVAILABLE"}, {"name":"PENDING"}, {"name":"SOLD"}],
+  "methods":[{"name":"getValue","parameterTypes":[] }]
+},
+{
+  "name":"org.openapi.petstore.v2.model.Tag",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.Long","java.lang.String"] }, {"name":"getId","parameterTypes":[] }, {"name":"getName","parameterTypes":[] }]
 },
 {
   "name":"org.postgresql.Driver"
@@ -7088,6 +7909,12 @@
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
   "methods":[{"name":"resolve","parameterTypes":["io.swagger.v3.core.converter.AnnotatedType","io.swagger.v3.core.converter.ModelConverterContext","java.util.Iterator"] }]
+},
+{
+  "name":"org.springdoc.core.converters.models.Pageable",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true
 },
 {
   "name":"org.springdoc.core.customizers.DataRestDelegatingMethodParameterCustomizer",
@@ -7405,7 +8232,8 @@
 {
   "name":"org.springdoc.webmvc.ui.SwaggerConfigResource",
   "allDeclaredFields":true,
-  "queryAllDeclaredMethods":true
+  "queryAllDeclaredMethods":true,
+  "methods":[{"name":"openapiJson","parameterTypes":["jakarta.servlet.http.HttpServletRequest"] }]
 },
 {
   "name":"org.springdoc.webmvc.ui.SwaggerIndexPageTransformer",
@@ -7654,7 +8482,10 @@
   "name":"org.springframework.ai.chat.messages.Message"
 },
 {
-  "name":"org.springframework.ai.chat.messages.MessageType"
+  "name":"org.springframework.ai.chat.messages.MessageType",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "fields":[{"name":"ASSISTANT"}, {"name":"SYSTEM"}, {"name":"TOOL"}, {"name":"USER"}]
 },
 {
   "name":"org.springframework.ai.chat.messages.ToolResponseMessage"
@@ -8033,6 +8864,12 @@
   "name":"org.springframework.aop.framework.AopProxyFactory"
 },
 {
+  "name":"org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor"
+},
+{
+  "name":"org.springframework.aop.framework.JdkDynamicAopProxy"
+},
+{
   "name":"org.springframework.aop.framework.ProxyConfig",
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
@@ -8057,6 +8894,9 @@
   "methods":[{"name":"setOrder","parameterTypes":["int"] }]
 },
 {
+  "name":"org.springframework.aop.framework.ReflectiveMethodInvocation"
+},
+{
   "name":"org.springframework.aop.framework.adapter.AdvisorAdapterRegistry"
 },
 {
@@ -8071,6 +8911,9 @@
   "name":"org.springframework.aop.support.AbstractPointcutAdvisor",
   "queryAllDeclaredMethods":true,
   "methods":[{"name":"equals","parameterTypes":["java.lang.Object"] }, {"name":"getOrder","parameterTypes":[] }, {"name":"hashCode","parameterTypes":[] }, {"name":"setOrder","parameterTypes":["int"] }]
+},
+{
+  "name":"org.springframework.aop.support.AopUtils"
 },
 {
   "name":"org.springframework.aop.target.AbstractBeanFactoryBasedTargetSource",
@@ -12101,7 +12944,7 @@
   "name":"org.springframework.cloud.commons.config.DefaultsBindHandlerAdvisor$MappingsProvider",
   "queryAllDeclaredMethods":true,
   "queryAllPublicMethods":true,
-  "methods":[{"name":"<init>","parameterTypes":["org.springframework.cloud.client.loadbalancer.LoadBalancerDefaultMappingsProviderAutoConfiguration$$Lambda/0x00001ff001635a28"] }, {"name":"from","parameterTypes":["org.springframework.cloud.client.loadbalancer.LoadBalancerDefaultMappingsProviderAutoConfiguration$$Lambda/0x00001ff001635a28"] }, {"name":"of","parameterTypes":["org.springframework.cloud.client.loadbalancer.LoadBalancerDefaultMappingsProviderAutoConfiguration$$Lambda/0x00001ff001635a28"] }, {"name":"valueOf","parameterTypes":["org.springframework.cloud.client.loadbalancer.LoadBalancerDefaultMappingsProviderAutoConfiguration$$Lambda/0x00001ff001635a28"] }]
+  "methods":[{"name":"<init>","parameterTypes":["org.springframework.cloud.client.loadbalancer.LoadBalancerDefaultMappingsProviderAutoConfiguration$$Lambda/0x000000e0016309f8"] }, {"name":"from","parameterTypes":["org.springframework.cloud.client.loadbalancer.LoadBalancerDefaultMappingsProviderAutoConfiguration$$Lambda/0x000000e0016309f8"] }, {"name":"of","parameterTypes":["org.springframework.cloud.client.loadbalancer.LoadBalancerDefaultMappingsProviderAutoConfiguration$$Lambda/0x000000e0016309f8"] }, {"name":"valueOf","parameterTypes":["org.springframework.cloud.client.loadbalancer.LoadBalancerDefaultMappingsProviderAutoConfiguration$$Lambda/0x000000e0016309f8"] }]
 },
 {
   "name":"org.springframework.cloud.commons.security.ResourceServerTokenRelayAutoConfiguration",
@@ -12668,6 +13511,10 @@
   "methods":[{"name":"addConverter","parameterTypes":["java.lang.Class","java.lang.Class","org.springframework.core.convert.converter.Converter"] }, {"name":"addConverter","parameterTypes":["org.springframework.core.convert.converter.Converter"] }, {"name":"addConverter","parameterTypes":["org.springframework.core.convert.converter.GenericConverter"] }, {"name":"addConverterFactory","parameterTypes":["org.springframework.core.convert.converter.ConverterFactory"] }, {"name":"canBypassConvert","parameterTypes":["org.springframework.core.convert.TypeDescriptor","org.springframework.core.convert.TypeDescriptor"] }, {"name":"canConvert","parameterTypes":["java.lang.Class","java.lang.Class"] }, {"name":"canConvert","parameterTypes":["org.springframework.core.convert.TypeDescriptor","org.springframework.core.convert.TypeDescriptor"] }, {"name":"convert","parameterTypes":["java.lang.Object","java.lang.Class"] }, {"name":"convert","parameterTypes":["java.lang.Object","org.springframework.core.convert.TypeDescriptor","org.springframework.core.convert.TypeDescriptor"] }, {"name":"removeConvertible","parameterTypes":["java.lang.Class","java.lang.Class"] }, {"name":"toString","parameterTypes":[] }]
 },
 {
+  "name":"org.springframework.core.convert.support.GenericConversionService$Converters",
+  "fields":[{"name":"converters"}]
+},
+{
   "name":"org.springframework.core.env.ConfigurableEnvironment"
 },
 {
@@ -12739,6 +13586,9 @@
 },
 {
   "name":"org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"
+},
+{
+  "name":"org.springframework.dao.support.PersistenceExceptionTranslationInterceptor"
 },
 {
   "name":"org.springframework.dao.support.PersistenceExceptionTranslator",
@@ -12858,7 +13708,13 @@
   "name":"org.springframework.data.domain.AuditorAware",
   "queryAllDeclaredMethods":true,
   "queryAllPublicMethods":true,
-  "methods":[{"name":"<init>","parameterTypes":["jdk.proxy2.$Proxy189"] }, {"name":"from","parameterTypes":["jdk.proxy2.$Proxy189"] }, {"name":"of","parameterTypes":["jdk.proxy2.$Proxy189"] }, {"name":"valueOf","parameterTypes":["jdk.proxy2.$Proxy189"] }]
+  "methods":[{"name":"<init>","parameterTypes":["jdk.proxy2.$Proxy189"] }, {"name":"from","parameterTypes":["jdk.proxy2.$Proxy189"] }, {"name":"getCurrentAuditor","parameterTypes":[] }, {"name":"of","parameterTypes":["jdk.proxy2.$Proxy189"] }, {"name":"valueOf","parameterTypes":["jdk.proxy2.$Proxy189"] }]
+},
+{
+  "name":"org.springframework.data.domain.Chunk",
+  "allDeclaredFields":true,
+  "allDeclaredClasses":true,
+  "queryAllDeclaredMethods":true
 },
 {
   "name":"org.springframework.data.domain.ManagedTypes",
@@ -12870,7 +13726,17 @@
   "name":"org.springframework.data.domain.OffsetScrollPosition"
 },
 {
-  "name":"org.springframework.data.domain.Page"
+  "name":"org.springframework.data.domain.Page",
+  "allDeclaredFields":true,
+  "allDeclaredClasses":true,
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"org.springframework.data.domain.PageImpl",
+  "allDeclaredFields":true,
+  "allDeclaredClasses":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true
 },
 {
   "name":"org.springframework.data.domain.PageRequest"
@@ -12884,6 +13750,12 @@
   "allDeclaredClasses":true,
   "queryAllDeclaredMethods":true,
   "queryAllPublicMethods":true
+},
+{
+  "name":"org.springframework.data.domain.Slice",
+  "allDeclaredFields":true,
+  "allDeclaredClasses":true,
+  "queryAllDeclaredMethods":true
 },
 {
   "name":"org.springframework.data.domain.Sort"
@@ -12942,6 +13814,13 @@
 },
 {
   "name":"org.springframework.data.elasticsearch.client.elc.ElasticsearchTemplate$MultiSearchTemplateQueryParameter"
+},
+{
+  "name":"org.springframework.data.elasticsearch.client.elc.EntityAsMap",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
   "name":"org.springframework.data.elasticsearch.client.elc.ReactiveClusterTemplate"
@@ -13095,7 +13974,14 @@
   "methods":[{"name":"afterPropertiesSet","parameterTypes":[] }, {"name":"getConversionService","parameterTypes":[] }, {"name":"getEnvironment","parameterTypes":[] }, {"name":"getMappingContext","parameterTypes":[] }, {"name":"read","parameterTypes":["java.lang.Class","java.lang.Object"] }, {"name":"setApplicationContext","parameterTypes":["org.springframework.context.ApplicationContext"] }, {"name":"updateFieldNames","parameterTypes":["java.lang.String","org.springframework.data.elasticsearch.core.mapping.ElasticsearchPersistentEntity"] }, {"name":"updateQuery","parameterTypes":["org.springframework.data.elasticsearch.core.query.Query","java.lang.Class"] }, {"name":"write","parameterTypes":["java.lang.Object","java.lang.Object"] }]
 },
 {
-  "name":"org.springframework.data.elasticsearch.core.document.Document"
+  "name":"org.springframework.data.elasticsearch.core.document.Document",
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"org.springframework.data.elasticsearch.core.document.MapDocument",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true
 },
 {
   "name":"org.springframework.data.elasticsearch.core.document.SearchDocument"
@@ -13105,6 +13991,22 @@
 },
 {
   "name":"org.springframework.data.elasticsearch.core.document.SearchDocumentResponse$EntityCreator"
+},
+{
+  "name":"org.springframework.data.elasticsearch.core.event.AfterConvertCallback",
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"org.springframework.data.elasticsearch.core.event.AfterLoadCallback",
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"org.springframework.data.elasticsearch.core.event.AfterSaveCallback",
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"org.springframework.data.elasticsearch.core.event.BeforeConvertCallback",
+  "queryAllDeclaredMethods":true
 },
 {
   "name":"org.springframework.data.elasticsearch.core.mapping.ElasticsearchPersistentEntity"
@@ -13217,6 +14119,15 @@
   "queryAllDeclaredConstructors":true
 },
 {
+  "name":"org.springframework.data.elasticsearch.core.suggest.Completion_Accessor_z35j8u",
+  "queryAllPublicConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":["org.springframework.data.elasticsearch.core.suggest.Completion"] }]
+},
+{
+  "name":"org.springframework.data.elasticsearch.core.suggest.Completion_Instantiator_z35j8u",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
   "name":"org.springframework.data.elasticsearch.core.suggest.response.Suggest"
 },
 {
@@ -13240,6 +14151,15 @@
   "queryAllPublicMethods":true,
   "queryAllDeclaredConstructors":true,
   "methods":[{"name":"<init>","parameterTypes":["org.springframework.data.elasticsearch.repository.support.ElasticsearchEntityInformation","org.springframework.data.elasticsearch.core.ElasticsearchOperations"] }, {"name":"count","parameterTypes":[] }, {"name":"delete","parameterTypes":["java.lang.Object"] }, {"name":"delete","parameterTypes":["java.lang.Object","org.springframework.data.elasticsearch.core.RefreshPolicy"] }, {"name":"deleteAll","parameterTypes":[] }, {"name":"deleteAll","parameterTypes":["java.lang.Iterable"] }, {"name":"deleteAll","parameterTypes":["java.lang.Iterable","org.springframework.data.elasticsearch.core.RefreshPolicy"] }, {"name":"deleteAll","parameterTypes":["org.springframework.data.elasticsearch.core.RefreshPolicy"] }, {"name":"deleteAllById","parameterTypes":["java.lang.Iterable"] }, {"name":"deleteAllById","parameterTypes":["java.lang.Iterable","org.springframework.data.elasticsearch.core.RefreshPolicy"] }, {"name":"deleteById","parameterTypes":["java.lang.Object"] }, {"name":"deleteById","parameterTypes":["java.lang.Object","org.springframework.data.elasticsearch.core.RefreshPolicy"] }, {"name":"existsById","parameterTypes":["java.lang.Object"] }, {"name":"findAll","parameterTypes":[] }, {"name":"findAll","parameterTypes":["org.springframework.data.domain.Pageable"] }, {"name":"findAll","parameterTypes":["org.springframework.data.domain.Sort"] }, {"name":"findAllById","parameterTypes":["java.lang.Iterable"] }, {"name":"findById","parameterTypes":["java.lang.Object"] }, {"name":"save","parameterTypes":["java.lang.Object"] }, {"name":"save","parameterTypes":["java.lang.Object","org.springframework.data.elasticsearch.core.RefreshPolicy"] }, {"name":"saveAll","parameterTypes":["java.lang.Iterable"] }, {"name":"saveAll","parameterTypes":["java.lang.Iterable","org.springframework.data.elasticsearch.core.RefreshPolicy"] }, {"name":"searchSimilar","parameterTypes":["java.lang.Object","java.lang.String[]","org.springframework.data.domain.Pageable"] }]
+},
+{
+  "name":"org.springframework.data.elasticsearch.support.DefaultStringObjectMap",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"org.springframework.data.elasticsearch.support.StringObjectMap",
+  "queryAllDeclaredMethods":true
 },
 {
   "name":"org.springframework.data.geo.GeoModule",
@@ -13267,7 +14187,7 @@
   "name":"org.springframework.data.jdbc.core.convert.DataAccessStrategy",
   "queryAllDeclaredMethods":true,
   "queryAllPublicMethods":true,
-  "methods":[{"name":"findAll","parameterTypes":["java.lang.Class","org.springframework.data.domain.Sort"] }, {"name":"findAll","parameterTypes":["org.springframework.data.relational.core.query.Query","java.lang.Class"] }]
+  "methods":[{"name":"findAll","parameterTypes":["java.lang.Class","org.springframework.data.domain.Pageable"] }, {"name":"findAll","parameterTypes":["java.lang.Class","org.springframework.data.domain.Sort"] }]
 },
 {
   "name":"org.springframework.data.jdbc.core.convert.DefaultDataAccessStrategy",
@@ -13370,6 +14290,9 @@
   "queryAllDeclaredMethods":true
 },
 {
+  "name":"org.springframework.data.jdbc.repository.query.StringBasedJdbcQuery"
+},
+{
   "name":"org.springframework.data.jdbc.repository.support.JdbcRepositoryFactoryBean",
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
@@ -13381,7 +14304,7 @@
   "queryAllDeclaredMethods":true,
   "queryAllPublicMethods":true,
   "queryAllDeclaredConstructors":true,
-  "methods":[{"name":"<init>","parameterTypes":["org.springframework.data.jdbc.core.JdbcAggregateOperations","org.springframework.data.mapping.PersistentEntity","org.springframework.data.jdbc.core.convert.JdbcConverter"] }, {"name":"count","parameterTypes":[] }, {"name":"count","parameterTypes":["org.springframework.data.domain.Example"] }, {"name":"delete","parameterTypes":["java.lang.Object"] }, {"name":"deleteAll","parameterTypes":[] }, {"name":"deleteAll","parameterTypes":["java.lang.Iterable"] }, {"name":"deleteAllById","parameterTypes":["java.lang.Iterable"] }, {"name":"deleteById","parameterTypes":["java.lang.Object"] }, {"name":"exists","parameterTypes":["org.springframework.data.domain.Example"] }, {"name":"existsById","parameterTypes":["java.lang.Object"] }, {"name":"findAll","parameterTypes":[] }, {"name":"findAll","parameterTypes":["org.springframework.data.domain.Example"] }, {"name":"findAll","parameterTypes":["org.springframework.data.domain.Example","org.springframework.data.domain.Pageable"] }, {"name":"findAll","parameterTypes":["org.springframework.data.domain.Example","org.springframework.data.domain.Sort"] }, {"name":"findAll","parameterTypes":["org.springframework.data.domain.Pageable"] }, {"name":"findAll","parameterTypes":["org.springframework.data.domain.Sort"] }, {"name":"findAllById","parameterTypes":["java.lang.Iterable"] }, {"name":"findBy","parameterTypes":["org.springframework.data.domain.Example","java.util.function.Function"] }, {"name":"findById","parameterTypes":["java.lang.Object"] }, {"name":"findOne","parameterTypes":["org.springframework.data.domain.Example"] }, {"name":"save","parameterTypes":["java.lang.Object"] }, {"name":"saveAll","parameterTypes":["java.lang.Iterable"] }]
+  "methods":[{"name":"<init>","parameterTypes":["org.springframework.data.jdbc.core.JdbcAggregateOperations","org.springframework.data.mapping.PersistentEntity","org.springframework.data.jdbc.core.convert.JdbcConverter"] }, {"name":"count","parameterTypes":[] }, {"name":"count","parameterTypes":["org.springframework.data.domain.Example"] }, {"name":"cursor","parameterTypes":["java.lang.String","com.leijendary.model.Cursorable","java.lang.Class"] }, {"name":"delete","parameterTypes":["java.lang.Object"] }, {"name":"deleteAll","parameterTypes":[] }, {"name":"deleteAll","parameterTypes":["java.lang.Iterable"] }, {"name":"deleteAllById","parameterTypes":["java.lang.Iterable"] }, {"name":"deleteById","parameterTypes":["java.lang.Object"] }, {"name":"exists","parameterTypes":["org.springframework.data.domain.Example"] }, {"name":"existsById","parameterTypes":["java.lang.Object"] }, {"name":"findAll","parameterTypes":[] }, {"name":"findAll","parameterTypes":["org.springframework.data.domain.Example"] }, {"name":"findAll","parameterTypes":["org.springframework.data.domain.Example","org.springframework.data.domain.Pageable"] }, {"name":"findAll","parameterTypes":["org.springframework.data.domain.Example","org.springframework.data.domain.Sort"] }, {"name":"findAll","parameterTypes":["org.springframework.data.domain.Pageable"] }, {"name":"findAll","parameterTypes":["org.springframework.data.domain.Sort"] }, {"name":"findAllById","parameterTypes":["java.lang.Iterable"] }, {"name":"findBy","parameterTypes":["org.springframework.data.domain.Example","java.util.function.Function"] }, {"name":"findById","parameterTypes":["java.lang.Object"] }, {"name":"findById","parameterTypes":["java.lang.String","java.lang.Class"] }, {"name":"findOne","parameterTypes":["org.springframework.data.domain.Example"] }, {"name":"save","parameterTypes":["java.lang.Object"] }, {"name":"saveAll","parameterTypes":["java.lang.Iterable"] }]
 },
 {
   "name":"org.springframework.data.mapping.MappingException"
@@ -13429,6 +14352,9 @@
   "queryAllDeclaredMethods":true,
   "queryAllPublicMethods":true,
   "methods":[{"name":"<init>","parameterTypes":["org.springframework.data.jdbc.core.mapping.JdbcMappingContext"] }, {"name":"from","parameterTypes":["org.springframework.data.jdbc.core.mapping.JdbcMappingContext"] }, {"name":"getPersistentEntity","parameterTypes":["java.lang.Class"] }, {"name":"getPersistentEntity","parameterTypes":["org.springframework.data.util.TypeInformation"] }, {"name":"getRequiredPersistentEntity","parameterTypes":["java.lang.Class"] }, {"name":"getRequiredPersistentEntity","parameterTypes":["org.springframework.data.mapping.PersistentProperty"] }, {"name":"getRequiredPersistentEntity","parameterTypes":["org.springframework.data.util.TypeInformation"] }, {"name":"of","parameterTypes":["org.springframework.data.jdbc.core.mapping.JdbcMappingContext"] }, {"name":"valueOf","parameterTypes":["org.springframework.data.jdbc.core.mapping.JdbcMappingContext"] }]
+},
+{
+  "name":"org.springframework.data.mapping.model.ClassGeneratingEntityInstantiator$ObjectInstantiator"
 },
 {
   "name":"org.springframework.data.mapping.model.EntityInstantiators"
@@ -13899,9 +14825,18 @@
   "queryAllDeclaredMethods":true
 },
 {
+  "name":"org.springframework.data.relational.core.mapping.event.AfterSaveCallback",
+  "queryAllDeclaredMethods":true
+},
+{
   "name":"org.springframework.data.relational.core.mapping.event.BeforeConvertCallback",
   "queryAllDeclaredMethods":true,
-  "queryAllPublicMethods":true
+  "queryAllPublicMethods":true,
+  "methods":[{"name":"onBeforeConvert","parameterTypes":["java.lang.Object"] }]
+},
+{
+  "name":"org.springframework.data.relational.core.mapping.event.BeforeSaveCallback",
+  "queryAllDeclaredMethods":true
 },
 {
   "name":"org.springframework.data.relational.core.query.Query"
@@ -13983,6 +14918,9 @@
   "name":"org.springframework.data.repository.core.RepositoryInformation"
 },
 {
+  "name":"org.springframework.data.repository.core.support.MethodInvocationValidator"
+},
+{
   "name":"org.springframework.data.repository.core.support.MethodLookup"
 },
 {
@@ -13996,6 +14934,9 @@
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
   "methods":[{"name":"getQuery","parameterTypes":["java.lang.String"] }, {"name":"hasQuery","parameterTypes":["java.lang.String"] }, {"name":"toNamedQueries","parameterTypes":[] }]
+},
+{
+  "name":"org.springframework.data.repository.core.support.QueryExecutorMethodInterceptor"
 },
 {
   "name":"org.springframework.data.repository.core.support.RepositoryComposition$RepositoryFragments",
@@ -14050,6 +14991,9 @@
   "name":"org.springframework.data.repository.core.support.RepositoryMethodInvocationListener$RepositoryMethodInvocation"
 },
 {
+  "name":"org.springframework.data.repository.core.support.RepositoryMethodInvoker"
+},
+{
   "name":"org.springframework.data.repository.core.support.TransactionalRepositoryFactoryBeanSupport",
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
@@ -14067,6 +15011,12 @@
 },
 {
   "name":"org.springframework.data.repository.query.QueryMethodEvaluationContextProvider"
+},
+{
+  "name":"org.springframework.data.repository.query.QueryMethodValueEvaluationContextAccessor"
+},
+{
+  "name":"org.springframework.data.repository.query.QueryMethodValueEvaluationContextAccessor$DefaultQueryMethodValueEvaluationContextProvider"
 },
 {
   "name":"org.springframework.data.repository.query.ReactiveQueryByExampleExecutor"
@@ -14099,6 +15049,8 @@
 },
 {
   "name":"org.springframework.data.util.Streamable",
+  "allDeclaredFields":true,
+  "allDeclaredClasses":true,
   "queryAllDeclaredMethods":true,
   "queryAllPublicMethods":true,
   "methods":[{"name":"and","parameterTypes":["java.lang.Iterable"] }, {"name":"and","parameterTypes":["java.util.function.Supplier"] }, {"name":"and","parameterTypes":["org.springframework.data.util.Streamable"] }, {"name":"and","parameterTypes":["java.lang.Object[]"] }, {"name":"filter","parameterTypes":["java.util.function.Predicate"] }, {"name":"flatMap","parameterTypes":["java.util.function.Function"] }, {"name":"get","parameterTypes":[] }, {"name":"isEmpty","parameterTypes":[] }, {"name":"map","parameterTypes":["java.util.function.Function"] }, {"name":"stream","parameterTypes":[] }, {"name":"toList","parameterTypes":[] }, {"name":"toSet","parameterTypes":[] }]
@@ -14144,12 +15096,32 @@
   "methods":[{"name":"isFallbackPageable","parameterTypes":["org.springframework.data.domain.Pageable"] }, {"name":"setFallbackPageable","parameterTypes":["org.springframework.data.domain.Pageable"] }, {"name":"setMaxPageSize","parameterTypes":["int"] }, {"name":"setOneIndexedParameters","parameterTypes":["boolean"] }, {"name":"setPageParameterName","parameterTypes":["java.lang.String"] }, {"name":"setPrefix","parameterTypes":["java.lang.String"] }, {"name":"setQualifierDelimiter","parameterTypes":["java.lang.String"] }, {"name":"setSizeParameterName","parameterTypes":["java.lang.String"] }]
 },
 {
+  "name":"org.springframework.data.web.PagedModel",
+  "allDeclaredFields":true,
+  "allDeclaredClasses":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"getContent","parameterTypes":[] }, {"name":"getMetadata","parameterTypes":[] }]
+},
+{
+  "name":"org.springframework.data.web.PagedModel$PageMetadata",
+  "allDeclaredFields":true,
+  "allDeclaredClasses":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"number","parameterTypes":[] }, {"name":"size","parameterTypes":[] }, {"name":"totalElements","parameterTypes":[] }, {"name":"totalPages","parameterTypes":[] }]
+},
+{
   "name":"org.springframework.data.web.SortArgumentResolver",
   "queryAllDeclaredMethods":true,
   "queryAllPublicMethods":true
 },
 {
   "name":"org.springframework.data.web.SortDefault"
+},
+{
+  "name":"org.springframework.data.web.SortDefault$SortDefaults",
+  "queryAllDeclaredMethods":true
 },
 {
   "name":"org.springframework.data.web.SortHandlerMethodArgumentResolver",
@@ -14200,6 +15172,14 @@
   "name":"org.springframework.data.web.config.SpringDataJacksonConfiguration$PageModule",
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true
+},
+{
+  "name":"org.springframework.data.web.config.SpringDataJacksonConfiguration$PageModule$PageModelConverter",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "queryAllPublicConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"convert","parameterTypes":["java.lang.Object"] }]
 },
 {
   "name":"org.springframework.data.web.config.SpringDataJacksonModules",
@@ -14740,6 +15720,9 @@
   "name":"org.springframework.kafka.listener.KafkaConsumerBackoffManager"
 },
 {
+  "name":"org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer"
+},
+{
   "name":"org.springframework.kafka.listener.ListenerContainerRegistry",
   "queryAllDeclaredMethods":true,
   "queryAllPublicMethods":true
@@ -14763,7 +15746,22 @@
   "name":"org.springframework.kafka.listener.adapter.BatchToRecordAdapter"
 },
 {
+  "name":"org.springframework.kafka.listener.adapter.HandlerAdapter"
+},
+{
+  "name":"org.springframework.kafka.listener.adapter.KafkaBackoffAwareMessageListenerAdapter"
+},
+{
+  "name":"org.springframework.kafka.listener.adapter.KotlinAwareInvocableHandlerMethod"
+},
+{
+  "name":"org.springframework.kafka.listener.adapter.MessagingMessageListenerAdapter"
+},
+{
   "name":"org.springframework.kafka.listener.adapter.RecordFilterStrategy"
+},
+{
+  "name":"org.springframework.kafka.listener.adapter.RecordMessagingMessageListenerAdapter"
 },
 {
   "name":"org.springframework.kafka.listener.adapter.ReplyHeadersConfigurer"
@@ -14829,7 +15827,7 @@
   "name":"org.springframework.kafka.retrytopic.RetryTopicConfigurer$LoggingDltListenerHandlerMethod",
   "allDeclaredFields":true,
   "queryAllDeclaredMethods":true,
-  "methods":[{"name":"<init>","parameterTypes":[] }]
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"logMessage","parameterTypes":["java.lang.Object","org.springframework.kafka.support.Acknowledgment"] }]
 },
 {
   "name":"org.springframework.kafka.retrytopic.RetryTopicSchedulerWrapper",
@@ -14838,13 +15836,7 @@
   "methods":[{"name":"afterPropertiesSet","parameterTypes":[] }, {"name":"destroy","parameterTypes":[] }]
 },
 {
-  "name":"org.springframework.kafka.security.jaas.KafkaJaasLoginModuleInitializer",
-  "allDeclaredFields":true,
-  "queryAllDeclaredMethods":true,
-  "methods":[{"name":"afterSingletonsInstantiated","parameterTypes":[] }, {"name":"destroy","parameterTypes":[] }]
-},
-{
-  "name":"org.springframework.kafka.security.jaas.KafkaJaasLoginModuleInitializer$ControlFlag"
+  "name":"org.springframework.kafka.security.jaas.KafkaJaasLoginModuleInitializer"
 },
 {
   "name":"org.springframework.kafka.support.Acknowledgment"
@@ -14892,6 +15884,9 @@
   "name":"org.springframework.lang.NonNull"
 },
 {
+  "name":"org.springframework.lang.NonNullApi"
+},
+{
   "name":"org.springframework.lang.Nullable"
 },
 {
@@ -14903,6 +15898,9 @@
 {
   "name":"org.springframework.messaging.handler.annotation.MessageMapping",
   "queryAllDeclaredMethods":true
+},
+{
+  "name":"org.springframework.messaging.handler.invocation.InvocableHandlerMethod"
 },
 {
   "name":"org.springframework.retry.ExhaustedRetryException"
@@ -15510,6 +16508,9 @@
   "name":"org.springframework.web.method.support.InvocableHandlerMethod"
 },
 {
+  "name":"org.springframework.web.method.support.InvocableHandlerMethod$KotlinDelegate"
+},
+{
   "name":"org.springframework.web.method.support.ModelAndViewContainer"
 },
 {
@@ -16015,7 +17016,8 @@
   "name":"org.yaml.snakeyaml.Yaml"
 },
 {
-  "name":"reactor.core.publisher.Flux"
+  "name":"reactor.core.publisher.Flux",
+  "allDeclaredFields":true
 },
 {
   "name":"reactor.core.publisher.FluxAutoConnect",
@@ -16174,6 +17176,9 @@
 },
 {
   "name":"reactor.util.function.Tuple2"
+},
+{
+  "name":"reactor.util.lang.NonNullApi"
 },
 {
   "name":"scala.Option"
@@ -18785,10 +19790,6 @@
   "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
-  "name":"sun.security.provider.ConfigFile",
-  "methods":[{"name":"<init>","parameterTypes":[] }]
-},
-{
   "name":"sun.security.provider.DSA$SHA224withDSA",
   "methods":[{"name":"<init>","parameterTypes":[] }]
 },
@@ -18814,6 +19815,10 @@
 },
 {
   "name":"sun.security.provider.SHA2$SHA256",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"sun.security.provider.SHA3$SHA256",
   "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {

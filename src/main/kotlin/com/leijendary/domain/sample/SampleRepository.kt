@@ -32,7 +32,7 @@ interface SampleRepository : CrudRepository<Sample, String>, PagingAndSortingRep
                 OR :#{#cursorable.id}::text IS NULL
                 OR (created_at, id) < (:#{#cursorable.timestamp}, :#{#cursorable.id})
             )
-        ORDER BY created_at desc
+        ORDER BY created_at DESC
         LIMIT :#{#cursorable.limit}
         """
     )
