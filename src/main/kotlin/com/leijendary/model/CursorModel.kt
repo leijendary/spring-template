@@ -16,13 +16,15 @@ data class Cursorable(val size: Int = 20, val createdAt: Instant? = null, val id
 
 data class CursoredModel<T : CursorProjection>(val content: MutableList<T>, private val cursorable: Cursorable) {
     val cursor = CursorMetadata(cursorable.size).apply {
-        if (content.size > cursorable.size) {
-            content.removeLast()
-
-            val last = content.lastOrNull()
-            id = last?.id
-            createdAt = last?.createdAt
+        if (content.size <= cursorable.size) {
+            return@apply
         }
+
+        content.removeLast()
+
+        val last = content.lastOrNull()
+        id = last?.id
+        createdAt = last?.createdAt
     }
 }
 
