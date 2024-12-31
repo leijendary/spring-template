@@ -7,6 +7,7 @@ import com.leijendary.model.Cursorable
 import org.springframework.data.repository.CrudRepository
 import org.springframework.data.repository.PagingAndSortingRepository
 import org.springframework.jdbc.core.simple.JdbcClient
+import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Transactional
 import java.util.*
 
@@ -22,6 +23,7 @@ interface AiChatRepository : CrudRepository<AiChat, String>, PagingAndSortingRep
     fun <T> findFirstByIdAndCreatedBy(id: String, createdBy: String, type: Class<T>): Optional<T>
 }
 
+@Repository
 class AiChatCursorRepositoryImpl(private val jdbcClient: JdbcClient) : AiChatCursorRepository {
     override fun <T> cursor(createdBy: String, cursorable: Cursorable, type: Class<T>): MutableList<T> {
         return jdbcClient.sql(SQL)

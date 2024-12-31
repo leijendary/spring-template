@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable
 import org.springframework.data.repository.CrudRepository
 import org.springframework.data.repository.PagingAndSortingRepository
 import org.springframework.jdbc.core.simple.JdbcClient
+import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Transactional
 import java.util.*
 import java.util.stream.Stream
@@ -29,6 +30,7 @@ interface SampleRepository : CrudRepository<Sample, String>, PagingAndSortingRep
     fun <T> streamBy(type: Class<T>): Stream<T>
 }
 
+@Repository
 class SampleCursorRepositoryImpl(private val jdbcClient: JdbcClient) : SampleCursorRepository {
     override fun <T> cursor(query: String?, cursorable: Cursorable, type: Class<T>): MutableList<T> {
         return jdbcClient.sql(SQL)
