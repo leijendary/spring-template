@@ -8,11 +8,11 @@ import org.springframework.stereotype.Component
 class Encryption(keyProperties: KeyProperties) {
     private val encryptor = delux(keyProperties.key, keyProperties.salt)
 
-    fun encrypt(raw: String?): String {
+    fun encrypt(raw: String): String {
         return encryptor.encrypt(raw)
     }
 
-    fun decrypt(encrypted: String?): String {
+    fun decrypt(encrypted: String): String {
         return encryptor.decrypt(encrypted)
     }
 }
