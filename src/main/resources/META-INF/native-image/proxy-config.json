@@ -105,13 +105,28 @@
     "interfaces":["org.springframework.retry.annotation.Retryable"]
   },
   {
+    "interfaces":["org.springframework.stereotype.Controller"]
+  },
+  {
     "interfaces":["org.springframework.web.bind.annotation.ControllerAdvice"]
+  },
+  {
+    "interfaces":["org.springframework.web.bind.annotation.DeleteMapping"]
   },
   {
     "interfaces":["org.springframework.web.bind.annotation.ExceptionHandler"]
   },
   {
+    "interfaces":["org.springframework.web.bind.annotation.GetMapping"]
+  },
+  {
     "interfaces":["org.springframework.web.bind.annotation.PathVariable"]
+  },
+  {
+    "interfaces":["org.springframework.web.bind.annotation.PostMapping"]
+  },
+  {
+    "interfaces":["org.springframework.web.bind.annotation.PutMapping"]
   },
   {
     "interfaces":["org.springframework.web.bind.annotation.RequestMapping"]
@@ -121,5 +136,8 @@
   },
   {
     "interfaces":["org.springframework.web.bind.annotation.ResponseStatus"]
+  },
+  {
+    "interfaces":["org.springframework.web.bind.annotation.RestController"]
   }
 ]
