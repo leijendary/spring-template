@@ -3,7 +3,7 @@
 ./gradlew clean bootJar -x test
 
 set -a
-. ./.local.env
+. ./.env
 set +a
 
 java -Dspring.aot.enabled=true \
