@@ -60,8 +60,23 @@ openApi:
     license:
       name: Jonathan Leijendekker
       url: https://leijendary.com
-  security:
-    - Authorization: [ ]
+  components:
+    securitySchemes:
+      oauth2:
+        type: oauth2
+        flows:
+          implicit:
+            authorizationUrl: https://leijendary.eu.auth0.com/authorize
+            scopes:
+              sample.admin.read: Read sample records as an admin
+              sample.admin.write: Create sample records as an admin
+              sample.admin.image.write: Upload or delete sample images as an admin
+              sample.read: Read sample records
+              sample.search.read: Search sample records
+              sample.search.write: Reindex sample records
+              image.write: Upload/validate images
+              ai.chat.read: Read AI chat details or history
+              ai.chat.write: Create or send chat messages to AI
   servers:
     - url: http://localhost
       description: Local

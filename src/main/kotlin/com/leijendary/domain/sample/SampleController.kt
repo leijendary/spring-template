@@ -7,6 +7,7 @@ import com.leijendary.model.Cursorable
 import com.leijendary.model.CursoredModel
 import com.leijendary.model.QueryRequest
 import io.swagger.v3.oas.annotations.Operation
+import io.swagger.v3.oas.annotations.security.SecurityRequirement
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.openapi.petstore.v2.model.Pet
 import org.springframework.data.redis.core.StringRedisTemplate
@@ -49,14 +50,18 @@ class SampleController(
            List of all sample records in a cursor-based result. Use createdAt and id in the next request to get 
            the next page. This is a faster way to do pagination since it does not use limit offset, but rather
            uses the index to get the next page of the result.
-        """
+        """,
+        security = [SecurityRequirement(name = "oauth2", scopes = ["sample.read"])]
     )
     fun cursor(queryRequest: QueryRequest, cursorable: Cursorable): CursoredModel<SampleResponse> {
         return sampleService.cursor(queryRequest, cursorable)
     }
 
     @GetMapping("{id}")
-    @Operation(summary = "Retrieves the translated sample record from the database.")
+    @Operation(
+        summary = "Retrieves the translated sample record from the database.",
+        security = [SecurityRequirement(name = "oauth2", scopes = ["sample.read"])]
+    )
     fun get(@PathVariable id: String): SampleDetailResponse {
         return sampleService.get(id, true)
     }

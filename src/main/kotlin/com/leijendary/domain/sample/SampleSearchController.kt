@@ -3,6 +3,7 @@ package com.leijendary.domain.sample
 import com.leijendary.extension.elapsedTime
 import com.leijendary.model.QueryRequest
 import io.swagger.v3.oas.annotations.Operation
+import io.swagger.v3.oas.annotations.security.SecurityRequirement
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
@@ -17,13 +18,19 @@ import kotlin.system.measureTimeMillis
 @Tag(name = "Sample Search")
 class SampleSearchController(private val sampleSearchService: SampleSearchService) {
     @GetMapping
-    @Operation(summary = "List all the objects based on the query parameter")
+    @Operation(
+        summary = "List all the objects based on the query parameter",
+        security = [SecurityRequirement(name = "oauth2", scopes = ["sample.search.read"])]
+    )
     fun list(queryRequest: QueryRequest, pageable: Pageable): Page<SampleResponse> {
         return sampleSearchService.page(queryRequest, pageable)
     }
 
     @PostMapping("reindex")
-    @Operation(summary = "Reindex all objects to elasticsearch.")
+    @Operation(
+        summary = "Reindex all objects to elasticsearch.",
+        security = [SecurityRequirement(name = "oauth2", scopes = ["sample.search.write"])]
+    )
     fun reindex(): String {
         var count: Int
         val time = measureTimeMillis {
