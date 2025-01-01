@@ -13,6 +13,7 @@ import org.springframework.data.domain.Pageable
 import org.springframework.data.elasticsearch.core.suggest.Completion
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.util.concurrent.CompletableFuture.supplyAsync
 import java.util.concurrent.atomic.AtomicInteger
 import kotlin.streams.asSequence
 
@@ -135,11 +136,17 @@ class SampleSearchServiceImpl(
     }
 
     private fun mapStream(sample: SampleDetailResponse): SampleSearch {
-        sample.image = sampleImageRepository.findByIdOrNull(sample.id, ImageResponse::class.java)
+        val image = supplyAsync {
+            sampleImageRepository.findByIdOrNull(sample.id, ImageResponse::class.java)
+        }
+        val translations = supplyAsync {
+            sampleTranslationRepository.findById(sample.id, SampleTranslationResponse::class.java)
+        }
 
-        // Add the translations of the entity
-        val translations = sampleTranslationRepository.findById(sample.id, SampleTranslationResponse::class.java)
-        sample.translations.addAll(translations)
+        sample.apply {
+            this.image = image.get()
+            this.translations.addAll(translations.get())
+        }
 
         return map(sample)
     }
