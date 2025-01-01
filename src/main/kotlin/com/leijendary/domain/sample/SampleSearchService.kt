@@ -121,7 +121,7 @@ class SampleSearchServiceImpl(
     )
 
     private fun mapToList(search: SampleSearch): SampleResponse {
-        val translation = search.getTranslation(language)
+        val translation = search.getTranslationOrFirst(language)
         val result = SampleResponse(
             id = search.id,
             name = translation.name,
