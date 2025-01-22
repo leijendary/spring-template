@@ -29,7 +29,7 @@ val openApiTasks = file("$rootDir/src/main/resources/specs").listFiles()?.map {
 }
 
 plugins {
-    val kotlinVersion = "2.0.21"
+    val kotlinVersion = "2.1.0"
 
     kotlin("jvm") version kotlinVersion
     kotlin("plugin.spring") version kotlinVersion
@@ -45,7 +45,7 @@ version = "0.0.1"
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(22)
+        languageVersion = JavaLanguageVersion.of(23)
     }
 }
 
@@ -54,7 +54,7 @@ kotlin {
         apiVersion.set(KotlinVersion.KOTLIN_2_2)
         freeCompilerArgs.addAll("-Xjsr305=strict")
         languageVersion.set(KotlinVersion.KOTLIN_2_2)
-        jvmTarget.set(JvmTarget.JVM_22)
+        jvmTarget.set(JvmTarget.JVM_23)
     }
 }
 
