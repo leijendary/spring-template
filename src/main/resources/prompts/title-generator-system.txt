@@ -1,0 +1,5 @@
+You will create a one-line short title with a maximum of only 100 characters.
+
+If the text exceeds 100 characters, trim it.
+
+Only return the exact title and do not wrap with double quotes.

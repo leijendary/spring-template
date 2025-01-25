@@ -7,11 +7,9 @@ import com.leijendary.error.exception.ResourceNotFoundException
 import com.leijendary.extension.logger
 import com.leijendary.model.Cursorable
 import com.leijendary.model.CursoredModel
-import io.micrometer.tracing.Span
 import io.micrometer.tracing.Tracer
 import org.springframework.ai.chat.client.ChatClient
 import org.springframework.ai.chat.client.advisor.AbstractChatMemoryAdvisor.CHAT_MEMORY_CONVERSATION_ID_KEY
-import org.springframework.ai.chat.client.advisor.AbstractChatMemoryAdvisor.CHAT_MEMORY_RETRIEVE_SIZE_KEY
 import org.springframework.ai.chat.client.advisor.AbstractChatMemoryAdvisor.DEFAULT_CHAT_MEMORY_RESPONSE_SIZE
 import org.springframework.ai.chat.memory.ChatMemory
 import org.springframework.stereotype.Service
@@ -47,10 +45,8 @@ class AiChatServiceImpl(
 
         return chatClient.prompt()
             .user(request.prompt)
-            .advisors {
-                it.param(CHAT_MEMORY_CONVERSATION_ID_KEY, aiChat.id)
-                it.param(CHAT_MEMORY_RETRIEVE_SIZE_KEY, DEFAULT_CHAT_MEMORY_RESPONSE_SIZE)
-            }
+            .system { it.param("userId", userIdOrThrow) }
+            .advisors { it.param(CHAT_MEMORY_CONVERSATION_ID_KEY, aiChat.id) }
             .stream()
             .content()
             .map { AiChatCreateResponse(aiChat.id, it) }
@@ -94,25 +90,27 @@ class AiChatServiceImpl(
 
         val span = tracer.currentSpan()
 
-        updateTitle(span, aiChat, request.prompt)
+        supplyAsync {
+            tracer.withSpan(span).use { updateTitle(aiChat, request.prompt) }
+        }.exceptionally {
+            log.error("Failed to update the chat title of {}", aiChat.id, it)
+        }
 
         return aiChat
     }
 
-    private fun updateTitle(span: Span?, aiChat: AiChat, prompt: String) = supplyAsync {
-        tracer.withSpan(span).use {
-            val title = titleChatClient.prompt()
-                .user(prompt)
-                .call()
-                .content()
+    private fun updateTitle(aiChat: AiChat, prompt: String) {
+        val title = titleChatClient.prompt()
+            .user(prompt)
+            .call()
+            .content()
 
-            if (!title.isNullOrBlank()) {
-                aiChat.title = title
+        if (!title.isNullOrBlank()) {
+            aiChat.title = title
 
-                aiChatRepository.save(aiChat)
-            }
-
-            log.info("Updated $ENTITY title of {} to {}", aiChat.id, title)
+            aiChatRepository.save(aiChat)
         }
+
+        log.info("Updated $ENTITY title of {} to {}", aiChat.id, title)
     }
 }

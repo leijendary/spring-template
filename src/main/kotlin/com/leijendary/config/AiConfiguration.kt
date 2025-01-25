@@ -1,9 +1,13 @@
 package com.leijendary.config
 
 import org.springframework.ai.chat.client.ChatClient
+import org.springframework.ai.chat.client.advisor.AbstractChatMemoryAdvisor.CHAT_MEMORY_RETRIEVE_SIZE_KEY
+import org.springframework.ai.chat.client.advisor.AbstractChatMemoryAdvisor.DEFAULT_CHAT_MEMORY_RESPONSE_SIZE
 import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor
 import org.springframework.ai.chat.client.advisor.RetrievalAugmentationAdvisor
+import org.springframework.ai.chat.client.advisor.SimpleLoggerAdvisor
 import org.springframework.ai.chat.memory.ChatMemory
+import org.springframework.ai.model.function.FunctionCallback
 import org.springframework.ai.rag.retrieval.search.VectorStoreDocumentRetriever
 import org.springframework.ai.vectorstore.VectorStore
 import org.springframework.beans.factory.annotation.Value
@@ -13,14 +17,19 @@ import org.springframework.core.io.Resource
 
 @Configuration(proxyBeanMethods = false)
 class AiConfiguration {
-    @Value("classpath:prompts/general-instruction-system.st")
+    @Value("classpath:prompts/general-instruction-system.txt")
     private lateinit var generalInstructionSystem: Resource
 
-    @Value("classpath:prompts/title-generator-system.st")
+    @Value("classpath:prompts/title-generator-system.txt")
     private lateinit var titleGeneratorSystem: Resource
 
     @Bean
-    fun chatClient(builder: ChatClient.Builder, chatMemory: ChatMemory, vectorStore: VectorStore): ChatClient {
+    fun chatClient(
+        builder: ChatClient.Builder,
+        chatMemory: ChatMemory,
+        vectorStore: VectorStore,
+        functions: List<FunctionCallback>
+    ): ChatClient {
         val memoryAdvisor = MessageChatMemoryAdvisor(chatMemory)
         val documentRetriever = VectorStoreDocumentRetriever.builder()
             .vectorStore(vectorStore)
@@ -28,10 +37,15 @@ class AiConfiguration {
         val ragAdvisor = RetrievalAugmentationAdvisor.builder()
             .documentRetriever(documentRetriever)
             .build()
+        val loggerAdvisor = SimpleLoggerAdvisor()
 
         return builder
             .defaultSystem(generalInstructionSystem)
-            .defaultAdvisors(memoryAdvisor, ragAdvisor)
+            .defaultAdvisors(memoryAdvisor, ragAdvisor, loggerAdvisor)
+            .defaultAdvisors {
+                it.param(CHAT_MEMORY_RETRIEVE_SIZE_KEY, DEFAULT_CHAT_MEMORY_RESPONSE_SIZE)
+            }
+            .defaultFunctions(*functions.toTypedArray())
             .build()
     }
 
