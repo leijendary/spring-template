@@ -24578,6 +24578,18 @@
       "glob": "messages/error_nl_NL.properties"
     },
     {
+      "glob": "messages/validation.properties"
+    },
+    {
+      "glob": "messages/validation_en.properties"
+    },
+    {
+      "glob": "messages/validation_nl.properties"
+    },
+    {
+      "glob": "messages/validation_nl_NL.properties"
+    },
+    {
       "glob": "mozilla/public-suffix-list.txt"
     },
     {
