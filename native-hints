@@ -6,7 +6,11 @@ set -a
 . ./.env
 set +a
 
+OUTPUT_PATH=src/main/resources/META-INF/native-image
+
+rm -rf $OUTPUT_PATH
+
 java -Dspring.aot.enabled=true \
   -Dio.lettuce.core.jfr=false \
-  -agentlib:native-image-agent=config-output-dir=src/main/resources/META-INF/native-image \
+  -agentlib:native-image-agent=config-output-dir=$OUTPUT_PATH,config-write-period-secs=60,config-write-initial-delay-secs=5 \
   -jar build/libs/*.jar

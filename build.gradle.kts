@@ -51,9 +51,9 @@ java {
 
 kotlin {
     compilerOptions {
-        apiVersion.set(KotlinVersion.KOTLIN_2_2)
+        apiVersion.set(KotlinVersion.KOTLIN_2_1)
         freeCompilerArgs.addAll("-Xjsr305=strict")
-        languageVersion.set(KotlinVersion.KOTLIN_2_2)
+        languageVersion.set(KotlinVersion.KOTLIN_2_1)
         jvmTarget.set(JvmTarget.JVM_23)
     }
 }
