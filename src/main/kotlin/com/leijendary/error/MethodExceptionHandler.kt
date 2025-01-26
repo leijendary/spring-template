@@ -29,7 +29,7 @@ class MethodExceptionHandler(private val messageSource: MessageSource) {
     @ExceptionHandler(HandlerMethodValidationException::class)
     @ResponseStatus(BAD_REQUEST)
     fun catchHandlerMethodValidation(exception: HandlerMethodValidationException): List<ErrorModel> {
-        return exception.allValidationResults.flatMap { result ->
+        return exception.parameterValidationResults.flatMap { result ->
             val source = ErrorSource(parameter = result.methodParameter.parameterName ?: "")
 
             result.resolvableErrors.map {
