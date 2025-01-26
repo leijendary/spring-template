@@ -8,6 +8,7 @@ import org.springframework.ai.chat.client.advisor.RetrievalAugmentationAdvisor
 import org.springframework.ai.chat.client.advisor.SimpleLoggerAdvisor
 import org.springframework.ai.chat.memory.ChatMemory
 import org.springframework.ai.model.function.FunctionCallback
+import org.springframework.ai.rag.generation.augmentation.ContextualQueryAugmenter
 import org.springframework.ai.rag.retrieval.search.VectorStoreDocumentRetriever
 import org.springframework.ai.vectorstore.VectorStore
 import org.springframework.beans.factory.annotation.Value
@@ -34,15 +35,19 @@ class AiConfiguration {
         val documentRetriever = VectorStoreDocumentRetriever.builder()
             .vectorStore(vectorStore)
             .build()
+        val queryAugmenter = ContextualQueryAugmenter.builder()
+            .allowEmptyContext(true)
+            .build()
         val ragAdvisor = RetrievalAugmentationAdvisor.builder()
             .documentRetriever(documentRetriever)
+            .queryAugmenter(queryAugmenter)
             .build()
         val loggerAdvisor = SimpleLoggerAdvisor()
 
         return builder
             .defaultSystem(generalInstructionSystem)
-            .defaultAdvisors(memoryAdvisor, ragAdvisor, loggerAdvisor)
             .defaultAdvisors {
+                it.advisors(memoryAdvisor, ragAdvisor, loggerAdvisor)
                 it.param(CHAT_MEMORY_RETRIEVE_SIZE_KEY, DEFAULT_CHAT_MEMORY_RESPONSE_SIZE)
             }
             .defaultFunctions(*functions.toTypedArray())

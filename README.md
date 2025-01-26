@@ -93,10 +93,16 @@ different git workflow, and this is what I think is the fastest for most teams.
 - When the `release/*` branch that contains the `fix/*` or `hotfix/*` is tagged and deployed to production, this release
   branch will be merged back to `main`.
 
+# Native Hints
+
+> To generate native hints, this requires a `.env` file to run your application.
+
+Execute `./native-hints` to run the application then call all APIs manually. The generated files will be saved in
+`src/main/resources/META-INF/native-image`.
+
 # Load Testing
 
-This template uses [k6](https://grafana.com/docs/k6/latest/) to do the load testing. k6 is by far the best load testing
-framework for developer experience.
+This template uses [k6](https://grafana.com/docs/k6/latest/) to do the load testing.
 
 ## Running k6
 

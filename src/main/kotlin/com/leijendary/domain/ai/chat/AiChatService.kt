@@ -3,6 +3,7 @@ package com.leijendary.domain.ai.chat
 import com.leijendary.context.RequestContext.userIdOrThrow
 import com.leijendary.domain.ai.chat.AiChat.Companion.ENTITY
 import com.leijendary.domain.ai.chat.AiChat.Companion.ERROR_SOURCE
+import com.leijendary.domain.ai.chat.AiChatFunction.Companion.USER_ID_KEY
 import com.leijendary.error.exception.ResourceNotFoundException
 import com.leijendary.extension.logger
 import com.leijendary.model.Cursorable
@@ -45,7 +46,7 @@ class AiChatServiceImpl(
 
         return chatClient.prompt()
             .user(request.prompt)
-            .system { it.param("userId", userIdOrThrow) }
+            .system { it.param(USER_ID_KEY, userIdOrThrow) }
             .advisors { it.param(CHAT_MEMORY_CONVERSATION_ID_KEY, aiChat.id) }
             .stream()
             .content()
