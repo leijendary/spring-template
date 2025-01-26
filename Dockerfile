@@ -1,4 +1,4 @@
-FROM ghcr.io/graalvm/graalvm-community:22 AS build
+FROM ghcr.io/graalvm/graalvm-community:23 AS build
 # Download the Gradle distribution.
 COPY gradlew .
 COPY gradle gradle
