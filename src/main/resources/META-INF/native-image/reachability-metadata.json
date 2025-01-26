@@ -1488,7 +1488,7 @@
       "type": "com.leijendary.domain.ai.chat.AiChatMemoryRepository"
     },
     {
-      "type": "com.leijendary.domain.ai.chat.AiChatMemory_Accessor_n2qz44",
+      "type": "com.leijendary.domain.ai.chat.AiChatMemory_Accessor_aptcp6",
       "methods": [
         {
           "name": "<init>",
@@ -1499,7 +1499,7 @@
       ]
     },
     {
-      "type": "com.leijendary.domain.ai.chat.AiChatMemory_Instantiator_n2qz44",
+      "type": "com.leijendary.domain.ai.chat.AiChatMemory_Instantiator_aptcp6",
       "methods": [
         {
           "name": "<init>",
@@ -1566,7 +1566,7 @@
       ]
     },
     {
-      "type": "com.leijendary.domain.ai.chat.AiChatResponse_Instantiator_jpzht6",
+      "type": "com.leijendary.domain.ai.chat.AiChatResponse_Instantiator_4mw5jj",
       "methods": [
         {
           "name": "<init>",
@@ -1582,7 +1582,7 @@
       "allDeclaredFields": true
     },
     {
-      "type": "com.leijendary.domain.ai.chat.AiChat_Accessor_z9ajxv",
+      "type": "com.leijendary.domain.ai.chat.AiChat_Accessor_kifl9y",
       "methods": [
         {
           "name": "<init>",
@@ -1593,7 +1593,7 @@
       ]
     },
     {
-      "type": "com.leijendary.domain.ai.chat.AiChat_Instantiator_z9ajxv",
+      "type": "com.leijendary.domain.ai.chat.AiChat_Instantiator_kifl9y",
       "methods": [
         {
           "name": "<init>",
@@ -1696,7 +1696,7 @@
       ]
     },
     {
-      "type": "com.leijendary.domain.image.ImageMetadata_Accessor_jmj4n4",
+      "type": "com.leijendary.domain.image.ImageMetadata_Accessor_boadw1",
       "methods": [
         {
           "name": "<init>",
@@ -1780,7 +1780,7 @@
       ]
     },
     {
-      "type": "com.leijendary.domain.image.Image_Accessor_j15t2w",
+      "type": "com.leijendary.domain.image.Image_Accessor_k9xyxe",
       "methods": [
         {
           "name": "<init>",
@@ -1791,7 +1791,7 @@
       ]
     },
     {
-      "type": "com.leijendary.domain.image.Image_Instantiator_j15t2w",
+      "type": "com.leijendary.domain.image.Image_Instantiator_k9xyxe",
       "methods": [
         {
           "name": "<init>",
@@ -1984,7 +1984,7 @@
       ]
     },
     {
-      "type": "com.leijendary.domain.sample.SampleDetailResponse_Instantiator_cbhjgm",
+      "type": "com.leijendary.domain.sample.SampleDetailResponse_Instantiator_202x72",
       "methods": [
         {
           "name": "<init>",
@@ -2000,7 +2000,7 @@
       "type": "com.leijendary.domain.sample.SampleImageRepository"
     },
     {
-      "type": "com.leijendary.domain.sample.SampleImage_Accessor_vspbkf",
+      "type": "com.leijendary.domain.sample.SampleImage_Accessor_qtz48c",
       "methods": [
         {
           "name": "<init>",
@@ -2141,7 +2141,7 @@
       ]
     },
     {
-      "type": "com.leijendary.domain.sample.SampleResponse_Instantiator_igdwfk",
+      "type": "com.leijendary.domain.sample.SampleResponse_Instantiator_qr8a15",
       "methods": [
         {
           "name": "<init>",
@@ -2274,7 +2274,7 @@
       ]
     },
     {
-      "type": "com.leijendary.domain.sample.SampleSearch_Accessor_bpa6wq",
+      "type": "com.leijendary.domain.sample.SampleSearch_Accessor_taapg0",
       "methods": [
         {
           "name": "<init>",
@@ -2285,7 +2285,7 @@
       ]
     },
     {
-      "type": "com.leijendary.domain.sample.SampleSearch_Instantiator_bpa6wq",
+      "type": "com.leijendary.domain.sample.SampleSearch_Instantiator_taapg0",
       "methods": [
         {
           "name": "<init>",
@@ -2361,7 +2361,7 @@
       ]
     },
     {
-      "type": "com.leijendary.domain.sample.SampleTranslationResponse_Instantiator_t1oe89",
+      "type": "com.leijendary.domain.sample.SampleTranslationResponse_Instantiator_59e3lh",
       "methods": [
         {
           "name": "<init>",
@@ -2374,7 +2374,7 @@
       "allDeclaredFields": true
     },
     {
-      "type": "com.leijendary.domain.sample.SampleTranslationSearch_Accessor_9nvwgw",
+      "type": "com.leijendary.domain.sample.SampleTranslationSearch_Accessor_8ka9jj",
       "methods": [
         {
           "name": "<init>",
@@ -2385,7 +2385,7 @@
       ]
     },
     {
-      "type": "com.leijendary.domain.sample.SampleTranslationSearch_Instantiator_9nvwgw",
+      "type": "com.leijendary.domain.sample.SampleTranslationSearch_Instantiator_8ka9jj",
       "methods": [
         {
           "name": "<init>",
@@ -2394,7 +2394,7 @@
       ]
     },
     {
-      "type": "com.leijendary.domain.sample.SampleTranslation_Accessor_efk2ib",
+      "type": "com.leijendary.domain.sample.SampleTranslation_Accessor_quou3r",
       "methods": [
         {
           "name": "<init>",
@@ -2405,7 +2405,7 @@
       ]
     },
     {
-      "type": "com.leijendary.domain.sample.SampleTranslation_Instantiator_efk2ib",
+      "type": "com.leijendary.domain.sample.SampleTranslation_Instantiator_quou3r",
       "methods": [
         {
           "name": "<init>",
@@ -2414,7 +2414,7 @@
       ]
     },
     {
-      "type": "com.leijendary.domain.sample.Sample_Accessor_57ca4b",
+      "type": "com.leijendary.domain.sample.Sample_Accessor_wmuz8z",
       "methods": [
         {
           "name": "<init>",
@@ -2425,7 +2425,7 @@
       ]
     },
     {
-      "type": "com.leijendary.domain.sample.Sample_Instantiator_57ca4b",
+      "type": "com.leijendary.domain.sample.Sample_Instantiator_wmuz8z",
       "methods": [
         {
           "name": "<init>",
@@ -2949,13 +2949,37 @@
       "type": "com.sun.management.HotSpotDiagnosticMXBean"
     },
     {
-      "type": "com.sun.management.OperatingSystemMXBean"
+      "type": "com.sun.management.OperatingSystemMXBean",
+      "methods": [
+        {
+          "name": "getCpuLoad",
+          "parameterTypes": []
+        },
+        {
+          "name": "getProcessCpuLoad",
+          "parameterTypes": []
+        },
+        {
+          "name": "getProcessCpuTime",
+          "parameterTypes": []
+        }
+      ]
     },
     {
       "type": "com.sun.management.ThreadMXBean"
     },
     {
-      "type": "com.sun.management.UnixOperatingSystemMXBean"
+      "type": "com.sun.management.UnixOperatingSystemMXBean",
+      "methods": [
+        {
+          "name": "getMaxFileDescriptorCount",
+          "parameterTypes": []
+        },
+        {
+          "name": "getOpenFileDescriptorCount",
+          "parameterTypes": []
+        }
+      ]
     },
     {
       "type": "com.sun.management.VMOption"
@@ -4178,6 +4202,9 @@
       "type": "io.netty.channel.kqueue.KQueue"
     },
     {
+      "type": "io.netty.channel.pool.SimpleChannelPool$1"
+    },
+    {
       "type": "io.netty.channel.socket.nio.NioSocketChannel",
       "methods": [
         {
@@ -4188,6 +4215,21 @@
     },
     {
       "type": "io.netty.channel.unix.PeerCredentials"
+    },
+    {
+      "type": "io.netty.handler.codec.http.HttpClientCodec"
+    },
+    {
+      "type": "io.netty.handler.logging.LoggingHandler"
+    },
+    {
+      "type": "io.netty.handler.ssl.SslHandler"
+    },
+    {
+      "type": "io.netty.handler.timeout.ReadTimeoutHandler"
+    },
+    {
+      "type": "io.netty.handler.timeout.WriteTimeoutHandler"
     },
     {
       "type": "io.netty.incubator.channel.uring.IOUring"
@@ -16656,7 +16698,7 @@
       "allDeclaredFields": true
     },
     {
-      "type": "org.springframework.data.elasticsearch.core.suggest.Completion_Accessor_xgtmev",
+      "type": "org.springframework.data.elasticsearch.core.suggest.Completion_Accessor_4z9m63",
       "methods": [
         {
           "name": "<init>",
@@ -16667,7 +16709,7 @@
       ]
     },
     {
-      "type": "org.springframework.data.elasticsearch.core.suggest.Completion_Instantiator_xgtmev",
+      "type": "org.springframework.data.elasticsearch.core.suggest.Completion_Instantiator_4z9m63",
       "methods": [
         {
           "name": "<init>",
@@ -20431,6 +20473,30 @@
       "type": "software.amazon.awssdk.http.nio.netty.NettySdkAsyncHttpService"
     },
     {
+      "type": "software.amazon.awssdk.http.nio.netty.internal.FutureCancelHandler"
+    },
+    {
+      "type": "software.amazon.awssdk.http.nio.netty.internal.IdleConnectionReaperHandler"
+    },
+    {
+      "type": "software.amazon.awssdk.http.nio.netty.internal.ResponseHandler"
+    },
+    {
+      "type": "software.amazon.awssdk.http.nio.netty.internal.SslCloseCompletionEventHandler"
+    },
+    {
+      "type": "software.amazon.awssdk.http.nio.netty.internal.UnusedChannelExceptionHandler"
+    },
+    {
+      "type": "software.amazon.awssdk.http.nio.netty.internal.nrs.HttpStreamsClientHandler"
+    },
+    {
+      "type": "software.amazon.awssdk.http.nio.netty.internal.nrs.HttpStreamsHandler$1"
+    },
+    {
+      "type": "software.amazon.awssdk.http.nio.netty.internal.nrs.HttpStreamsHandler$3"
+    },
+    {
       "type": "software.amazon.awssdk.identity.spi.Identity"
     },
     {
@@ -23882,22 +23948,22 @@
       "glob": "com/leijendary/config/AwsConfiguration.class"
     },
     {
-      "glob": "com/leijendary/config/CacheConfiguration$$Lambda/0x00001f0001eb84b0.class"
+      "glob": "com/leijendary/config/CacheConfiguration$$Lambda/0x00000ffe01ea9ff8.class"
     },
     {
       "glob": "com/leijendary/config/CacheConfiguration.class"
     },
     {
-      "glob": "com/leijendary/config/DatabaseConfiguration$$Lambda/0x00001f0001b3dfc8.class"
+      "glob": "com/leijendary/config/DatabaseConfiguration$$Lambda/0x00000ffe01b2ccd0.class"
     },
     {
-      "glob": "com/leijendary/config/DatabaseConfiguration$$Lambda/0x00001f0001eb9a68.class"
+      "glob": "com/leijendary/config/DatabaseConfiguration$$Lambda/0x00000ffe01eab5b0.class"
     },
     {
       "glob": "com/leijendary/config/DatabaseConfiguration.class"
     },
     {
-      "glob": "com/leijendary/config/KafkaConfiguration$$Lambda/0x00001f0001644920.class"
+      "glob": "com/leijendary/config/KafkaConfiguration$$Lambda/0x00000ffe016444d0.class"
     },
     {
       "glob": "com/leijendary/config/KafkaConfiguration.class"
@@ -24491,6 +24557,9 @@
       "glob": "messages/access.properties"
     },
     {
+      "glob": "messages/access_en.properties"
+    },
+    {
       "glob": "messages/access_nl.properties"
     },
     {
@@ -24498,6 +24567,9 @@
     },
     {
       "glob": "messages/error.properties"
+    },
+    {
+      "glob": "messages/error_en.properties"
     },
     {
       "glob": "messages/error_nl.properties"
@@ -24509,13 +24581,13 @@
       "glob": "mozilla/public-suffix-list.txt"
     },
     {
-      "glob": "net/ttddyy/observation/boot/autoconfigure/DataSourceObservationAutoConfiguration$$Lambda/0x00001f0001966e68.class"
+      "glob": "net/ttddyy/observation/boot/autoconfigure/DataSourceObservationAutoConfiguration$$Lambda/0x00000ffe01965d50.class"
     },
     {
       "glob": "net/ttddyy/observation/boot/autoconfigure/DataSourceObservationAutoConfiguration$DataSourceTracing.class"
     },
     {
-      "glob": "net/ttddyy/observation/boot/autoconfigure/DataSourceObservationAutoConfiguration$Hikari$$Lambda/0x00001f00018822c8.class"
+      "glob": "net/ttddyy/observation/boot/autoconfigure/DataSourceObservationAutoConfiguration$Hikari$$Lambda/0x00000ffe01888700.class"
     },
     {
       "glob": "net/ttddyy/observation/boot/autoconfigure/DataSourceObservationAutoConfiguration$Hikari.class"
@@ -24935,7 +25007,7 @@
       "glob": "org/springdoc/core/configuration/SpringDocJacksonKotlinModuleConfiguration.class"
     },
     {
-      "glob": "org/springdoc/core/configuration/SpringDocKotlinConfiguration$$Lambda/0x00001f0001f0c578.class"
+      "glob": "org/springdoc/core/configuration/SpringDocKotlinConfiguration$$Lambda/0x00000ffe01efdd70.class"
     },
     {
       "glob": "org/springdoc/core/configuration/SpringDocKotlinConfiguration.class"
@@ -25289,7 +25361,7 @@
       "glob": "org/springframework/beans/factory/support/NullBean.class"
     },
     {
-      "glob": "org/springframework/boot/LazyInitializationExcludeFilter$$Lambda/0x00001f0001f3b418.class"
+      "glob": "org/springframework/boot/LazyInitializationExcludeFilter$$Lambda/0x00000ffe01f2cc20.class"
     },
     {
       "glob": "org/springframework/boot/LazyInitializationExcludeFilter.class"
@@ -25319,7 +25391,7 @@
       "glob": "org/springframework/boot/actuate/autoconfigure/endpoint/expose/IncludeExcludeEndpointFilter.class"
     },
     {
-      "glob": "org/springframework/boot/actuate/autoconfigure/endpoint/jackson/JacksonEndpointAutoConfiguration$$Lambda/0x00001f0001e27b60.class"
+      "glob": "org/springframework/boot/actuate/autoconfigure/endpoint/jackson/JacksonEndpointAutoConfiguration$$Lambda/0x00000ffe01e199f0.class"
     },
     {
       "glob": "org/springframework/boot/actuate/autoconfigure/endpoint/jackson/JacksonEndpointAutoConfiguration.class"
@@ -25418,13 +25490,13 @@
       "glob": "org/springframework/boot/actuate/autoconfigure/metrics/JvmMetricsAutoConfiguration.class"
     },
     {
-      "glob": "org/springframework/boot/actuate/autoconfigure/metrics/KafkaMetricsAutoConfiguration$$Lambda/0x00001f0001d68000.class"
+      "glob": "org/springframework/boot/actuate/autoconfigure/metrics/KafkaMetricsAutoConfiguration$$Lambda/0x00000ffe01d593d8.class"
     },
     {
-      "glob": "org/springframework/boot/actuate/autoconfigure/metrics/KafkaMetricsAutoConfiguration$$Lambda/0x00001f0001eaf370.class"
+      "glob": "org/springframework/boot/actuate/autoconfigure/metrics/KafkaMetricsAutoConfiguration$$Lambda/0x00000ffe01e9edb0.class"
     },
     {
-      "glob": "org/springframework/boot/actuate/autoconfigure/metrics/KafkaMetricsAutoConfiguration$KafkaStreamsMetricsConfiguration$$Lambda/0x00001f0001f38670.class"
+      "glob": "org/springframework/boot/actuate/autoconfigure/metrics/KafkaMetricsAutoConfiguration$KafkaStreamsMetricsConfiguration$$Lambda/0x00000ffe01f29e78.class"
     },
     {
       "glob": "org/springframework/boot/actuate/autoconfigure/metrics/KafkaMetricsAutoConfiguration$KafkaStreamsMetricsConfiguration.class"
@@ -25505,7 +25577,7 @@
       "glob": "org/springframework/boot/actuate/autoconfigure/metrics/jdbc/DataSourcePoolMetricsAutoConfiguration.class"
     },
     {
-      "glob": "org/springframework/boot/actuate/autoconfigure/metrics/redis/LettuceMetricsAutoConfiguration$$Lambda/0x00001f0001e42810.class"
+      "glob": "org/springframework/boot/actuate/autoconfigure/metrics/redis/LettuceMetricsAutoConfiguration$$Lambda/0x00000ffe01e34530.class"
     },
     {
       "glob": "org/springframework/boot/actuate/autoconfigure/metrics/redis/LettuceMetricsAutoConfiguration.class"
@@ -25592,10 +25664,10 @@
       "glob": "org/springframework/boot/actuate/autoconfigure/tracing/BravePropagationConfigurations$NoPropagation.class"
     },
     {
-      "glob": "org/springframework/boot/actuate/autoconfigure/tracing/BravePropagationConfigurations$PropagationWithBaggage$$Lambda/0x00001f0001763a00.class"
+      "glob": "org/springframework/boot/actuate/autoconfigure/tracing/BravePropagationConfigurations$PropagationWithBaggage$$Lambda/0x00000ffe0176c000.class"
     },
     {
-      "glob": "org/springframework/boot/actuate/autoconfigure/tracing/BravePropagationConfigurations$PropagationWithBaggage$$Lambda/0x00001f00017679f8.class"
+      "glob": "org/springframework/boot/actuate/autoconfigure/tracing/BravePropagationConfigurations$PropagationWithBaggage$$Lambda/0x00000ffe0176de58.class"
     },
     {
       "glob": "org/springframework/boot/actuate/autoconfigure/tracing/BravePropagationConfigurations$PropagationWithBaggage.class"
@@ -25655,7 +25727,7 @@
       "glob": "org/springframework/boot/actuate/autoconfigure/web/server/ManagementServerProperties.class"
     },
     {
-      "glob": "org/springframework/boot/actuate/autoconfigure/web/servlet/ServletManagementContextAutoConfiguration$$Lambda/0x00001f0001f30000.class"
+      "glob": "org/springframework/boot/actuate/autoconfigure/web/servlet/ServletManagementContextAutoConfiguration$$Lambda/0x00000ffe01f21640.class"
     },
     {
       "glob": "org/springframework/boot/actuate/autoconfigure/web/servlet/ServletManagementContextAutoConfiguration.class"
@@ -25667,7 +25739,7 @@
       "glob": "org/springframework/boot/actuate/data/redis/RedisReactiveHealthIndicator.class"
     },
     {
-      "glob": "org/springframework/boot/actuate/endpoint/OperationFilter$$Lambda/0x00001f0001f26dc8.class"
+      "glob": "org/springframework/boot/actuate/endpoint/OperationFilter$$Lambda/0x00000ffe01f18458.class"
     },
     {
       "glob": "org/springframework/boot/actuate/endpoint/OperationFilter.class"
@@ -25973,13 +26045,13 @@
       "glob": "org/springframework/boot/autoconfigure/http/client/HttpClientProperties.class"
     },
     {
-      "glob": "org/springframework/boot/autoconfigure/http/codec/CodecsAutoConfiguration$DefaultCodecsConfiguration$$Lambda/0x00001f0001bbb620.class"
+      "glob": "org/springframework/boot/autoconfigure/http/codec/CodecsAutoConfiguration$DefaultCodecsConfiguration$$Lambda/0x00000ffe01bae7e0.class"
     },
     {
       "glob": "org/springframework/boot/autoconfigure/http/codec/CodecsAutoConfiguration$DefaultCodecsConfiguration.class"
     },
     {
-      "glob": "org/springframework/boot/autoconfigure/http/codec/CodecsAutoConfiguration$JacksonCodecConfiguration$$Lambda/0x00001f0001bbb848.class"
+      "glob": "org/springframework/boot/autoconfigure/http/codec/CodecsAutoConfiguration$JacksonCodecConfiguration$$Lambda/0x00000ffe01baea08.class"
     },
     {
       "glob": "org/springframework/boot/autoconfigure/http/codec/CodecsAutoConfiguration$JacksonCodecConfiguration.class"
@@ -26045,7 +26117,7 @@
       "glob": "org/springframework/boot/autoconfigure/jdbc/NamedParameterJdbcTemplateConfiguration.class"
     },
     {
-      "glob": "org/springframework/boot/autoconfigure/jdbc/metadata/DataSourcePoolMetadataProvidersConfiguration$HikariPoolDataSourceMetadataProviderConfiguration$$Lambda/0x00001f0001f018b8.class"
+      "glob": "org/springframework/boot/autoconfigure/jdbc/metadata/DataSourcePoolMetadataProvidersConfiguration$HikariPoolDataSourceMetadataProviderConfiguration$$Lambda/0x00000ffe01ef3128.class"
     },
     {
       "glob": "org/springframework/boot/autoconfigure/jdbc/metadata/DataSourcePoolMetadataProvidersConfiguration$HikariPoolDataSourceMetadataProviderConfiguration.class"
@@ -26222,7 +26294,7 @@
       "glob": "org/springframework/boot/autoconfigure/web/reactive/function/client/AutoConfiguredWebClientSsl.class"
     },
     {
-      "glob": "org/springframework/boot/autoconfigure/web/reactive/function/client/ClientHttpConnectorAutoConfiguration$$Lambda/0x00001f0001bbba70.class"
+      "glob": "org/springframework/boot/autoconfigure/web/reactive/function/client/ClientHttpConnectorAutoConfiguration$$Lambda/0x00000ffe01baec30.class"
     },
     {
       "glob": "org/springframework/boot/autoconfigure/web/reactive/function/client/ClientHttpConnectorAutoConfiguration.class"
@@ -26537,7 +26609,7 @@
       "glob": "org/springframework/cloud/client/discovery/simple/reactive/SimpleReactiveDiscoveryProperties.class"
     },
     {
-      "glob": "org/springframework/cloud/client/loadbalancer/LoadBalancerDefaultMappingsProviderAutoConfiguration$$Lambda/0x00001f000163b6c0.class"
+      "glob": "org/springframework/cloud/client/loadbalancer/LoadBalancerDefaultMappingsProviderAutoConfiguration$$Lambda/0x00000ffe01639378.class"
     },
     {
       "glob": "org/springframework/cloud/client/loadbalancer/LoadBalancerDefaultMappingsProviderAutoConfiguration.class"
@@ -27487,12 +27559,14 @@
     {
       "name": "messages.access",
       "locales": [
+        "en",
         "nl-NL"
       ]
     },
     {
       "name": "messages.error",
       "locales": [
+        "en",
         "nl-NL"
       ]
     },
