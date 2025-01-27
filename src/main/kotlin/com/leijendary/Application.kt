@@ -4,11 +4,13 @@ import org.springframework.boot.SpringBootVersion
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 import org.springframework.cloud.openfeign.EnableFeignClients
+import org.springframework.context.annotation.ImportRuntimeHints
 import org.springframework.core.env.get
 import org.springframework.retry.annotation.EnableRetry
 import org.springframework.scheduling.annotation.EnableAsync
 
 @SpringBootApplication(proxyBeanMethods = false)
+@ImportRuntimeHints(ApplicationRuntimeHints::class)
 @EnableAsync
 @EnableFeignClients
 @EnableRetry

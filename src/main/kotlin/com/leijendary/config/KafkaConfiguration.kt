@@ -24,8 +24,7 @@ class KafkaConfiguration(
 ) {
     @Bean
     fun kafkaListenerContainerFactory(
-        consumerFactory: ConsumerFactory<String, String>,
-        template: KafkaTemplate<String, String>
+        consumerFactory: ConsumerFactory<String, String>
     ): KafkaListenerContainerFactory<*> {
         return ConcurrentKafkaListenerContainerFactory<String, String>().apply {
             containerProperties.ackMode = kafkaProperties.listener.ackMode
