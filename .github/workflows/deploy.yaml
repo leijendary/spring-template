@@ -1,4 +1,15 @@
 on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: Environment
+        required: true
+        type: string
+      image-tag:
+        description: Image Tag
+        required: false
+        type: string
+        default: ${{ github.sha }}
   workflow_call:
     inputs:
       environment:
