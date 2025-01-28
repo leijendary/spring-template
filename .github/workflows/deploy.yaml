@@ -10,7 +10,7 @@ on:
         options:
           - dev
           - test
-          - staging
+          - sandbox
           - prod
       image-tag:
         description: Image Tag

@@ -11,14 +11,14 @@ concurrency:
 
 jobs:
   # Sandbox environment
-  tag-sandbox:
-    name: Tag sandbox
-    uses: ./.github/workflows/tag.yaml
+  build-sandbox:
+    name: Build sandbox
+    uses: ./.github/workflows/build.yaml
     with:
       environment: sandbox
     secrets: inherit
   deploy-sandbox:
-    needs: tag-sandbox
+    needs: build-sandbox
     name: Deploy sandbox
     uses: ./.github/workflows/deploy.yaml
     with:
@@ -27,15 +27,14 @@ jobs:
     secrets: inherit
 
   # Production environment
-  tag-prod:
-    needs: deploy-sandbox
-    name: Tag production
-    uses: ./.github/workflows/tag.yaml
+  build-prod:
+    name: Build production
+    uses: ./.github/workflows/build.yaml
     with:
       environment: prod
     secrets: inherit
   deploy-prod:
-    needs: tag-prod
+    needs: build-prod
     name: Deploy production
     uses: ./.github/workflows/deploy.yaml
     with:
