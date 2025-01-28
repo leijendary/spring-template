@@ -1,4 +1,4 @@
-name: Push on release/*
+name: Push on release
 
 on:
   push:
