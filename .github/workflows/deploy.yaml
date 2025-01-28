@@ -9,9 +9,8 @@ on:
         type: string
       image-tag:
         description: Image Tag
-        required: false
+        required: true
         type: string
-        default: ${{ github.sha }}
   workflow_call:
     inputs:
       environment:
