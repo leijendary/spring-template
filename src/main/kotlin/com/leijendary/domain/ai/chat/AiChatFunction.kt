@@ -1,28 +1,19 @@
 package com.leijendary.domain.ai.chat
 
+import com.leijendary.config.ToolContainer
 import com.leijendary.extension.logger
-import org.springframework.ai.model.function.FunctionCallback
-import org.springframework.context.annotation.Bean
-import org.springframework.context.annotation.Configuration
+import org.springframework.ai.tool.annotation.Tool
+import org.springframework.stereotype.Component
 
-@Configuration
-class AiChatFunction {
+@Component
+class AiChatFunction : ToolContainer {
     private val log = logger()
 
-    data class Request(val userId: String)
-    data class Response(val accountNumber: String)
+    @Tool(description = "Get the user's account number")
+    fun getAccountNumber(userId: String): String {
+        log.info("Get account number of user ID {}", userId)
 
-    @Bean
-    fun getAccountNumber(): FunctionCallback {
-        return FunctionCallback.builder()
-            .function("getAccountNumber") { input: Request, toolContext ->
-                log.info("Get account number of user ID {}", input.userId)
-
-                Response("8717823912")
-            }
-            .inputType(Request::class.java)
-            .description("This function will return the user's account number")
-            .build()
+        return "8717823912"
     }
 
     companion object {
