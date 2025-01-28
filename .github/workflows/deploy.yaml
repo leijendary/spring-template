@@ -6,7 +6,12 @@ on:
       environment:
         description: Environment
         required: true
-        type: string
+        type: choice
+        options:
+          - dev
+          - test
+          - staging
+          - prod
       image-tag:
         description: Image Tag
         required: true
