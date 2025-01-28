@@ -64,7 +64,7 @@ services:
     image: openzipkin/zipkin-slim:3
     container_name: zipkin-template
   ollama:
-    image: ollama/ollama:0.4.5
+    image: ollama/ollama:0.5.1
     container_name: ollama-template
     deploy:
       resources:
