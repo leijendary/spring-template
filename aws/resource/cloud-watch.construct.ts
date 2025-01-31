@@ -1,9 +1,9 @@
+import env from "@/env";
 import { Alarm, AlarmProps, ComparisonOperator, Metric } from "aws-cdk-lib/aws-cloudwatch";
 import { LambdaAction } from "aws-cdk-lib/aws-cloudwatch-actions";
 import { Function } from "aws-cdk-lib/aws-lambda";
 import { FilterPattern, LogGroup, MetricFilter, MetricFilterProps } from "aws-cdk-lib/aws-logs";
 import { Construct } from "constructs";
-import env from "../env";
 
 export type CloudWatchConstructProps = {
   logGroup: LogGroup;

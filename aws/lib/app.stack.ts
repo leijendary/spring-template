@@ -1,3 +1,7 @@
+import env from "@/env";
+import CloudWatchConstruct, { CloudWatchConstructProps } from "@/resource/cloud-watch.construct";
+import { FargateServiceConstruct, FargateServiceConstructProps } from "@/resource/fargate-service.construct";
+import { TaskDefinitionConstruct, TaskDefinitionConstructProps } from "@/resource/task-definition.construct";
 import { Stack, StackProps } from "aws-cdk-lib";
 import { Distribution, DistributionAttributes } from "aws-cdk-lib/aws-cloudfront";
 import { ISecurityGroup, IVpc, SecurityGroup, Vpc, VpcLookupOptions } from "aws-cdk-lib/aws-ec2";
@@ -13,12 +17,8 @@ import {
   PrivateDnsNamespaceAttributes,
 } from "aws-cdk-lib/aws-servicediscovery";
 import { Construct } from "constructs";
-import env from "../env";
-import CloudWatchConstruct, { CloudWatchConstructProps } from "../resource/cloud-watch.construct";
-import { FargateServiceConstruct, FargateServiceConstructProps } from "../resource/fargate-service.construct";
-import { TaskDefinitionConstruct, TaskDefinitionConstructProps } from "../resource/task-definition.construct";
 
-const { account, region, environment, organization, vpcId, imageTag, clusterName } = env;
+const { account, region, environment, organization, vpcId, imageTag, clusterName, repositoryAccount } = env;
 const { id: distributionId, domainName } = env.distribution;
 const { id: namespaceId, name: namespaceName } = env.namespace;
 const { id, name } = env.stack;
@@ -79,7 +79,7 @@ export class ApplicationStack extends Stack {
     return Repository.fromRepositoryArn(
       this,
       `${id}Repository-${environment}`,
-      `arn:aws:ecr:${region}:${account}:repository/${name}`
+      `arn:aws:ecr:${region}:${repositoryAccount}:repository/${name}`
     );
   }
 

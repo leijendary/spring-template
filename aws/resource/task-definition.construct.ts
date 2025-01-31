@@ -1,3 +1,4 @@
+import env, { isProd } from "@/env";
 import { RemovalPolicy } from "aws-cdk-lib";
 import { IDistribution } from "aws-cdk-lib/aws-cloudfront";
 import { IRepository } from "aws-cdk-lib/aws-ecr";
@@ -18,7 +19,6 @@ import { PolicyDocument, PolicyStatement, Role, RoleProps, ServicePrincipal } fr
 import { LogGroup, LogGroupProps, RetentionDays } from "aws-cdk-lib/aws-logs";
 import { IBucket } from "aws-cdk-lib/aws-s3";
 import { Construct } from "constructs";
-import env, { isProd } from "../env";
 
 export type TaskDefinitionConstructCredentialsProps = {
   security: {

@@ -31,11 +31,11 @@ jobs:
         with:
           aws-region: ${{ vars.AWS_REGION }}
           role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/DeploymentRole-${{ inputs.environment }}
-      - id: login-registry
-        name: Login to registry
+      - name: Login to AWS ECR
+        id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
         with:
-          mask-password: true
+          registries: ${{ secrets.AWS_ECR_ACCOUNT_ID }}
       - name: Build and push
         uses: docker/build-push-action@v5
         with:
@@ -43,4 +43,4 @@ jobs:
           cache-to: type=gha,mode=max
           platforms: linux/arm64
           push: true
-          tags: ${{ steps.login-registry.outputs.registry }}/${{ github.event.repository.name }}:${{ inputs.image-tag }}
+          tags: ${{ steps.login-ecr.outputs.registry }}/${{ github.event.repository.name }}:${{ inputs.image-tag }}
