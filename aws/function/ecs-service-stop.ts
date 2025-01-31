@@ -5,13 +5,12 @@ import {
   UpdateServiceCommand,
   UpdateServiceRequest,
 } from "@aws-sdk/client-ecs";
-import { Handler } from "aws-lambda";
 
 const client = new ECSClient();
 const cluster = process.env.CLUSTER!!;
 const service = process.env.SERVICE!!;
 
-export const handler: Handler = async () => {
+export async function handler() {
   console.log("Stopping", service);
 
   const desiredCount = await getDesiredCount();
@@ -31,7 +30,7 @@ export const handler: Handler = async () => {
   const response = await client.send(command);
 
   console.log("Triggered stop command to", response.service?.serviceName);
-};
+}
 
 async function getDesiredCount() {
   const input: DescribeServicesCommandInput = {

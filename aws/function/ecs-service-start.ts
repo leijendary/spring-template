@@ -5,13 +5,12 @@ import {
   UpdateServiceCommand,
   UpdateServiceRequest,
 } from "@aws-sdk/client-ecs";
-import { Handler } from "aws-lambda";
 
 const client = new ECSClient();
 const cluster = process.env.CLUSTER!!;
 const service = process.env.SERVICE!!;
 
-export const handler: Handler = async () => {
+export async function handler() {
   console.log("Starting", service);
 
   const desiredCount = await getDesiredCount();
