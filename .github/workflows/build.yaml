@@ -18,7 +18,10 @@ permissions:
 jobs:
   docker:
     name: Docker
-    runs-on: codebuild-${{ github.event.repository.name }}-${{ inputs.environment }}-${{ github.run_id }}-${{ github.run_attempt }}-arm-3.0-large
+    runs-on:
+      - codebuild-${{ github.event.repository.name }}-${{ github.run_id }}-${{ github.run_attempt }}
+      - image:arm-3.0
+      - instance-size:large
     timeout-minutes: 30
     environment: ${{ inputs.environment }}
     steps:
@@ -30,14 +33,12 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-region: ${{ vars.AWS_REGION }}
-          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/DeploymentRole-${{ inputs.environment }}
+          role-to-assume: arn:aws:iam::${{ secrets.AWS_BUILD_ACCOUNT_ID }}:role/BuildRole
       - name: Login to AWS ECR
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
-        with:
-          registries: ${{ secrets.AWS_ECR_ACCOUNT_ID }}
       - name: Build and push
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           cache-from: type=gha
           cache-to: type=gha,mode=max

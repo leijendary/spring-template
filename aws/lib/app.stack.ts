@@ -1,7 +1,3 @@
-import env from "@/env";
-import CloudWatchConstruct, { CloudWatchConstructProps } from "@/resource/cloud-watch.construct";
-import { FargateServiceConstruct, FargateServiceConstructProps } from "@/resource/fargate-service.construct";
-import { TaskDefinitionConstruct, TaskDefinitionConstructProps } from "@/resource/task-definition.construct";
 import { Stack, StackProps } from "aws-cdk-lib";
 import { Distribution, DistributionAttributes } from "aws-cdk-lib/aws-cloudfront";
 import { ISecurityGroup, IVpc, SecurityGroup, Vpc, VpcLookupOptions } from "aws-cdk-lib/aws-ec2";
@@ -17,8 +13,12 @@ import {
   PrivateDnsNamespaceAttributes,
 } from "aws-cdk-lib/aws-servicediscovery";
 import { Construct } from "constructs";
+import env from "../env";
+import CloudWatchConstruct, { CloudWatchConstructProps } from "../resource/cloud-watch.construct";
+import { FargateServiceConstruct, FargateServiceConstructProps } from "../resource/fargate-service.construct";
+import { TaskDefinitionConstruct, TaskDefinitionConstructProps } from "../resource/task-definition.construct";
 
-const { account, region, environment, organization, vpcId, imageTag, clusterName, repositoryAccount } = env;
+const { account, region, environment, organization, vpcId, imageTag, clusterName, buildAccount } = env;
 const { id: distributionId, domainName } = env.distribution;
 const { id: namespaceId, name: namespaceName } = env.namespace;
 const { id, name } = env.stack;
@@ -79,7 +79,7 @@ export class ApplicationStack extends Stack {
     return Repository.fromRepositoryArn(
       this,
       `${id}Repository-${environment}`,
-      `arn:aws:ecr:${region}:${repositoryAccount}:repository/${name}`
+      `arn:aws:ecr:${region}:${buildAccount}:repository/${name}`
     );
   }
 
@@ -126,7 +126,6 @@ export class ApplicationStack extends Stack {
     const config: ClusterAttributes = {
       vpc,
       clusterName,
-      clusterArn: `arn:aws:ecs:${region}:${account}:cluster/${clusterName}`,
       securityGroups: [securityGroup],
       defaultCloudMapNamespace: privateNamespace,
     };
@@ -135,7 +134,7 @@ export class ApplicationStack extends Stack {
   }
 
   private getSecurityCredentials() {
-    const credential = SecretManager.fromSecretNameV2(
+    const secret = SecretManager.fromSecretNameV2(
       this,
       `${id}SecuritySecret-${environment}`,
       `${environment}/security`
@@ -143,31 +142,31 @@ export class ApplicationStack extends Stack {
 
     return {
       encrypt: {
-        key: Secret.fromSecretsManager(credential, "encrypt.key"),
-        salt: Secret.fromSecretsManager(credential, "encrypt.salt"),
+        key: Secret.fromSecretsManager(secret, "encrypt.key"),
+        salt: Secret.fromSecretsManager(secret, "encrypt.salt"),
       },
       cloudFront: {
-        privateKey: Secret.fromSecretsManager(credential, "cloudFront.privateKey"),
-        publicKeyId: Secret.fromSecretsManager(credential, "cloudFront.publicKeyId"),
+        privateKey: Secret.fromSecretsManager(secret, "cloudFront.privateKey"),
+        publicKeyId: Secret.fromSecretsManager(secret, "cloudFront.publicKeyId"),
       },
     };
   }
 
   private getAuroraCredentials() {
-    const credential = DatabaseSecret.fromSecretNameV2(
+    const secret = DatabaseSecret.fromSecretNameV2(
       this,
       `${id}AuroraSecret-${environment}`,
       `${environment}/aurora/api`
     );
 
     return {
-      username: Secret.fromSecretsManager(credential, "username"),
-      password: Secret.fromSecretsManager(credential, "password"),
+      username: Secret.fromSecretsManager(secret, "username"),
+      password: Secret.fromSecretsManager(secret, "password"),
     };
   }
 
   private getDataStorageCredentials() {
-    const credential = SecretManager.fromSecretNameV2(
+    const secret = SecretManager.fromSecretNameV2(
       this,
       `${id}DataStorageSecret-${environment}`,
       `${environment}/data-storage`
@@ -175,16 +174,16 @@ export class ApplicationStack extends Stack {
 
     return {
       elasticsearch: {
-        username: Secret.fromSecretsManager(credential, "elasticsearch.username"),
-        password: Secret.fromSecretsManager(credential, "elasticsearch.password"),
+        username: Secret.fromSecretsManager(secret, "elasticsearch.username"),
+        password: Secret.fromSecretsManager(secret, "elasticsearch.password"),
       },
       kafka: {
-        username: Secret.fromSecretsManager(credential, "kafka.username"),
-        password: Secret.fromSecretsManager(credential, "kafka.password"),
+        username: Secret.fromSecretsManager(secret, "kafka.username"),
+        password: Secret.fromSecretsManager(secret, "kafka.password"),
       },
       redis: {
-        username: Secret.fromSecretsManager(credential, "redis.username"),
-        password: Secret.fromSecretsManager(credential, "redis.password"),
+        username: Secret.fromSecretsManager(secret, "redis.username"),
+        password: Secret.fromSecretsManager(secret, "redis.password"),
       },
     };
   }

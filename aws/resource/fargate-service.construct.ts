@@ -1,5 +1,3 @@
-import env, { isProd } from "@/env";
-import { TaskDefinitionConstruct } from "@/resource/task-definition.construct";
 import { Duration, RemovalPolicy } from "aws-cdk-lib";
 import { ISecurityGroup } from "aws-cdk-lib/aws-ec2";
 import { FargateService, FargateServiceProps, ICluster } from "aws-cdk-lib/aws-ecs";
@@ -9,6 +7,8 @@ import { Effect, PolicyStatement } from "aws-cdk-lib/aws-iam";
 import { NodejsFunction } from "aws-cdk-lib/aws-lambda-nodejs";
 import { LogGroup, RetentionDays } from "aws-cdk-lib/aws-logs";
 import { Construct } from "constructs";
+import env from "../env";
+import { TaskDefinitionConstruct } from "../resource/task-definition.construct";
 
 export type FargateServiceConstructProps = {
   taskDefinition: TaskDefinitionConstruct;
@@ -16,7 +16,7 @@ export type FargateServiceConstructProps = {
   securityGroup: ISecurityGroup;
 };
 
-const { environment, clusterName } = env;
+const { environment, clusterName, isProd } = env;
 const { id, name } = env.stack;
 
 export class FargateServiceConstruct extends FargateService {

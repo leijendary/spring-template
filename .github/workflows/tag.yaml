@@ -27,7 +27,7 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
         with:
-          registries: ${{ secrets.AWS_ECR_ACCOUNT_ID }}
+          registries: ${{ secrets.AWS_BUILD_ACCOUNT_ID }}
       - name: Tag and push
         env:
           SOURCE: ${{ steps.login-ecr.outputs.registry }}/${{ github.event.repository.name }}:${{ github.sha }}

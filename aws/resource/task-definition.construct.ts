@@ -1,4 +1,3 @@
-import env, { isProd } from "@/env";
 import { RemovalPolicy } from "aws-cdk-lib";
 import { IDistribution } from "aws-cdk-lib/aws-cloudfront";
 import { IRepository } from "aws-cdk-lib/aws-ecr";
@@ -19,6 +18,7 @@ import { PolicyDocument, PolicyStatement, Role, RoleProps, ServicePrincipal } fr
 import { LogGroup, LogGroupProps, RetentionDays } from "aws-cdk-lib/aws-logs";
 import { IBucket } from "aws-cdk-lib/aws-s3";
 import { Construct } from "constructs";
+import env from "../env";
 
 export type TaskDefinitionConstructCredentialsProps = {
   security: {
@@ -59,7 +59,7 @@ export type TaskDefinitionConstructProps = {
   credentials: TaskDefinitionConstructCredentialsProps;
 };
 
-const { environment, port, clusterName } = env;
+const { environment, port, clusterName, isProd } = env;
 const { id, name } = env.stack;
 const logPrefix = `/ecs/fargate/${clusterName}`;
 const assumedBy = new ServicePrincipal("ecs-tasks.amazonaws.com");

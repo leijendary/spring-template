@@ -62,7 +62,7 @@ jobs:
           NAMESPACE_NAME: ${{ vars.NAMESPACE_NAME }}
           DISTRIBUTION_ID: ${{ vars.DISTRIBUTION_ID }}
           DISTRIBUTION_DOMAIN_NAME: ${{ vars.DISTRIBUTION_DOMAIN_NAME }}
-          REPOSITORY_ACCOUNT: ${{ secrets.AWS_ECR_ACCOUNT_ID }}
+          BUILD_ACCOUNT: ${{ secrets.AWS_BUILD_ACCOUNT_ID }}
         working-directory: ./aws
         run: |
           npm ci
