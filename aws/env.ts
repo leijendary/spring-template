@@ -1,6 +1,5 @@
 const environment = process.env.ENVIRONMENT!!;
-
-export default {
+const env = {
   account: process.env.CDK_DEFAULT_ACCOUNT!!,
   region: process.env.CDK_DEFAULT_REGION!!,
   organization: process.env.ORGANIZATION!!,
@@ -24,3 +23,5 @@ export default {
   isProd: environment === "prod",
   clusterName: `api-${environment}`
 };
+
+export default env;
