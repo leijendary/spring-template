@@ -11,11 +11,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.openapi.petstore.v2.model.Pet
 import org.springframework.data.redis.core.StringRedisTemplate
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 import java.time.Instant
 import java.util.*
 
@@ -39,7 +35,7 @@ private const val CACHE_KEY_TIMESTAMP = "sample::timestamp"
 @RestController
 @RequestMapping("api/v1/samples")
 @Tag(name = "Sample")
-class SampleController(
+class SampleControllerV1(
     private val petStoreClient: PetStoreClient,
     private val redisTemplate: StringRedisTemplate,
     private val sampleService: SampleService
@@ -113,5 +109,23 @@ class SampleController(
             "previousTimestamp" to previousTimestamp,
             "timestamp" to timestamp
         )
+    }
+}
+
+@RestController
+@RequestMapping("api/v2/samples")
+@Tag(name = "Sample")
+class SampleControllerV2(private val sampleService: SampleService) {
+    @GetMapping
+    @Operation(
+        summary = """
+           List of all sample records in a cursor-based result. Use createdAt and id in the next request to get 
+           the next page. This is a faster way to do pagination since it does not use limit offset, but rather
+           uses the index to get the next page of the result.
+        """,
+        security = [SecurityRequirement(name = "oauth2", scopes = ["sample.read"])],
+    )
+    fun cursor(queryRequest: QueryRequest, cursorable: Cursorable): CursoredModel<SampleResponse> {
+        return sampleService.cursor(queryRequest, cursorable)
     }
 }

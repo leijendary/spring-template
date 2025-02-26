@@ -48,47 +48,6 @@ management:
     tracing:
       endpoint:
 
-openApi:
-  info:
-    title: ${name}
-    description: ${description}
-    version: ${version}
-    contact:
-      name: Jonathan Leijendekker
-      url: https://leijendary.com
-      email:
-    license:
-      name: Jonathan Leijendekker
-      url: https://leijendary.com
-  components:
-    securitySchemes:
-      oauth2:
-        type: oauth2
-        flows:
-          implicit:
-            authorizationUrl: https://leijendary.eu.auth0.com/authorize
-            scopes:
-              sample.admin.read: Read sample records as an admin
-              sample.admin.write: Create sample records as an admin
-              sample.admin.image.write: Upload or delete sample images as an admin
-              sample.read: Read sample records
-              sample.search.read: Search sample records
-              sample.search.write: Reindex sample records
-              image.write: Upload/validate images
-              ai.chat.read: Read AI chat details or history
-              ai.chat.write: Create or send chat messages to AI
-  servers:
-    - url: http://localhost
-      description: Local
-    - url: https://api.dev.leijendary.com
-      description: Development
-    - url: https://api.test.leijendary.com
-      description: Testing
-    - url: https://api.sandbox.leijendary.com
-      description: Sandbox
-    - url: https://api.leijendary.com
-      description: Production
-
 server:
   error:
     whitelabel:
@@ -194,6 +153,41 @@ spring:
       enabled: true
 
 springdoc:
-  pathsToMatch: /api/**
-  swaggerUi:
-    disableSwaggerDefaultUrl: true
+  openApi:
+    components:
+      securitySchemes:
+        oauth2:
+          type: oauth2
+          flows:
+            implicit:
+              authorizationUrl: https://leijendary.eu.auth0.com/authorize
+              scopes:
+                sample.admin.read: Read sample records as an admin
+                sample.admin.write: Create sample records as an admin
+                sample.admin.image.write: Upload or delete sample images as an admin
+                sample.read: Read sample records
+                sample.search.read: Search sample records
+                sample.search.write: Reindex sample records
+                image.write: Upload/validate images
+                ai.chat.read: Read AI chat details or history
+                ai.chat.write: Create or send chat messages to AI
+    servers:
+      - url: http://localhost
+        description: Local
+      - url: https://api.dev.leijendary.com
+        description: Development
+      - url: https://api.test.leijendary.com
+        description: Testing
+      - url: https://api.sandbox.leijendary.com
+        description: Sandbox
+      - url: https://api.leijendary.com
+        description: Production
+  groupConfigs:
+    - group: sample.v1
+      pathsToMatch: /api/v1/samples/**
+    - group: sample.v1
+      pathsToMatch: /api/v2/samples/**
+    - group: image.v1
+      pathsToMatch: /api/v1/images/**
+    - group: ai.chat.v1
+      pathsToMatch: /api/v1/ai/chat/**

@@ -29,14 +29,14 @@ val openApiTasks = file("$rootDir/src/main/resources/specs").listFiles()?.map {
 }
 
 plugins {
-    val kotlinVersion = "2.1.0"
+    val kotlinVersion = "2.1.10"
 
     kotlin("jvm") version kotlinVersion
     kotlin("plugin.spring") version kotlinVersion
     id("org.springframework.boot") version "3.4.2"
     id("io.spring.dependency-management") version "1.1.7"
     id("org.graalvm.buildtools.native") version "0.10.4"
-    id("org.openapi.generator") version "7.10.0"
+    id("org.openapi.generator") version "7.11.0"
 }
 
 group = "com.leijendary"
@@ -93,7 +93,7 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-testcontainers")
 
     // Spring Cloud Starter
-    implementation(platform("org.springframework.cloud:spring-cloud-dependencies:2024.0.0-SNAPSHOT"))
+    implementation(platform("org.springframework.cloud:spring-cloud-dependencies:2024.0.0"))
     implementation("org.springframework.cloud:spring-cloud-starter-openfeign")
 
     // Spring Kafka
@@ -110,11 +110,11 @@ dependencies {
     testImplementation("org.springframework.ai:spring-ai-spring-boot-testcontainers")
 
     // AWS
-    implementation(platform("software.amazon.awssdk:bom:2.29.19"))
+    implementation(platform("software.amazon.awssdk:bom:2.30.27"))
     implementation("software.amazon.awssdk:cloudfront")
 
     // AWS Cloud
-    implementation(platform("io.awspring.cloud:spring-cloud-aws-dependencies:3.2.1"))
+    implementation(platform("io.awspring.cloud:spring-cloud-aws-dependencies:3.3.0"))
     implementation("io.awspring.cloud:spring-cloud-aws-starter-metrics")
     implementation("io.awspring.cloud:spring-cloud-aws-starter-s3")
 
@@ -133,10 +133,10 @@ dependencies {
     implementation("io.github.openfeign:feign-micrometer")
     implementation("io.micrometer:micrometer-tracing-bridge-brave")
     implementation("io.zipkin.reporter2:zipkin-reporter-brave")
-    implementation("net.ttddyy.observation:datasource-micrometer-spring-boot:1.0.6")
+    implementation("net.ttddyy.observation:datasource-micrometer-spring-boot:1.1.0")
 
     // OpenAPI
-    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.7.0")
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.5")
 
     // Test
     testImplementation("org.mockito.kotlin:mockito-kotlin:5.4.0")
