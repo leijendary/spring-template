@@ -61,10 +61,15 @@ class HttpMessageNotReadableExceptionHandler(private val messageSource: MessageS
 
     private fun error(exception: MismatchedInputException): ErrorModel {
         val source = source(exception.path)
-        val code = "error.format.incompatible"
         val field = exception.path.lastOrNull()?.fieldName ?: "body"
-        val arguments = arrayOf(field, exception.targetType.simpleName)
-        val message = messageSource.getMessage(code, arguments, locale)
+        val (code, message) = if (exception.targetType !== null) {
+            val code = "error.format.incompatible"
+            val arguments = arrayOf(field, exception.targetType.simpleName)
+            code to messageSource.getMessage(code, arguments, locale)
+        } else {
+            val code = "validation.required"
+            code to messageSource.getMessage(code, null, locale)
+        }
 
         return ErrorModel(code = code, message = message, source = source)
     }
@@ -75,8 +80,7 @@ class HttpMessageNotReadableExceptionHandler(private val messageSource: MessageS
             val code = "validation.required"
             code to messageSource.getMessage(code, null, locale)
         } else {
-            val code = "error.format.invalid"
-            code to exception.originalMessage
+            "error.format.invalid" to exception.originalMessage
         }
 
         return ErrorModel(code = code, message = message, source = source)
