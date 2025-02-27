@@ -10,23 +10,15 @@ import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.http.HttpStatus.CREATED
 import org.springframework.http.HttpStatus.NO_CONTENT
-import org.springframework.web.bind.annotation.DeleteMapping
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.PutMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.ResponseStatus
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("api/v1/samples/admin")
+@RequestMapping("v1/samples/admin")
 @Tag(name = "Sample Admin")
 class SampleAdminController(private val sampleService: SampleService) {
     @GetMapping
     @Operation(
-        summary = "List of all sample records in a paginated result.",
+        description = "List of all sample records in a paginated result.",
         security = [SecurityRequirement(name = "oauth2", scopes = ["sample.admin.read"])]
     )
     fun page(queryRequest: QueryRequest, pageable: Pageable): Page<SampleResponse> {
@@ -36,7 +28,7 @@ class SampleAdminController(private val sampleService: SampleService) {
     @PostMapping
     @ResponseStatus(CREATED)
     @Operation(
-        summary = "Saves a sample record into the database.",
+        description = "Saves a sample record into the database.",
         security = [SecurityRequirement(name = "oauth2", scopes = ["sample.admin.write"])]
     )
     fun create(@Valid @RequestBody request: SampleRequest): SampleDetailResponse {
@@ -45,7 +37,7 @@ class SampleAdminController(private val sampleService: SampleService) {
 
     @GetMapping("{id}")
     @Operation(
-        summary = "Retrieves the translated sample record from the database.",
+        description = "Retrieves the translated sample record from the database.",
         security = [SecurityRequirement(name = "oauth2", scopes = ["sample.admin.read"])]
     )
     fun get(@PathVariable id: String): SampleDetailResponse {
@@ -54,7 +46,7 @@ class SampleAdminController(private val sampleService: SampleService) {
 
     @PutMapping("{id}")
     @Operation(
-        summary = "Updates the sample record into the database.",
+        description = "Updates the sample record into the database.",
         security = [SecurityRequirement(name = "oauth2", scopes = ["sample.admin.write"])]
     )
     fun update(@PathVariable id: String, @Valid @RequestBody request: SampleRequest): SampleDetailResponse {
@@ -64,7 +56,7 @@ class SampleAdminController(private val sampleService: SampleService) {
     @DeleteMapping("{id}")
     @ResponseStatus(NO_CONTENT)
     @Operation(
-        summary = "Removes the sample record from the database.",
+        description = "Removes the sample record from the database.",
         security = [SecurityRequirement(name = "oauth2", scopes = ["sample.admin.write"])]
     )
     fun delete(@PathVariable id: String) {
@@ -73,7 +65,7 @@ class SampleAdminController(private val sampleService: SampleService) {
 
     @PostMapping("{id}/image")
     @Operation(
-        summary = "Validates and applies the image to the sample entity. Each request field is the image name.",
+        description = "Validates and applies the image to the sample entity. Each request field is the image name.",
         security = [SecurityRequirement(name = "oauth2", scopes = ["sample.admin.image.write"])]
     )
     fun saveImage(@PathVariable id: String, @Valid @RequestBody request: ImageRequest) {
@@ -83,7 +75,7 @@ class SampleAdminController(private val sampleService: SampleService) {
     @DeleteMapping("{id}/image")
     @ResponseStatus(NO_CONTENT)
     @Operation(
-        summary = "Deletes the image from the sample entity. This will not actually delete the image.",
+        description = "Deletes the image from the sample entity. This will not actually delete the image.",
         security = [SecurityRequirement(name = "oauth2", scopes = ["sample.admin.image.write"])]
     )
     fun deleteImage(@PathVariable id: String) {

@@ -10,7 +10,7 @@ data class AiChatRequest(
     val id: String? = null,
 
     @field:NotBlank(message = "validation.required")
-    @field:Size(max = 1000, message = "validation.maxLength")
+    @field:Size(min = 3, max = 1000, message = "validation.size.range")
     val prompt: String = ""
 )
 

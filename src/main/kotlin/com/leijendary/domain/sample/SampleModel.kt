@@ -8,20 +8,14 @@ import com.leijendary.projection.CursorProjection
 import com.leijendary.projection.LocaleProjection
 import com.leijendary.validator.annotation.UniqueFields
 import jakarta.validation.Valid
-import jakarta.validation.constraints.DecimalMax
-import jakarta.validation.constraints.DecimalMin
-import jakarta.validation.constraints.Min
-import jakarta.validation.constraints.NotBlank
-import jakarta.validation.constraints.NotEmpty
-import jakarta.validation.constraints.NotNull
-import jakarta.validation.constraints.Size
+import jakarta.validation.constraints.*
 import org.springframework.data.annotation.Transient
 import java.math.BigDecimal
 import java.time.Instant
 
 data class SampleRequest(
     @field:NotBlank(message = "validation.required")
-    @field:Size(max = 100, message = "validation.maxLength")
+    @field:Size(min = 3, max = 100, message = "validation.size.range")
     val name: String = "",
 
     @field:NotNull(message = "validation.required")
@@ -44,10 +38,10 @@ data class SampleRequest(
 
 data class SampleTranslationRequest(
     @field:NotBlank(message = "validation.required")
-    @field:Size(max = 100, message = "validation.maxLength")
+    @field:Size(min = 1, max = 100, message = "validation.size.range")
     val name: String = "",
 
-    @field:Size(max = 200, message = "validation.maxLength")
+    @field:Size(min = 3, max = 200, message = "validation.size.range")
     val description: String? = null
 ) : TranslationRequest()
 

@@ -33,7 +33,7 @@ private const val CACHE_KEY_TIMESTAMP = "sample::timestamp"
  * Pascal-Kebab-Case
  */
 @RestController
-@RequestMapping("api/v1/samples")
+@RequestMapping("v1/samples")
 @Tag(name = "Sample")
 class SampleControllerV1(
     private val petStoreClient: PetStoreClient,
@@ -42,7 +42,7 @@ class SampleControllerV1(
 ) {
     @GetMapping
     @Operation(
-        summary = """
+        description = """
            List of all sample records in a cursor-based result. Use createdAt and id in the next request to get 
            the next page. This is a faster way to do pagination since it does not use limit offset, but rather
            uses the index to get the next page of the result.
@@ -55,7 +55,7 @@ class SampleControllerV1(
 
     @GetMapping("{id}")
     @Operation(
-        summary = "Retrieves the translated sample record from the database.",
+        description = "Retrieves the translated sample record from the database.",
         security = [SecurityRequirement(name = "oauth2", scopes = ["sample.read"])]
     )
     fun get(@PathVariable id: String): SampleDetailResponse {
@@ -64,7 +64,7 @@ class SampleControllerV1(
 
     @GetMapping("open-api/pets/all")
     fun openApiPets(): List<Pet> {
-        return petStoreClient.getPets(Pet.Status.AVAILABLE)
+        return petStoreClient.getPets(Pet.Status.available)
     }
 
     @GetMapping("open-api/store/inventory")
@@ -113,12 +113,12 @@ class SampleControllerV1(
 }
 
 @RestController
-@RequestMapping("api/v2/samples")
+@RequestMapping("v2/samples")
 @Tag(name = "Sample")
 class SampleControllerV2(private val sampleService: SampleService) {
     @GetMapping
     @Operation(
-        summary = """
+        description = """
            List of all sample records in a cursor-based result. Use createdAt and id in the next request to get 
            the next page. This is a faster way to do pagination since it does not use limit offset, but rather
            uses the index to get the next page of the result.

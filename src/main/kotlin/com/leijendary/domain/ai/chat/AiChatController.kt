@@ -7,23 +7,16 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement
 import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus.NO_CONTENT
-import org.springframework.web.bind.annotation.DeleteMapping
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.ResponseStatus
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 import reactor.core.publisher.Flux
 
 @RestController
-@RequestMapping("api/v1/ai/chat")
+@RequestMapping("v1/ai/chat")
 @Tag(name = "AI Chat")
 class AiChatController(private val aiChatService: AiChatService) {
     @GetMapping
     @Operation(
-        summary = "Get the list of AI chat history.",
+        description = "Get the list of AI chat history.",
         security = [SecurityRequirement(name = "oauth2", scopes = ["ai.chat.read"])]
     )
     fun cursor(cursorable: Cursorable): CursoredModel<AiChatResponse> {
@@ -32,7 +25,7 @@ class AiChatController(private val aiChatService: AiChatService) {
 
     @PostMapping
     @Operation(
-        summary = "Start a new AI chat session or send to the previous chat history by passing the ID.",
+        description = "Start a new AI chat session or send to the previous chat history by passing the ID.",
         security = [SecurityRequirement(name = "oauth2", scopes = ["ai.chat.write"])]
     )
     fun create(@Valid @RequestBody request: AiChatRequest): Flux<AiChatCreateResponse> {
@@ -41,7 +34,7 @@ class AiChatController(private val aiChatService: AiChatService) {
 
     @GetMapping("{id}")
     @Operation(
-        summary = "Get the details of an existing AI chat.",
+        description = "Get the details of an existing AI chat.",
         security = [SecurityRequirement(name = "oauth2", scopes = ["ai.chat.read"])]
     )
     fun get(@PathVariable id: String): AiChatResponse {
@@ -50,7 +43,7 @@ class AiChatController(private val aiChatService: AiChatService) {
 
     @GetMapping("{id}/history")
     @Operation(
-        summary = "Get the history of an AI chat.",
+        description = "Get the history of an AI chat.",
         security = [SecurityRequirement(name = "oauth2", scopes = ["ai.chat.read"])]
     )
     fun history(@PathVariable id: String): AiChatHistoryResponse {
@@ -60,7 +53,7 @@ class AiChatController(private val aiChatService: AiChatService) {
     @DeleteMapping("{id}")
     @ResponseStatus(NO_CONTENT)
     @Operation(
-        summary = "Delete an existing AI chat.",
+        description = "Delete an existing AI chat.",
         security = [SecurityRequirement(name = "oauth2", scopes = ["ai.chat.write"])]
     )
     fun delete(@PathVariable id: String) {

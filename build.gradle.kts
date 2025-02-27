@@ -14,12 +14,10 @@ val openApiTasks = file("$rootDir/src/main/resources/specs").listFiles()?.map {
         modelPackage.set("$name.model")
         generateModelDocumentation.set(false)
         generateModelTests.set(false)
-        additionalProperties.set(mapOf("removeEnumValuePrefix" to "false"))
         globalProperties.set(mapOf("models" to ""))
         configOptions.set(
             mapOf(
                 "documentationProvider" to "none",
-                "enumPropertyNaming" to "UPPERCASE",
                 "openApiNullable" to "false",
                 "useBeanValidation" to "false",
                 "useSpringBoot3" to "true"

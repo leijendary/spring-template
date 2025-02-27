@@ -14,12 +14,12 @@ import org.springframework.web.bind.annotation.RestController
 import kotlin.system.measureTimeMillis
 
 @RestController
-@RequestMapping("api/v1/samples/search")
+@RequestMapping("v1/samples/search")
 @Tag(name = "Sample Search")
 class SampleSearchController(private val sampleSearchService: SampleSearchService) {
     @GetMapping
     @Operation(
-        summary = "List all the objects based on the query parameter",
+        description = "List all the objects based on the query parameter",
         security = [SecurityRequirement(name = "oauth2", scopes = ["sample.search.read"])]
     )
     fun list(queryRequest: QueryRequest, pageable: Pageable): Page<SampleResponse> {
@@ -28,7 +28,7 @@ class SampleSearchController(private val sampleSearchService: SampleSearchServic
 
     @PostMapping("reindex")
     @Operation(
-        summary = "Reindex all objects to elasticsearch.",
+        description = "Reindex all objects to elasticsearch.",
         security = [SecurityRequirement(name = "oauth2", scopes = ["sample.search.write"])]
     )
     fun reindex(): String {

@@ -11,7 +11,7 @@ private const val MESSAGE_NAME = "validation.image.name"
 
 data class ImageCreateUrlRequest(
     @field:NotBlank(message = "validation.required")
-    @field:Size(max = 250, message = "validation.maxLength")
+    @field:Size(min = 3, max = 250, message = "validation.size.range")
     @field:Pattern(regexp = PATTERN_NAME, message = MESSAGE_NAME)
     val name: String = "",
 
@@ -21,7 +21,7 @@ data class ImageCreateUrlRequest(
 
 data class ImageMetadataRequest(
     @field:NotBlank(message = "validation.required")
-    @field:Size(max = 100, message = "validation.maxLength")
+    @field:Size(min = 3, max = 100, message = "validation.size.range")
     val name: String = "",
 
     @field:NotBlank(message = "validation.required")
@@ -30,14 +30,14 @@ data class ImageMetadataRequest(
 
 data class ImageValidateRequest(
     @field:NotBlank(message = "validation.required")
-    @field:Size(max = 250, message = "validation.maxLength")
+    @field:Size(min = 3, max = 250, message = "validation.size.range")
     @field:Pattern(regexp = PATTERN_NAME, message = MESSAGE_NAME)
     val name: String = ""
 )
 
 data class ImageDeleteRequest(
     @field:NotBlank(message = "validation.required")
-    @field:Size(max = 250, message = "validation.maxLength")
+    @field:Size(min = 3, max = 250, message = "validation.size.range")
     @field:Pattern(regexp = PATTERN_NAME, message = MESSAGE_NAME)
     val name: String = ""
 )

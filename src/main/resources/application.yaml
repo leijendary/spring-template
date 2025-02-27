@@ -68,9 +68,7 @@ spring:
         initializeSchema: true
   application:
     name: ${name}
-  autoconfigure:
-    exclude:
-      - org.springframework.boot.autoconfigure.data.elasticsearch.ReactiveElasticsearchRepositoriesAutoConfiguration
+    version: ${version}
   cache:
     type: REDIS
     redis:
@@ -153,7 +151,22 @@ spring:
       enabled: true
 
 springdoc:
+  trimKotlinIndent: true
   openApi:
+    info:
+      extensions:
+        x-template-group: spring
+    servers:
+      - url: http://localhost
+        description: Local
+      - url: https://api.dev.leijendary.com
+        description: Development
+      - url: https://api.test.leijendary.com
+        description: Testing
+      - url: https://api.sandbox.leijendary.com
+        description: Sandbox
+      - url: https://api.leijendary.com
+        description: Production
     components:
       securitySchemes:
         oauth2:
@@ -171,23 +184,40 @@ springdoc:
                 image.write: Upload/validate images
                 ai.chat.read: Read AI chat details or history
                 ai.chat.write: Create or send chat messages to AI
-    servers:
-      - url: http://localhost
-        description: Local
-      - url: https://api.dev.leijendary.com
-        description: Development
-      - url: https://api.test.leijendary.com
-        description: Testing
-      - url: https://api.sandbox.leijendary.com
-        description: Sandbox
-      - url: https://api.leijendary.com
-        description: Production
   groupConfigs:
     - group: sample.v1
-      pathsToMatch: /api/v1/samples/**
-    - group: sample.v1
-      pathsToMatch: /api/v2/samples/**
+      pathsToMatch: /v1/samples/**
+      openApi:
+        info:
+          title: Sample V1
+          description: Sample API that is made for the end users/customers.
+          version: 1.0.0
+        servers:
+          - url: /v1
+    - group: sample.v2
+      pathsToMatch: /v2/samples/**
+      openApi:
+        info:
+          title: Sample V2
+          description: Sample API that is made for the end users/customers.
+          version: 2.0.0
+        servers:
+          - url: /v2
     - group: image.v1
-      pathsToMatch: /api/v1/images/**
+      pathsToMatch: /v1/images/**
+      openApi:
+        info:
+          title: Image V1
+          description: Image management API.
+          version: 1.0.0
+        servers:
+          - url: /v1
     - group: ai.chat.v1
-      pathsToMatch: /api/v1/ai/chat/**
+      pathsToMatch: /v1/ai/chat/**
+      openApi:
+        info:
+          title: AI Chat V1
+          description: AI Chat related APIs.
+          version: 1.0.0
+        servers:
+          - url: /v1
