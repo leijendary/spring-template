@@ -23,7 +23,7 @@ data class Image(var name: String) : PrefixedIDProjection {
     @CreatedBy
     lateinit var createdBy: String
 
-    override fun getPrefix(): String {
+    override fun getIdPrefix(): String {
         return ID_PREFIX
     }
 

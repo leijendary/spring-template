@@ -41,7 +41,7 @@ data class AiChat(var title: String = DEFAULT_TITLE) : PrefixedIDProjection {
     @CreatedBy
     lateinit var createdBy: String
 
-    override fun getPrefix(): String {
+    override fun getIdPrefix(): String {
         return ID_PREFIX
     }
 

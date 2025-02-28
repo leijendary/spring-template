@@ -22,10 +22,7 @@ import org.springframework.jdbc.support.JdbcTransactionManager
 import org.springframework.stereotype.Component
 import org.springframework.transaction.TransactionDefinition
 import org.springframework.transaction.TransactionManager
-import org.springframework.transaction.support.TransactionSynchronizationManager.isCurrentTransactionReadOnly
-import org.springframework.transaction.support.TransactionSynchronizationManager.setCurrentTransactionIsolationLevel
-import org.springframework.transaction.support.TransactionSynchronizationManager.setCurrentTransactionName
-import org.springframework.transaction.support.TransactionSynchronizationManager.setCurrentTransactionReadOnly
+import org.springframework.transaction.support.TransactionSynchronizationManager.*
 import org.springframework.transaction.support.TransactionTemplate
 import java.util.*
 import javax.sql.DataSource
@@ -78,9 +75,9 @@ class DatabaseConfiguration {
     }
 
     @Bean
-    fun prefixedIDBeforeConvertCallback() = BeforeConvertCallback<PrefixedIDProjection> {
+    fun prefixedIdBeforeConvertCallback() = BeforeConvertCallback<PrefixedIDProjection> {
         if (it.isNew) {
-            it.setId("${it.getPrefix()}_${CUID.randomCUID2()}")
+            it.setId("${it.getIdPrefix()}_${CUID.randomCUID2()}")
         }
 
         it

@@ -4,12 +4,7 @@ import com.leijendary.model.ErrorSource
 import com.leijendary.projection.ImageProjection
 import com.leijendary.projection.LocaleProjection
 import com.leijendary.projection.PrefixedIDProjection
-import org.springframework.data.annotation.CreatedBy
-import org.springframework.data.annotation.CreatedDate
-import org.springframework.data.annotation.Id
-import org.springframework.data.annotation.LastModifiedBy
-import org.springframework.data.annotation.LastModifiedDate
-import org.springframework.data.annotation.Version
+import org.springframework.data.annotation.*
 import org.springframework.data.domain.Persistable
 import org.springframework.data.relational.core.mapping.Table
 import java.math.BigDecimal
@@ -35,7 +30,7 @@ data class Sample(var name: String, var description: String?, var amount: BigDec
     @LastModifiedBy
     lateinit var lastModifiedBy: String
 
-    override fun getPrefix(): String {
+    override fun getIdPrefix(): String {
         return ID_PREFIX
     }
 
