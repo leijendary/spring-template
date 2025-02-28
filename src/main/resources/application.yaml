@@ -189,7 +189,7 @@ springdoc:
       pathsToMatch: /v1/samples/**
       openApi:
         info:
-          title: Sample V1
+          title: Sample v1
           description: Sample API that is made for the end users/customers.
           version: 1.0.0
         servers:
@@ -198,7 +198,7 @@ springdoc:
       pathsToMatch: /v2/samples/**
       openApi:
         info:
-          title: Sample V2
+          title: Sample v2
           description: Sample API that is made for the end users/customers.
           version: 2.0.0
         servers:
@@ -207,7 +207,7 @@ springdoc:
       pathsToMatch: /v1/images/**
       openApi:
         info:
-          title: Image V1
+          title: Image v1
           description: Image management API.
           version: 1.0.0
         servers:
@@ -216,7 +216,7 @@ springdoc:
       pathsToMatch: /v1/ai/chat/**
       openApi:
         info:
-          title: AI Chat V1
+          title: AI Chat v1
           description: AI Chat related APIs.
           version: 1.0.0
         servers:
