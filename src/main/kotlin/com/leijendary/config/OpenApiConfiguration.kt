@@ -18,7 +18,6 @@ import org.springframework.boot.autoconfigure.web.ServerProperties
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.web.util.UriComponentsBuilder
-import java.net.URI
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter.ISO_LOCAL_DATE_TIME
 import java.time.temporal.ChronoUnit.SECONDS
@@ -60,11 +59,10 @@ class OpenApiConfiguration {
 
 class PathPrefixOpenApiCustomizer(private val groupConfig: GroupConfig) : OpenApiCustomizer {
     override fun customise(openApi: OpenAPI) {
-        val urls = groupConfig.openApi.servers.map { server -> URI.create(server.url) }
+        val url = groupConfig.openApi.servers.firstOrNull()?.url ?: return
         val paths = Paths()
         openApi.paths.forEach { path ->
-            var key = path.key
-            urls.forEach { url -> key = key.replaceFirst(url.path, "") }
+            val key = path.key.replaceFirst(url, "")
             paths[key] = path.value
         }
         openApi.paths = paths
