@@ -31,10 +31,10 @@ plugins {
 
     kotlin("jvm") version kotlinVersion
     kotlin("plugin.spring") version kotlinVersion
-    id("org.springframework.boot") version "3.4.2"
+    id("org.springframework.boot") version "3.4.3"
     id("io.spring.dependency-management") version "1.1.7"
-    id("org.graalvm.buildtools.native") version "0.10.4"
-    id("org.openapi.generator") version "7.11.0"
+    id("org.graalvm.buildtools.native") version "0.10.5"
+    id("org.openapi.generator") version "7.12.0"
 }
 
 group = "com.leijendary"
@@ -117,7 +117,7 @@ dependencies {
     implementation("io.awspring.cloud:spring-cloud-aws-starter-s3")
 
     // Database
-    implementation("org.postgresql:postgresql")
+    runtimeOnly("org.postgresql:postgresql")
     implementation("org.liquibase:liquibase-core")
 
     // Devtools
