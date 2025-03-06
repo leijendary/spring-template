@@ -1,6 +1,0 @@
-aws:
-  cloudFront:
-    distributionId:
-    url: https://cdn.dev.leijendary.com
-  s3:
-    bucketName: leijendary-api-dev

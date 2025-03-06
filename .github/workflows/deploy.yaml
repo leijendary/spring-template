@@ -8,9 +8,7 @@ on:
         required: true
         type: choice
         options:
-          - dev
           - test
-          - sandbox
           - prod
       image-tag:
         description: Image Tag

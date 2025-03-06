@@ -1,0 +1,27 @@
+name: CI/CD Build
+
+on:
+  push:
+    branches:
+      - main
+      - release/*
+
+jobs:
+  build:
+    name: Build
+    uses: ./.github/workflows/build.yaml
+    secrets: inherit
+  deploy:
+    needs: build
+    strategy:
+      max-parallel: 1
+      matrix:
+        environment:
+          - test
+          - prod
+    name: Deploy to ${{ matrix.environment }}
+    uses: ./.github/workflows/deploy.yaml
+    with:
+      environment: ${{ matrix.environment }}
+      image-tag: ${{ jobs.build.outputs.version }}
+    secrets: inherit

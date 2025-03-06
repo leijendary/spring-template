@@ -2,18 +2,15 @@ name: Build
 
 on:
   workflow_call:
-    inputs:
-      environment:
-        required: true
-        type: string
-      image-tag:
-        required: false
-        type: string
-        default: ${{ github.sha }}
+    outputs:
+      version:
+        description: Application version from gradle.
+        value: ${{ jobs.docker.outputs.version }}
 
 permissions:
   id-token: write
   contents: read
+  repository-projects: write
 
 jobs:
   docker:
@@ -23,8 +20,26 @@ jobs:
       - image:arm-3.0
       - instance-size:large
     timeout-minutes: 30
-    environment: ${{ inputs.environment }}
+    outputs:
+      version: ${{ steps.determine-version.outputs.version }}
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
+        with:
+          cache-read-only: false
+      - id: determine-version
+        name: Determine version
+        run: |
+          version=$(./gradlew properties | grep '^version: ' | sed -n 's/version: \(.*\)/\1/p')
+          echo version=$version >> $GITHUB_OUTPUT
+      - name: Create tag
+        env:
+          VERSION: ${{ steps.determine-version.outputs.version }}
+        run: |
+          git tag -a $VERSION -m "Release $VERSION"
+          git push $VERSION
       - name: Setup Docker Buildx
         uses: docker/setup-buildx-action@v3
         with:
@@ -34,14 +49,17 @@ jobs:
         with:
           aws-region: ${{ vars.AWS_REGION }}
           role-to-assume: arn:aws:iam::${{ secrets.AWS_BUILD_ACCOUNT_ID }}:role/BuildRole
-      - name: Login to AWS ECR
-        id: login-ecr
+      - id: login-ecr
+        name: Login to AWS ECR
         uses: aws-actions/amazon-ecr-login@v2
       - name: Build and push
         uses: docker/build-push-action@v6
+        env:
+          REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          VERSION: ${{ steps.determine-version.outputs.version }}
         with:
           cache-from: type=gha
           cache-to: type=gha,mode=max
           platforms: linux/arm64
           push: true
-          tags: ${{ steps.login-ecr.outputs.registry }}/${{ github.event.repository.name }}:${{ inputs.image-tag }}
+          tags: $REGISTRY/${{ github.event.repository.name }}:$VERSION
