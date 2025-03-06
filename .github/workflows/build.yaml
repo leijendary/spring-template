@@ -32,7 +32,7 @@ jobs:
         name: Determine version
         run: |
           version=$(./gradlew properties | grep '^version: ' | sed -n 's/version: \(.*\)/\1/p')
-          echo Version is $version
+          echo Version is $version. Checking if tag already exists...
           git pull --tags
           git tag $version
           echo version=$version >> $GITHUB_OUTPUT
