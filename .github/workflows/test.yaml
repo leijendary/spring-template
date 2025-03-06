@@ -19,7 +19,6 @@ jobs:
     name: Unit
     runs-on: ubuntu-latest
     timeout-minutes: 10
-    environment: test
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -27,7 +26,7 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-region: ${{ vars.AWS_REGION }}
-          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/DeploymentRole-test
+          role-to-assume: arn:aws:iam::${{ secrets.AWS_BUILD_ACCOUNT_ID }}:role/BuildRole
       - name: Setup GraalVM
         uses: graalvm/setup-graalvm@v1
         with:
@@ -53,7 +52,6 @@ jobs:
     name: Integration
     runs-on: ubuntu-latest
     timeout-minutes: 20
-    environment: test
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -61,7 +59,7 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-region: ${{ vars.AWS_REGION }}
-          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/DeploymentRole-test
+          role-to-assume: arn:aws:iam::${{ secrets.AWS_BUILD_ACCOUNT_ID }}:role/BuildRole
       - name: Setup GraalVM
         uses: graalvm/setup-graalvm@v1
         with:
