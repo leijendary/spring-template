@@ -9,8 +9,7 @@ on:
 
 permissions:
   id-token: write
-  contents: read
-  repository-projects: write
+  contents: write
 
 jobs:
   docker:
