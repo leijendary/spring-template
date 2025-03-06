@@ -16,4 +16,4 @@ RUN --mount=type=cache,target=/root/.gradle ./gradlew nativeCompile -i -x test
 FROM alpine:3
 RUN apk add gcompat
 COPY --from=build /app/build/native/nativeCompile/app app
-ENTRYPOINT ./app
+ENTRYPOINT ["./app"]
