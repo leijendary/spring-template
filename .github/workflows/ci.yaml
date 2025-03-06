@@ -14,11 +14,11 @@ jobs:
   build:
     name: Build
     uses: ./.github/workflows/build.yaml
-    secrets: inherits
+    secrets: inherit
   deploy:
     needs: build
     strategy:
-      max-parallel: 1
+      max-parallel: 2
       matrix:
         environment:
           - test
