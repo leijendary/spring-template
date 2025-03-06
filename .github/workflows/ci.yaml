@@ -23,5 +23,5 @@ jobs:
     uses: ./.github/workflows/deploy.yaml
     with:
       environment: ${{ matrix.environment }}
-      image-tag: ${{ jobs.build.outputs.version }}
+      image-tag: ${{ needs.build.outputs.version }}
     secrets: inherit
