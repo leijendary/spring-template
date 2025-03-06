@@ -64,4 +64,4 @@ jobs:
           cache-to: type=gha,mode=max
           platforms: linux/arm64
           push: true
-          tags: ${REGISTRY}/${{ github.event.repository.name }}:${VERSION}
+          tags: ${{ env.REGISTRY }}/${{ github.event.repository.name }}:${{ env.VERSION }}
