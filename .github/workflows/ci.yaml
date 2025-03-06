@@ -6,6 +6,10 @@ on:
       - main
       - release/*
 
+concurrency:
+  group: ci
+  cancel-in-progress: true
+
 jobs:
   build:
     name: Build
