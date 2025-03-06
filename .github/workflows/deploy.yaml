@@ -37,31 +37,31 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-#      - name: Configure AWS credentials
-#        uses: aws-actions/configure-aws-credentials@v4
-#        with:
-#          aws-region: ${{ vars.AWS_REGION }}
-#          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/DeploymentRole-${{ inputs.environment }}
-#      - name: Setup Node.js
-#        uses: actions/setup-node@v4
-#        with:
-#          cache: npm
-#          cache-dependency-path: aws/package-lock.json
-#          node-version: lts/Hydrogen
-#      - name: Deploy AWS CDK
-#        env:
-#          ENVIRONMENT: ${{ inputs.environment }}
-#          ORGANIZATION: ${{ vars.ORGANIZATION }}
-#          STACK_ID: ${{ vars.STACK_ID }}
-#          STACK_NAME: ${{ github.event.repository.name }}
-#          VPC_ID: ${{ vars.VPC_ID }}
-#          IMAGE_TAG: ${{ inputs.version }}
-#          NAMESPACE_ID: ${{ vars.NAMESPACE_ID }}
-#          NAMESPACE_NAME: ${{ vars.NAMESPACE_NAME }}
-#          DISTRIBUTION_ID: ${{ vars.DISTRIBUTION_ID }}
-#          DISTRIBUTION_DOMAIN_NAME: ${{ vars.DISTRIBUTION_DOMAIN_NAME }}
-#          BUILD_ACCOUNT: ${{ secrets.AWS_BUILD_ACCOUNT_ID }}
-#        working-directory: ./aws
-#        run: |
-#          npm ci
-#          npm run cdk deploy -- --require-approval never
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-region: ${{ vars.AWS_REGION }}
+          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/DeploymentRole-${{ inputs.environment }}
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          cache: npm
+          cache-dependency-path: aws/package-lock.json
+          node-version: lts/Hydrogen
+      - name: Deploy AWS CDK
+        env:
+          ENVIRONMENT: ${{ inputs.environment }}
+          ORGANIZATION: ${{ vars.ORGANIZATION }}
+          STACK_ID: ${{ vars.STACK_ID }}
+          STACK_NAME: ${{ github.event.repository.name }}
+          VPC_ID: ${{ vars.VPC_ID }}
+          IMAGE_TAG: ${{ inputs.version }}
+          NAMESPACE_ID: ${{ vars.NAMESPACE_ID }}
+          NAMESPACE_NAME: ${{ vars.NAMESPACE_NAME }}
+          DISTRIBUTION_ID: ${{ vars.DISTRIBUTION_ID }}
+          DISTRIBUTION_DOMAIN_NAME: ${{ vars.DISTRIBUTION_DOMAIN_NAME }}
+          BUILD_ACCOUNT: ${{ secrets.AWS_BUILD_ACCOUNT_ID }}
+        working-directory: ./aws
+        run: |
+          npm ci
+          npm run cdk deploy -- --require-approval never
