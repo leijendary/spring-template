@@ -24,8 +24,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          fetch-tags: true
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v3
         with:
@@ -35,6 +33,7 @@ jobs:
         run: |
           version=$(./gradlew properties | grep '^version: ' | sed -n 's/version: \(.*\)/\1/p')
           echo Version is $version
+          git pull --tags
           git tag $version
           echo version=$version >> $GITHUB_OUTPUT
       - name: Setup Docker Buildx
