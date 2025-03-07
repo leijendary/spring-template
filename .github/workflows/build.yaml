@@ -14,10 +14,7 @@ permissions:
 jobs:
   docker:
     name: Docker
-    runs-on:
-      - codebuild-${{ github.event.repository.name }}-${{ github.run_id }}-${{ github.run_attempt }}
-      - image:arm-3.0
-      - instance-size:large
+    runs-on: ubuntu-24.04-arm
     timeout-minutes: 30
     outputs:
       version: ${{ steps.determine-version.outputs.version }}
@@ -65,5 +62,5 @@ jobs:
         run: |
           git config user.name "gitfhub-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git tag -f -a $VERSION -m "Release $VERSION"
+          git tag -a $VERSION -m "Release $VERSION"
           git push origin $VERSION
