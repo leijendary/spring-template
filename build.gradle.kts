@@ -39,7 +39,7 @@ plugins {
 
 group = "com.leijendary"
 description = "Spring boot template for the microservices architecture."
-version = "0.0.2"
+version = "0.0.1"
 
 java {
     toolchain {
