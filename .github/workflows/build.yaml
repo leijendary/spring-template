@@ -48,14 +48,16 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v6
         env:
-          REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          REPOSITORY: ${{ steps.login-ecr.outputs.registry }}/${{ github.event.repository.name }}
           VERSION: ${{ steps.determine-version.outputs.version }}
         with:
           cache-from: type=gha
           cache-to: type=gha,mode=max
           platforms: linux/arm64
           push: true
-          tags: ${{ env.REGISTRY }}/${{ github.event.repository.name }}:${{ env.VERSION }}
+          tags: |
+            ${{ env.REPOSITORY }}:${{ github.sha }}
+            ${{ env.REPOSITORY }}:${{ env.VERSION }}
       - name: Create tag
         env:
           VERSION: ${{ steps.determine-version.outputs.version }}
