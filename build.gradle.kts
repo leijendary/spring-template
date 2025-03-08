@@ -167,6 +167,10 @@ graalvmNative {
 }
 
 tasks {
+    bootJar {
+        archiveFileName = "app.jar"
+    }
+
     compileKotlin {
         openApiTasks?.let(dependsOn::addAll)
     }

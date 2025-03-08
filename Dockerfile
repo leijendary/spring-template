@@ -1,4 +1,4 @@
-FROM ghcr.io/graalvm/graalvm-community:23 AS build
+FROM azul/zulu-openjdk-alpine:23 AS build
 # Download the Gradle distribution.
 COPY gradlew .
 COPY gradle gradle
@@ -9,11 +9,12 @@ COPY build.gradle.kts .
 RUN --mount=type=cache,target=/root/.gradle ./gradlew dependencies
 # Add source code.
 COPY src src
-# Run GraalVM native compiler.
-RUN --mount=type=cache,target=/root/.gradle ./gradlew nativeCompile -i -x test
+# Build the application.
+RUN --mount=type=cache,target=/root/.gradle ./gradlew bootJar -i -x test
+RUN java -Djarmode=tools -jar build/libs/app.jar extract --destination build/extracted
+RUN java -XX:ArchiveClassesAtExit=build/extracted/archive.jsa -Dspring.context.exit=onRefresh -jar build/extracted/app.jar
 
 # Run the application.
-FROM alpine:3
-RUN apk add gcompat
-COPY --from=build /app/build/native/nativeCompile/app app
-ENTRYPOINT ["./app"]
+FROM azul/zulu-openjdk-alpine:23-jre
+COPY --from=build /app/build/extracted ./
+ENTRYPOINT ["java", "-XX:SharedArchiveFile=archive.jsa", "-Dspring.aot.enabled=true", "-jar", "application/app.jar"]
