@@ -11,16 +11,16 @@ logging:
     correlation:
 
 management:
-  cloudwatch:
-    metrics:
-      export:
-        enabled: false
   tracing:
     enabled: false
     sampling:
       probability: 1.0
 
 spring:
+  cloud:
+    aws:
+      cloudwatch:
+        enabled: false
   data:
     redis:
       ssl:
