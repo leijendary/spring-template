@@ -16,5 +16,5 @@ RUN java -XX:ArchiveClassesAtExit=app/archive.jsa -Dspring.context.exit=onRefres
 
 # Run the application.
 FROM azul/zulu-openjdk-alpine:23-jre-headless
-COPY --from=build app ./
+COPY --from=build app app
 ENTRYPOINT ["java", "-XX:SharedArchiveFile=archive.jsa", "-Dspring.aot.enabled=true", "-jar", "app.jar"]
