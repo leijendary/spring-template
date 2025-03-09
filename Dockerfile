@@ -18,5 +18,5 @@ RUN java -XX:ArchiveClassesAtExit=build/extracted/archive.jsa \
 
 # Run the application.
 FROM azul/zulu-openjdk-alpine:23-jre-headless
-COPY --from=build /app/build/extracted ./
+COPY --from=build build/extracted ./
 ENTRYPOINT ["java", "-XX:SharedArchiveFile=archive.jsa", "-Dspring.aot.enabled=true", "-jar", "app.jar"]
