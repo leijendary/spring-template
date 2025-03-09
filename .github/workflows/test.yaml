@@ -17,7 +17,7 @@ permissions:
 jobs:
   unit:
     name: Unit
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04-arm
     timeout-minutes: 10
     steps:
       - name: Checkout
@@ -50,7 +50,7 @@ jobs:
             build/test-results/
   integration:
     name: Integration
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04-arm
     timeout-minutes: 20
     steps:
       - name: Checkout
