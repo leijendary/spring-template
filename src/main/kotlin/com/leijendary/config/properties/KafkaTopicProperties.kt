@@ -11,7 +11,7 @@ object Topic {
 
 @ConfigurationProperties("kafka.topic", ignoreUnknownFields = false)
 class KafkaTopicProperties : HashMap<String, KafkaTopic>() {
-    data class KafkaTopic(val name: String, val partitions: Int = 1, val replicas: Int = 1)
+    data class KafkaTopic(val name: String, val partitions: Int = 1)
 
     fun nameOf(key: String): String {
         return getValue(key).name

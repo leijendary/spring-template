@@ -10,7 +10,7 @@ import org.testcontainers.containers.ContainerLaunchException
 import org.testcontainers.containers.GenericContainer
 import org.testcontainers.containers.PostgreSQLContainer
 import org.testcontainers.elasticsearch.ElasticsearchContainer
-import org.testcontainers.kafka.ConfluentKafkaContainer
+import org.testcontainers.kafka.KafkaContainer
 import org.testcontainers.ollama.OllamaContainer
 
 @TestConfiguration(proxyBeanMethods = false)
@@ -36,8 +36,8 @@ class TestContainersConfiguration {
     class Kafka {
         @Bean
         @ServiceConnection
-        fun kafkaContainer(): ConfluentKafkaContainer {
-            return ConfluentKafkaContainer("confluentinc/cp-kafka:7.7.1")
+        fun kafkaContainer(): KafkaContainer {
+            return KafkaContainer("apache/kafka-native:3.9.0")
         }
     }
 
