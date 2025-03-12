@@ -15,14 +15,11 @@ encrypt:
 
 kafka:
   topic:
-    sampleCreated:
-      name: sample.created
+    "[sample.created]":
       partitions: 1
-    sampleUpdated:
-      name: sample.updated
+    "[sample.updated]":
       partitions: 1
-    sampleDeleted:
-      name: sample.deleted
+    "[sample.deleted]":
       partitions: 1
 
 logging:
