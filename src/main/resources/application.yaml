@@ -16,11 +16,11 @@ encrypt:
 kafka:
   topic:
     "[sample.created]":
-      partitions: 1
+      partitions: 5
     "[sample.updated]":
-      partitions: 1
+      partitions: 3
     "[sample.deleted]":
-      partitions: 1
+      partitions: 2
 
 logging:
   level:
@@ -60,9 +60,6 @@ spring:
         model: llama3.1
       embedding:
         model: all-minilm
-    vectorstore:
-      pgvector:
-        initializeSchema: true
   application:
     name: ${name}
     version: ${version}

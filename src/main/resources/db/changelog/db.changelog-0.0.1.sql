@@ -80,5 +80,24 @@ CREATE TABLE ai_chat_memory (
 );
 
 --changeset leijendary:create-ai-chat-memory-conversation-id-timestamp-index
-CREATE INDEX IF NOT EXISTS ai_chat_memory_conversation_id_timestamp_idx
-ON ai_chat_memory(conversation_id, "timestamp" DESC);
+CREATE INDEX ai_chat_memory_conversation_id_timestamp_idx ON ai_chat_memory(conversation_id, "timestamp" DESC);
+
+--changeset leijendary:create-vector-extension
+CREATE EXTENSION IF NOT EXISTS vector;
+
+--changeset leijendary:create-hstore-extension
+CREATE EXTENSION IF NOT EXISTS hstore;
+
+--changeset leijendary:create-uuid-ossp-extension
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
+--changeset leijendary:create-vector-store-table
+CREATE TABLE vector_store (
+    id uuid NOT NULL DEFAULT uuid_generate_v4() PRIMARY KEY,
+    content text,
+    metadata json,
+    embedding vector(1536)
+);
+
+--changeset leijendary:create-vector-store-embedding-index
+CREATE INDEX vector_store_embedding_idx ON vector_store USING HNSW (embedding vector_cosine_ops);
