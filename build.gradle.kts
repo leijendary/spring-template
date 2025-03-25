@@ -35,7 +35,6 @@ plugins {
     id("io.spring.dependency-management") version "1.1.7"
     id("org.graalvm.buildtools.native") version "0.10.5"
     id("org.openapi.generator") version "7.12.0"
-    id("com.gorylenko.gradle-git-properties") version "2.4.1"
 }
 
 group = "com.leijendary"
