@@ -31,10 +31,11 @@ plugins {
 
     kotlin("jvm") version kotlinVersion
     kotlin("plugin.spring") version kotlinVersion
-    id("org.springframework.boot") version "3.4.3"
+    id("org.springframework.boot") version "3.4.4"
     id("io.spring.dependency-management") version "1.1.7"
     id("org.graalvm.buildtools.native") version "0.10.5"
     id("org.openapi.generator") version "7.12.0"
+    id("com.gorylenko.gradle-git-properties") version "2.4.1"
 }
 
 group = "com.leijendary"
@@ -103,8 +104,8 @@ dependencies {
 
     // AI
     implementation(platform("org.springframework.ai:spring-ai-bom:1.0.0-SNAPSHOT"))
-    implementation("org.springframework.ai:spring-ai-ollama-spring-boot-starter")
-    implementation("org.springframework.ai:spring-ai-pgvector-store-spring-boot-starter")
+    implementation("org.springframework.ai:spring-ai-starter-model-ollama")
+    implementation("org.springframework.ai:spring-ai-starter-vector-store-pgvector")
     testImplementation("org.springframework.ai:spring-ai-spring-boot-testcontainers")
 
     // AWS
@@ -164,6 +165,10 @@ graalvmNative {
             imageName = "app"
         }
     }
+}
+
+springBoot {
+    buildInfo()
 }
 
 tasks {
