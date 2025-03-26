@@ -4,27 +4,34 @@ import com.fasterxml.jackson.databind.JsonMappingException
 import com.fasterxml.jackson.databind.JsonMappingException.Reference
 import com.fasterxml.jackson.databind.exc.InvalidFormatException
 import com.fasterxml.jackson.databind.exc.MismatchedInputException
+import com.leijendary.context.RequestContext.isApi
 import com.leijendary.context.RequestContext.locale
 import com.leijendary.model.ErrorModel
+import com.leijendary.model.ErrorModelsResponse
 import com.leijendary.model.ErrorSource
 import org.springframework.context.MessageSource
 import org.springframework.core.annotation.Order
 import org.springframework.http.HttpStatus.BAD_REQUEST
 import org.springframework.http.converter.HttpMessageNotReadableException
+import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.ResponseStatus
-import org.springframework.web.bind.annotation.RestControllerAdvice
 
 private const val MESSAGE_BODY_MISSING = "Required request body is missing"
 private const val MESSAGE_DECODING_ERROR = "JSON decoding error: "
 private val SOURCE = ErrorSource(pointer = "/body")
 
-@RestControllerAdvice
+@ControllerAdvice
 @Order(2)
 class HttpMessageNotReadableExceptionHandler(private val messageSource: MessageSource) {
     @ExceptionHandler(HttpMessageNotReadableException::class)
     @ResponseStatus(BAD_REQUEST)
-    fun catchHttpMessageNotReadable(exception: HttpMessageNotReadableException): List<ErrorModel> {
+    @ErrorModelsResponse(status = "400", description = "Request message is not readable.")
+    fun catchHttpMessageNotReadable(exception: HttpMessageNotReadableException): Any {
+        if (!isApi) {
+            return "400"
+        }
+
         val code = "error.badRequest"
         var message = exception.message?.split(":".toRegex())?.toTypedArray()?.get(0) ?: ""
         val error: ErrorModel

@@ -43,6 +43,12 @@ object RequestContext {
     val language: String
         get() = locale.language
 
+    val isApi: Boolean
+        get() = currentRequest?.servletPath?.startsWith("/api") == true
+
+    val isFragment: Boolean
+        get() = currentRequest?.getHeader("HX-Request") == "true"
+
     fun userIdOrNull(request: HttpServletRequest): String? {
         return request.getHeader(HEADER_USER_ID)
     }
