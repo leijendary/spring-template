@@ -35,7 +35,7 @@ jobs:
           docker push ${{ env.REPOSITORY }}:${{ github.ref_name }}
   deploy:
     needs: docker
-    name: Deploy to prod
+    name: Deploy (prod)
     uses: ./.github/workflows/deploy.yaml
     with:
       environment: prod
