@@ -83,9 +83,8 @@
 As you may have noticed, GitHub Actions are also included in this template repository. Each company has their own
 different git workflow, and this is what I think is the fastest for most teams.
 
-- `main` and `release/*` **deploys to test until production**. This is for the developer to test the changes and have an
-  option to deploy until production. Production should have an approval process for when the developer is done testing
-  in the test environment, the tested codebase can be deployed directly to production.
+- `main` and `release/*` **deploys to test**.
+- `tags` **deploys to production**.
 - `release/*` is for special cases that has a separate set of changes from the `main` branch like `hotfix`.
 - Branches like `feature/*` and `fix/*` should be very small and a PR should be opened to `main`. We still need to do
   code reviews somehow.

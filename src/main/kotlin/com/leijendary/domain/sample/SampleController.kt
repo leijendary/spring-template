@@ -33,7 +33,7 @@ private const val CACHE_KEY_TIMESTAMP = "sample::timestamp"
  * Pascal-Kebab-Case
  */
 @RestController
-@RequestMapping("v1/samples")
+@RequestMapping("api/v1/samples")
 @Tag(name = "Sample")
 class SampleControllerV1(
     private val petStoreClient: PetStoreClient,
@@ -113,7 +113,7 @@ class SampleControllerV1(
 }
 
 @RestController
-@RequestMapping("v2/samples")
+@RequestMapping("api/v2/samples")
 @Tag(name = "Sample")
 class SampleControllerV2(private val sampleService: SampleService) {
     @GetMapping
