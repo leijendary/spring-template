@@ -13,7 +13,7 @@ import org.springframework.http.HttpStatus.NO_CONTENT
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("v1/samples/admin")
+@RequestMapping("api/v1/samples/admin")
 @Tag(name = "Sample Admin")
 class SampleAdminController(private val sampleService: SampleService) {
     @GetMapping

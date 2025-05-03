@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*
 import reactor.core.publisher.Flux
 
 @RestController
-@RequestMapping("v1/ai/chat")
+@RequestMapping("api/v1/ai/chat")
 @Tag(name = "AI Chat")
 class AiChatController(private val aiChatService: AiChatService) {
     @GetMapping
