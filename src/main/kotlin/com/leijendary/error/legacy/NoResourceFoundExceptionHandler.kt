@@ -1,4 +1,4 @@
-package com.leijendary.error
+package com.leijendary.error.legacy
 
 import com.leijendary.context.RequestContext.isApi
 import com.leijendary.context.RequestContext.isFragment
@@ -11,14 +11,13 @@ import org.springframework.core.annotation.Order
 import org.springframework.http.HttpStatus.NOT_FOUND
 import org.springframework.http.ResponseEntity
 import org.springframework.ui.Model
-import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.servlet.resource.NoResourceFoundException
 
 private val SOURCE = ErrorSource(pointer = "/path")
 
-@ControllerAdvice
+// @ControllerAdvice
 @Order(1)
 class NoResourceFoundExceptionHandler(private val messageSource: MessageSource) {
     @ExceptionHandler(NoResourceFoundException::class)

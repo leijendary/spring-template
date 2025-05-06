@@ -13,6 +13,11 @@ encrypt:
   key:
   salt:
 
+gg:
+  jte:
+    templateSuffix: .kte
+    usePrecompiledTemplates: true
+
 kafka:
   topic:
     "[sample.created]":

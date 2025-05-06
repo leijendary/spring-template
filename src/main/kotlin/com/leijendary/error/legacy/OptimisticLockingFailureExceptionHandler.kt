@@ -1,4 +1,4 @@
-package com.leijendary.error
+package com.leijendary.error.legacy
 
 import com.leijendary.context.RequestContext.locale
 import com.leijendary.extension.lowerCaseFirst
@@ -10,9 +10,8 @@ import org.springframework.dao.OptimisticLockingFailureException
 import org.springframework.http.HttpStatus.CONFLICT
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.ResponseStatus
-import org.springframework.web.bind.annotation.RestControllerAdvice
 
-@RestControllerAdvice
+// @RestControllerAdvice
 @Order(3)
 class OptimisticLockingFailureExceptionHandler(private val messageSource: MessageSource) {
     @ExceptionHandler(OptimisticLockingFailureException::class)

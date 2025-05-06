@@ -1,4 +1,4 @@
-package com.leijendary.error
+package com.leijendary.error.legacy
 
 import com.leijendary.context.RequestContext.locale
 import com.leijendary.error.exception.ResourceNotUniqueException
@@ -8,9 +8,8 @@ import org.springframework.core.annotation.Order
 import org.springframework.http.HttpStatus.CONFLICT
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.ResponseStatus
-import org.springframework.web.bind.annotation.RestControllerAdvice
 
-@RestControllerAdvice
+// @RestControllerAdvice
 @Order(3)
 class ResourceNotUniqueExceptionHandler(private val messageSource: MessageSource) {
     @ExceptionHandler(ResourceNotUniqueException::class)

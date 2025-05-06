@@ -1,4 +1,4 @@
-package com.leijendary.error
+package com.leijendary.error.legacy
 
 import com.leijendary.context.RequestContext.isApi
 import com.leijendary.context.RequestContext.locale
@@ -11,14 +11,13 @@ import org.springframework.context.MessageSource
 import org.springframework.core.annotation.Order
 import org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.ResponseStatus
 
 const val CODE_SERVER_ERROR = "error.serverError"
 val SOURCE_SERVER_INTERNAL = ErrorSource(pointer = "/server/internal")
 
-@ControllerAdvice
+// @ControllerAdvice
 @Order
 class GlobalExceptionHandler(private val messageSource: MessageSource) {
     private val log = logger()

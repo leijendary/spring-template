@@ -1,4 +1,4 @@
-package com.leijendary.error
+package com.leijendary.error.legacy
 
 import com.leijendary.context.RequestContext.locale
 import com.leijendary.model.ErrorModel
@@ -11,13 +11,12 @@ import org.springframework.validation.FieldError
 import org.springframework.validation.ObjectError
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.ResponseStatus
-import org.springframework.web.bind.annotation.RestControllerAdvice
 import org.springframework.web.method.annotation.HandlerMethodValidationException
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException
 
 private const val CODE_BINDING_INVALID_VALUE = "validation.binding.invalidValue"
 
-@RestControllerAdvice
+// @RestControllerAdvice
 @Order(4)
 class MethodExceptionHandler(private val messageSource: MessageSource) {
     @ExceptionHandler(BindException::class)

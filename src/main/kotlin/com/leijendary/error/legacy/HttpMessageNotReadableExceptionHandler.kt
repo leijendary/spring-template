@@ -1,4 +1,4 @@
-package com.leijendary.error
+package com.leijendary.error.legacy
 
 import com.fasterxml.jackson.databind.JsonMappingException
 import com.fasterxml.jackson.databind.JsonMappingException.Reference
@@ -13,7 +13,6 @@ import org.springframework.context.MessageSource
 import org.springframework.core.annotation.Order
 import org.springframework.http.HttpStatus.BAD_REQUEST
 import org.springframework.http.converter.HttpMessageNotReadableException
-import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.ResponseStatus
 
@@ -21,7 +20,7 @@ private const val MESSAGE_BODY_MISSING = "Required request body is missing"
 private const val MESSAGE_DECODING_ERROR = "JSON decoding error: "
 private val SOURCE = ErrorSource(pointer = "/body")
 
-@ControllerAdvice
+// @ControllerAdvice
 @Order(2)
 class HttpMessageNotReadableExceptionHandler(private val messageSource: MessageSource) {
     @ExceptionHandler(HttpMessageNotReadableException::class)

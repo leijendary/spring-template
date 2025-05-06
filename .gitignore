@@ -40,3 +40,6 @@ out/
 ### Env Files ###
 *.env
 !.example.env
+
+### JTE ###
+jte-classes/

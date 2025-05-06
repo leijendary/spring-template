@@ -1,0 +1,4 @@
+@template.layout.main(content = @`
+  <div>Not found</div>
+  <a href="/">Go back home</a>
+`)

@@ -47,7 +47,7 @@ object RequestContext {
         get() = currentRequest?.servletPath?.startsWith("/api") == true
 
     val isFragment: Boolean
-        get() = currentRequest?.getHeader("HX-Request") == "true"
+        get() = currentRequest?.getHeader("hx-request") == "true"
 
     fun userIdOrNull(request: HttpServletRequest): String? {
         return request.getHeader(HEADER_USER_ID)

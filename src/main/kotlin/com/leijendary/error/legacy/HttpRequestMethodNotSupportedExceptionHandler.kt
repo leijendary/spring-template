@@ -1,4 +1,4 @@
-package com.leijendary.error
+package com.leijendary.error.legacy
 
 import com.leijendary.context.RequestContext.isApi
 import com.leijendary.context.RequestContext.locale
@@ -10,13 +10,12 @@ import org.springframework.core.annotation.Order
 import org.springframework.http.HttpStatus.METHOD_NOT_ALLOWED
 import org.springframework.http.ResponseEntity
 import org.springframework.web.HttpRequestMethodNotSupportedException
-import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.ResponseStatus
 
 private val SOURCE = ErrorSource(pointer = "/method")
 
-@ControllerAdvice
+// @ControllerAdvice
 @Order(4)
 class HttpRequestMethodNotSupportedExceptionHandler(private val messageSource: MessageSource) {
     @ExceptionHandler(HttpRequestMethodNotSupportedException::class)

@@ -1,4 +1,4 @@
-package com.leijendary.error
+package com.leijendary.error.legacy
 
 import com.leijendary.context.RequestContext.locale
 import com.leijendary.extension.indexOfReverse
@@ -9,13 +9,9 @@ import com.leijendary.model.ErrorSource
 import org.postgresql.util.PSQLException
 import org.springframework.context.MessageSource
 import org.springframework.core.annotation.Order
-import org.springframework.http.HttpStatus.BAD_REQUEST
-import org.springframework.http.HttpStatus.CONFLICT
-import org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR
-import org.springframework.http.HttpStatus.NOT_FOUND
+import org.springframework.http.HttpStatus.*
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ExceptionHandler
-import org.springframework.web.bind.annotation.RestControllerAdvice
 
 private const val CODE_DATA_INTEGRITY = "error.data.integrity"
 private const val CODE_DATA_REFERENCED = "error.data.referenced"
@@ -23,7 +19,7 @@ private const val CODE_RESOURCE_NOT_FOUND = "error.resource.notFound"
 private const val CODE_ALREADY_EXISTS = "validation.alreadyExists"
 private const val DETAIL_STILL_REFERENCED = "is still referenced"
 
-@RestControllerAdvice
+// @RestControllerAdvice
 @Order(3)
 class PSQLExceptionHandler(private val messageSource: MessageSource) {
     private val log = logger()

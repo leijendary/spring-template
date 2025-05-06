@@ -5,6 +5,11 @@ aws:
   s3:
     bucketName: leijendary-api-dev
 
+gg:
+  jte:
+    developmentMode: true
+    usePrecompiledTemplates: false
+
 logging:
   includeApplicationName: false
   pattern:

@@ -1,0 +1,16 @@
+@param title: String = "Dashboard"
+@param content: gg.jte.Content
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>${title}</title>
+  <link rel="stylesheet" href="/styles/dashboard.css"/>
+  <script src="/scripts/htmx.min.js?v=2.0.4"></script>
+</head>
+<body>
+${content} in the dashboard
+</body>
+</html>

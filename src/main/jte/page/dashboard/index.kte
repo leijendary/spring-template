@@ -1,0 +1,6 @@
+@template.layout.dashboard(content = @`
+  <div class="blue">
+    <p>Welcome to the dashboard!</p>
+  </div>
+  <a href="/">Home</a>
+`)

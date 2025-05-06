@@ -1,4 +1,4 @@
-package com.leijendary.error
+package com.leijendary.error.legacy
 
 import com.leijendary.context.RequestContext.locale
 import com.leijendary.error.exception.StatusException
@@ -7,9 +7,8 @@ import org.springframework.context.MessageSource
 import org.springframework.core.annotation.Order
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ExceptionHandler
-import org.springframework.web.bind.annotation.RestControllerAdvice
 
-@RestControllerAdvice
+// @RestControllerAdvice
 @Order(3)
 class StatusExceptionHandler(private val messageSource: MessageSource) {
     @ExceptionHandler(StatusException::class)
