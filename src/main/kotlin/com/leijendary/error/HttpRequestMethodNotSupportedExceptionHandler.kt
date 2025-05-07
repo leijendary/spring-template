@@ -1,4 +1,4 @@
-package com.leijendary.error.legacy
+package com.leijendary.error
 
 import com.leijendary.context.RequestContext.isApi
 import com.leijendary.context.RequestContext.locale

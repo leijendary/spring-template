@@ -1,4 +1,4 @@
-package com.leijendary.error.legacy
+package com.leijendary.error
 
 import com.leijendary.extension.logger
 import jakarta.servlet.http.HttpServletRequest

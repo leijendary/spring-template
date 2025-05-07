@@ -1,4 +1,4 @@
-package com.leijendary.error.legacy
+package com.leijendary.error
 
 import org.springframework.core.annotation.Order
 import org.springframework.http.ResponseEntity

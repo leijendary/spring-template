@@ -1,4 +1,4 @@
-package com.leijendary.error.legacy
+package com.leijendary.error
 
 import com.fasterxml.jackson.databind.JsonMappingException
 import com.fasterxml.jackson.databind.JsonMappingException.Reference

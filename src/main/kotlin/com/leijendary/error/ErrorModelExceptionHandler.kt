@@ -1,4 +1,4 @@
-package com.leijendary.error.legacy
+package com.leijendary.error
 
 import com.leijendary.error.exception.ErrorModelException
 import com.leijendary.model.ErrorModel
