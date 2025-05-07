@@ -1,6 +1,5 @@
 package com.leijendary.config.feign
 
-import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.leijendary.extension.logger
 import feign.codec.ErrorDecoder
@@ -16,14 +15,12 @@ class PropagateErrorFeignConfiguration(private val objectMapper: ObjectMapper) {
     @Bean
     fun errorDecoder() = ErrorDecoder { methodKey, response ->
         val status = HttpStatus.valueOf(response.status())
-        val problemDetail = response.body().asReader(UTF_8).use { objectMapper.readValue(it, TYPE_REFERENCE) }
+        val problemDetail = response.body()
+            .asReader(UTF_8)
+            .use { objectMapper.readValue(it, ProblemDetail::class.java) }
 
         log.error("Feign error $status from $methodKey: $problemDetail")
 
         ErrorResponseException(status, problemDetail, null)
-    }
-
-    companion object {
-        private val TYPE_REFERENCE = object : TypeReference<ProblemDetail>() {}
     }
 }

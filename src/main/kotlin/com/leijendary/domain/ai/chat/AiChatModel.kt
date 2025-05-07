@@ -1,5 +1,7 @@
 package com.leijendary.domain.ai.chat
 
+import com.leijendary.error.CODE_REQUIRED
+import com.leijendary.error.CODE_SIZE_RANGE
 import com.leijendary.projection.CursorProjection
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.Size
@@ -9,8 +11,8 @@ import java.time.Instant
 data class AiChatRequest(
     val id: String? = null,
 
-    @field:NotBlank(message = "validation.required")
-    @field:Size(min = 3, max = 1000, message = "validation.size.range")
+    @field:NotBlank(message = CODE_REQUIRED)
+    @field:Size(min = 3, max = 1000, message = CODE_SIZE_RANGE)
     val prompt: String = ""
 )
 

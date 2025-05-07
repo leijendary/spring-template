@@ -2,41 +2,58 @@ package com.leijendary.error
 
 import com.leijendary.context.RequestContext.locale
 import com.leijendary.extension.indexOfReverse
-import com.leijendary.extension.logger
+import com.leijendary.extension.lowerCaseFirst
 import com.leijendary.extension.snakeCaseToCamelCase
 import com.leijendary.model.ErrorModel
 import com.leijendary.model.ErrorSource
+import jakarta.servlet.http.HttpServletRequest
 import org.postgresql.util.PSQLException
 import org.springframework.context.MessageSource
 import org.springframework.core.annotation.Order
+import org.springframework.dao.OptimisticLockingFailureException
 import org.springframework.http.HttpStatus.*
+import org.springframework.http.ProblemDetail
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ExceptionHandler
+import org.springframework.web.bind.annotation.RestControllerAdvice
+import java.net.URI
 
-private const val CODE_DATA_INTEGRITY = "error.data.integrity"
-private const val CODE_DATA_REFERENCED = "error.data.referenced"
-private const val CODE_RESOURCE_NOT_FOUND = "error.resource.notFound"
-private const val CODE_ALREADY_EXISTS = "validation.alreadyExists"
-private const val DETAIL_STILL_REFERENCED = "is still referenced"
+@RestControllerAdvice
+@Order(1)
+class DatabaseExceptionHandler(private val messageSource: MessageSource) {
+    @ExceptionHandler(OptimisticLockingFailureException::class)
+    fun handleOptimisticLockingFailure(
+        exception: OptimisticLockingFailureException,
+        request: HttpServletRequest?
+    ): ResponseEntity<in Any>? {
+        val entity = exception.message!!.substringAfterLast(".").lowerCaseFirst()
+        val message = messageSource.getMessage(CODE_DATA_VERSION_CONFLICT, null, locale)
+        val source = ErrorSource(pointer = "/data/$entity/version")
+        val error = ErrorModel(code = CODE_DATA_VERSION_CONFLICT, message = message, source = source)
+        val problemDetail = ProblemDetail.forStatusAndDetail(CONFLICT, "Outdated data version.").apply {
+            title = CONFLICT.reasonPhrase
+            instance = request?.requestURI?.let(::URI)
+            setProperty(PROPERTY_ERRORS, listOf(error))
+        }
 
-// @RestControllerAdvice
-@Order(3)
-class PSQLExceptionHandler(private val messageSource: MessageSource) {
-    private val log = logger()
+        return ResponseEntity
+            .status(problemDetail.status)
+            .body(problemDetail)
+    }
 
     @ExceptionHandler(PSQLException::class)
-    fun catchPSQLException(exception: PSQLException): ResponseEntity<List<ErrorModel>> {
+    fun handlePSQL(exception: PSQLException, request: HttpServletRequest?): ResponseEntity<in Any>? {
         val errorMessage = exception.serverErrorMessage
 
         if (errorMessage === null) {
-            return internalServerError(exception)
+            throw RuntimeException(exception)
         }
 
         val table = errorMessage.table?.snakeCaseToCamelCase()
         val detail = errorMessage.detail
 
         if (table === null || detail === null) {
-            return internalServerError(exception)
+            throw RuntimeException(exception)
         }
 
         val key = detail.substringAfter("Key (").substringBefore(")=")
@@ -52,7 +69,6 @@ class PSQLExceptionHandler(private val messageSource: MessageSource) {
             val i = value.indexOfReverse(',', commas)
             value = value.substring(0, i)
         }
-
         val (code, status) = when (exception.sqlState) {
             "23503" -> if (detail.contains(DETAIL_STILL_REFERENCED)) {
                 CODE_DATA_REFERENCED to CONFLICT
@@ -68,22 +84,14 @@ class PSQLExceptionHandler(private val messageSource: MessageSource) {
         val message = messageSource.getMessage(code, arguments, locale)
         val source = ErrorSource(pointer = "/data/$table/$column")
         val error = ErrorModel(code = code, message = message, source = source)
-        val errors = listOf(error)
+        val problemDetail = ProblemDetail.forStatusAndDetail(status, "Data integrity.").apply {
+            title = status.reasonPhrase
+            instance = request?.requestURI?.let(::URI)
+            setProperty(PROPERTY_ERRORS, listOf(error))
+        }
 
         return ResponseEntity
             .status(status)
-            .body(errors)
-    }
-
-    private fun internalServerError(exception: PSQLException): ResponseEntity<List<ErrorModel>> {
-        log.error("Got an unknown database exception", exception)
-
-        val message = messageSource.getMessage(CODE_SERVER_ERROR, null, locale)
-        val error = ErrorModel(code = CODE_SERVER_ERROR, message = message, source = SOURCE_SERVER_INTERNAL)
-        val errors = listOf(error)
-
-        return ResponseEntity
-            .status(INTERNAL_SERVER_ERROR)
-            .body(errors)
+            .body(problemDetail)
     }
 }

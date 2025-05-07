@@ -1,5 +1,6 @@
 package com.leijendary.context
 
+import com.leijendary.error.CODE_SESSION_NOT_FOUND
 import com.leijendary.error.exception.StatusException
 import com.leijendary.model.ErrorSource
 import jakarta.servlet.http.HttpServletRequest
@@ -12,8 +13,9 @@ import java.util.*
 
 private const val HEADER_USER_ID = "X-User-ID"
 private const val USER_SYSTEM = "System"
+
 private val SESSION_NOT_FOUND_EXCEPTION = StatusException(
-    code = "access.session.notFound",
+    code = CODE_SESSION_NOT_FOUND,
     status = UNAUTHORIZED,
     source = ErrorSource(header = HEADER_USER_ID)
 )
