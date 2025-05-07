@@ -3,6 +3,7 @@ package com.leijendary.domain.image
 import com.leijendary.context.DatabaseContext
 import com.leijendary.domain.image.Image.Companion.ENTITY
 import com.leijendary.domain.image.Image.Companion.ERROR_SOURCE_STORAGE_NAME
+import com.leijendary.error.CODE_IMAGE_MEDIA_TYPE
 import com.leijendary.error.exception.ResourceNotFoundException
 import com.leijendary.error.exception.StatusException
 import com.leijendary.extension.logger
@@ -91,7 +92,7 @@ class ImageServiceImpl(
                 delete(name)
             }
 
-            throw StatusException("validation.image.mediaType", BAD_REQUEST, ERROR_SOURCE_STORAGE_NAME)
+            throw StatusException(CODE_IMAGE_MEDIA_TYPE, BAD_REQUEST, ERROR_SOURCE_STORAGE_NAME)
         }
 
         val id = imageRepository.setValidated(name, contentType)

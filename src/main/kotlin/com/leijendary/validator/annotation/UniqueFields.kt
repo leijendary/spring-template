@@ -1,5 +1,6 @@
 package com.leijendary.validator.annotation
 
+import com.leijendary.error.CODE_DUPLICATE_VALUE
 import com.leijendary.validator.UniqueFieldsValidator
 import jakarta.validation.Constraint
 import jakarta.validation.Payload
@@ -12,7 +13,7 @@ import kotlin.reflect.KClass
 @Constraint(validatedBy = [UniqueFieldsValidator::class])
 annotation class UniqueFields(
     val fields: Array<String>,
-    val message: String = "validation.duplicateValue",
+    val message: String = CODE_DUPLICATE_VALUE,
     val groups: Array<KClass<*>> = [],
     val payload: Array<KClass<out Payload>> = []
 )
