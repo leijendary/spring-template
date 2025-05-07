@@ -17,8 +17,7 @@ import org.springframework.validation.FieldError
 import org.springframework.validation.ObjectError
 import org.springframework.web.HttpRequestMethodNotSupportedException
 import org.springframework.web.bind.MethodArgumentNotValidException
-import org.springframework.web.bind.MissingRequestHeaderException
-import org.springframework.web.bind.annotation.ExceptionHandler
+import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.bind.annotation.RestControllerAdvice
 import org.springframework.web.context.request.WebRequest
 import org.springframework.web.method.annotation.HandlerMethodValidationException
@@ -26,9 +25,9 @@ import org.springframework.web.multipart.support.MissingServletRequestPartExcept
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler
 import java.net.URI
 
-@RestControllerAdvice
+@RestControllerAdvice(annotations = [RestController::class])
 @Order(1)
-class ResponseExceptionHandler : ResponseEntityExceptionHandler() {
+class RestExceptionHandler : ResponseEntityExceptionHandler() {
     override fun handleHttpRequestMethodNotSupported(
         exception: HttpRequestMethodNotSupportedException,
         headers: HttpHeaders,
@@ -131,21 +130,6 @@ class ResponseExceptionHandler : ResponseEntityExceptionHandler() {
         val response = super.handleMissingServletRequestPart(exception, headers, status, request)
         val message = messageSource?.getMessage(CODE_BAD_REQUEST, null, locale)
         val source = ErrorSource(pointer = "/body/${exception.requestPartName}")
-        val error = ErrorModel(code = CODE_BAD_REQUEST, message = message, source = source)
-
-        return withErrors(response, listOf(error))
-    }
-
-    @ExceptionHandler(MissingRequestHeaderException::class)
-    fun handleMissingRequestHeader(
-        exception: MissingRequestHeaderException,
-        headers: HttpHeaders,
-        status: HttpStatusCode,
-        request: WebRequest
-    ): ResponseEntity<in Any>? {
-        val response = super.handleExceptionInternal(exception, null, headers, status, request)
-        val message = messageSource?.getMessage(CODE_BAD_REQUEST, null, locale)
-        val source = ErrorSource(header = exception.headerName)
         val error = ErrorModel(code = CODE_BAD_REQUEST, message = message, source = source)
 
         return withErrors(response, listOf(error))
