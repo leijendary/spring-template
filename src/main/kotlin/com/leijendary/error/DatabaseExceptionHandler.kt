@@ -25,7 +25,7 @@ class DatabaseExceptionHandler(private val messageSource: MessageSource) {
     fun handleOptimisticLockingFailure(
         exception: OptimisticLockingFailureException,
         request: HttpServletRequest?
-    ): ResponseEntity<in Any>? {
+    ): ResponseEntity<Any> {
         val entity = exception.message!!.substringAfterLast(".").lowerCaseFirst()
         val message = messageSource.getMessage(CODE_DATA_VERSION_CONFLICT, null, locale)
         val source = ErrorSource(pointer = "/data/$entity/version")
@@ -42,7 +42,7 @@ class DatabaseExceptionHandler(private val messageSource: MessageSource) {
     }
 
     @ExceptionHandler(PSQLException::class)
-    fun handlePSQL(exception: PSQLException, request: HttpServletRequest?): ResponseEntity<in Any>? {
+    fun handlePSQL(exception: PSQLException, request: HttpServletRequest?): ResponseEntity<Any> {
         val errorMessage = exception.serverErrorMessage
 
         if (errorMessage === null) {

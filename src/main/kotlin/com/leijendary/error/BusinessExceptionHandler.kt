@@ -23,7 +23,7 @@ class BusinessExceptionHandler(private val messageSource: MessageSource) {
     fun handleResourceNotFound(
         exception: ResourceNotFoundException,
         request: HttpServletRequest?
-    ): ResponseEntity<in Any>? {
+    ): ResponseEntity<Any> {
         val arguments = arrayOf(exception.entity)
         val message = messageSource.getMessage(CODE_RESOURCE_NOT_FOUND, arguments, locale)
         val error = ErrorModel(
@@ -47,7 +47,7 @@ class BusinessExceptionHandler(private val messageSource: MessageSource) {
     fun handleResourceNotUnique(
         exception: ResourceNotUniqueException,
         request: HttpServletRequest?
-    ): ResponseEntity<in Any>? {
+    ): ResponseEntity<Any> {
         val source = exception.source
         val field = source.pointer?.split("/")?.last()
         val arguments = arrayOf(field, exception.value)
@@ -66,7 +66,7 @@ class BusinessExceptionHandler(private val messageSource: MessageSource) {
     }
 
     @ExceptionHandler(StatusException::class)
-    fun handleStatus(exception: StatusException, request: HttpServletRequest?): ResponseEntity<in Any>? {
+    fun handleStatus(exception: StatusException, request: HttpServletRequest?): ResponseEntity<Any> {
         val message = messageSource.getMessage(exception.code, exception.arguments, locale)
         val error = ErrorModel(code = exception.code, message = message, source = exception.source)
         val problemDetail = ProblemDetail.forStatusAndDetail(exception.status, message).apply {

@@ -20,7 +20,7 @@ class GlobalExceptionHandler(private val messageSource: MessageSource) {
     private val log = logger()
 
     @ExceptionHandler(Exception::class)
-    fun handleAll(exception: Exception, request: HttpServletRequest?): ResponseEntity<in Any>? {
+    fun handleAll(exception: Exception, request: HttpServletRequest?): ResponseEntity<Any> {
         log.error("Global Exception", exception)
 
         val message = if (isProd) messageSource.getMessage(CODE_SERVER_ERROR, null, locale) else exception.message
