@@ -17,7 +17,6 @@ fun ObjectError.toErrorModel(messageSource: MessageSource?): ErrorModel {
     val pointer = field.split(".", "[", "]")
         .stream()
         .filter { it.isNotBlank() }
-        .map { it.toIntOrNull() ?: it }
         .toArray()
         .joinToString("/", prefix)
     val code = if (!shouldRenderDefaultMessage()) {
