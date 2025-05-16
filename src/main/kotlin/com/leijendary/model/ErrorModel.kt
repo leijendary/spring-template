@@ -1,12 +1,12 @@
 package com.leijendary.model
 
-import io.swagger.v3.oas.annotations.media.ArraySchema
 import io.swagger.v3.oas.annotations.media.Content
 import io.swagger.v3.oas.annotations.media.Schema
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import org.springframework.core.annotation.AliasFor
+import org.springframework.http.ProblemDetail
 
-@ApiResponse(content = [Content(array = ArraySchema(schema = Schema(implementation = ErrorModel::class)))])
+@ApiResponse(content = [Content(schema = Schema(implementation = ProblemDetail::class))])
 annotation class ErrorModelsResponse(
     @get:AliasFor(annotation = ApiResponse::class, attribute = "responseCode")
     val status: String,
@@ -15,11 +15,10 @@ annotation class ErrorModelsResponse(
     val description: String,
 )
 
-data class ErrorModel(val id: Any? = null, val code: String, val message: String? = null, val source: ErrorSource)
+data class ErrorModel(val code: String, val message: String? = null, val pointer: String, val id: Any? = null)
 
-data class ErrorSource(
-    val pointer: String? = null,
-    val parameter: String? = null,
-    val header: String? = null,
-    val meta: MutableMap<String, Any>? = null
-)
+typealias ErrorModelMap = Map<String, ErrorModel>
+
+fun List<ErrorModel>.toMap(): ErrorModelMap {
+    return associate { it.pointer to it }
+}

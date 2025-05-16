@@ -1,7 +1,7 @@
 package com.leijendary.domain.image
 
 import com.leijendary.domain.image.Image.Companion.ENTITY
-import com.leijendary.domain.image.Image.Companion.ERROR_SOURCE_NAME
+import com.leijendary.domain.image.Image.Companion.POINTER_NAME
 import com.leijendary.error.exception.ResourceNotFoundException
 import org.springframework.data.jdbc.repository.query.Modifying
 import org.springframework.data.jdbc.repository.query.Query
@@ -25,5 +25,5 @@ interface ImageRepository : CrudRepository<Image, String> {
 
 @Transactional(readOnly = true)
 fun ImageRepository.findByNameOrThrow(name: String): Image {
-    return findByName(name).orElseThrow { ResourceNotFoundException(name, ENTITY, ERROR_SOURCE_NAME) }
+    return findByName(name).orElseThrow { ResourceNotFoundException(name, ENTITY, POINTER_NAME) }
 }

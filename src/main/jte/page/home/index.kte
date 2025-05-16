@@ -1,8 +1,0 @@
-@param message: String
-
-@template.layout.main(title = "Home", styles = arrayOf("/styles/home.css"), content = @`
-  <div class="blue">
-    ${message}
-  </div>
-  <a href="/dashboard">Dashboard</a>
-`)

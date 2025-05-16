@@ -1,0 +1,12 @@
+@param message: String
+@param sampleRequest: com.leijendary.domain.sample.SampleRequest?
+@param problemDetail: org.springframework.http.ProblemDetail?
+
+@template.layout.main(title = "Home", styles = arrayOf("/styles/home.css"), content = @`
+  <a href="/dashboard">Dashboard</a>
+  <div>${message}</div>
+  <form method="post">
+    @template.component.error-message(problemDetail = problemDetail, pointer = "#/body/name")
+    <button>Submit</button>
+  </form>
+`)

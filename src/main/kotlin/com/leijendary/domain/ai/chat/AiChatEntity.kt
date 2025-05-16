@@ -1,6 +1,5 @@
 package com.leijendary.domain.ai.chat
 
-import com.leijendary.model.ErrorSource
 import com.leijendary.projection.PrefixedIDProjection
 import org.springframework.data.annotation.CreatedBy
 import org.springframework.data.annotation.CreatedDate
@@ -38,7 +37,7 @@ data class AiChat(var title: String = DEFAULT_TITLE) : PrefixedIDProjection {
     companion object {
         const val DEFAULT_TITLE = "New Chat"
         const val ENTITY = "chat"
-        val ERROR_SOURCE = ErrorSource(pointer = "/data/$ENTITY/id")
+        const val POINTER_ID = "#/data/$ENTITY/id"
 
         private const val ID_PREFIX = "cht"
     }

@@ -111,7 +111,7 @@ dependencies {
     // AI
     implementation(platform("org.springframework.ai:spring-ai-bom:1.0.0-SNAPSHOT"))
     implementation("org.springframework.ai:spring-ai-rag")
-    implementation("org.springframework.ai:spring-ai-starter-model-chat-memory-jdbc")
+    implementation("org.springframework.ai:spring-ai-starter-model-chat-memory-repository-jdbc")
     implementation("org.springframework.ai:spring-ai-starter-model-ollama")
     implementation("org.springframework.ai:spring-ai-starter-vector-store-pgvector")
     testImplementation("org.springframework.ai:spring-ai-spring-boot-testcontainers")

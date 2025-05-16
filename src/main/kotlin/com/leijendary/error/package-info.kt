@@ -1,7 +1,5 @@
 package com.leijendary.error
 
-import com.leijendary.model.ErrorSource
-
 /**
  * Error codes
  */
@@ -37,5 +35,7 @@ const val CODE_IMAGE_NAME = "validation.image.name"
 const val DETAIL_STILL_REFERENCED = "is still referenced"
 
 const val PROPERTY_ERRORS = "errors"
+const val PROPERTY_ERROR_MAP = "errorMap"
+const val PROPERTY_PROBLEM_DETAIL = "problemDetail"
 
-val SOURCE_SERVER_INTERNAL = ErrorSource(pointer = "/server/internal")
+const val POINTER_SERVER_INTERNAL = "#/server/internal"

@@ -1,5 +1,6 @@
 package com.leijendary.error
 
+import com.leijendary.context.RequestContext.isApi
 import com.leijendary.context.RequestContext.locale
 import com.leijendary.context.SpringContext.Companion.isProd
 import com.leijendary.extension.logger
@@ -10,25 +11,32 @@ import org.springframework.core.annotation.Order
 import org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR
 import org.springframework.http.ProblemDetail
 import org.springframework.http.ResponseEntity
+import org.springframework.ui.Model
+import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
-import org.springframework.web.bind.annotation.RestControllerAdvice
 import java.net.URI
 
-@RestControllerAdvice
+@ControllerAdvice
 @Order
 class GlobalExceptionHandler(private val messageSource: MessageSource) {
     private val log = logger()
 
     @ExceptionHandler(Exception::class)
-    fun handleAll(exception: Exception, request: HttpServletRequest?): ResponseEntity<Any> {
+    fun handleAll(exception: Exception, model: Model, request: HttpServletRequest?): Any {
         log.error("Global Exception", exception)
 
         val message = if (isProd) messageSource.getMessage(CODE_SERVER_ERROR, null, locale) else exception.message
-        val error = ErrorModel(code = CODE_SERVER_ERROR, message = message, source = SOURCE_SERVER_INTERNAL)
+        val error = ErrorModel(CODE_SERVER_ERROR, message, POINTER_SERVER_INTERNAL)
         val problemDetail = ProblemDetail.forStatusAndDetail(INTERNAL_SERVER_ERROR, "General problem.").apply {
             title = INTERNAL_SERVER_ERROR.reasonPhrase
             instance = request?.requestURI?.let(::URI)
             setProperty(PROPERTY_ERRORS, listOf(error))
+        }
+
+        if (!isApi) {
+            model.addAttribute(PROPERTY_PROBLEM_DETAIL, problemDetail)
+
+            return "500"
         }
 
         return ResponseEntity

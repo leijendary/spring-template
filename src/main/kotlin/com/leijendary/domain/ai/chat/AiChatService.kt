@@ -2,7 +2,7 @@ package com.leijendary.domain.ai.chat
 
 import com.leijendary.context.RequestContext.userIdOrThrow
 import com.leijendary.domain.ai.chat.AiChat.Companion.ENTITY
-import com.leijendary.domain.ai.chat.AiChat.Companion.ERROR_SOURCE
+import com.leijendary.domain.ai.chat.AiChat.Companion.POINTER_ID
 import com.leijendary.domain.ai.chat.AiChatFunction.Companion.USER_ID_KEY
 import com.leijendary.error.exception.ResourceNotFoundException
 import com.leijendary.extension.logger
@@ -10,9 +10,8 @@ import com.leijendary.model.Cursorable
 import com.leijendary.model.CursoredModel
 import io.micrometer.tracing.Tracer
 import org.springframework.ai.chat.client.ChatClient
-import org.springframework.ai.chat.client.advisor.AbstractChatMemoryAdvisor.CHAT_MEMORY_CONVERSATION_ID_KEY
-import org.springframework.ai.chat.client.advisor.AbstractChatMemoryAdvisor.DEFAULT_CHAT_MEMORY_RESPONSE_SIZE
 import org.springframework.ai.chat.memory.ChatMemory
+import org.springframework.ai.chat.memory.ChatMemory.CONVERSATION_ID
 import org.springframework.stereotype.Service
 import reactor.core.publisher.Flux
 import java.util.concurrent.CompletableFuture.supplyAsync
@@ -47,7 +46,7 @@ class AiChatServiceImpl(
         return chatClient.prompt()
             .user(request.prompt)
             .system { it.param(USER_ID_KEY, userIdOrThrow) }
-            .advisors { it.param(CHAT_MEMORY_CONVERSATION_ID_KEY, aiChat.id) }
+            .advisors { it.param(CONVERSATION_ID, aiChat.id) }
             .stream()
             .content()
             .map { AiChatCreateResponse(aiChat.id, it) }
@@ -61,11 +60,10 @@ class AiChatServiceImpl(
         val exists = aiChatRepository.existsByIdAndCreatedBy(id, userIdOrThrow)
 
         if (!exists) {
-            throw ResourceNotFoundException(id, ENTITY, ERROR_SOURCE)
+            throw ResourceNotFoundException(id, ENTITY, POINTER_ID)
         }
 
-        val messages = chatMemory.get(id, DEFAULT_CHAT_MEMORY_RESPONSE_SIZE)
-            .map { AiChatMessage(it.text, it.messageType) }
+        val messages = chatMemory.get(id).map { AiChatMessage(it.text, it.messageType) }
 
         return AiChatHistoryResponse(id, messages)
     }

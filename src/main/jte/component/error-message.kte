@@ -1,0 +1,9 @@
+@param problemDetail: org.springframework.http.ProblemDetail?
+@param pointer: String
+
+!{val errorMap = problemDetail?.properties?.get("errorMap") as? com.leijendary.model.ErrorModelMap}
+!{val message = errorMap?.get(pointer)?.message}
+
+@if (message != null)
+  <div style="color: red">${message}</div>
+@endif

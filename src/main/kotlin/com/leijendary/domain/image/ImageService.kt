@@ -2,7 +2,7 @@ package com.leijendary.domain.image
 
 import com.leijendary.context.DatabaseContext
 import com.leijendary.domain.image.Image.Companion.ENTITY
-import com.leijendary.domain.image.Image.Companion.ERROR_SOURCE_STORAGE_NAME
+import com.leijendary.domain.image.Image.Companion.POINTER_STORAGE_NAME
 import com.leijendary.error.CODE_IMAGE_MEDIA_TYPE
 import com.leijendary.error.exception.ResourceNotFoundException
 import com.leijendary.error.exception.StatusException
@@ -81,7 +81,7 @@ class ImageServiceImpl(
         }
 
         val response = blockStorage.head(path)
-            ?: throw ResourceNotFoundException(name, ENTITY, ERROR_SOURCE_STORAGE_NAME)
+            ?: throw ResourceNotFoundException(name, ENTITY, POINTER_STORAGE_NAME)
         val contentType = response.contentType()
 
         if (contentType !in IMAGE_MEDIA_TYPES) {
@@ -92,7 +92,7 @@ class ImageServiceImpl(
                 delete(name)
             }
 
-            throw StatusException(CODE_IMAGE_MEDIA_TYPE, BAD_REQUEST, ERROR_SOURCE_STORAGE_NAME)
+            throw StatusException(CODE_IMAGE_MEDIA_TYPE, BAD_REQUEST, POINTER_STORAGE_NAME)
         }
 
         val id = imageRepository.setValidated(name, contentType)

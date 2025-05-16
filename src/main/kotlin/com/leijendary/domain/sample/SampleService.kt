@@ -6,7 +6,7 @@ import com.leijendary.domain.image.ImageRequest
 import com.leijendary.domain.image.ImageResponse
 import com.leijendary.domain.image.ImageService
 import com.leijendary.domain.sample.Sample.Companion.ENTITY
-import com.leijendary.domain.sample.Sample.Companion.ERROR_SOURCE
+import com.leijendary.domain.sample.SampleSearch.Companion.POINTER_ID
 import com.leijendary.error.exception.ResourceNotFoundException
 import com.leijendary.extension.logger
 import com.leijendary.model.Cursorable
@@ -130,7 +130,7 @@ class SampleServiceImpl(
         val exists = sampleRepository.existsById(id)
 
         if (!exists) {
-            throw ResourceNotFoundException(id, ENTITY, ERROR_SOURCE)
+            throw ResourceNotFoundException(id, ENTITY, POINTER_ID)
         }
 
         val response = imageService.validate(request)

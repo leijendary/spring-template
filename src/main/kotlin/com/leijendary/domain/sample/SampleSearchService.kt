@@ -3,8 +3,8 @@ package com.leijendary.domain.sample
 import com.leijendary.context.RequestContext.language
 import com.leijendary.domain.image.ImageResponse
 import com.leijendary.domain.image.ImageService
-import com.leijendary.domain.sample.SampleSearch.Companion.ERROR_SOURCE_SEARCH
 import com.leijendary.domain.sample.SampleSearch.Companion.INDEX_NAME
+import com.leijendary.domain.sample.SampleSearch.Companion.POINTER_ID
 import com.leijendary.error.exception.ResourceNotFoundException
 import com.leijendary.extension.logger
 import com.leijendary.model.QueryRequest
@@ -59,7 +59,7 @@ class SampleSearchServiceImpl(
         val exists = sampleSearchRepository.existsById(sample.id)
 
         if (!exists) {
-            throw ResourceNotFoundException(sample.id, INDEX_NAME, ERROR_SOURCE_SEARCH)
+            throw ResourceNotFoundException(sample.id, INDEX_NAME, POINTER_ID)
         }
 
         save(sample)
@@ -71,7 +71,7 @@ class SampleSearchServiceImpl(
         val exists = sampleSearchRepository.existsById(id)
 
         if (!exists) {
-            throw ResourceNotFoundException(id, INDEX_NAME, ERROR_SOURCE_SEARCH)
+            throw ResourceNotFoundException(id, INDEX_NAME, POINTER_ID)
         }
 
         sampleSearchRepository.deleteById(id)

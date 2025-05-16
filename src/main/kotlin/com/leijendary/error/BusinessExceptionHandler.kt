@@ -26,12 +26,7 @@ class BusinessExceptionHandler(private val messageSource: MessageSource) {
     ): ResponseEntity<Any> {
         val arguments = arrayOf(exception.entity)
         val message = messageSource.getMessage(CODE_RESOURCE_NOT_FOUND, arguments, locale)
-        val error = ErrorModel(
-            id = exception.id.toString(),
-            code = CODE_RESOURCE_NOT_FOUND,
-            message = message,
-            source = exception.source
-        )
+        val error = ErrorModel(CODE_RESOURCE_NOT_FOUND, message, exception.pointer, exception.id.toString())
         val problemDetail = ProblemDetail.forStatusAndDetail(NOT_FOUND, "Data integrity.").apply {
             title = NOT_FOUND.reasonPhrase
             instance = request?.requestURI?.let(::URI)
@@ -48,12 +43,10 @@ class BusinessExceptionHandler(private val messageSource: MessageSource) {
         exception: ResourceNotUniqueException,
         request: HttpServletRequest?
     ): ResponseEntity<Any> {
-        val source = exception.source
-        val field = source.pointer?.split("/")?.last()
+        val field = exception.pointer.split("/").last()
         val arguments = arrayOf(field, exception.value)
         val message = messageSource.getMessage(CODE_ALREADY_EXISTS, arguments, locale)
-        val error =
-            ErrorModel(id = exception.value.toString(), code = CODE_ALREADY_EXISTS, message = message, source = source)
+        val error = ErrorModel(CODE_ALREADY_EXISTS, message, exception.pointer, exception.value.toString())
         val problemDetail = ProblemDetail.forStatusAndDetail(CONFLICT, "Data integrity.").apply {
             title = CONFLICT.reasonPhrase
             instance = request?.requestURI?.let(::URI)
@@ -68,7 +61,7 @@ class BusinessExceptionHandler(private val messageSource: MessageSource) {
     @ExceptionHandler(StatusException::class)
     fun handleStatus(exception: StatusException, request: HttpServletRequest?): ResponseEntity<Any> {
         val message = messageSource.getMessage(exception.code, exception.arguments, locale)
-        val error = ErrorModel(code = exception.code, message = message, source = exception.source)
+        val error = ErrorModel(exception.code, message, exception.pointer)
         val problemDetail = ProblemDetail.forStatusAndDetail(exception.status, message).apply {
             title = exception.status.reasonPhrase
             instance = request?.requestURI?.let(::URI)

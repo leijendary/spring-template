@@ -62,11 +62,6 @@ server:
 
 spring:
   ai:
-    chat:
-      memory:
-        repository:
-          jdbc:
-            initializeSchema: false
     ollama:
       chat:
         model: llama3.1

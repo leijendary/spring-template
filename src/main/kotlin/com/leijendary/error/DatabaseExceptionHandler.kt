@@ -5,7 +5,6 @@ import com.leijendary.extension.indexOfReverse
 import com.leijendary.extension.lowerCaseFirst
 import com.leijendary.extension.snakeCaseToCamelCase
 import com.leijendary.model.ErrorModel
-import com.leijendary.model.ErrorSource
 import jakarta.servlet.http.HttpServletRequest
 import org.postgresql.util.PSQLException
 import org.springframework.context.MessageSource
@@ -28,8 +27,7 @@ class DatabaseExceptionHandler(private val messageSource: MessageSource) {
     ): ResponseEntity<Any> {
         val entity = exception.message!!.substringAfterLast(".").lowerCaseFirst()
         val message = messageSource.getMessage(CODE_DATA_VERSION_CONFLICT, null, locale)
-        val source = ErrorSource(pointer = "/data/$entity/version")
-        val error = ErrorModel(code = CODE_DATA_VERSION_CONFLICT, message = message, source = source)
+        val error = ErrorModel(CODE_DATA_VERSION_CONFLICT, message, "#/data/$entity/version")
         val problemDetail = ProblemDetail.forStatusAndDetail(CONFLICT, "Outdated data version.").apply {
             title = CONFLICT.reasonPhrase
             instance = request?.requestURI?.let(::URI)
@@ -82,8 +80,8 @@ class DatabaseExceptionHandler(private val messageSource: MessageSource) {
         }
         val arguments = arrayOf(column, value)
         val message = messageSource.getMessage(code, arguments, locale)
-        val source = ErrorSource(pointer = "/data/$table/$column")
-        val error = ErrorModel(code = code, message = message, source = source)
+        val pointer = "#/data/$table/$column"
+        val error = ErrorModel(code, message, pointer)
         val problemDetail = ProblemDetail.forStatusAndDetail(status, "Data integrity.").apply {
             title = status.reasonPhrase
             instance = request?.requestURI?.let(::URI)

@@ -1,0 +1,4 @@
+@template.layout.main(content = @`
+  <div>Oops! There's an error</div>
+  <a href="/">Go back home</a>
+`)
