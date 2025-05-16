@@ -74,7 +74,7 @@ class ApplicationRuntimeHints : RuntimeHintsRegistrar {
         val resources = arrayOf(
             "messages/*",
             "prompts/*",
-            "templates/*",
+            "static/*",
             "io/awspring/cloud/core/SpringCloudClientConfiguration.properties",
             "io/awspring/cloud/s3/S3ObjectContentTypeResolver.properties"
         )
