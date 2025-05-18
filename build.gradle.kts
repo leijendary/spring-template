@@ -27,14 +27,14 @@ val openApiTasks = file("$rootDir/src/main/resources/specs").listFiles()?.map {
 }
 
 plugins {
-    val kotlinVersion = "2.1.20"
+    val kotlinVersion = "2.1.21"
 
     kotlin("jvm") version kotlinVersion
     kotlin("plugin.spring") version kotlinVersion
     id("org.springframework.boot") version "3.4.5"
     id("io.spring.dependency-management") version "1.1.7"
     id("org.graalvm.buildtools.native") version "0.10.6"
-    id("org.openapi.generator") version "7.12.0"
+    id("org.openapi.generator") version "7.13.0"
     id("gg.jte.gradle") version "3.2.1"
 }
 
@@ -63,14 +63,12 @@ jte {
     jteExtension("gg.jte.nativeimage.NativeResourcesExtension")
 }
 
-configurations {
-    compileOnly {
-        extendsFrom(configurations.annotationProcessor.get())
-    }
+configurations.compileOnly {
+    extendsFrom(configurations.annotationProcessor.get())
+}
 
-    testImplementation {
-        exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
-    }
+configurations.testImplementation {
+    exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
 }
 
 repositories {

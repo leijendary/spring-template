@@ -16,9 +16,3 @@ annotation class ErrorModelsResponse(
 )
 
 data class ErrorModel(val code: String, val message: String? = null, val pointer: String, val id: Any? = null)
-
-typealias ErrorModelMap = Map<String, ErrorModel>
-
-fun List<ErrorModel>.toMap(): ErrorModelMap {
-    return associate { it.pointer to it }
-}
