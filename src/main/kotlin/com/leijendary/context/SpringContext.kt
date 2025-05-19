@@ -8,14 +8,11 @@ import org.springframework.stereotype.Component
 import kotlin.properties.Delegates.notNull
 
 @Component
-class SpringContext(messageSource: MessageSource, objectMapper: ObjectMapper) : ApplicationContextAware {
-    init {
-        Companion.messageSource = messageSource
-        Companion.objectMapper = objectMapper
-    }
-
+class SpringContext : ApplicationContextAware {
     override fun setApplicationContext(applicationContext: ApplicationContext) {
         isProd = applicationContext.environment.matchesProfiles("prod")
+        messageSource = applicationContext.getBean(MessageSource::class.java)
+        objectMapper = applicationContext.getBean(ObjectMapper::class.java)
     }
 
     companion object {
