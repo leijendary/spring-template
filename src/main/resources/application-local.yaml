@@ -33,3 +33,6 @@ spring:
         mechanism: PLAIN
     security:
       protocol: PLAINTEXT
+  output:
+    ansi:
+      enabled: ALWAYS

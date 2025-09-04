@@ -27,14 +27,14 @@ val openApiTasks = file("$rootDir/src/main/resources/specs").listFiles()?.map {
 }
 
 plugins {
-    val kotlinVersion = "2.1.20"
+    val kotlinVersion = "2.2.10"
 
     kotlin("jvm") version kotlinVersion
     kotlin("plugin.spring") version kotlinVersion
-    id("org.springframework.boot") version "3.4.5"
+    id("org.springframework.boot") version "3.5.5"
     id("io.spring.dependency-management") version "1.1.7"
-    id("org.graalvm.buildtools.native") version "0.10.6"
-    id("org.openapi.generator") version "7.12.0"
+    id("org.graalvm.buildtools.native") version "0.11.0"
+    id("org.openapi.generator") version "7.15.0"
 }
 
 group = "com.leijendary"
@@ -49,9 +49,9 @@ java {
 
 kotlin {
     compilerOptions {
-        apiVersion.set(KotlinVersion.KOTLIN_2_1)
+        apiVersion.set(KotlinVersion.KOTLIN_2_2)
         freeCompilerArgs.addAll("-Xjsr305=strict")
-        languageVersion.set(KotlinVersion.KOTLIN_2_1)
+        languageVersion.set(KotlinVersion.KOTLIN_2_2)
         jvmTarget.set(JvmTarget.JVM_23)
     }
 }
@@ -68,8 +68,6 @@ configurations {
 
 repositories {
     mavenCentral()
-    maven { url = uri("https://repo.spring.io/milestone") }
-    maven { url = uri("https://repo.spring.io/snapshot") }
 }
 
 dependencies {
@@ -91,7 +89,7 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-testcontainers")
 
     // Spring Cloud Starter
-    implementation(platform("org.springframework.cloud:spring-cloud-dependencies:2024.0.0"))
+    implementation(platform("org.springframework.cloud:spring-cloud-dependencies:2025.0.0"))
     implementation("org.springframework.cloud:spring-cloud-starter-openfeign")
 
     // Spring Kafka
@@ -102,19 +100,19 @@ dependencies {
     implementation("org.springframework.retry:spring-retry")
 
     // AI
-    implementation(platform("org.springframework.ai:spring-ai-bom:1.0.0-SNAPSHOT"))
+    implementation(platform("org.springframework.ai:spring-ai-bom:1.0.1"))
     implementation("org.springframework.ai:spring-ai-rag")
-    implementation("org.springframework.ai:spring-ai-starter-model-chat-memory-jdbc")
+    implementation("org.springframework.ai:spring-ai-starter-model-chat-memory-repository-jdbc")
     implementation("org.springframework.ai:spring-ai-starter-model-ollama")
     implementation("org.springframework.ai:spring-ai-starter-vector-store-pgvector")
     testImplementation("org.springframework.ai:spring-ai-spring-boot-testcontainers")
 
     // AWS
-    implementation(platform("software.amazon.awssdk:bom:2.30.27"))
+    implementation(platform("software.amazon.awssdk:bom:2.33.1"))
     implementation("software.amazon.awssdk:cloudfront")
 
     // AWS Cloud
-    implementation(platform("io.awspring.cloud:spring-cloud-aws-dependencies:3.3.0"))
+    implementation(platform("io.awspring.cloud:spring-cloud-aws-dependencies:3.4.0"))
     implementation("io.awspring.cloud:spring-cloud-aws-starter-metrics")
     implementation("io.awspring.cloud:spring-cloud-aws-starter-s3")
 
@@ -133,13 +131,13 @@ dependencies {
     implementation("io.github.openfeign:feign-micrometer")
     implementation("io.micrometer:micrometer-tracing-bridge-brave")
     implementation("io.zipkin.reporter2:zipkin-reporter-brave")
-    implementation("net.ttddyy.observation:datasource-micrometer-spring-boot:1.1.0")
+    implementation("net.ttddyy.observation:datasource-micrometer-spring-boot:1.1.2")
 
     // OpenAPI
-    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.5")
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.12")
 
     // Test
-    testImplementation("org.mockito.kotlin:mockito-kotlin:5.4.0")
+    testImplementation("org.mockito.kotlin:mockito-kotlin:6.0.0")
 
     // Test Container
     testImplementation("org.testcontainers:junit-jupiter")

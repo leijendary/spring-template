@@ -25,7 +25,7 @@ class AiConfiguration(private val tools: List<ToolContainer>) {
 
     @Bean
     fun chatClient(builder: ChatClient.Builder, chatMemory: ChatMemory, vectorStore: VectorStore): ChatClient {
-        val memoryAdvisor = MessageChatMemoryAdvisor(chatMemory)
+        val memoryAdvisor = MessageChatMemoryAdvisor.builder(chatMemory).build()
         val documentRetriever = VectorStoreDocumentRetriever.builder()
             .vectorStore(vectorStore)
             .build()

@@ -61,7 +61,7 @@ spring:
       memory:
         repository:
           jdbc:
-            initializeSchema: false
+            initializeSchema: NEVER
     ollama:
       chat:
         model: llama3.1
