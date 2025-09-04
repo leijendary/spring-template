@@ -20,12 +20,12 @@
 - Spring Data JDBC
 - Spring Data Redis
 - Spring Kafka
-- Spring Native
 - Spring Retry
 - Spring Validation
 - Spring Web
 - AWS CDK
 - Docker
+- GraalVM
 - JUnit
 - Kubernetes
 - Liquibase

@@ -24,7 +24,7 @@ class GlobalExceptionHandler(private val messageSource: MessageSource) {
         log.error("Global Exception", exception)
 
         val message = if (isProd) messageSource.getMessage(CODE_SERVER_ERROR, null, locale) else exception.message
-        val error = ErrorModel(code = CODE_SERVER_ERROR, message = message, source = SOURCE_SERVER_INTERNAL)
+        val error = ErrorModel(CODE_SERVER_ERROR, message, POINTER_SERVER_INTERNAL)
         val problemDetail = ProblemDetail.forStatusAndDetail(INTERNAL_SERVER_ERROR, "General problem.").apply {
             title = INTERNAL_SERVER_ERROR.reasonPhrase
             instance = request?.requestURI?.let(::URI)

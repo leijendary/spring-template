@@ -2,7 +2,7 @@ package com.leijendary.domain.ai.chat
 
 import com.leijendary.context.RequestContext.userIdOrThrow
 import com.leijendary.domain.ai.chat.AiChat.Companion.ENTITY
-import com.leijendary.domain.ai.chat.AiChat.Companion.ERROR_SOURCE
+import com.leijendary.domain.ai.chat.AiChat.Companion.POINTER_ID
 import com.leijendary.domain.ai.chat.AiChatFunction.Companion.USER_ID_KEY
 import com.leijendary.error.exception.ResourceNotFoundException
 import com.leijendary.extension.logger
@@ -60,7 +60,7 @@ class AiChatServiceImpl(
         val exists = aiChatRepository.existsByIdAndCreatedBy(id, userIdOrThrow)
 
         if (!exists) {
-            throw ResourceNotFoundException(id, ENTITY, ERROR_SOURCE)
+            throw ResourceNotFoundException(id, ENTITY, POINTER_ID)
         }
 
         val messages = chatMemory.get(id).map { AiChatMessage(it.text, it.messageType) }

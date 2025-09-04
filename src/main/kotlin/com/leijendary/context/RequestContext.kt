@@ -2,7 +2,6 @@ package com.leijendary.context
 
 import com.leijendary.error.CODE_SESSION_NOT_FOUND
 import com.leijendary.error.exception.StatusException
-import com.leijendary.model.ErrorSource
 import jakarta.servlet.http.HttpServletRequest
 import org.springframework.context.i18n.LocaleContextHolder
 import org.springframework.http.HttpStatus.UNAUTHORIZED
@@ -13,12 +12,6 @@ import java.util.*
 
 private const val HEADER_USER_ID = "X-User-ID"
 private const val USER_SYSTEM = "System"
-
-private val SESSION_NOT_FOUND_EXCEPTION = StatusException(
-    code = CODE_SESSION_NOT_FOUND,
-    status = UNAUTHORIZED,
-    source = ErrorSource(header = HEADER_USER_ID)
-)
 
 object RequestContext {
     val currentRequest
@@ -31,7 +24,7 @@ object RequestContext {
         get() = userIdOrNull ?: USER_SYSTEM
 
     val userIdOrThrow: String
-        get() = userIdOrNull ?: throw SESSION_NOT_FOUND_EXCEPTION
+        get() = userIdOrNull ?: throw StatusException(CODE_SESSION_NOT_FOUND, UNAUTHORIZED, "#/header/$HEADER_USER_ID")
 
     val timeZone: TimeZone
         get() = LocaleContextHolder.getTimeZone()
@@ -44,6 +37,9 @@ object RequestContext {
 
     val language: String
         get() = locale.language
+
+    val isApi: Boolean
+        get() = currentRequest?.servletPath?.startsWith("/api") == true
 
     fun userIdOrNull(request: HttpServletRequest): String? {
         return request.getHeader(HEADER_USER_ID)

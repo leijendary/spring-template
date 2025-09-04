@@ -1,7 +1,7 @@
 package com.leijendary.domain.sample
 
 import com.leijendary.domain.sample.Sample.Companion.ENTITY
-import com.leijendary.domain.sample.Sample.Companion.ERROR_SOURCE
+import com.leijendary.domain.sample.Sample.Companion.POINTER_ID
 import com.leijendary.error.exception.ResourceNotFoundException
 import com.leijendary.model.Cursorable
 import org.springframework.data.domain.Page
@@ -43,10 +43,10 @@ interface SampleRepository : CrudRepository<Sample, String>, PagingAndSortingRep
 
 @Transactional(readOnly = true)
 fun <T> SampleRepository.findByIdOrThrow(id: String, type: Class<T>): T {
-    return findById(id, type).orElseThrow { ResourceNotFoundException(id, ENTITY, ERROR_SOURCE) }
+    return findById(id, type).orElseThrow { ResourceNotFoundException(id, ENTITY, POINTER_ID) }
 }
 
 @Transactional(readOnly = true)
 fun SampleRepository.findByIdOrThrow(id: String): Sample {
-    return findById(id).orElseThrow { ResourceNotFoundException(id, ENTITY, ERROR_SOURCE) }
+    return findById(id).orElseThrow { ResourceNotFoundException(id, ENTITY, POINTER_ID) }
 }

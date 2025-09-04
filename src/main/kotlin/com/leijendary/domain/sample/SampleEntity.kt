@@ -1,6 +1,5 @@
 package com.leijendary.domain.sample
 
-import com.leijendary.model.ErrorSource
 import com.leijendary.projection.ImageProjection
 import com.leijendary.projection.LocaleProjection
 import com.leijendary.projection.PrefixedIDProjection
@@ -48,7 +47,7 @@ data class Sample(var name: String, var description: String?, var amount: BigDec
 
     companion object {
         const val ENTITY = "sample"
-        val ERROR_SOURCE = ErrorSource(pointer = "/data/$ENTITY/id")
+        const val POINTER_ID = "#/data/$ENTITY/id"
 
         private const val ID_PREFIX = "spl"
     }

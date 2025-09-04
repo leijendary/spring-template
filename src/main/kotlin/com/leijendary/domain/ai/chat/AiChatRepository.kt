@@ -1,7 +1,7 @@
 package com.leijendary.domain.ai.chat
 
 import com.leijendary.domain.ai.chat.AiChat.Companion.ENTITY
-import com.leijendary.domain.ai.chat.AiChat.Companion.ERROR_SOURCE
+import com.leijendary.domain.ai.chat.AiChat.Companion.POINTER_ID
 import com.leijendary.error.exception.ResourceNotFoundException
 import com.leijendary.model.Cursorable
 import org.springframework.data.jdbc.repository.query.Query
@@ -37,5 +37,5 @@ interface AiChatRepository : CrudRepository<AiChat, String>, PagingAndSortingRep
 @Transactional(readOnly = true)
 fun <T> AiChatRepository.findFirstByIdAndCreatedByOrThrow(id: String, createdBy: String, type: Class<T>): T {
     return findFirstByIdAndCreatedBy(id, createdBy, type)
-        .orElseThrow { ResourceNotFoundException(id, ENTITY, ERROR_SOURCE) }
+        .orElseThrow { ResourceNotFoundException(id, ENTITY, POINTER_ID) }
 }
