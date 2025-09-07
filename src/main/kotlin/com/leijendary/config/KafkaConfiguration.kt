@@ -38,7 +38,7 @@ class KafkaConfiguration(
     @Bean
     fun topicConcurrencyEnhancer() = AnnotationEnhancer { attributes, method ->
         val annotation = method.getAnnotation(KafkaListener::class.java)
-        var concurrency = annotation.topics.maxOf { kafkaTopicProperties[it]?.partitions ?: 1 }
+        val concurrency = annotation.topics.maxOf { kafkaTopicProperties[it]?.partitions ?: 1 }
         attributes["concurrency"] = concurrency.toString()
         attributes
     }

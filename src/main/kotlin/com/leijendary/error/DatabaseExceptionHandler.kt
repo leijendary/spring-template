@@ -65,7 +65,7 @@ class DatabaseExceptionHandler(private val messageSource: MessageSource) {
 
         if (commas > 0) {
             val i = value.indexOfReverse(',', commas)
-            value = value.substring(0, i)
+            value = value.take(i)
         }
         val (code, status) = when (exception.sqlState) {
             "23503" -> if (detail.contains(DETAIL_STILL_REFERENCED)) {
