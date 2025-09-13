@@ -48,7 +48,7 @@ class SampleServiceImpl(
     }
 
     override fun cursor(queryRequest: QueryRequest, cursorable: Cursorable): CursoredModel<SampleResponse> {
-        val samples = sampleRepository.cursor(queryRequest.query, cursorable).toMutableList()
+        val samples = sampleRepository.cursor(queryRequest.query, cursorable).map { it.toResponse() }
 
         return CursoredModel(samples, cursorable)
     }

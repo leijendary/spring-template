@@ -3,11 +3,7 @@ package com.leijendary.domain.sample
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY
 import com.leijendary.domain.image.ImageResponse
-import com.leijendary.error.CODE_DECIMAL_MAX
-import com.leijendary.error.CODE_DECIMAL_MIN
-import com.leijendary.error.CODE_MIN
-import com.leijendary.error.CODE_REQUIRED
-import com.leijendary.error.CODE_SIZE_RANGE
+import com.leijendary.error.*
 import com.leijendary.model.TranslationRequest
 import com.leijendary.projection.CursorProjection
 import com.leijendary.projection.LocaleProjection
@@ -50,6 +46,14 @@ data class SampleTranslationRequest(
     val description: String? = null
 ) : TranslationRequest()
 
+data class SampleCursor(
+    override val id: String,
+    val name: String,
+    val description: String?,
+    val amount: BigDecimal,
+    override val createdAt: Instant
+) : CursorProjection
+
 data class SampleResponse(
     override val id: String,
     val name: String,
@@ -90,6 +94,10 @@ fun List<SampleTranslationRequest>.toEntities(id: String) = map { it.toEntity(id
 
 fun SampleTranslationRequest.toEntity(id: String): SampleTranslation {
     return SampleTranslation(name, description, language, ordinal).apply { this.id = id }
+}
+
+fun SampleCursor.toResponse(): SampleResponse {
+    return SampleResponse(id, name, description, amount, createdAt)
 }
 
 fun SampleDetailResponse.applyTranslation(translation: SampleTranslation) {

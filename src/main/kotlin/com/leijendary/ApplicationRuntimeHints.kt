@@ -66,7 +66,7 @@ class ApplicationRuntimeHints : RuntimeHintsRegistrar {
             UniqueFieldsValidator::class.java,
             ValidatingVisitorGeneratorFactory::class.java,
             // Inaccessible classes
-            Class.forName("${RetryTopicConfigurer::class.qualifiedName}\$LoggingDltListenerHandlerMethod"),
+            Class.forName($$"$${RetryTopicConfigurer::class.qualifiedName}$LoggingDltListenerHandlerMethod"),
         )
         // Methods to be registered for reflection
         val methods = arrayOf(MicrometerObservationCapability::class.java.getMethod("enrich", Client::class.java))

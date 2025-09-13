@@ -14,17 +14,21 @@ data class Cursorable(val size: Int = 20, val createdAt: Instant? = null, val id
     val timestamp = createdAt?.let(Timestamp::from)
 }
 
-data class CursoredModel<T : CursorProjection>(val content: MutableList<T>, private val cursorable: Cursorable) {
-    val cursor = CursorMetadata(cursorable.size).apply {
-        if (content.size <= cursorable.size) {
-            return@apply
+data class CursoredModel<T : CursorProjection>(private val list: List<T>, private val cursorable: Cursorable) {
+    val content = list.toMutableList()
+    val metadata = CursorMetadata(cursorable.size)
+
+    init {
+        if (cursorable.size < content.size) {
+            content.removeLast()
+
+            val last = list.lastOrNull()
+
+            metadata.apply {
+                id = last?.id
+                createdAt = last?.createdAt
+            }
         }
-
-        content.removeLast()
-
-        val last = content.lastOrNull()
-        id = last?.id
-        createdAt = last?.createdAt
     }
 }
 

@@ -10,7 +10,7 @@ import org.springframework.transaction.support.TransactionTemplate
 
 @Component
 class DatabaseContext(
-    @Qualifier(BEAN_READ_ONLY_TRANSACTION_TEMPLATE)
+    @param:Qualifier(BEAN_READ_ONLY_TRANSACTION_TEMPLATE)
     private val readOnlyTransactionalTemplate: TransactionTemplate,
 
     private val transactionTemplate: TransactionTemplate

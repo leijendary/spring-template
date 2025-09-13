@@ -9,7 +9,7 @@ import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.Pattern
 import jakarta.validation.constraints.Size
 
-private const val PATTERN_NAME = "^[\\w,\\s-]+\\.(jpeg|jpg|png)\$"
+private const val PATTERN_NAME = "^[\\w,\\s-]+\\.(jpeg|jpg|png)$"
 
 data class ImageCreateUrlRequest(
     @field:NotBlank(message = CODE_REQUIRED)
