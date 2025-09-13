@@ -1,8 +1,8 @@
 package com.leijendary.domain.sample
 
+import com.leijendary.model.PrefixedIDEntity
 import com.leijendary.projection.ImageProjection
 import com.leijendary.projection.LocaleProjection
-import com.leijendary.projection.PrefixedIDProjection
 import org.springframework.data.annotation.*
 import org.springframework.data.domain.Persistable
 import org.springframework.data.relational.core.mapping.Table
@@ -10,10 +10,7 @@ import java.math.BigDecimal
 import java.time.Instant
 
 @Table
-data class Sample(var name: String, var description: String?, var amount: BigDecimal) : PrefixedIDProjection {
-    @Id
-    private lateinit var id: String
-
+data class Sample(var name: String, var description: String?, var amount: BigDecimal) : PrefixedIDEntity() {
     @Version
     var version: Int = 0
 
@@ -31,18 +28,6 @@ data class Sample(var name: String, var description: String?, var amount: BigDec
 
     override fun getIdPrefix(): String {
         return ID_PREFIX
-    }
-
-    override fun setId(id: String) {
-        this.id = id
-    }
-
-    override fun getId(): String {
-        return id
-    }
-
-    override fun isNew(): Boolean {
-        return !this::id.isInitialized
     }
 
     companion object {

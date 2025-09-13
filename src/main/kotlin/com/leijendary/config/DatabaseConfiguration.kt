@@ -5,7 +5,7 @@ import com.leijendary.config.DataSourceType.READ_WRITE
 import com.leijendary.config.properties.DataSourcePrimaryProperties
 import com.leijendary.config.properties.DataSourceReadOnlyProperties
 import com.leijendary.context.RequestContext.userIdOrSystem
-import com.leijendary.projection.PrefixedIDProjection
+import com.leijendary.model.PrefixedIDEntity
 import com.zaxxer.hikari.HikariDataSource
 import io.github.thibaultmeyer.cuid.CUID
 import org.springframework.boot.context.properties.EnableConfigurationProperties
@@ -75,7 +75,7 @@ class DatabaseConfiguration {
     }
 
     @Bean
-    fun prefixedIdBeforeConvertCallback() = BeforeConvertCallback<PrefixedIDProjection> {
+    fun prefixedIdBeforeConvertCallback() = BeforeConvertCallback<PrefixedIDEntity> {
         if (it.isNew) {
             it.setId("${it.getIdPrefix()}_${CUID.randomCUID2()}")
         }

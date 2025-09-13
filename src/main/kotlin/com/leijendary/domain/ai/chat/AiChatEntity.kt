@@ -1,17 +1,13 @@
 package com.leijendary.domain.ai.chat
 
-import com.leijendary.projection.PrefixedIDProjection
+import com.leijendary.model.PrefixedIDEntity
 import org.springframework.data.annotation.CreatedBy
 import org.springframework.data.annotation.CreatedDate
-import org.springframework.data.annotation.Id
 import org.springframework.data.relational.core.mapping.Table
 import java.time.Instant
 
 @Table
-data class AiChat(var title: String = DEFAULT_TITLE) : PrefixedIDProjection {
-    @Id
-    private lateinit var id: String
-
+data class AiChat(var title: String = DEFAULT_TITLE) : PrefixedIDEntity() {
     @CreatedDate
     lateinit var createdAt: Instant
 
@@ -20,18 +16,6 @@ data class AiChat(var title: String = DEFAULT_TITLE) : PrefixedIDProjection {
 
     override fun getIdPrefix(): String {
         return ID_PREFIX
-    }
-
-    override fun setId(id: String) {
-        this.id = id
-    }
-
-    override fun getId(): String {
-        return id
-    }
-
-    override fun isNew(): Boolean {
-        return !this::id.isInitialized
     }
 
     companion object {
