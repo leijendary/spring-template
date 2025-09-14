@@ -112,6 +112,9 @@ spring:
     password:
   jackson:
     defaultPropertyInclusion: NON_ABSENT
+  jdbc:
+    template:
+      fetchSize: 100
   kafka:
     bootstrapServers:
     clientId: ${name}
