@@ -12,7 +12,7 @@ import java.net.URI
 
 fun Model.withProblemDetail(bindingResult: BindingResult): Model {
     val errors = bindingResult.allErrors.toErrorModels(messageSource)
-    val problemDetail = ProblemDetail.forStatusAndDetail(BAD_REQUEST, "Invalid request content.").apply {
+    val problemDetail = ProblemDetail.forStatusAndDetail(BAD_REQUEST, "Invalid request content").apply {
         title = BAD_REQUEST.reasonPhrase
         instance = currentRequest?.requestURI?.let(::URI)
         setProperty(PROPERTY_ERRORS, errors)

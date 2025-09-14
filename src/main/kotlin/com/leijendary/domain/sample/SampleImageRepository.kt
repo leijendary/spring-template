@@ -7,6 +7,8 @@ import java.util.*
 @Transactional(readOnly = true)
 interface SampleImageRepository : CrudRepository<SampleImage, String> {
     fun <T> findById(id: String, type: Class<T>): Optional<T>
+
+    fun <T> findByIdIn(ids: Set<String>, type: Class<T>): List<T>
 }
 
 @Transactional(readOnly = true)

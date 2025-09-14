@@ -98,4 +98,4 @@ fun Sample.updateWith(request: SampleRequest) {
 
 fun List<SampleTranslation>.toResponses() = map { it.toResponse() }
 
-fun SampleTranslation.toResponse() = SampleTranslationResponse(name, description, language, ordinal)
+fun SampleTranslation.toResponse() = SampleTranslationResponse(id, name, description, language, ordinal)

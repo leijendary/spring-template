@@ -7,6 +7,8 @@ aws:
 
 logging:
   includeApplicationName: false
+  level:
+    org.springframework.jdbc: DEBUG
   pattern:
     correlation:
 

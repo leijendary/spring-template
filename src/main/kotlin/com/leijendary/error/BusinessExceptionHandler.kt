@@ -27,7 +27,7 @@ class BusinessExceptionHandler(private val messageSource: MessageSource) {
         val arguments = arrayOf(exception.entity)
         val message = messageSource.getMessage(CODE_RESOURCE_NOT_FOUND, arguments, locale)
         val error = ErrorModel(CODE_RESOURCE_NOT_FOUND, message, exception.pointer, exception.id.toString())
-        val problemDetail = ProblemDetail.forStatusAndDetail(NOT_FOUND, "Data integrity.").apply {
+        val problemDetail = ProblemDetail.forStatusAndDetail(NOT_FOUND, "Data integrity").apply {
             title = NOT_FOUND.reasonPhrase
             instance = request?.requestURI?.let(::URI)
             setProperty(PROPERTY_ERRORS, listOf(error))
@@ -47,7 +47,7 @@ class BusinessExceptionHandler(private val messageSource: MessageSource) {
         val arguments = arrayOf(field, exception.value)
         val message = messageSource.getMessage(CODE_ALREADY_EXISTS, arguments, locale)
         val error = ErrorModel(CODE_ALREADY_EXISTS, message, exception.pointer, exception.value.toString())
-        val problemDetail = ProblemDetail.forStatusAndDetail(CONFLICT, "Data integrity.").apply {
+        val problemDetail = ProblemDetail.forStatusAndDetail(CONFLICT, "Data integrity").apply {
             title = CONFLICT.reasonPhrase
             instance = request?.requestURI?.let(::URI)
             setProperty(PROPERTY_ERRORS, listOf(error))

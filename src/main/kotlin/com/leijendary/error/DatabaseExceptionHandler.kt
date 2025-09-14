@@ -2,6 +2,7 @@ package com.leijendary.error
 
 import com.leijendary.context.RequestContext.locale
 import com.leijendary.extension.indexOfReverse
+import com.leijendary.extension.logger
 import com.leijendary.extension.lowerCaseFirst
 import com.leijendary.extension.snakeCaseToCamelCase
 import com.leijendary.model.ErrorModel
@@ -20,6 +21,8 @@ import java.net.URI
 @RestControllerAdvice
 @Order(1)
 class DatabaseExceptionHandler(private val messageSource: MessageSource) {
+    private val log = logger()
+
     @ExceptionHandler(OptimisticLockingFailureException::class)
     fun handleOptimisticLockingFailure(
         exception: OptimisticLockingFailureException,
@@ -28,7 +31,7 @@ class DatabaseExceptionHandler(private val messageSource: MessageSource) {
         val entity = exception.message!!.substringAfterLast(".").lowerCaseFirst()
         val message = messageSource.getMessage(CODE_DATA_VERSION_CONFLICT, null, locale)
         val error = ErrorModel(CODE_DATA_VERSION_CONFLICT, message, "#/data/$entity/version")
-        val problemDetail = ProblemDetail.forStatusAndDetail(CONFLICT, "Outdated data version.").apply {
+        val problemDetail = ProblemDetail.forStatusAndDetail(CONFLICT, "Outdated data version").apply {
             title = CONFLICT.reasonPhrase
             instance = request?.requestURI?.let(::URI)
             setProperty(PROPERTY_ERRORS, listOf(error))
@@ -44,14 +47,18 @@ class DatabaseExceptionHandler(private val messageSource: MessageSource) {
         val errorMessage = exception.serverErrorMessage
 
         if (errorMessage === null) {
-            throw RuntimeException(exception)
+            log.error("Error message is null", exception)
+
+            return serverError(request)
         }
 
         val table = errorMessage.table?.snakeCaseToCamelCase()
         val detail = errorMessage.detail
 
         if (table === null || detail === null) {
-            throw RuntimeException(exception)
+            log.error("Table or detail is null", exception)
+
+            return serverError(request)
         }
 
         val key = detail.substringAfter("Key (").substringBefore(")=")
@@ -82,7 +89,24 @@ class DatabaseExceptionHandler(private val messageSource: MessageSource) {
         val message = messageSource.getMessage(code, arguments, locale)
         val pointer = "#/data/$table/$column"
         val error = ErrorModel(code, message, pointer)
-        val problemDetail = ProblemDetail.forStatusAndDetail(status, "Data integrity.").apply {
+        val problemDetail = ProblemDetail.forStatusAndDetail(status, "Data integrity").apply {
+            title = status.reasonPhrase
+            instance = request?.requestURI?.let(::URI)
+            setProperty(PROPERTY_ERRORS, listOf(error))
+        }
+
+        return ResponseEntity
+            .status(status)
+            .body(problemDetail)
+    }
+
+    private fun serverError(request: HttpServletRequest?): ResponseEntity<Any> {
+        val code = CODE_SERVER_ERROR
+        val message = messageSource.getMessage(code, null, locale)
+        val pointer = "#/data"
+        val error = ErrorModel(code, message, pointer)
+        val status = INTERNAL_SERVER_ERROR
+        val problemDetail = ProblemDetail.forStatusAndDetail(status, "Data source error").apply {
             title = status.reasonPhrase
             instance = request?.requestURI?.let(::URI)
             setProperty(PROPERTY_ERRORS, listOf(error))

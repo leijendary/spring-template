@@ -1,5 +1,6 @@
 package com.leijendary.domain.image
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import com.leijendary.error.CODE_IMAGE_NAME
 import com.leijendary.error.CODE_REQUIRED
 import com.leijendary.error.CODE_SIZE_RANGE
@@ -69,6 +70,9 @@ data class ImageMultiValidateResponse(
 )
 
 data class ImageResponse(
+    @field:JsonIgnore
+    val id: String,
+
     override var original: String,
     override var preview: String,
     override var thumbnail: String

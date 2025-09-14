@@ -1,5 +1,6 @@
 package com.leijendary.domain.sample
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY
 import com.leijendary.domain.image.ImageResponse
@@ -82,6 +83,9 @@ data class SampleDetailResponse(
 }
 
 data class SampleTranslationResponse(
+    @field:JsonIgnore
+    val id: String,
+
     var name: String,
     var description: String?,
     override var language: String,

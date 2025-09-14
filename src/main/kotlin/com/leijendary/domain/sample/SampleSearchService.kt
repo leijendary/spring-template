@@ -83,20 +83,17 @@ class SampleSearchServiceImpl(
     override fun reindex(): Int {
         val count = AtomicInteger()
 
-        sampleRepository.streamBy(SampleDetailResponse::class.java)
-            .parallel()
-            .map(::mapStream)
-            .use {
-                it.asSequence()
-                    .chunked(STREAM_CHUNK)
-                    .forEach { list ->
-                        sampleSearchRepository.saveAll(list)
+        sampleRepository.streamBy(SampleDetailResponse::class.java).parallel().use { stream ->
+            stream.asSequence().chunked(STREAM_CHUNK).forEach { list ->
+                val mapped = mapList(list)
 
-                        val current = count.addAndGet(list.size)
+                sampleSearchRepository.saveAll(mapped)
 
-                        log.info("Synced $current samples.")
-                    }
+                val current = count.addAndGet(list.size)
+
+                log.info("Synced $current samples.")
             }
+        }
 
         return count.get()
     }
@@ -135,19 +132,24 @@ class SampleSearchServiceImpl(
         return result
     }
 
-    private fun mapStream(sample: SampleDetailResponse): SampleSearch {
-        val image = supplyAsync {
-            sampleImageRepository.findByIdOrNull(sample.id, ImageResponse::class.java)
+    private fun mapList(samples: List<SampleDetailResponse>): List<SampleSearch> {
+        val ids = samples.mapTo(mutableSetOf()) { it.id }
+        val imagesFuture = supplyAsync {
+            sampleImageRepository.findByIdIn(ids, ImageResponse::class.java).associateBy { it.id }
         }
-        val translations = supplyAsync {
-            sampleTranslationRepository.findById(sample.id, SampleTranslationResponse::class.java)
+        val translationsFuture = supplyAsync {
+            sampleTranslationRepository.findByIdIn(ids, SampleTranslationResponse::class.java).groupBy { it.id }
         }
+        val images = imagesFuture.get()
+        val translations = translationsFuture.get()
 
-        sample.apply {
-            this.image = image.get()
-            this.translations.addAll(translations.get())
-        }
+        return samples.map {
+            it.apply {
+                this.image = images[id]
+                this.translations.addAll(translations[id] ?: mutableListOf())
+            }
 
-        return map(sample)
+            map(it)
+        }
     }
 }

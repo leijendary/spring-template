@@ -10,4 +10,6 @@ interface SampleTranslationRepository : ListCrudRepository<SampleTranslation, St
     fun findFirstByIdAndLanguage(id: String, language: String): SampleTranslation?
 
     fun <T> findById(id: String, type: Class<T>): List<T>
+
+    fun <T> findByIdIn(ids: Set<String>, type: Class<T>): List<T>
 }
