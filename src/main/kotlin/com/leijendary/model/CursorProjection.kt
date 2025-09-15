@@ -1,4 +1,4 @@
-package com.leijendary.projection
+package com.leijendary.model
 
 import java.time.Instant
 

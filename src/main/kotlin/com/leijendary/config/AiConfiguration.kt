@@ -16,7 +16,7 @@ import org.springframework.core.io.Resource
 interface ToolContainer
 
 @Configuration(proxyBeanMethods = false)
-class AiConfiguration(private val tools: List<ToolContainer>) {
+class AiConfiguration {
     @Value("classpath:prompts/general-instruction-system.txt")
     private lateinit var generalInstructionSystem: Resource
 
@@ -24,7 +24,12 @@ class AiConfiguration(private val tools: List<ToolContainer>) {
     private lateinit var titleGeneratorSystem: Resource
 
     @Bean
-    fun chatClient(builder: ChatClient.Builder, chatMemory: ChatMemory, vectorStore: VectorStore): ChatClient {
+    fun chatClient(
+        builder: ChatClient.Builder,
+        chatMemory: ChatMemory,
+        tools: List<ToolContainer>,
+        vectorStore: VectorStore
+    ): ChatClient {
         val memoryAdvisor = MessageChatMemoryAdvisor.builder(chatMemory).build()
         val documentRetriever = VectorStoreDocumentRetriever.builder()
             .vectorStore(vectorStore)

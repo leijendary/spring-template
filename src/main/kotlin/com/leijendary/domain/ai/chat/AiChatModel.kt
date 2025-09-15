@@ -2,7 +2,7 @@ package com.leijendary.domain.ai.chat
 
 import com.leijendary.error.CODE_REQUIRED
 import com.leijendary.error.CODE_SIZE_RANGE
-import com.leijendary.projection.CursorProjection
+import com.leijendary.model.CursorProjection
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.Size
 import org.springframework.ai.chat.messages.MessageType

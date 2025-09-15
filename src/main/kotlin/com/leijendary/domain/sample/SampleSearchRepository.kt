@@ -1,7 +1,7 @@
 package com.leijendary.domain.sample
 
 import co.elastic.clients.elasticsearch._types.ScriptLanguage
-import com.leijendary.projection.ImageProjection
+import com.leijendary.model.ImageProjection
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.data.elasticsearch.annotations.Query

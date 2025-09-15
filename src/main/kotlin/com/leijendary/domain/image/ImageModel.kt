@@ -1,10 +1,9 @@
 package com.leijendary.domain.image
 
-import com.fasterxml.jackson.annotation.JsonIgnore
 import com.leijendary.error.CODE_IMAGE_NAME
 import com.leijendary.error.CODE_REQUIRED
 import com.leijendary.error.CODE_SIZE_RANGE
-import com.leijendary.projection.ImageProjection
+import com.leijendary.model.ImageProjection
 import jakarta.validation.Valid
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.Pattern
@@ -68,12 +67,3 @@ data class ImageMultiValidateResponse(
     val preview: ImageValidateResponse,
     val thumbnail: ImageValidateResponse
 )
-
-data class ImageResponse(
-    @field:JsonIgnore
-    val id: String,
-
-    override var original: String,
-    override var preview: String,
-    override var thumbnail: String
-) : ImageProjection

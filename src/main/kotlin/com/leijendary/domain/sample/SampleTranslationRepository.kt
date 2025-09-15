@@ -8,8 +8,4 @@ import org.springframework.transaction.annotation.Transactional
 interface SampleTranslationRepository : ListCrudRepository<SampleTranslation, String> {
     @Query("SELECT * FROM sample_translation WHERE id = :id ORDER BY (language = :language)::int DESC, ordinal LIMIT 1")
     fun findFirstByIdAndLanguage(id: String, language: String): SampleTranslation?
-
-    fun <T> findById(id: String, type: Class<T>): List<T>
-
-    fun <T> findByIdIn(ids: Set<String>, type: Class<T>): List<T>
 }

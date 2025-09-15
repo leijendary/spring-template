@@ -1,6 +1,6 @@
 package com.leijendary.domain.image
 
-import com.leijendary.model.PrefixedIDEntity
+import com.leijendary.model.PrefixedIdEntity
 import org.springframework.data.annotation.CreatedBy
 import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.Id
@@ -9,7 +9,7 @@ import org.springframework.data.relational.core.mapping.Table
 import java.time.Instant
 
 @Table
-data class Image(var name: String) : PrefixedIDEntity() {
+data class Image(var name: String) : PrefixedIdEntity() {
     var mediaType: String? = null
     var validated: Boolean = false
 

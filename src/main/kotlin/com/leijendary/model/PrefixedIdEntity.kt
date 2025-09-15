@@ -3,7 +3,7 @@ package com.leijendary.model
 import org.springframework.data.annotation.Id
 import org.springframework.data.domain.Persistable
 
-abstract class PrefixedIDEntity : Persistable<String> {
+abstract class PrefixedIdEntity : Persistable<String> {
     @Id
     private lateinit var id: String
 

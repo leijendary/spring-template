@@ -1,9 +1,9 @@
 package com.leijendary.domain.sample
 
-import com.leijendary.domain.image.ImageResponse
 import com.leijendary.domain.sample.SampleSearch.Companion.INDEX_NAME
-import com.leijendary.projection.LocaleProjection
-import com.leijendary.projection.LocalizedProjection
+import com.leijendary.model.ImageProjection
+import com.leijendary.model.LocaleProjection
+import com.leijendary.model.LocalizedProjection
 import org.springframework.data.annotation.Id
 import org.springframework.data.elasticsearch.annotations.*
 import org.springframework.data.elasticsearch.annotations.DateFormat.date_time
@@ -30,7 +30,7 @@ data class SampleSearch(
     @Field(type = Nested, includeInParent = true)
     override var translations: List<SampleTranslationSearch> = emptyList(),
 
-    var image: ImageResponse?,
+    var image: ImageProjection?,
 
     @Field(type = Date, format = [date_time])
     var createdAt: Instant,

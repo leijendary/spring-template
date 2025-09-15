@@ -1,19 +1,26 @@
 package com.leijendary.domain.sample
 
-import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY
-import com.leijendary.domain.image.ImageResponse
 import com.leijendary.error.*
+import com.leijendary.model.CursorProjection
+import com.leijendary.model.ImageProjection
+import com.leijendary.model.LocaleProjection
 import com.leijendary.model.TranslationRequest
-import com.leijendary.projection.CursorProjection
-import com.leijendary.projection.LocaleProjection
 import com.leijendary.validator.annotation.UniqueFields
 import jakarta.validation.Valid
 import jakarta.validation.constraints.*
 import org.springframework.data.annotation.Transient
 import java.math.BigDecimal
 import java.time.Instant
+
+data class SampleCursor(
+    override val id: String,
+    val name: String,
+    val description: String?,
+    val amount: BigDecimal,
+    override val createdAt: Instant
+) : CursorProjection
 
 data class SampleRequest(
     @field:NotBlank(message = CODE_REQUIRED)
@@ -47,14 +54,6 @@ data class SampleTranslationRequest(
     val description: String? = null
 ) : TranslationRequest()
 
-data class SampleCursor(
-    override val id: String,
-    val name: String,
-    val description: String?,
-    val amount: BigDecimal,
-    override val createdAt: Instant
-) : CursorProjection
-
 data class SampleResponse(
     override val id: String,
     val name: String,
@@ -63,7 +62,7 @@ data class SampleResponse(
     override val createdAt: Instant
 ) : CursorProjection {
     @Transient
-    var image: ImageResponse? = null
+    var image: ImageProjection? = null
 }
 
 data class SampleDetailResponse(
@@ -79,32 +78,31 @@ data class SampleDetailResponse(
     var translations: MutableList<SampleTranslationResponse> = mutableListOf()
 
     @Transient
-    var image: ImageResponse? = null
+    var image: ImageProjection? = null
 }
 
 data class SampleTranslationResponse(
-    @field:JsonIgnore
-    val id: String,
-
     var name: String,
     var description: String?,
     override var language: String,
     override var ordinal: Int
 ) : LocaleProjection
 
-fun SampleRequest.toEntity() = Sample(name, description, amount)
+data class SampleMessage(
+    val id: String,
+    var name: String,
+    var description: String?,
+    val amount: BigDecimal,
+    val version: Int,
+    val translations: List<SampleTranslationMessage>,
+    val image: ImageProjection?,
+    val createdAt: Instant,
+    val lastModifiedAt: Instant
+)
 
-fun List<SampleTranslationRequest>.toEntities(id: String) = map { it.toEntity(id) }
-
-fun SampleTranslationRequest.toEntity(id: String): SampleTranslation {
-    return SampleTranslation(name, description, language, ordinal).apply { this.id = id }
-}
-
-fun SampleCursor.toResponse(): SampleResponse {
-    return SampleResponse(id, name, description, amount, createdAt)
-}
-
-fun SampleDetailResponse.applyTranslation(translation: SampleTranslation) {
-    name = translation.name
-    description = translation.description ?: description
-}
+data class SampleTranslationMessage(
+    var name: String,
+    var description: String?,
+    override var language: String,
+    override var ordinal: Int,
+) : LocaleProjection

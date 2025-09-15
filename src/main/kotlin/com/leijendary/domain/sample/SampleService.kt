@@ -3,7 +3,6 @@ package com.leijendary.domain.sample
 import com.leijendary.context.DatabaseContext
 import com.leijendary.context.RequestContext.language
 import com.leijendary.domain.image.ImageRequest
-import com.leijendary.domain.image.ImageResponse
 import com.leijendary.domain.image.ImageService
 import com.leijendary.domain.sample.Sample.Companion.ENTITY
 import com.leijendary.domain.sample.SampleSearch.Companion.POINTER_ID
@@ -14,6 +13,7 @@ import com.leijendary.model.CursoredModel
 import com.leijendary.model.QueryRequest
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 
 interface SampleService {
@@ -48,7 +48,7 @@ class SampleServiceImpl(
     }
 
     override fun cursor(queryRequest: QueryRequest, cursorable: Cursorable): CursoredModel<SampleResponse> {
-        val samples = sampleRepository.cursor(queryRequest.query, cursorable).map { it.toResponse() }
+        val samples = sampleRepository.cursor(queryRequest.query, cursorable).map(SampleMapperImpl::toResponse)
 
         return CursoredModel(samples, cursorable)
     }
@@ -56,35 +56,39 @@ class SampleServiceImpl(
     override fun create(request: SampleRequest): SampleDetailResponse {
         log.info("Creating $ENTITY from request {}", request)
 
-        val response = databaseContext.transactional {
-            val sample = sampleRepository.save(request.toEntity())
-            val translations = sampleTranslationRepository.saveAll(request.translations.toEntities(sample.id))
+        val sample = databaseContext.transactional {
+            val sample = sampleRepository.save(SampleMapperImpl.toEntity(request))
+            var translations = request.translations.map {
+                SampleMapperImpl.toEntity(it).apply { this.id = sample.id }
+            }
+            translations = sampleTranslationRepository.saveAll(translations)
 
-            sample.toDetailResponse(translations)
+            sample.apply { this.translations = translations }
         }
 
-        log.info("Created $ENTITY {} from request {}", response.id, request)
+        log.info("Created $ENTITY {} from request {}", sample.id, request)
 
-        sampleMessageProducer.created(response)
+        sampleMessageProducer.created(sample)
 
-        return response
+        return SampleMapperImpl.toDetailResponse(sample)
     }
 
     override fun get(id: String, translate: Boolean): SampleDetailResponse {
         val response = sampleRepository.findByIdOrThrow(id, SampleDetailResponse::class.java)
-        val image = sampleImageRepository.findByIdOrNull(id, ImageResponse::class.java)
+        val image = sampleImageRepository.findByIdOrNull(id)
         response.image = image?.let(imageService::getPublicUrl)
 
         if (translate) {
             val translation = sampleTranslationRepository.findFirstByIdAndLanguage(id, language)
-            translation?.let(response::applyTranslation)
+            translation?.let { SampleMapperImpl.applyTranslation(response, it) }
 
             // Translation is already enabled, just return the translated record itself
             return response
         }
 
-        val translations = sampleTranslationRepository.findById(id, SampleTranslationResponse::class.java)
-        response.translations.addAll(translations)
+        response.translations = sampleTranslationRepository.findAllById(listOf(id))
+            .map(SampleMapperImpl::toResponse)
+            .toMutableList()
 
         return response
     }
@@ -92,26 +96,30 @@ class SampleServiceImpl(
     override fun update(id: String, request: SampleRequest): SampleDetailResponse {
         log.info("Updating $ENTITY {} with request {}", id, request)
 
-        val response = databaseContext.transactional {
+        val sample = databaseContext.transactional {
             var sample = sampleRepository.findByIdOrThrow(id)
-            sample.updateWith(request)
+            SampleMapperImpl.update(request, sample)
             sample = sampleRepository.save(sample)
 
             // Remove all translations from the database, and re-save them afterward.
             sampleTranslationRepository.deleteById(id)
 
-            var translations = request.translations.toEntities(id)
+            var translations = request.translations.map {
+                SampleMapperImpl.toEntity(it).apply { this.id = id }
+            }
             translations = sampleTranslationRepository.saveAll(translations)
 
-            sample.toDetailResponse(translations)
+            sample.apply { this.translations = translations }
         }
 
         log.info("Updated $ENTITY {} with request {}", id, request)
 
-        val image = sampleImageRepository.findByIdOrNull(id, ImageResponse::class.java)
-        response.image = image?.let(imageService::getPublicUrl)
+        sample.image = sampleImageRepository.findByIdOrNull(id)
 
-        sampleMessageProducer.updated(response)
+        sampleMessageProducer.updated(sample)
+
+        val response = SampleMapperImpl.toDetailResponse(sample)
+        response.image = response.image?.let(imageService::getPublicUrl)
 
         return response
     }

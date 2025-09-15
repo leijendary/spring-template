@@ -1,13 +1,13 @@
 package com.leijendary.domain.ai.chat
 
-import com.leijendary.model.PrefixedIDEntity
+import com.leijendary.model.PrefixedIdEntity
 import org.springframework.data.annotation.CreatedBy
 import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.relational.core.mapping.Table
 import java.time.Instant
 
 @Table
-data class AiChat(var title: String = DEFAULT_TITLE) : PrefixedIDEntity() {
+data class AiChat(var title: String = DEFAULT_TITLE) : PrefixedIdEntity() {
     @CreatedDate
     lateinit var createdAt: Instant
 

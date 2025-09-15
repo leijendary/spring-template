@@ -12,13 +12,17 @@ import org.springframework.stereotype.Component
 @Component
 class SampleMessageProducer(private val kafkaTemplate: KafkaTemplate<String, String>) {
     @Retryable
-    fun created(sample: SampleDetailResponse) {
-        kafkaTemplate.send(SAMPLE_CREATED, sample.toJson())
+    fun created(sample: Sample) {
+        val message = SampleMapperImpl.toMessage(sample)
+
+        kafkaTemplate.send(SAMPLE_CREATED, message.toJson())
     }
 
     @Retryable
-    fun updated(sample: SampleDetailResponse) {
-        kafkaTemplate.send(SAMPLE_UPDATED, sample.toJson())
+    fun updated(sample: Sample) {
+        val message = SampleMapperImpl.toMessage(sample)
+
+        kafkaTemplate.send(SAMPLE_UPDATED, message.toJson())
     }
 
     @Retryable

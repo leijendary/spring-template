@@ -7,13 +7,14 @@ import com.leijendary.error.CODE_IMAGE_MEDIA_TYPE
 import com.leijendary.error.exception.ResourceNotFoundException
 import com.leijendary.error.exception.StatusException
 import com.leijendary.extension.logger
-import com.leijendary.projection.ImageProjection
+import com.leijendary.extension.supplyAsyncSpan
+import com.leijendary.model.ImageProjection
 import com.leijendary.storage.BlockStorage
+import io.micrometer.tracing.Tracer
 import org.springframework.http.HttpStatus.BAD_REQUEST
 import org.springframework.http.MediaType.IMAGE_JPEG_VALUE
 import org.springframework.http.MediaType.IMAGE_PNG_VALUE
 import org.springframework.stereotype.Service
-import java.util.concurrent.CompletableFuture.supplyAsync
 
 interface ImageService {
     fun createUploadUrl(request: ImageCreateUrlRequest): ImageCreateUrlResponse
@@ -33,6 +34,7 @@ class ImageServiceImpl(
     private val databaseContext: DatabaseContext,
     private val imageMetadataRepository: ImageMetadataRepository,
     private val imageRepository: ImageRepository,
+    private val tracer: Tracer,
 ) : ImageService {
     private val log = logger()
 
@@ -65,9 +67,9 @@ class ImageServiceImpl(
     }
 
     override fun validate(request: ImageRequest): ImageMultiValidateResponse {
-        val originalFuture = supplyAsync { validate(request.original) }
-        val previewFuture = supplyAsync { validate(request.preview) }
-        val thumbnailFuture = supplyAsync { validate(request.thumbnail) }
+        val originalFuture = tracer.supplyAsyncSpan { validate(request.original) }
+        val previewFuture = tracer.supplyAsyncSpan { validate(request.preview) }
+        val thumbnailFuture = tracer.supplyAsyncSpan { validate(request.thumbnail) }
 
         return ImageMultiValidateResponse(originalFuture.get(), previewFuture.get(), thumbnailFuture.get())
     }
@@ -87,7 +89,7 @@ class ImageServiceImpl(
         if (contentType !in IMAGE_MEDIA_TYPES) {
             log.info("$ENTITY {} with type {} is not in {}. Deleting.", name, contentType, IMAGE_MEDIA_TYPES)
 
-            supplyAsync {
+            tracer.supplyAsyncSpan {
                 blockStorage.delete(path)
                 delete(name)
             }

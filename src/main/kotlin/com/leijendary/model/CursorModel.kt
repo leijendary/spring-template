@@ -1,7 +1,7 @@
 package com.leijendary.model
 
 import com.fasterxml.jackson.annotation.JsonIgnore
-import com.leijendary.projection.CursorProjection
+import com.fasterxml.jackson.annotation.JsonProperty
 import java.sql.Timestamp
 import java.time.Instant
 
@@ -16,6 +16,8 @@ data class Cursorable(val size: Int = 20, val createdAt: Instant? = null, val id
 
 data class CursoredModel<T : CursorProjection>(private val list: List<T>, private val cursorable: Cursorable) {
     val content = list.toMutableList()
+
+    @field:JsonProperty("cursor")
     val metadata = CursorMetadata(cursorable.size)
 
     init {

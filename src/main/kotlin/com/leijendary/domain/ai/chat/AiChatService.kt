@@ -6,6 +6,7 @@ import com.leijendary.domain.ai.chat.AiChat.Companion.POINTER_ID
 import com.leijendary.domain.ai.chat.AiChatFunction.Companion.USER_ID_KEY
 import com.leijendary.error.exception.ResourceNotFoundException
 import com.leijendary.extension.logger
+import com.leijendary.extension.supplyAsyncSpan
 import com.leijendary.model.Cursorable
 import com.leijendary.model.CursoredModel
 import io.micrometer.tracing.Tracer
@@ -14,7 +15,6 @@ import org.springframework.ai.chat.memory.ChatMemory
 import org.springframework.ai.chat.memory.ChatMemory.CONVERSATION_ID
 import org.springframework.stereotype.Service
 import reactor.core.publisher.Flux
-import java.util.concurrent.CompletableFuture.supplyAsync
 
 interface AiChatService {
     fun cursor(cursorable: Cursorable): CursoredModel<AiChatResponse>
@@ -87,13 +87,10 @@ class AiChatServiceImpl(
 
         log.info("Created $ENTITY {}", aiChat.id)
 
-        val span = tracer.currentSpan()
-
-        supplyAsync {
-            tracer.withSpan(span).use { updateTitle(aiChat, request.prompt) }
-        }.exceptionally {
-            log.error("Failed to update the chat title of {}", aiChat.id, it)
-        }
+        tracer.supplyAsyncSpan { updateTitle(aiChat, request.prompt) }
+            .exceptionally {
+                log.error("Failed to update the chat title of {}", aiChat.id, it)
+            }
 
         return aiChat
     }
