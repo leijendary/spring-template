@@ -17,11 +17,17 @@ interface SampleMapper {
     fun toEntity(request: SampleRequest): Sample
 
     fun toEntity(request: SampleTranslationRequest): SampleTranslation
+
     fun toResponse(sample: Sample): SampleResponse
+
     fun toDetailResponse(sample: Sample): SampleDetailResponse
+
     fun toResponse(translation: SampleTranslation): SampleTranslationResponse
+
     fun toMessage(sample: Sample): SampleMessage
+
     fun toMessage(translation: SampleTranslation): SampleTranslationMessage
+
     fun toResponse(cursor: SampleCursor): SampleResponse
 
     @Konvert(
@@ -41,6 +47,7 @@ interface SampleMapper {
     fun toSearch(response: SampleDetailResponse): SampleSearch
 
     fun toSearch(response: SampleTranslationResponse): SampleTranslationSearch
+
     fun toCompletion(names: List<String>) = Completion(names)
 
     fun toResponse(search: SampleSearch, language: String, image: ImageProjection?): SampleResponse {

@@ -24,7 +24,7 @@ data class CursoredModel<T : CursorProjection>(private val list: List<T>, privat
         if (cursorable.size < content.size) {
             content.removeLast()
 
-            val last = list.lastOrNull()
+            val last = content.lastOrNull()
 
             metadata.apply {
                 id = last?.id

@@ -13,30 +13,30 @@ import org.springframework.data.elasticsearch.repository.ElasticsearchRepository
 import org.springframework.stereotype.Repository
 
 private val INDEX = IndexCoordinates.of(SampleSearch.INDEX_NAME)
+private const val QUERY_FIND_BY_TRANSLATIONS = """
+{
+  "bool": {
+    "should": [
+      { "match": { "translations.name": { "query": "#{#query}", "fuzziness": "auto" } } },
+      { "match": { "translations.description": { "query": "#{#query}", "fuzziness": "auto" } } },
+      { "term": { "translations.name.keyword": { "value": "#{#query}", "boost": 2.0, "case_insensitive": true } } }
+    ],
+    "minimum_should_match": "1"
+  }
+}
+"""
 private const val SCRIPT_IMAGE_SET = "ctx._source.image = params.image"
 private const val SCRIPT_IMAGE_DELETE = "ctx._source.remove('image')"
 private const val PARAM_IMAGE = "image"
 
 interface SampleSearchRepository : SampleSearchCustomRepository, ElasticsearchRepository<SampleSearch, String> {
-    @Query(
-        """
-        {
-          "bool": {
-            "should": [
-              { "match": { "translations.name": { "query": "#{#query}", "fuzziness": "auto" } } },
-              { "match": { "translations.description": { "query": "#{#query}", "fuzziness": "auto" } } },
-              { "term": { "translations.name.keyword": { "value": "#{#query}", "boost": 2.0, "case_insensitive": true } } }
-            ],
-            "minimum_should_match": "1"
-          }
-        }
-        """
-    )
+    @Query(QUERY_FIND_BY_TRANSLATIONS)
     fun findByTranslations(query: String, pageable: Pageable): Page<SampleSearch>
 }
 
 interface SampleSearchCustomRepository {
     fun setImage(id: String, image: ImageProjection)
+
     fun deleteImage(id: String)
 }
 

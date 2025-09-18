@@ -27,11 +27,6 @@ import org.springframework.transaction.support.TransactionTemplate
 import java.util.*
 import javax.sql.DataSource
 
-enum class DataSourceType {
-    READ_WRITE,
-    READ_ONLY
-}
-
 @Configuration(proxyBeanMethods = false)
 @EnableConfigurationProperties(DataSourcePrimaryProperties::class, DataSourceReadOnlyProperties::class)
 @EnableJdbcAuditing(auditorAwareRef = "auditorAware")
@@ -93,6 +88,11 @@ class SynchronizedTransactionManager(dataSource: DataSource) : JdbcTransactionMa
 
         super.doBegin(transaction, definition)
     }
+}
+
+enum class DataSourceType {
+    READ_WRITE,
+    READ_ONLY
 }
 
 class TransactionRoutingDataSource(primary: DataSource, readOnly: DataSource) : AbstractRoutingDataSource() {

@@ -8,6 +8,8 @@ import jakarta.validation.constraints.Size
 import org.springframework.ai.chat.messages.MessageType
 import java.time.Instant
 
+data class AiChatCursor(override val id: String, val title: String, override val createdAt: Instant) : CursorProjection
+
 data class AiChatRequest(
     val id: String? = null,
 

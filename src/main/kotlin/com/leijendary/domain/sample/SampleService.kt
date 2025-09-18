@@ -15,6 +15,7 @@ import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
+import kotlin.jvm.optionals.getOrNull
 
 interface SampleService {
     fun page(queryRequest: QueryRequest, pageable: Pageable): Page<SampleResponse>
@@ -79,7 +80,7 @@ class SampleServiceImpl(
         response.image = image?.let(imageService::getPublicUrl)
 
         if (translate) {
-            val translation = sampleTranslationRepository.findFirstByIdAndLanguage(id, language)
+            val translation = sampleTranslationRepository.findByIdAndLanguage(id, language).getOrNull()
             translation?.let { SampleMapperImpl.applyTranslation(response, it) }
 
             // Translation is already enabled, just return the translated record itself

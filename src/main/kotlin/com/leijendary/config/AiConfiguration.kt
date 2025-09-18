@@ -13,8 +13,6 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.core.io.Resource
 
-interface ToolContainer
-
 @Configuration(proxyBeanMethods = false)
 class AiConfiguration {
     @Value("classpath:prompts/general-instruction-system.txt")
@@ -57,3 +55,5 @@ class AiConfiguration {
             .build()
     }
 }
+
+interface ToolContainer

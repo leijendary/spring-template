@@ -10,28 +10,28 @@ import org.springframework.data.repository.PagingAndSortingRepository
 import org.springframework.transaction.annotation.Transactional
 import java.util.*
 
+private const val QUERY_CURSOR = """
+SELECT id, title, created_at
+FROM ai_chat
+WHERE
+    created_by = :createdBy
+    AND (
+        :#{#cursorable.timestamp}::timestamp IS NULL
+        OR :#{#cursorable.id}::text IS NULL
+        OR (created_at, id) < (:#{#cursorable.timestamp}, :#{#cursorable.id})
+    )
+ORDER BY created_at DESC
+LIMIT :#{#cursorable.limit}
+"""
+
 @Transactional(readOnly = true)
 interface AiChatRepository : CrudRepository<AiChat, String>, PagingAndSortingRepository<AiChat, String> {
     fun existsByIdAndCreatedBy(id: String, createdBy: String): Boolean
 
     fun <T> findFirstByIdAndCreatedBy(id: String, createdBy: String, type: Class<T>): Optional<T>
 
-    @Query(
-        """
-        SELECT id, title, created_at
-        FROM ai_chat
-        WHERE
-            created_by = :createdBy
-            AND (
-                :#{#cursorable.timestamp}::timestamp IS NULL
-                OR :#{#cursorable.id}::text IS NULL
-                OR (created_at, id) < (:#{#cursorable.timestamp}, :#{#cursorable.id})
-            )
-        ORDER BY created_at DESC
-        LIMIT :#{#cursorable.limit}
-        """
-    )
-    fun cursor(createdBy: String, cursorable: Cursorable): List<AiChatResponse>
+    @Query(QUERY_CURSOR)
+    fun cursor(createdBy: String, cursorable: Cursorable): List<AiChatCursor>
 }
 
 @Transactional(readOnly = true)

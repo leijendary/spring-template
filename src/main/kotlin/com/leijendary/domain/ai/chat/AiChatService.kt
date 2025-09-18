@@ -35,7 +35,7 @@ class AiChatServiceImpl(
     private val log = logger()
 
     override fun cursor(cursorable: Cursorable): CursoredModel<AiChatResponse> {
-        val chats = aiChatRepository.cursor(userIdOrThrow, cursorable).toMutableList()
+        val chats = aiChatRepository.cursor(userIdOrThrow, cursorable).map(AiChatMapperImpl::toResponse)
 
         return CursoredModel(chats, cursorable)
     }
