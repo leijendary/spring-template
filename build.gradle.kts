@@ -42,19 +42,25 @@ group = "com.leijendary"
 description = "Spring boot template for the microservices architecture."
 version = "0.0.1"
 
+val javaVersion = 21
+
 java {
-    targetCompatibility = JavaVersion.VERSION_25
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(javaVersion)
+    }
 }
 
 kotlin {
     compilerOptions {
         freeCompilerArgs.addAll("-Xjsr305=strict")
     }
+
+    jvmToolchain(javaVersion)
 }
 
 configurations {
     compileOnly {
-        extendsFrom(configurations.annotationProcessor.get())
+        extendsFrom(annotationProcessor.get())
     }
 
     testImplementation {
