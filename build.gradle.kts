@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 import org.openapitools.generator.gradle.plugin.tasks.GenerateTask
 
 val openApiTasks = file("$rootDir/src/main/resources/specs").listFiles()?.map {
@@ -33,7 +31,7 @@ plugins {
 
     kotlin("jvm") version kotlinVersion
     kotlin("plugin.spring") version kotlinVersion
-    id("org.springframework.boot") version "3.5.5"
+    id("org.springframework.boot") version "3.5.6"
     id("io.spring.dependency-management") version "1.1.7"
     id("com.google.devtools.ksp") version ("$kotlinVersion-2.0.3")
     id("org.graalvm.buildtools.native") version "0.11.0"
@@ -45,17 +43,12 @@ description = "Spring boot template for the microservices architecture."
 version = "0.0.1"
 
 java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(23)
-    }
+    targetCompatibility = JavaVersion.VERSION_25
 }
 
 kotlin {
     compilerOptions {
-        apiVersion.set(KotlinVersion.KOTLIN_2_2)
         freeCompilerArgs.addAll("-Xjsr305=strict")
-        languageVersion.set(KotlinVersion.KOTLIN_2_2)
-        jvmTarget.set(JvmTarget.JVM_23)
     }
 }
 

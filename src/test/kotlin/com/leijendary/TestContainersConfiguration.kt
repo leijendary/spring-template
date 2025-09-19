@@ -37,7 +37,7 @@ class TestContainersConfiguration {
         @Bean
         @ServiceConnection
         fun kafkaContainer(): KafkaContainer {
-            return KafkaContainer("apache/kafka-native:3.9.0")
+            return KafkaContainer("apache/kafka-native:3.9.1")
         }
     }
 
@@ -45,7 +45,7 @@ class TestContainersConfiguration {
     class Ollama {
         @Bean
         @ServiceConnection
-        fun ollamaContainer() = object : OllamaContainer("ollama/ollama:0.5.1") {
+        fun ollamaContainer() = object : OllamaContainer("ollama/ollama:0.11.4") {
             override fun containerIsStarted(containerInfo: InspectContainerResponse) {
                 super.containerIsStarted(containerInfo)
 
