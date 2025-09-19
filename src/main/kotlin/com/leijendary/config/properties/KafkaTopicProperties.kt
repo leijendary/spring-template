@@ -4,16 +4,12 @@ import com.leijendary.config.properties.KafkaTopicProperties.KafkaTopic
 import org.springframework.boot.context.properties.ConfigurationProperties
 
 object Topic {
-    const val SAMPLE_CREATED = "sampleCreated"
-    const val SAMPLE_UPDATED = "sampleUpdated"
-    const val SAMPLE_DELETED = "sampleDeleted"
+    const val SAMPLE_CREATED = "sample.created"
+    const val SAMPLE_UPDATED = "sample.updated"
+    const val SAMPLE_DELETED = "sample.deleted"
 }
 
 @ConfigurationProperties("kafka.topic", ignoreUnknownFields = false)
 class KafkaTopicProperties : HashMap<String, KafkaTopic>() {
-    data class KafkaTopic(val name: String, val partitions: Int = 1, val replicas: Int = 1)
-
-    fun nameOf(key: String): String {
-        return getValue(key).name
-    }
+    data class KafkaTopic(val partitions: Int = 1)
 }

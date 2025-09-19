@@ -114,7 +114,7 @@ class CopyOpenApiCustomizer(
             .collect(Collectors.toMap({ it.key }, { it.value.toSet() }, { existing, new -> existing + new }))
 
         return openApi.components.securitySchemes.mapValues {
-            val schemeScopes = allScopes.getValue(it.key)
+            val schemeScopes = allScopes.getOrDefault(it.key, setOf())
 
             SecurityScheme().apply {
                 type = it.value.type

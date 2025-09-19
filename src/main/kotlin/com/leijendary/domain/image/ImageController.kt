@@ -8,7 +8,7 @@ import org.springframework.http.HttpStatus.NO_CONTENT
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("v1/images")
+@RequestMapping("api/v1/images")
 @Tag(name = "Image")
 class ImageController(private val imageService: ImageService) {
     @PostMapping("url")

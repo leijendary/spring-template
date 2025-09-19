@@ -4,16 +4,15 @@ import com.leijendary.context.RequestContext.locale
 import com.leijendary.context.SpringContext.Companion.isProd
 import com.leijendary.extension.logger
 import com.leijendary.model.ErrorModel
-import com.leijendary.model.ErrorSource
+import jakarta.servlet.http.HttpServletRequest
 import org.springframework.context.MessageSource
 import org.springframework.core.annotation.Order
 import org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR
+import org.springframework.http.ProblemDetail
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ExceptionHandler
-import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestControllerAdvice
-
-const val CODE_SERVER_ERROR = "error.serverError"
-val SOURCE_SERVER_INTERNAL = ErrorSource(pointer = "/server/internal")
+import java.net.URI
 
 @RestControllerAdvice
 @Order
@@ -21,13 +20,19 @@ class GlobalExceptionHandler(private val messageSource: MessageSource) {
     private val log = logger()
 
     @ExceptionHandler(Exception::class)
-    @ResponseStatus(INTERNAL_SERVER_ERROR)
-    fun catchException(exception: Exception): List<ErrorModel> {
+    fun handleAll(exception: Exception, request: HttpServletRequest?): ResponseEntity<Any> {
         log.error("Global Exception", exception)
 
         val message = if (isProd) messageSource.getMessage(CODE_SERVER_ERROR, null, locale) else exception.message
-        val error = ErrorModel(code = CODE_SERVER_ERROR, message = message, source = SOURCE_SERVER_INTERNAL)
+        val error = ErrorModel(CODE_SERVER_ERROR, message, POINTER_SERVER_INTERNAL)
+        val problemDetail = ProblemDetail.forStatusAndDetail(INTERNAL_SERVER_ERROR, "General problem").apply {
+            title = INTERNAL_SERVER_ERROR.reasonPhrase
+            instance = request?.requestURI?.let(::URI)
+            setProperty(PROPERTY_ERRORS, listOf(error))
+        }
 
-        return listOf(error)
+        return ResponseEntity
+            .status(problemDetail.status)
+            .body(problemDetail)
     }
 }

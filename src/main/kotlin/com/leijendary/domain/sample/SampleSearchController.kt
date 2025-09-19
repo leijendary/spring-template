@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController
 import kotlin.system.measureTimeMillis
 
 @RestController
-@RequestMapping("v1/samples/search")
+@RequestMapping("api/v1/samples/search")
 @Tag(name = "Sample Search")
 class SampleSearchController(private val sampleSearchService: SampleSearchService) {
     @GetMapping

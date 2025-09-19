@@ -2,17 +2,19 @@ package com.leijendary.domain.image
 
 import com.leijendary.context.DatabaseContext
 import com.leijendary.domain.image.Image.Companion.ENTITY
-import com.leijendary.domain.image.Image.Companion.ERROR_SOURCE_STORAGE_NAME
+import com.leijendary.domain.image.Image.Companion.POINTER_STORAGE_NAME
+import com.leijendary.error.CODE_IMAGE_MEDIA_TYPE
 import com.leijendary.error.exception.ResourceNotFoundException
 import com.leijendary.error.exception.StatusException
 import com.leijendary.extension.logger
-import com.leijendary.projection.ImageProjection
+import com.leijendary.extension.supplyAsyncSpan
+import com.leijendary.model.ImageProjection
 import com.leijendary.storage.BlockStorage
+import io.micrometer.tracing.Tracer
 import org.springframework.http.HttpStatus.BAD_REQUEST
 import org.springframework.http.MediaType.IMAGE_JPEG_VALUE
 import org.springframework.http.MediaType.IMAGE_PNG_VALUE
 import org.springframework.stereotype.Service
-import java.util.concurrent.CompletableFuture.supplyAsync
 
 interface ImageService {
     fun createUploadUrl(request: ImageCreateUrlRequest): ImageCreateUrlResponse
@@ -32,6 +34,7 @@ class ImageServiceImpl(
     private val databaseContext: DatabaseContext,
     private val imageMetadataRepository: ImageMetadataRepository,
     private val imageRepository: ImageRepository,
+    private val tracer: Tracer,
 ) : ImageService {
     private val log = logger()
 
@@ -64,9 +67,9 @@ class ImageServiceImpl(
     }
 
     override fun validate(request: ImageRequest): ImageMultiValidateResponse {
-        val originalFuture = supplyAsync { validate(request.original) }
-        val previewFuture = supplyAsync { validate(request.preview) }
-        val thumbnailFuture = supplyAsync { validate(request.thumbnail) }
+        val originalFuture = tracer.supplyAsyncSpan { validate(request.original) }
+        val previewFuture = tracer.supplyAsyncSpan { validate(request.preview) }
+        val thumbnailFuture = tracer.supplyAsyncSpan { validate(request.thumbnail) }
 
         return ImageMultiValidateResponse(originalFuture.get(), previewFuture.get(), thumbnailFuture.get())
     }
@@ -80,18 +83,18 @@ class ImageServiceImpl(
         }
 
         val response = blockStorage.head(path)
-            ?: throw ResourceNotFoundException(name, ENTITY, ERROR_SOURCE_STORAGE_NAME)
+            ?: throw ResourceNotFoundException(name, ENTITY, POINTER_STORAGE_NAME)
         val contentType = response.contentType()
 
         if (contentType !in IMAGE_MEDIA_TYPES) {
             log.info("$ENTITY {} with type {} is not in {}. Deleting.", name, contentType, IMAGE_MEDIA_TYPES)
 
-            supplyAsync {
+            tracer.supplyAsyncSpan {
                 blockStorage.delete(path)
                 delete(name)
             }
 
-            throw StatusException("validation.image.mediaType", BAD_REQUEST, ERROR_SOURCE_STORAGE_NAME)
+            throw StatusException(CODE_IMAGE_MEDIA_TYPE, BAD_REQUEST, POINTER_STORAGE_NAME)
         }
 
         val id = imageRepository.setValidated(name, contentType)

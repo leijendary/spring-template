@@ -19,7 +19,7 @@ class KafkaInterceptor : ProducerInterceptor<String, String>, RecordInterceptor<
         val key = record.key()
         val payload = record.value()
 
-        log.info("Sent to topic '$topic' on partition '$partition' with key '$key' and payload '$payload'")
+        log.debug("Sent to topic '$topic' on partition '$partition' with key '$key' and payload '$payload'")
 
         return record
     }
@@ -33,7 +33,7 @@ class KafkaInterceptor : ProducerInterceptor<String, String>, RecordInterceptor<
         val key = record.key()
         val payload = record.value()
 
-        log.info("Received from topic '$topic' on partition '$partition' with key '$key' and payload '$payload'")
+        log.debug("Received from topic '$topic' on partition '$partition' with key '$key' and payload '$payload'")
 
         return record
     }

@@ -15,15 +15,12 @@ encrypt:
 
 kafka:
   topic:
-    sampleCreated:
-      name: sample.created
-      partitions: 1
-    sampleUpdated:
-      name: sample.updated
-      partitions: 1
-    sampleDeleted:
-      name: sample.deleted
-      partitions: 1
+    "[sample.created]":
+      partitions: 5
+    "[sample.updated]":
+      partitions: 3
+    "[sample.deleted]":
+      partitions: 2
 
 logging:
   level:
@@ -39,7 +36,9 @@ management:
   endpoints:
     web:
       exposure:
-        include: health
+        include:
+          - health
+          - info
   cloudwatch:
     metrics:
       export:
@@ -58,14 +57,16 @@ server:
 
 spring:
   ai:
+    chat:
+      memory:
+        repository:
+          jdbc:
+            initializeSchema: NEVER
     ollama:
       chat:
         model: llama3.1
       embedding:
         model: all-minilm
-    vectorstore:
-      pgvector:
-        initializeSchema: true
   application:
     name: ${name}
     version: ${version}
@@ -111,6 +112,9 @@ spring:
     password:
   jackson:
     defaultPropertyInclusion: NON_ABSENT
+  jdbc:
+    template:
+      fetchSize: 100
   kafka:
     bootstrapServers:
     clientId: ${name}
@@ -186,38 +190,38 @@ springdoc:
                 ai.chat.write: Create or send chat messages to AI
   groupConfigs:
     - group: sample.v1
-      pathsToMatch: /v1/samples/**
+      pathsToMatch: /api/v1/samples/**
       openApi:
         info:
           title: Sample v1
           description: Sample API that is made for the end users/customers.
           version: 1.0.0
         servers:
-          - url: /v1
+          - url: /api/v1
     - group: sample.v2
-      pathsToMatch: /v2/samples/**
+      pathsToMatch: /api/v2/samples/**
       openApi:
         info:
           title: Sample v2
           description: Sample API that is made for the end users/customers.
           version: 2.0.0
         servers:
-          - url: /v2
+          - url: /api/v2
     - group: image.v1
-      pathsToMatch: /v1/images/**
+      pathsToMatch: /api/v1/images/**
       openApi:
         info:
           title: Image v1
           description: Image management API.
           version: 1.0.0
         servers:
-          - url: /v1
+          - url: /api/v1
     - group: ai.chat.v1
-      pathsToMatch: /v1/ai/chat/**
+      pathsToMatch: /api/v1/ai/chat/**
       openApi:
         info:
           title: AI Chat v1
           description: AI Chat related APIs.
           version: 1.0.0
         servers:
-          - url: /v1
+          - url: /api/v1

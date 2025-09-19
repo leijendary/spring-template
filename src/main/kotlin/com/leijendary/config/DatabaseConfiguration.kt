@@ -5,7 +5,7 @@ import com.leijendary.config.DataSourceType.READ_WRITE
 import com.leijendary.config.properties.DataSourcePrimaryProperties
 import com.leijendary.config.properties.DataSourceReadOnlyProperties
 import com.leijendary.context.RequestContext.userIdOrSystem
-import com.leijendary.projection.PrefixedIDProjection
+import com.leijendary.model.PrefixedIdEntity
 import com.zaxxer.hikari.HikariDataSource
 import io.github.thibaultmeyer.cuid.CUID
 import org.springframework.boot.context.properties.EnableConfigurationProperties
@@ -26,11 +26,6 @@ import org.springframework.transaction.support.TransactionSynchronizationManager
 import org.springframework.transaction.support.TransactionTemplate
 import java.util.*
 import javax.sql.DataSource
-
-enum class DataSourceType {
-    READ_WRITE,
-    READ_ONLY
-}
 
 @Configuration(proxyBeanMethods = false)
 @EnableConfigurationProperties(DataSourcePrimaryProperties::class, DataSourceReadOnlyProperties::class)
@@ -53,13 +48,12 @@ class DatabaseConfiguration {
         return HikariDataSource(config)
     }
 
-    @Primary
     @Bean
     fun transactionTemplate(transactionManager: JdbcTransactionManager): TransactionTemplate {
         return TransactionTemplate(transactionManager)
     }
 
-    @Bean(BEAN_READ_ONLY_TRANSACTION_TEMPLATE)
+    @Bean
     fun readOnlyTransactionTemplate(transactionManager: JdbcTransactionManager): TransactionTemplate {
         return TransactionTemplate(transactionManager).apply { isReadOnly = true }
     }
@@ -75,16 +69,12 @@ class DatabaseConfiguration {
     }
 
     @Bean
-    fun prefixedIdBeforeConvertCallback() = BeforeConvertCallback<PrefixedIDProjection> {
+    fun prefixedIdBeforeConvertCallback() = BeforeConvertCallback<PrefixedIdEntity> {
         if (it.isNew) {
             it.setId("${it.getIdPrefix()}_${CUID.randomCUID2()}")
         }
 
         it
-    }
-
-    companion object {
-        const val BEAN_READ_ONLY_TRANSACTION_TEMPLATE = "readOnlyTransactionTemplate"
     }
 }
 
@@ -98,6 +88,11 @@ class SynchronizedTransactionManager(dataSource: DataSource) : JdbcTransactionMa
 
         super.doBegin(transaction, definition)
     }
+}
+
+enum class DataSourceType {
+    READ_WRITE,
+    READ_ONLY
 }
 
 class TransactionRoutingDataSource(primary: DataSource, readOnly: DataSource) : AbstractRoutingDataSource() {

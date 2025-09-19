@@ -2,9 +2,11 @@ package com.leijendary.storage
 
 import com.leijendary.config.properties.AwsCloudFrontProperties
 import com.leijendary.config.properties.AwsS3Properties
-import com.leijendary.projection.ImageProjection
+import com.leijendary.extension.supplyAsyncSpan
+import com.leijendary.model.ImageProjection
 import com.leijendary.storage.BlockStorage.Request.GET
 import com.leijendary.storage.BlockStorage.Request.PUT
+import io.micrometer.tracing.Tracer
 import jakarta.servlet.http.HttpServletResponse
 import org.springframework.stereotype.Component
 import software.amazon.awssdk.core.ResponseInputStream
@@ -15,25 +17,11 @@ import software.amazon.awssdk.services.cloudfront.model.CannedSignerRequest
 import software.amazon.awssdk.services.cloudfront.model.CreateInvalidationRequest
 import software.amazon.awssdk.services.cloudfront.model.InvalidationBatch
 import software.amazon.awssdk.services.s3.S3Client
-import software.amazon.awssdk.services.s3.model.CopyObjectRequest
-import software.amazon.awssdk.services.s3.model.CopyObjectResponse
-import software.amazon.awssdk.services.s3.model.DeleteObjectRequest
-import software.amazon.awssdk.services.s3.model.DeleteObjectResponse
-import software.amazon.awssdk.services.s3.model.DeleteObjectsRequest
-import software.amazon.awssdk.services.s3.model.DeleteObjectsResponse
-import software.amazon.awssdk.services.s3.model.GetObjectRequest
-import software.amazon.awssdk.services.s3.model.GetObjectResponse
-import software.amazon.awssdk.services.s3.model.HeadObjectRequest
-import software.amazon.awssdk.services.s3.model.HeadObjectResponse
-import software.amazon.awssdk.services.s3.model.NoSuchKeyException
-import software.amazon.awssdk.services.s3.model.ObjectIdentifier
-import software.amazon.awssdk.services.s3.model.PutObjectRequest
-import software.amazon.awssdk.services.s3.model.PutObjectResponse
+import software.amazon.awssdk.services.s3.model.*
 import software.amazon.awssdk.services.s3.presigner.S3Presigner
 import software.amazon.awssdk.services.s3.presigner.model.PutObjectPresignRequest
 import java.io.File
 import java.time.Instant
-import java.util.concurrent.CompletableFuture.supplyAsync
 
 @Component
 class BlockStorage(
@@ -41,7 +29,8 @@ class BlockStorage(
     private val awsS3Properties: AwsS3Properties,
     private val cloudFrontClient: CloudFrontClient,
     private val s3Client: S3Client,
-    private val s3Presigner: S3Presigner
+    private val s3Presigner: S3Presigner,
+    private val tracer: Tracer
 ) {
     private val cloudFrontUtilities = CloudFrontUtilities.create()
 
@@ -57,9 +46,9 @@ class BlockStorage(
     }
 
     fun <T : ImageProjection> sign(image: T, prefix: String = "", request: Request = GET): T {
-        val original = supplyAsync { sign("$prefix${image.original}", request) }
-        val preview = supplyAsync { sign("$prefix${image.preview}", request) }
-        val thumbnail = supplyAsync { sign("$prefix${image.thumbnail}", request) }
+        val original = tracer.supplyAsyncSpan { sign("$prefix${image.original}", request) }
+        val preview = tracer.supplyAsyncSpan { sign("$prefix${image.preview}", request) }
+        val thumbnail = tracer.supplyAsyncSpan { sign("$prefix${image.thumbnail}", request) }
 
         return image.apply {
             this.original = original.get()
@@ -110,9 +99,9 @@ class BlockStorage(
     }
 
     fun get(key: String): GetObjectResponse {
-        val s3Object = stream(key)
+        val objectStream = stream(key)
 
-        return s3Object.response()
+        return objectStream.response()
     }
 
     fun head(key: String): HeadObjectResponse? = try {
@@ -162,8 +151,8 @@ class BlockStorage(
 
     fun render(key: String, servletResponse: HttpServletResponse) {
         val objectStream = stream(key)
-        val s3Object = objectStream.response()
-        servletResponse.contentType = s3Object.contentType()
+        val response = objectStream.response()
+        servletResponse.contentType = response.contentType()
 
         objectStream.transferTo(servletResponse.outputStream)
     }

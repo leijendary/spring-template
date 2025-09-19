@@ -6,6 +6,11 @@ encrypt:
   key: EFFbUfV4BB250GznmHdiQ1eYr79q8zSskPAmzVPe/k8=
   salt: 08dbf175cbeb91f3
 
+logging:
+  includeApplicationName: false
+  pattern:
+    correlation:
+
 spring:
   ai:
     ollama:

@@ -1,4 +1,4 @@
-package com.leijendary.projection
+package com.leijendary.model
 
 interface ImageProjection {
     var original: String

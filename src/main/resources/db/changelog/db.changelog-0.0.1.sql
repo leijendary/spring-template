@@ -72,13 +72,33 @@ CREATE TABLE ai_chat (
 CREATE INDEX ai_chat_created_by_created_at_id_idx ON ai_chat(created_by, created_at DESC, id);
 
 --changeset leijendary:create-ai-chat-memory-table
-CREATE TABLE ai_chat_memory (
+CREATE TABLE spring_ai_chat_memory (
     conversation_id VARCHAR(36) NOT NULL,
     content TEXT NOT NULL,
-    type VARCHAR(10) NOT NULL CHECK (type IN ('USER', 'ASSISTANT')),
-    "timestamp" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+    type VARCHAR(10) NOT NULL CHECK (type IN ('USER', 'ASSISTANT', 'SYSTEM', 'TOOL')),
+    "timestamp" TIMESTAMP NOT NULL
 );
 
 --changeset leijendary:create-ai-chat-memory-conversation-id-timestamp-index
-CREATE INDEX IF NOT EXISTS ai_chat_memory_conversation_id_timestamp_idx
-ON ai_chat_memory(conversation_id, "timestamp" DESC);
+CREATE INDEX spring_ai_chat_memory_conversation_id_timestamp_idx
+ON spring_ai_chat_memory(conversation_id, "timestamp");
+
+--changeset leijendary:create-vector-extension
+CREATE EXTENSION IF NOT EXISTS vector;
+
+--changeset leijendary:create-hstore-extension
+CREATE EXTENSION IF NOT EXISTS hstore;
+
+--changeset leijendary:create-uuid-ossp-extension
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
+--changeset leijendary:create-vector-store-table
+CREATE TABLE vector_store (
+    id uuid NOT NULL DEFAULT uuid_generate_v4() PRIMARY KEY,
+    content text,
+    metadata json,
+    embedding vector(1536)
+);
+
+--changeset leijendary:create-vector-store-embedding-index
+CREATE INDEX vector_store_embedding_idx ON vector_store USING HNSW (embedding vector_cosine_ops);

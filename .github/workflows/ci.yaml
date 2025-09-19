@@ -17,15 +17,8 @@ jobs:
     secrets: inherit
   deploy:
     needs: build
-    strategy:
-      max-parallel: 1
-      matrix:
-        environment:
-          - test
-          - prod
-    name: Deploy to ${{ matrix.environment }}
+    name: Deploy (dev)
     uses: ./.github/workflows/deploy.yaml
     with:
-      environment: ${{ matrix.environment }}
-      version: ${{ needs.build.outputs.version }}
+      environment: dev
     secrets: inherit

@@ -1,4 +1,4 @@
-package com.leijendary.projection
+package com.leijendary.model
 
 interface LocalizedProjection<T : LocaleProjection> {
     var translations: List<T>

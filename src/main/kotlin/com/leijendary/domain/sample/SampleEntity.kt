@@ -1,9 +1,8 @@
 package com.leijendary.domain.sample
 
-import com.leijendary.model.ErrorSource
-import com.leijendary.projection.ImageProjection
-import com.leijendary.projection.LocaleProjection
-import com.leijendary.projection.PrefixedIDProjection
+import com.leijendary.model.ImageProjection
+import com.leijendary.model.LocaleProjection
+import com.leijendary.model.PrefixedIdEntity
 import org.springframework.data.annotation.*
 import org.springframework.data.domain.Persistable
 import org.springframework.data.relational.core.mapping.Table
@@ -11,10 +10,7 @@ import java.math.BigDecimal
 import java.time.Instant
 
 @Table
-data class Sample(var name: String, var description: String?, var amount: BigDecimal) : PrefixedIDProjection {
-    @Id
-    private lateinit var id: String
-
+data class Sample(var name: String, var description: String?, var amount: BigDecimal) : PrefixedIdEntity() {
     @Version
     var version: Int = 0
 
@@ -30,25 +26,19 @@ data class Sample(var name: String, var description: String?, var amount: BigDec
     @LastModifiedBy
     lateinit var lastModifiedBy: String
 
+    @Transient
+    var translations: MutableList<SampleTranslation> = mutableListOf()
+
+    @Transient
+    var image: SampleImage? = null
+
     override fun getIdPrefix(): String {
         return ID_PREFIX
     }
 
-    override fun setId(id: String) {
-        this.id = id
-    }
-
-    override fun getId(): String {
-        return id
-    }
-
-    override fun isNew(): Boolean {
-        return !this::id.isInitialized
-    }
-
     companion object {
         const val ENTITY = "sample"
-        val ERROR_SOURCE = ErrorSource(pointer = "/data/$ENTITY/id")
+        const val POINTER_ID = "#/data/$ENTITY/id"
 
         private const val ID_PREFIX = "spl"
     }
@@ -98,20 +88,3 @@ data class SampleImage(
         return true
     }
 }
-
-fun Sample.toDetailResponse(translations: List<SampleTranslation>): SampleDetailResponse {
-    return SampleDetailResponse(id, name, description, amount, version, createdAt).apply {
-        this.translations.addAll(translations.toResponses())
-    }
-}
-
-fun Sample.updateWith(request: SampleRequest) {
-    name = request.name
-    description = request.description
-    amount = request.amount
-    version = request.version
-}
-
-fun List<SampleTranslation>.toResponses() = map { it.toResponse() }
-
-fun SampleTranslation.toResponse() = SampleTranslationResponse(name, description, language, ordinal)

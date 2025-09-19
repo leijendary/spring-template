@@ -1,12 +1,10 @@
 package com.leijendary.config
 
 import org.springframework.ai.chat.client.ChatClient
-import org.springframework.ai.chat.client.advisor.AbstractChatMemoryAdvisor.CHAT_MEMORY_RETRIEVE_SIZE_KEY
-import org.springframework.ai.chat.client.advisor.AbstractChatMemoryAdvisor.DEFAULT_CHAT_MEMORY_RESPONSE_SIZE
 import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor
-import org.springframework.ai.chat.client.advisor.RetrievalAugmentationAdvisor
 import org.springframework.ai.chat.client.advisor.SimpleLoggerAdvisor
 import org.springframework.ai.chat.memory.ChatMemory
+import org.springframework.ai.rag.advisor.RetrievalAugmentationAdvisor
 import org.springframework.ai.rag.generation.augmentation.ContextualQueryAugmenter
 import org.springframework.ai.rag.retrieval.search.VectorStoreDocumentRetriever
 import org.springframework.ai.vectorstore.VectorStore
@@ -14,8 +12,7 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.core.io.Resource
-
-interface ToolContainer
+import reactor.core.scheduler.Schedulers
 
 @Configuration(proxyBeanMethods = false)
 class AiConfiguration {
@@ -29,10 +26,12 @@ class AiConfiguration {
     fun chatClient(
         builder: ChatClient.Builder,
         chatMemory: ChatMemory,
-        vectorStore: VectorStore,
-        tools: List<ToolContainer>
+        tools: List<ToolContainer>,
+        vectorStore: VectorStore
     ): ChatClient {
-        val memoryAdvisor = MessageChatMemoryAdvisor(chatMemory)
+        val memoryAdvisor = MessageChatMemoryAdvisor.builder(chatMemory)
+            .scheduler(Schedulers.boundedElastic())
+            .build()
         val documentRetriever = VectorStoreDocumentRetriever.builder()
             .vectorStore(vectorStore)
             .build()
@@ -47,10 +46,7 @@ class AiConfiguration {
 
         return builder
             .defaultSystem(generalInstructionSystem)
-            .defaultAdvisors {
-                it.advisors(memoryAdvisor, ragAdvisor, loggerAdvisor)
-                it.param(CHAT_MEMORY_RETRIEVE_SIZE_KEY, DEFAULT_CHAT_MEMORY_RESPONSE_SIZE)
-            }
+            .defaultAdvisors(memoryAdvisor, ragAdvisor, loggerAdvisor)
             .defaultTools(*tools.toTypedArray())
             .build()
     }
@@ -62,3 +58,5 @@ class AiConfiguration {
             .build()
     }
 }
+
+interface ToolContainer

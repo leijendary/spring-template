@@ -89,23 +89,20 @@ export class TaskDefinitionConstruct extends TaskDefinition {
 
     super(scope, `${id}TaskDefinition-${environment}`, config);
 
-    this.mainContainer(image, credentials, logGroup);
+    this.logGroup = logGroup;
+    this.mainContainer(image, credentials);
     this.trustPolicy(taskRole, executionRole);
     this.grantBucketAccess(taskRole, bucket);
     this.grantDistribution(taskRole, distribution);
   }
 
-  private mainContainer(
-    image: ContainerImage,
-    credentials: TaskDefinitionConstructCredentialsProps,
-    logGroup: LogGroup
-  ) {
+  private mainContainer(image: ContainerImage, credentials: TaskDefinitionConstructCredentialsProps) {
     const config: ContainerDefinitionOptions = {
       containerName: name,
       image,
       logging: LogDriver.awsLogs({
         streamPrefix: logPrefix,
-        logGroup,
+        logGroup: this.logGroup,
       }),
       portMappings: [
         {

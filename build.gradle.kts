@@ -1,11 +1,11 @@
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 import org.openapitools.generator.gradle.plugin.tasks.GenerateTask
 
 val openApiTasks = file("$rootDir/src/main/resources/specs").listFiles()?.map {
     val name = it.name.replace(".yaml", "")
 
     tasks.register(name, GenerateTask::class.java) {
+        dependsOn(":processResources", ":kspKotlin")
+
         group = "openapi"
         description = "Generate models from the OpenAPI specifications of ${it.name}"
         generatorName.set("kotlin-spring")
@@ -27,38 +27,40 @@ val openApiTasks = file("$rootDir/src/main/resources/specs").listFiles()?.map {
 }
 
 plugins {
-    val kotlinVersion = "2.1.10"
+    val kotlinVersion = "2.2.20"
 
     kotlin("jvm") version kotlinVersion
     kotlin("plugin.spring") version kotlinVersion
-    id("org.springframework.boot") version "3.4.3"
+    id("org.springframework.boot") version "3.5.6"
     id("io.spring.dependency-management") version "1.1.7"
-    id("org.graalvm.buildtools.native") version "0.10.5"
-    id("org.openapi.generator") version "7.12.0"
+    id("com.google.devtools.ksp") version ("$kotlinVersion-2.0.3")
+    id("org.graalvm.buildtools.native") version "0.11.0"
+    id("org.openapi.generator") version "7.15.0"
 }
 
 group = "com.leijendary"
 description = "Spring boot template for the microservices architecture."
 version = "0.0.1"
 
+val javaVersion = 21
+
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(23)
+        languageVersion = JavaLanguageVersion.of(javaVersion)
     }
 }
 
 kotlin {
     compilerOptions {
-        apiVersion.set(KotlinVersion.KOTLIN_2_1)
         freeCompilerArgs.addAll("-Xjsr305=strict")
-        languageVersion.set(KotlinVersion.KOTLIN_2_1)
-        jvmTarget.set(JvmTarget.JVM_23)
     }
+
+    jvmToolchain(javaVersion)
 }
 
 configurations {
     compileOnly {
-        extendsFrom(configurations.annotationProcessor.get())
+        extendsFrom(annotationProcessor.get())
     }
 
     testImplementation {
@@ -68,8 +70,6 @@ configurations {
 
 repositories {
     mavenCentral()
-    maven { url = uri("https://repo.spring.io/milestone") }
-    maven { url = uri("https://repo.spring.io/snapshot") }
 }
 
 dependencies {
@@ -91,7 +91,7 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-testcontainers")
 
     // Spring Cloud Starter
-    implementation(platform("org.springframework.cloud:spring-cloud-dependencies:2024.0.0"))
+    implementation(platform("org.springframework.cloud:spring-cloud-dependencies:2025.0.0"))
     implementation("org.springframework.cloud:spring-cloud-starter-openfeign")
 
     // Spring Kafka
@@ -102,17 +102,19 @@ dependencies {
     implementation("org.springframework.retry:spring-retry")
 
     // AI
-    implementation(platform("org.springframework.ai:spring-ai-bom:1.0.0-SNAPSHOT"))
-    implementation("org.springframework.ai:spring-ai-ollama-spring-boot-starter")
-    implementation("org.springframework.ai:spring-ai-pgvector-store-spring-boot-starter")
+    implementation(platform("org.springframework.ai:spring-ai-bom:1.0.1"))
+    implementation("org.springframework.ai:spring-ai-rag")
+    implementation("org.springframework.ai:spring-ai-starter-model-chat-memory-repository-jdbc")
+    implementation("org.springframework.ai:spring-ai-starter-model-ollama")
+    implementation("org.springframework.ai:spring-ai-starter-vector-store-pgvector")
     testImplementation("org.springframework.ai:spring-ai-spring-boot-testcontainers")
 
     // AWS
-    implementation(platform("software.amazon.awssdk:bom:2.30.27"))
+    implementation(platform("software.amazon.awssdk:bom:2.33.1"))
     implementation("software.amazon.awssdk:cloudfront")
 
     // AWS Cloud
-    implementation(platform("io.awspring.cloud:spring-cloud-aws-dependencies:3.3.0"))
+    implementation(platform("io.awspring.cloud:spring-cloud-aws-dependencies:3.4.0"))
     implementation("io.awspring.cloud:spring-cloud-aws-starter-metrics")
     implementation("io.awspring.cloud:spring-cloud-aws-starter-s3")
 
@@ -127,17 +129,21 @@ dependencies {
     // Jackson
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 
+    // Konvert
+    implementation("io.mcarle:konvert-api:4.3.0")
+    ksp("io.mcarle:konvert:4.3.0")
+
     // Observability and Metrics
     implementation("io.github.openfeign:feign-micrometer")
     implementation("io.micrometer:micrometer-tracing-bridge-brave")
     implementation("io.zipkin.reporter2:zipkin-reporter-brave")
-    implementation("net.ttddyy.observation:datasource-micrometer-spring-boot:1.1.0")
+    implementation("net.ttddyy.observation:datasource-micrometer-spring-boot:1.1.2")
 
     // OpenAPI
-    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.5")
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.12")
 
     // Test
-    testImplementation("org.mockito.kotlin:mockito-kotlin:5.4.0")
+    testImplementation("io.mockk:mockk:1.14.5")
 
     // Test Container
     testImplementation("org.testcontainers:junit-jupiter")
@@ -164,6 +170,10 @@ graalvmNative {
             imageName = "app"
         }
     }
+}
+
+springBoot {
+    buildInfo()
 }
 
 tasks {
