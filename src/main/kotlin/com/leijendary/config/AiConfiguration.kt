@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.core.io.Resource
+import reactor.core.scheduler.Schedulers
 
 @Configuration(proxyBeanMethods = false)
 class AiConfiguration {
@@ -28,7 +29,9 @@ class AiConfiguration {
         tools: List<ToolContainer>,
         vectorStore: VectorStore
     ): ChatClient {
-        val memoryAdvisor = MessageChatMemoryAdvisor.builder(chatMemory).build()
+        val memoryAdvisor = MessageChatMemoryAdvisor.builder(chatMemory)
+            .scheduler(Schedulers.boundedElastic())
+            .build()
         val documentRetriever = VectorStoreDocumentRetriever.builder()
             .vectorStore(vectorStore)
             .build()
