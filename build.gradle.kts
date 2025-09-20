@@ -28,13 +28,14 @@ val openApiTasks = file("$rootDir/src/main/resources/specs").listFiles()?.map {
 
 plugins {
     val kotlinVersion = "2.2.20"
+    val springBootVersion = "3.5.6"
 
     kotlin("jvm") version kotlinVersion
     kotlin("plugin.spring") version kotlinVersion
-    id("org.springframework.boot") version "3.5.6"
+    id("org.springframework.boot") version springBootVersion
+    id("org.springframework.boot.aot") version springBootVersion
     id("io.spring.dependency-management") version "1.1.7"
     id("com.google.devtools.ksp") version ("$kotlinVersion-2.0.3")
-    id("org.graalvm.buildtools.native") version "0.11.0"
     id("org.openapi.generator") version "7.15.0"
 }
 
@@ -160,14 +161,6 @@ sourceSets {
     main {
         kotlin {
             srcDir("$rootDir/build/generated/src/main/kotlin")
-        }
-    }
-}
-
-graalvmNative {
-    binaries {
-        named("main") {
-            imageName = "app"
         }
     }
 }
