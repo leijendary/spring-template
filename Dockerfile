@@ -1,4 +1,4 @@
-FROM azul/zulu-openjdk-alpine:23 AS build
+FROM azul/zulu-openjdk-alpine:21 AS build
 # Download the Gradle distribution.
 COPY gradlew .
 COPY gradle gradle
@@ -19,6 +19,6 @@ RUN java -XX:ArchiveClassesAtExit=app/archive.jsa \
     -jar app/app.jar
 
 # Run the application.
-FROM azul/zulu-openjdk-alpine:23-jre-headless
+FROM azul/zulu-openjdk-alpine:21-jre-headless
 COPY --from=build app app
 ENTRYPOINT ["java", "-XX:SharedArchiveFile=app/archive.jsa", "-Dspring.aot.enabled=true", "-jar", "app/app.jar"]
