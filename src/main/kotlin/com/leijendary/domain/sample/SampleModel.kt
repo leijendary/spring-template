@@ -10,6 +10,7 @@ import com.leijendary.model.TranslationRequest
 import com.leijendary.validator.annotation.UniqueFields
 import jakarta.validation.Valid
 import jakarta.validation.constraints.*
+import org.springframework.aot.hint.annotation.RegisterReflection
 import org.springframework.data.annotation.Transient
 import java.math.BigDecimal
 import java.time.Instant
@@ -88,6 +89,7 @@ data class SampleTranslationResponse(
     override var ordinal: Int
 ) : LocaleProjection
 
+@RegisterReflection
 data class SampleMessage(
     val id: String,
     var name: String,
@@ -100,6 +102,7 @@ data class SampleMessage(
     val lastModifiedAt: Instant
 )
 
+@RegisterReflection
 data class SampleTranslationMessage(
     var name: String,
     var description: String?,
