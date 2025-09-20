@@ -71,7 +71,7 @@ CREATE TABLE ai_chat (
 --changeset leijendary:create-ai-chat-created-by-created-at-id-index
 CREATE INDEX ai_chat_created_by_created_at_id_idx ON ai_chat(created_by, created_at DESC, id);
 
---changeset leijendary:create-ai-chat-memory-table
+--changeset leijendary:create-spring-ai-chat-memory-table
 CREATE TABLE spring_ai_chat_memory (
     conversation_id VARCHAR(36) NOT NULL,
     content TEXT NOT NULL,
@@ -79,7 +79,7 @@ CREATE TABLE spring_ai_chat_memory (
     "timestamp" TIMESTAMP NOT NULL
 );
 
---changeset leijendary:create-ai-chat-memory-conversation-id-timestamp-index
+--changeset leijendary:create-spring-ai-chat-memory-conversation-id-timestamp-index
 CREATE INDEX spring_ai_chat_memory_conversation_id_timestamp_idx
 ON spring_ai_chat_memory(conversation_id, "timestamp");
 
