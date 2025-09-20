@@ -2,6 +2,7 @@ package com.leijendary
 
 import com.leijendary.config.properties.KafkaTopicProperties.KafkaTopic
 import com.leijendary.domain.sample.SampleMessage
+import com.leijendary.domain.sample.SampleTranslationMessage
 import com.leijendary.model.ErrorModel
 import com.leijendary.model.IdentityModel
 import com.leijendary.model.QueryRequest
@@ -58,6 +59,7 @@ class ApplicationRuntimeHints : RuntimeHintsRegistrar {
             PagedModel::class.java,
             QueryRequest::class.java,
             SampleMessage::class.java,
+            SampleTranslationMessage::class.java,
             SaslClient::class.java,
             SaslClientAuthenticator::class.java,
             SaslClientCallbackHandler::class.java,
