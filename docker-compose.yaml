@@ -46,7 +46,7 @@ services:
     image: redis:7-alpine
     container_name: redis-template
   kafka:
-    image: confluentinc/cp-kafka:7.7.1
+    image: apache/kafka-native:3.9.1
     container_name: kafka-template
     environment:
       KAFKA_NODE_ID: 1
@@ -58,13 +58,11 @@ services:
       KAFKA_LISTENERS: PLAINTEXT://kafka-template:19092,CONTROLLER://kafka-template:9093,PLAINTEXT_HOST://0.0.0.0:9092
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
-      KAFKA_HEAP_OPTS: -Xms128m -Xmx256m
-      CLUSTER_ID: DwulslKcTFOZ1R8bCya7Vg
   zipkin:
     image: openzipkin/zipkin-slim:3
     container_name: zipkin-template
   ollama:
-    image: ollama/ollama:0.5.1
+    image: ollama/ollama:0.11.4
     container_name: ollama-template
     deploy:
       resources:
