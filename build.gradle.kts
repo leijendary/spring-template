@@ -171,6 +171,8 @@ springBoot {
 
 tasks {
     bootJar {
+        dependsOn(processAot)
+
         archiveFileName = "app.jar"
     }
 

@@ -11,14 +11,8 @@ RUN --mount=type=cache,target=/root/.gradle ./gradlew dependencies
 COPY src src
 # Build the application.
 RUN --mount=type=cache,target=/root/.gradle ./gradlew bootJar -i -x test
-# https://docs.spring.io/spring-boot/reference/packaging/index.html
-RUN java -Djarmode=tools -jar build/libs/app.jar extract
-RUN java -XX:ArchiveClassesAtExit=app/archive.jsa \
-    -Dspring.context.exit=onRefresh \
-    -Dspring.profiles.active=cds \
-    -jar app/app.jar
 
 # Run the application.
 FROM azul/zulu-openjdk-alpine:21-jre-headless
-COPY --from=build app app
-ENTRYPOINT ["java", "-XX:SharedArchiveFile=app/archive.jsa", "-Dspring.aot.enabled=true", "-jar", "app/app.jar"]
+COPY --from=build build/libs/app.jar app.jar
+ENTRYPOINT ["java", "-Dspring.aot.enabled=true", "-jar", "app.jar"]
