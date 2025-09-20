@@ -26,6 +26,7 @@ interface ImageRepository : CrudRepository<Image, String> {
     @Modifying
     fun deleteByName(name: String)
 
+    @Transactional
     @Query(QUERY_SET_VALIDATED)
     fun setValidated(name: String, mediaType: String): String
 }
