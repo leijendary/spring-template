@@ -4,9 +4,7 @@ import com.leijendary.extension.reflectGet
 import com.leijendary.validator.annotation.UniqueFields
 import jakarta.validation.ConstraintValidator
 import jakarta.validation.ConstraintValidatorContext
-import org.springframework.aot.hint.annotation.RegisterReflection
 
-@RegisterReflection
 class UniqueFieldsValidator : ConstraintValidator<UniqueFields, List<Any>> {
     private lateinit var fields: Array<String>
     private lateinit var message: String

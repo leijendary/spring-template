@@ -1,5 +1,11 @@
 package com.leijendary
 
+import com.leijendary.config.properties.KafkaTopicProperties.KafkaTopic
+import com.leijendary.domain.sample.SampleMessage
+import com.leijendary.model.ErrorModel
+import com.leijendary.model.IdentityModel
+import com.leijendary.model.QueryRequest
+import com.leijendary.validator.UniqueFieldsValidator
 import feign.Client
 import feign.micrometer.MicrometerObservationCapability
 import liquibase.changelog.ChangeLogHistoryServiceFactory
@@ -39,7 +45,10 @@ class ApplicationRuntimeHints : RuntimeHintsRegistrar {
             CooperativeStickyAssignor::class.java,
             DefaultLogin::class.java,
             DefaultLoginCallbackHandler::class.java,
+            ErrorModel::class.java,
             FastCheckService::class.java,
+            IdentityModel::class.java,
+            KafkaTopic::class.java,
             KeyFactorySpi::class.java,
             LiquibaseTableNamesFactory::class.java,
             LoggerUIService::class.java,
@@ -47,6 +56,8 @@ class ApplicationRuntimeHints : RuntimeHintsRegistrar {
             Mappings::class.java,
             PageModule::class.java,
             PagedModel::class.java,
+            QueryRequest::class.java,
+            SampleMessage::class.java,
             SaslClient::class.java,
             SaslClientAuthenticator::class.java,
             SaslClientCallbackHandler::class.java,
@@ -56,6 +67,7 @@ class ApplicationRuntimeHints : RuntimeHintsRegistrar {
             ScramSaslClientFactory::class.java,
             ShowSummaryGeneratorFactory::class.java,
             SqlParserFactory::class.java,
+            UniqueFieldsValidator::class.java,
             ValidatingVisitorGeneratorFactory::class.java,
             // Inaccessible classes
             Class.forName($$"$${RetryTopicConfigurer::class.qualifiedName}$LoggingDltListenerHandlerMethod"),
